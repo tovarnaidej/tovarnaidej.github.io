@@ -1,0 +1,27 @@
+import { create } from 'storybook/theming/create';
+
+export default create({
+  base: 'dark',
+  brandTitle: 'mSlovenija gradniki',
+  brandUrl: '/',
+  brandImage: '/branding/mslovenija-logo.svg',
+  brandTarget: '_self',
+  colorPrimary: '#3f859b',
+  colorSecondary: '#3f859b',
+  appBg: '#0b3a4a',
+  appContentBg: '#ffffff',
+  appPreviewBg: '#ffffff',
+  appBorderColor: 'rgba(255, 255, 255, 0.18)',
+  appBorderRadius: 8,
+  textColor: '#ffffff',
+  textInverseColor: '#0b3a4a',
+  barTextColor: '#0b3a4a',
+  barSelectedColor: '#3f859b',
+  barBg: '#ffffff',
+  inputBg: '#ffffff',
+  inputBorder: '#3f859b',
+  inputTextColor: '#0b3a4a',
+  inputBorderRadius: 8,
+  fontBase: 'Republika, Arial, sans-serif',
+  fontCode: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+});

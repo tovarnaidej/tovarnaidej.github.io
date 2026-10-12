@@ -20,7 +20,7 @@ const renderVariants = () => React.createElement(
 );
 
 export default {
-  title: 'Design System/Button',
+  title: 'Gradniki/Gumb',
   component: Button,
   parameters: {
     layout: 'fullscreen',
@@ -50,27 +50,35 @@ export default {
 };
 
 export const Variants = {
+  name: 'Vse različice',
   render: renderVariants,
 };
 
-export const Filled = {};
+export const Filled = {
+  name: 'Polni',
+};
 
 export const Elevated = {
+  name: 'Privzdignjeni',
   args: { variant: 'elevated' },
 };
 
 export const Outline = {
+  name: 'Obroba',
   args: { variant: 'outline' },
 };
 
 export const Text = {
+  name: 'Besedilni',
   args: { variant: 'text' },
 };
 
 export const WithLeadingIcon = {
+  name: 'Z vodilno ikono',
   args: { leadingIcon: true },
 };
 
 export const Disabled = {
+  name: 'Onemogočen',
   args: { state: 'disabled' },
 };
