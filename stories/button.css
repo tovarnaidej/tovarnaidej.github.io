@@ -1,127 +1,112 @@
+:root {
+  --button-color-primary: #3c7b94;
+  --button-color-disabled: #949598;
+  --button-radius: 8px;
+  --button-opacity-pressed: 0.8;
+  --button-opacity-disabled: 0.38;
+}
+
 .storybook-button {
+  box-sizing: border-box;
   display: inline-flex;
+  height: 48px;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  border-radius: 14px;
+  gap: 8px;
+  padding: 11px 16px;
   border: 1px solid transparent;
-  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  border-radius: var(--button-radius);
+  font-family: 'Republika', Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 21px;
+  letter-spacing: 0;
+  white-space: nowrap;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  appearance: none;
 }
 
-.storybook-button:hover {
-  transform: translateY(-1px);
-}
-
-.storybook-button:focus-visible {
-  outline: 2px solid #2a3b4a;
-  outline-offset: 2px;
-}
-
-.storybook-button--solid {
-  background: #5c8ea1;
-  border-color: #5c8ea1;
+.storybook-button--filled,
+.storybook-button--elevated {
   color: #ffffff;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  background: var(--button-color-primary);
+}
+
+.storybook-button--elevated {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
 .storybook-button--outline {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: #8bb3c0;
-  color: #2d4755;
-}
-
-.storybook-button--ghost {
-  background: #dfe3e6;
-  border-color: #dfe3e6;
-  color: #3d4d5a;
+  color: var(--button-color-primary);
+  background: transparent;
+  border-color: var(--button-color-primary);
 }
 
 .storybook-button--text {
+  color: var(--button-color-primary);
   background: transparent;
-  border-color: transparent;
-  color: #2d4755;
 }
 
-.storybook-button--icon {
-  justify-content: flex-start;
-}
-
-.storybook-button__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.8em;
-  line-height: 1;
-  transform: translateY(-1px);
-}
-
-.storybook-button--small {
-  min-width: 148px;
-  min-height: 38px;
-  padding: 0 18px;
-  font-size: 14px;
-}
-
-.storybook-button--medium {
-  min-width: 180px;
-  min-height: 46px;
-  padding: 0 22px;
-  font-size: 16px;
-}
-
-.storybook-button--large {
-  min-width: 220px;
-  min-height: 54px;
-  padding: 0 28px;
-  font-size: 18px;
+.storybook-button--pressed,
+.storybook-button:active:not(:disabled) {
+  opacity: var(--button-opacity-pressed);
 }
 
 .storybook-button--disabled {
-  opacity: 0.5;
+  color: #000000;
   cursor: not-allowed;
-  transform: none;
+  opacity: var(--button-opacity-disabled);
+}
+
+.storybook-button--filled.storybook-button--disabled,
+.storybook-button--elevated.storybook-button--disabled {
+  background: var(--button-color-disabled);
+}
+
+.storybook-button--outline.storybook-button--disabled {
+  background: transparent;
+  border-color: #000000;
+}
+
+.storybook-button--text.storybook-button--disabled {
+  background: transparent;
+}
+
+.storybook-button--with-icon.storybook-button--outline.storybook-button--disabled {
+  color: var(--button-color-disabled);
+  border-color: var(--button-color-disabled);
+  opacity: var(--button-opacity-pressed);
+}
+
+.storybook-button--with-icon.storybook-button--text.storybook-button--disabled {
+  color: var(--button-color-disabled);
+  opacity: var(--button-opacity-pressed);
+}
+
+.storybook-button:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 2px;
+}
+
+.storybook-button__icon {
+  display: block;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
 }
 
 .button-showcase {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  width: 100%;
-  padding: 28px 18px 8px;
-  background: #f3f3f3;
-  border: 3px solid #23c46b;
-  border-radius: 8px;
   box-sizing: border-box;
-}
-
-.button-showcase__row {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 18px;
-  align-items: center;
+  grid-template-columns: repeat(6, max-content);
+  gap: 16px 42px;
+  min-width: max-content;
+  padding: 16px;
+  background: #ffffff;
 }
 
-.button-showcase__caption {
-  display: flex;
-  justify-content: center;
-  margin-top: 8px;
-}
-
-.button-showcase__variant-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 120px;
-  height: 34px;
-  padding: 0 20px;
-  border-radius: 999px;
-  background: #7d3eb2;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+@media (max-width: 900px) {
+  .button-showcase {
+    grid-template-columns: repeat(3, max-content);
+  }
 }

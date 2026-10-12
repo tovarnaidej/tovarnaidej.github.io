@@ -1,106 +1,76 @@
 import React from 'react';
-
 import { fn } from 'storybook/test';
 
 import { Button } from './Button';
 
-const renderVariants = () => {
-  const row = (items) =>
-    React.createElement(
-      'div',
-      { className: 'button-showcase__row' },
-      ...items.map((item) =>
-        React.createElement(Button, {
-          key: `${item.variant}-${item.label}-${item.leadingIcon ? 'icon' : 'plain'}`,
-          label: item.label,
-          variant: item.variant,
-          leadingIcon: item.leadingIcon,
-        })
-      )
-    );
+const variants = ['filled', 'outline', 'text', 'elevated'];
+const states = ['enabled', 'pressed', 'disabled'];
 
-  return React.createElement(
-    'div',
-    { className: 'button-showcase' },
-    row([
-      { label: 'Example Button', variant: 'solid', leadingIcon: false },
-      { label: 'Example Button', variant: 'solid', leadingIcon: false },
-      { label: 'Example Button', variant: 'solid', leadingIcon: false },
-      { label: 'Example Button', variant: 'solid', leadingIcon: true },
-      { label: 'Example Button', variant: 'solid', leadingIcon: true },
-      { label: 'Example Button', variant: 'solid', leadingIcon: true },
-    ]),
-    row([
-      { label: 'Example Button', variant: 'outline', leadingIcon: false },
-      { label: 'Example Button', variant: 'outline', leadingIcon: false },
-      { label: 'Example Button', variant: 'outline', leadingIcon: false },
-      { label: 'Example Button', variant: 'outline', leadingIcon: true },
-      { label: 'Example Button', variant: 'outline', leadingIcon: true },
-      { label: 'Example Button', variant: 'outline', leadingIcon: true },
-    ]),
-    row([
-      { label: 'Example Button', variant: 'text', leadingIcon: false },
-      { label: 'Example Button', variant: 'text', leadingIcon: false },
-      { label: 'Example Button', variant: 'text', leadingIcon: false },
-      { label: 'Example Button', variant: 'text', leadingIcon: true },
-      { label: 'Example Button', variant: 'text', leadingIcon: true },
-      { label: 'Example Button', variant: 'text', leadingIcon: true },
-    ]),
-    row([
-      { label: 'Example Button', variant: 'ghost', leadingIcon: false },
-      { label: 'Example Button', variant: 'ghost', leadingIcon: false },
-      { label: 'Example Button', variant: 'ghost', leadingIcon: false },
-      { label: 'Example Button', variant: 'ghost', leadingIcon: true },
-      { label: 'Example Button', variant: 'ghost', leadingIcon: true },
-      { label: 'Example Button', variant: 'ghost', leadingIcon: true },
-    ]),
-    React.createElement(
-      'div',
-      { className: 'button-showcase__caption' },
-      React.createElement('span', { className: 'button-showcase__variant-badge' }, '24 Variants')
-    )
-  );
-};
+const renderVariants = () => React.createElement(
+  'div',
+  { className: 'button-showcase' },
+  ...variants.flatMap((variant) => [false, true].flatMap((leadingIcon) =>
+    states.map((state) => React.createElement(Button, {
+      key: `${variant}-${state}-${leadingIcon ? 'icon' : 'plain'}`,
+      variant,
+      state,
+      leadingIcon,
+    }))
+  ))
+);
 
 export default {
   title: 'Design System/Button',
   component: Button,
   parameters: {
     layout: 'fullscreen',
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/design/Ph5kySZOVPpzP6565W17LV/mSlovenija---Design-System--UI-kit-?node-id=2304-1776',
+    },
   },
   tags: ['autodocs'],
-  args: { onClick: fn() },
+  args: {
+    label: 'Example Button',
+    variant: 'filled',
+    state: 'enabled',
+    leadingIcon: false,
+    onClick: fn(),
+  },
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: variants,
+    },
+    state: {
+      control: 'select',
+      options: states,
+    },
+  },
 };
 
 export const Variants = {
   render: renderVariants,
 };
 
-export const Solid = {
-  args: {
-    label: 'Example Button',
-    variant: 'solid',
-  },
+export const Filled = {};
+
+export const Elevated = {
+  args: { variant: 'elevated' },
 };
 
 export const Outline = {
-  args: {
-    label: 'Example Button',
-    variant: 'outline',
-  },
+  args: { variant: 'outline' },
 };
 
 export const Text = {
-  args: {
-    label: 'Example Button',
-    variant: 'text',
-  },
+  args: { variant: 'text' },
 };
 
-export const WithIcon = {
-  args: {
-    label: 'Example Button',
-    variant: 'solid',
-    leadingIcon: true,
-  },
+export const WithLeadingIcon = {
+  args: { leadingIcon: true },
+};
+
+export const Disabled = {
+  args: { state: 'disabled' },
 };
