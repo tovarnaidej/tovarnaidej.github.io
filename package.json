@@ -1,0 +1,37 @@
+{
+  "name": "tovarnaidej.github.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "storybook": "storybook dev -p 6006 --ci --disable-telemetry",
+    "build-storybook": "storybook build --output-dir ./storybook-static"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tovarnaidej/tovarnaidej.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/tovarnaidej/tovarnaidej.github.io/issues"
+  },
+  "homepage": "https://github.com/tovarnaidej/tovarnaidej.github.io#readme",
+  "devDependencies": {
+    "storybook": "^10.6.1",
+    "@storybook/react-vite": "^10.6.1",
+    "@chromatic-com/storybook": "latest",
+    "@storybook/addon-vitest": "^10.6.1",
+    "@storybook/addon-a11y": "^10.6.1",
+    "@storybook/addon-docs": "^10.6.1",
+    "@storybook/addon-mcp": "^10.6.1",
+    "prop-types": "latest",
+    "vitest": "latest",
+    "@vitest/browser-playwright": "latest",
+    "@vitest/coverage-v8": "latest",
+    "playwright": "latest"
+  }
+}

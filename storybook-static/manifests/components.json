@@ -1,0 +1,252 @@
+{
+  "v": 0,
+  "components": {
+    "design-system-button": {
+      "id": "design-system-button",
+      "name": "Button",
+      "path": "./stories/Button.stories.js",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Button",
+        "definedInFile": "/workspaces/tovarnaidej.github.io/stories/Button.jsx",
+        "actualName": "Button",
+        "exportName": "Button",
+        "props": {
+          "label": {
+            "defaultValue": {
+              "value": "'Example Button'",
+              "computed": false
+            },
+            "description": "",
+            "type": {
+              "name": "string"
+            },
+            "required": false
+          },
+          "variant": {
+            "defaultValue": {
+              "value": "'solid'",
+              "computed": false
+            },
+            "description": "",
+            "type": {
+              "name": "enum",
+              "value": [
+                {
+                  "value": "'solid'",
+                  "computed": false
+                },
+                {
+                  "value": "'outline'",
+                  "computed": false
+                },
+                {
+                  "value": "'ghost'",
+                  "computed": false
+                },
+                {
+                  "value": "'text'",
+                  "computed": false
+                }
+              ]
+            },
+            "required": false
+          },
+          "size": {
+            "defaultValue": {
+              "value": "'medium'",
+              "computed": false
+            },
+            "description": "",
+            "type": {
+              "name": "enum",
+              "value": [
+                {
+                  "value": "'small'",
+                  "computed": false
+                },
+                {
+                  "value": "'medium'",
+                  "computed": false
+                },
+                {
+                  "value": "'large'",
+                  "computed": false
+                }
+              ]
+            },
+            "required": false
+          },
+          "leadingIcon": {
+            "defaultValue": {
+              "value": "false",
+              "computed": false
+            },
+            "description": "",
+            "type": {
+              "name": "bool"
+            },
+            "required": false
+          },
+          "disabled": {
+            "defaultValue": {
+              "value": "false",
+              "computed": false
+            },
+            "description": "",
+            "type": {
+              "name": "bool"
+            },
+            "required": false
+          },
+          "className": {
+            "defaultValue": {
+              "value": "''",
+              "computed": false
+            },
+            "description": "",
+            "type": {
+              "name": "string"
+            },
+            "required": false
+          },
+          "onClick": {
+            "description": "",
+            "type": {
+              "name": "func"
+            },
+            "required": false
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "design-system-button--variants",
+          "name": "Variants",
+          "snippet": "const Variants = () => {\n  const row = (items) =>\n    React.createElement(\n      'div',\n      { className: 'button-showcase__row' },\n      ...items.map((item) =>\n        React.createElement(Button, {\n          key: `${item.variant}-${item.label}-${item.leadingIcon ? 'icon' : 'plain'}`,\n          label: item.label,\n          variant: item.variant,\n          leadingIcon: item.leadingIcon,\n        })\n      )\n    );\n\n  return React.createElement(\n    'div',\n    { className: 'button-showcase' },\n    row([\n      { label: 'Example Button', variant: 'solid', leadingIcon: false },\n      { label: 'Example Button', variant: 'solid', leadingIcon: false },\n      { label: 'Example Button', variant: 'solid', leadingIcon: false },\n      { label: 'Example Button', variant: 'solid', leadingIcon: true },\n      { label: 'Example Button', variant: 'solid', leadingIcon: true },\n      { label: 'Example Button', variant: 'solid', leadingIcon: true },\n    ]),\n    row([\n      { label: 'Example Button', variant: 'outline', leadingIcon: false },\n      { label: 'Example Button', variant: 'outline', leadingIcon: false },\n      { label: 'Example Button', variant: 'outline', leadingIcon: false },\n      { label: 'Example Button', variant: 'outline', leadingIcon: true },\n      { label: 'Example Button', variant: 'outline', leadingIcon: true },\n      { label: 'Example Button', variant: 'outline', leadingIcon: true },\n    ]),\n    row([\n      { label: 'Example Button', variant: 'text', leadingIcon: false },\n      { label: 'Example Button', variant: 'text', leadingIcon: false },\n      { label: 'Example Button', variant: 'text', leadingIcon: false },\n      { label: 'Example Button', variant: 'text', leadingIcon: true },\n      { label: 'Example Button', variant: 'text', leadingIcon: true },\n      { label: 'Example Button', variant: 'text', leadingIcon: true },\n    ]),\n    row([\n      { label: 'Example Button', variant: 'ghost', leadingIcon: false },\n      { label: 'Example Button', variant: 'ghost', leadingIcon: false },\n      { label: 'Example Button', variant: 'ghost', leadingIcon: false },\n      { label: 'Example Button', variant: 'ghost', leadingIcon: true },\n      { label: 'Example Button', variant: 'ghost', leadingIcon: true },\n      { label: 'Example Button', variant: 'ghost', leadingIcon: true },\n    ]),\n    React.createElement(\n      'div',\n      { className: 'button-showcase__caption' },\n      React.createElement('span', { className: 'button-showcase__variant-badge' }, '24 Variants')\n    )\n  );\n};"
+        },
+        {
+          "id": "design-system-button--solid",
+          "name": "Solid",
+          "snippet": "const Solid = () => <Button onClick={fn()} label=\"Example Button\" variant=\"solid\" />;"
+        },
+        {
+          "id": "design-system-button--outline",
+          "name": "Outline",
+          "snippet": "const Outline = () => <Button onClick={fn()} label=\"Example Button\" variant=\"outline\" />;"
+        },
+        {
+          "id": "design-system-button--text",
+          "name": "Text",
+          "snippet": "const Text = () => <Button onClick={fn()} label=\"Example Button\" variant=\"text\" />;"
+        },
+        {
+          "id": "design-system-button--with-icon",
+          "name": "With Icon",
+          "snippet": "const WithIcon = () => <Button onClick={fn()} label=\"Example Button\" variant=\"solid\" leadingIcon />;"
+        }
+      ],
+      "import": "import { Button } from 'tovarnaidej.github.io';\nimport { fn } from 'storybook/test';"
+    },
+    "example-header": {
+      "id": "example-header",
+      "name": "Header",
+      "path": "./stories/Header.stories.js",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Header",
+        "definedInFile": "/workspaces/tovarnaidej.github.io/stories/Header.jsx",
+        "actualName": "Header",
+        "exportName": "Header",
+        "props": {
+          "user": {
+            "defaultValue": {
+              "value": "null",
+              "computed": false
+            },
+            "description": "",
+            "type": {
+              "name": "shape",
+              "value": {
+                "name": {
+                  "name": "string",
+                  "required": true
+                }
+              }
+            },
+            "required": false
+          },
+          "onLogin": {
+            "description": "",
+            "type": {
+              "name": "func"
+            },
+            "required": true
+          },
+          "onLogout": {
+            "description": "",
+            "type": {
+              "name": "func"
+            },
+            "required": true
+          },
+          "onCreateAccount": {
+            "description": "",
+            "type": {
+              "name": "func"
+            },
+            "required": true
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "example-header--logged-in",
+          "name": "Logged In",
+          "snippet": "const LoggedIn = () => <Header\n    onLogin={fn()}\n    onLogout={fn()}\n    onCreateAccount={fn()}\n    user={{\n      name: 'Jane Doe',\n    }} />;"
+        },
+        {
+          "id": "example-header--logged-out",
+          "name": "Logged Out",
+          "snippet": "const LoggedOut = () => <Header onLogin={fn()} onLogout={fn()} onCreateAccount={fn()} />;"
+        }
+      ],
+      "import": "import { Header } from 'tovarnaidej.github.io';\nimport { fn } from 'storybook/test';"
+    },
+    "example-page": {
+      "id": "example-page",
+      "name": "Page",
+      "path": "./stories/Page.stories.js",
+      "jsDocTags": {},
+      "reactDocgen": {
+        "description": "",
+        "methods": [],
+        "displayName": "Page",
+        "definedInFile": "/workspaces/tovarnaidej.github.io/stories/Page.jsx",
+        "actualName": "Page",
+        "exportName": "Page"
+      },
+      "stories": [
+        {
+          "id": "example-page--logged-out",
+          "name": "Logged Out",
+          "snippet": "const LoggedOut = () => <Page />;"
+        },
+        {
+          "id": "example-page--logged-in",
+          "name": "Logged In",
+          "snippet": "const LoggedIn = () => <Page />;"
+        }
+      ],
+      "import": "import { Page } from 'tovarnaidej.github.io';"
+    }
+  },
+  "meta": {
+    "docgen": "react-docgen",
+    "durationMs": 288
+  }
+}
