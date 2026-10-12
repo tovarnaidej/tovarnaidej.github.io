@@ -35,3 +35,50 @@
     object-position: left center;
   }
 </style>
+<script>
+  (() => {
+    const translations = new Map([
+      ['Controls', 'Nastavitve'],
+      ['Actions', 'Dejanja'],
+      ['Interactions', 'Interakcije'],
+      ['Visual tests', 'Vizualni testi'],
+      ['Accessibility', 'Dostopnost'],
+      ['Name', 'Ime'],
+      ['Control', 'Kontrolnik'],
+      ['True', 'Da'],
+      ['False', 'Ne'],
+    ]);
+
+    const translateManager = () => {
+      const search = document.querySelector('#storybook-explorer-searchfield');
+      if (search && search.placeholder !== 'Poišči gradnike') {
+        search.placeholder = 'Poišči gradnike';
+        search.setAttribute('aria-label', 'Poišči gradnike');
+      }
+
+      document.querySelectorAll('#storybook-panel-root *').forEach((element) => {
+        element.childNodes.forEach((node) => {
+          if (node.nodeType !== Node.TEXT_NODE) return;
+
+          const original = node.textContent.trim();
+          const translation = translations.get(original);
+          if (translation) {
+            node.textContent = node.textContent.replace(original, translation);
+          }
+        });
+      });
+    };
+
+    const observer = new MutationObserver(translateManager);
+    const start = () => {
+      translateManager();
+      observer.observe(document.body, { childList: true, subtree: true });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', start, { once: true });
+    } else {
+      start();
+    }
+  })();
+</script>

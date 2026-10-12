@@ -38,13 +38,59 @@ export default {
     onClick: fn(),
   },
   argTypes: {
+    label: {
+      name: 'Besedilo',
+      description: 'Besedilo, prikazano na gumbu.',
+    },
     variant: {
-      control: 'select',
+      name: 'Različica',
+      description: 'Vizualna različica gumba.',
+      control: {
+        type: 'select',
+        labels: {
+          filled: 'Polni',
+          elevated: 'Privzdignjeni',
+          outline: 'Obroba',
+          text: 'Besedilni',
+        },
+      },
       options: variants,
     },
     state: {
-      control: 'select',
+      name: 'Stanje',
+      description: 'Trenutno stanje gumba.',
+      control: {
+        type: 'select',
+        labels: {
+          enabled: 'Omogočen',
+          pressed: 'Pritisnjen',
+          disabled: 'Onemogočen',
+        },
+      },
       options: states,
+    },
+    leadingIcon: {
+      name: 'Vodilna ikona',
+      description: 'Prikaže ikono pred besedilom.',
+      control: {
+        type: 'boolean',
+        labels: {
+          true: 'Da',
+          false: 'Ne',
+        },
+      },
+    },
+    disabled: {
+      name: 'Onemogočen',
+      description: 'Onemogoči uporabo gumba.',
+    },
+    className: {
+      name: 'Razred CSS',
+      description: 'Dodaten razred CSS.',
+    },
+    onClick: {
+      name: 'Ob kliku',
+      description: 'Dogodek, ki se sproži ob kliku.',
     },
   },
 };
