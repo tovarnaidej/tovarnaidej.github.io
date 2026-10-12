@@ -1,0 +1,145 @@
+.web-action-link {
+  box-sizing: border-box;
+  display: inline-flex;
+  height: 40px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 4px;
+  border-radius: 8px;
+  color: #3c7b94;
+  font-family: 'Republika', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.web-action-link--hover,
+.web-action-link--default:hover {
+  color: #174859;
+  text-decoration: underline;
+  text-underline-position: from-font;
+}
+
+.web-action-link--focus,
+.web-action-link--default:focus-visible {
+  border: 3px solid #306276;
+  outline: none;
+}
+
+.web-action-link--pressed,
+.web-action-link--default:active {
+  color: #123a47;
+  text-decoration: underline;
+}
+
+.web-action-link--visited {
+  color: #1b4741;
+  text-decoration: underline;
+}
+
+.web-action-link--disabled {
+  color: #949598;
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.web-action-link img,
+.web-download-button img {
+  display: block;
+  flex: 0 0 20px;
+}
+
+.web-download-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #3c7b94;
+  border-radius: 8px;
+  color: #3c7b94;
+  background: #ffffff;
+  font-family: 'Republika', Arial, sans-serif;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+  cursor: pointer;
+  appearance: none;
+}
+
+.web-download-button--small {
+  height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+}
+
+.web-download-button--medium {
+  height: 48px;
+  padding: 0 20px;
+  font-size: 15px;
+}
+
+.web-download-button--large {
+  height: 56px;
+  padding: 0 24px;
+  font-size: 16px;
+}
+
+.web-download-button--hover,
+.web-download-button--default:hover {
+  color: #174859;
+  background: #f7f8fa;
+  border-color: #174859;
+}
+
+.web-download-button--focus,
+.web-download-button--default:focus-visible {
+  border: 3px solid #306276;
+  outline: none;
+}
+
+.web-download-button--pressed,
+.web-download-button--default:active {
+  color: #123a47;
+  background: #f7f8fa;
+  border-color: #123a47;
+}
+
+.web-download-button--disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.web-action-showcase {
+  box-sizing: border-box;
+  min-width: max-content;
+  padding: 28px;
+  background: #ffffff;
+}
+
+.web-action-showcase__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 145px);
+  align-items: center;
+  gap: 16px 20px;
+}
+
+.web-action-showcase__grid--download {
+  grid-template-columns: repeat(5, 145px);
+}
+
+.web-action-showcase__label {
+  margin: 0;
+  color: #5c6473;
+  font-family: 'Republika', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.web-action-showcase__cell {
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+}

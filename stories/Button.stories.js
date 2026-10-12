@@ -49,7 +49,7 @@ export default {
         type: 'select',
         labels: {
           filled: 'Polni',
-          elevated: 'Privzdignjeni',
+          elevated: 'Senca',
           outline: 'Obroba',
           text: 'Besedilni',
         },
@@ -105,7 +105,7 @@ export const Filled = {
 };
 
 export const Elevated = {
-  name: 'Privzdignjeni',
+  name: 'Senca',
   args: { variant: 'elevated' },
 };
 

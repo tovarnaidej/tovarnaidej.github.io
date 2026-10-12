@@ -175,11 +175,6 @@ export const Sizes = {
   ),
 };
 
-export const WithIcons = {
-  name: 'Z ikonama',
-  args: { leadingIcon: true, trailingIcon: true },
-};
-
 export const Disabled = {
   name: 'Onemogočen',
   args: { state: 'disabled' },

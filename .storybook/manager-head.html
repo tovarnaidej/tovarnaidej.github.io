@@ -98,6 +98,16 @@
       ['hover', 'Lebdenje'],
       ['focus', 'Fokus'],
       ['pressed', 'Pritisnjen'],
+      ['Privzdignjeni', 'Senca'],
+    ]);
+
+    const hiddenPanels = new Set([
+      'Actions',
+      'Dejanja',
+      'Interactions',
+      'Interakcije',
+      'Visual tests',
+      'Vizualni testi',
     ]);
 
     const translateManager = () => {
@@ -124,6 +134,12 @@
           if (node.nodeType !== Node.TEXT_NODE) return;
 
           const original = node.textContent.trim();
+          if (hiddenPanels.has(original)) {
+            const tab = element.closest('[role="tab"]');
+            if (tab) tab.style.display = 'none';
+            return;
+          }
+
           const translation = translations.get(original);
           if (translation) {
             node.textContent = node.textContent.replace(original, translation);
