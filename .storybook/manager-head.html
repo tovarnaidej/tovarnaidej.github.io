@@ -28,6 +28,30 @@
     opacity: 1;
   }
 
+  #storybook-explorer-searchfield:focus {
+    color: #0b3a4a !important;
+    caret-color: #0b3a4a;
+  }
+
+  #storybook-explorer-searchfield:focus::placeholder {
+    color: rgba(11, 58, 74, 0.68) !important;
+  }
+
+  #storybook-sidebar-region [role='treeitem']:hover {
+    background-color: rgba(11, 58, 74, 0.34) !important;
+  }
+
+  #storybook-sidebar-region [data-selected='true'],
+  #storybook-sidebar-region [aria-current='page'] {
+    background-color: rgba(11, 58, 74, 0.72) !important;
+    color: #ffffff !important;
+  }
+
+  #storybook-sidebar-region [data-selected='true'] *,
+  #storybook-sidebar-region [aria-current='page'] * {
+    color: #ffffff !important;
+  }
+
   #storybook-sidebar-region img[alt="mSlovenija gradniki"] {
     width: 176px;
     max-height: 52px;
@@ -44,9 +68,36 @@
       ['Visual tests', 'Vizualni testi'],
       ['Accessibility', 'Dostopnost'],
       ['Name', 'Ime'],
-      ['Control', 'Kontrolnik'],
+      ['Control', 'Nastavitev'],
       ['True', 'Da'],
       ['False', 'Ne'],
+      ['Recently opened', 'Nedavno odprto'],
+      ['Set boolean', 'Nastavi logično vrednost'],
+      ['Set string', 'Nastavi besedilo'],
+      ['label', 'Besedilo'],
+      ['variant', 'Različica'],
+      ['state', 'Stanje'],
+      ['leadingIcon', 'Vodilna ikona'],
+      ['trailingIcon', 'Končna ikona'],
+      ['disabled', 'Onemogočen'],
+      ['fullWidth', 'Polna širina'],
+      ['className', 'Razred CSS'],
+      ['onClick', 'Ob kliku'],
+      ['hierarchy', 'Hierarhija'],
+      ['size', 'Velikost'],
+      ['filled', 'Polni'],
+      ['enabled', 'Omogočen'],
+      ['primary', 'Primarni'],
+      ['secondary', 'Sekundarni'],
+      ['outline', 'Obroba'],
+      ['text', 'Besedilni'],
+      ['small', 'Majhen'],
+      ['medium', 'Srednji'],
+      ['large', 'Velik'],
+      ['default', 'Privzeto'],
+      ['hover', 'Lebdenje'],
+      ['focus', 'Fokus'],
+      ['pressed', 'Pritisnjen'],
     ]);
 
     const translateManager = () => {
@@ -55,6 +106,18 @@
         search.placeholder = 'Poišči gradnike';
         search.setAttribute('aria-label', 'Poišči gradnike');
       }
+
+      document.querySelectorAll('#storybook-sidebar-region *').forEach((element) => {
+        element.childNodes.forEach((node) => {
+          if (node.nodeType !== Node.TEXT_NODE) return;
+
+          const original = node.textContent.trim();
+          const translation = translations.get(original);
+          if (translation) {
+            node.textContent = node.textContent.replace(original, translation);
+          }
+        });
+      });
 
       document.querySelectorAll('#storybook-panel-root *').forEach((element) => {
         element.childNodes.forEach((node) => {

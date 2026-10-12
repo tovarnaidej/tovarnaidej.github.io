@@ -1,0 +1,193 @@
+:root {
+  --web-button-primary: #3c7b94;
+  --web-button-primary-hover: #174859;
+  --web-button-primary-pressed: #306276;
+  --web-button-secondary: #447972;
+  --web-button-secondary-hover: #1b4741;
+  --web-button-focus-primary: #5a9b91;
+  --web-button-focus-secondary: #174859;
+  --web-button-radius: 8px;
+  --web-button-gap: 8px;
+}
+
+.web-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--web-button-gap);
+  border: 0;
+  border-radius: var(--web-button-radius);
+  font-family: 'Republika', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+  cursor: pointer;
+  appearance: none;
+}
+
+.web-button--small {
+  height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+}
+
+.web-button--medium {
+  height: 48px;
+  padding: 0 20px;
+  font-size: 16px;
+}
+
+.web-button--large {
+  height: 56px;
+  padding: 0 24px;
+  font-size: 18px;
+}
+
+.web-button--full-width {
+  width: 100%;
+}
+
+.web-button--primary {
+  color: #ffffff;
+  background: var(--web-button-primary);
+}
+
+.web-button--primary.web-button--state-hover,
+.web-button--primary.web-button--state-default:hover {
+  background: var(--web-button-primary-hover);
+}
+
+.web-button--primary.web-button--state-focus,
+.web-button--primary.web-button--state-default:focus-visible {
+  border: 3px solid var(--web-button-focus-primary);
+}
+
+.web-button--primary.web-button--state-pressed,
+.web-button--primary.web-button--state-default:active {
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    var(--web-button-primary-hover);
+}
+
+.web-button--secondary {
+  color: #ffffff;
+  background: var(--web-button-secondary);
+}
+
+.web-button--secondary.web-button--state-hover,
+.web-button--secondary.web-button--state-default:hover {
+  background: var(--web-button-secondary-hover);
+}
+
+.web-button--secondary.web-button--state-focus,
+.web-button--secondary.web-button--state-default:focus-visible {
+  border: 3px solid var(--web-button-focus-secondary);
+}
+
+.web-button--secondary.web-button--state-pressed,
+.web-button--secondary.web-button--state-default:active {
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    var(--web-button-secondary);
+}
+
+.web-button--outline {
+  color: var(--web-button-primary);
+  background: #ffffff;
+  border: 1px solid var(--web-button-primary);
+}
+
+.web-button--outline.web-button--state-hover,
+.web-button--outline.web-button--state-default:hover {
+  color: var(--web-button-primary-hover);
+  background: #f7f8fa;
+  border-color: var(--web-button-primary-hover);
+}
+
+.web-button--outline.web-button--state-focus,
+.web-button--outline.web-button--state-default:focus-visible {
+  border: 3px solid var(--web-button-focus-secondary);
+}
+
+.web-button--outline.web-button--state-pressed,
+.web-button--outline.web-button--state-default:active {
+  background: #f7f8fa;
+  border-color: var(--web-button-primary-pressed);
+}
+
+.web-button--text {
+  color: var(--web-button-primary);
+  background: transparent;
+}
+
+.web-button--text.web-button--state-hover,
+.web-button--text.web-button--state-default:hover {
+  color: var(--web-button-primary-hover);
+}
+
+.web-button--text.web-button--state-focus,
+.web-button--text.web-button--state-default:focus-visible {
+  border: 3px solid var(--web-button-primary-pressed);
+}
+
+.web-button--state-disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.web-button--primary.web-button--medium.web-button--state-disabled {
+  font-weight: 500;
+}
+
+.web-button__icon {
+  display: block;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.web-button__icon--leading {
+  transform: rotate(180deg);
+}
+
+.web-button-showcase {
+  box-sizing: border-box;
+  min-width: 780px;
+  padding: 28px;
+  background: #ffffff;
+}
+
+.web-button-showcase__section + .web-button-showcase__section {
+  margin-top: 40px;
+}
+
+.web-button-showcase__title {
+  margin: 0 0 16px;
+  color: #162033;
+  font-family: 'Republika', Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.web-button-showcase__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 150px);
+  align-items: center;
+  gap: 16px 20px;
+}
+
+.web-button-showcase__cell {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+}
+
+.web-button-showcase__label {
+  margin: 0;
+  color: #5c6473;
+  font-family: 'Republika', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
