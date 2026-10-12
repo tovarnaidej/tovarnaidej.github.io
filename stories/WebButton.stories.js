@@ -2,16 +2,27 @@ import React from 'react';
 import { fn } from 'storybook/test';
 
 import { WebButton } from './WebButton';
+import { DownloadButton, LinkAction } from './WebAction';
 
 const hierarchies = ['primary', 'secondary', 'outline', 'text'];
 const sizes = ['small', 'medium', 'large'];
 const states = ['default', 'hover', 'focus', 'pressed', 'disabled'];
+const linkStates = ['default', 'hover', 'focus', 'pressed', 'visited', 'disabled'];
 
 const hierarchyNames = {
   primary: 'Primarni',
   secondary: 'Sekundarni',
   outline: 'Obroba',
   text: 'Besedilni',
+};
+
+const stateNames = {
+  default: 'Privzeto',
+  hover: 'Lebdenje',
+  focus: 'Fokus',
+  pressed: 'Pritisnjen',
+  visited: 'Obiskano',
+  disabled: 'Onemogočen',
 };
 
 const renderVariants = () => React.createElement(
@@ -42,6 +53,44 @@ const renderVariants = () => React.createElement(
       ))),
     ),
   )),
+);
+
+const renderLinkVariants = () => React.createElement(
+  'div',
+  { className: 'web-action-showcase' },
+  React.createElement(
+    'div',
+    { className: 'web-action-showcase__grid' },
+    ...linkStates.map((state) => React.createElement(
+      'p',
+      { className: 'web-action-showcase__label', key: `${state}-label` },
+      stateNames[state],
+    )),
+    ...linkStates.map((state) => React.createElement(
+      'div',
+      { className: 'web-action-showcase__cell', key: state },
+      React.createElement(LinkAction, { state }),
+    )),
+  ),
+);
+
+const renderDownloadVariants = () => React.createElement(
+  'div',
+  { className: 'web-action-showcase' },
+  React.createElement(
+    'div',
+    { className: 'web-action-showcase__grid web-action-showcase__grid--download' },
+    ...states.map((state) => React.createElement(
+      'p',
+      { className: 'web-action-showcase__label', key: `${state}-label` },
+      stateNames[state],
+    )),
+    ...sizes.flatMap((size) => states.map((state) => React.createElement(
+      'div',
+      { className: 'web-action-showcase__cell', key: `${size}-${state}` },
+      React.createElement(DownloadButton, { size, state }),
+    ))),
+  ),
 );
 
 export default {
@@ -178,4 +227,26 @@ export const Sizes = {
 export const Disabled = {
   name: 'Onemogočen',
   args: { state: 'disabled' },
+};
+
+export const LinkActionCategory = {
+  name: 'Povezava - akcija',
+  render: renderLinkVariants,
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/design/Ph5kySZOVPpzP6565W17LV/mSlovenija---Design-System--UI-kit-?node-id=3598-5861',
+    },
+  },
+};
+
+export const DownloadCategory = {
+  name: 'Prenos',
+  render: renderDownloadVariants,
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/design/Ph5kySZOVPpzP6565W17LV/mSlovenija---Design-System--UI-kit-?node-id=3598-5935',
+    },
+  },
 };

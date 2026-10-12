@@ -99,6 +99,7 @@
       ['focus', 'Fokus'],
       ['pressed', 'Pritisnjen'],
       ['Privzdignjeni', 'Senca'],
+      ['Gumb', 'Gumb - mobilna različica'],
     ]);
 
     const hiddenPanels = new Set([
@@ -136,7 +137,17 @@
           const original = node.textContent.trim();
           if (hiddenPanels.has(original)) {
             const tab = element.closest('[role="tab"]');
-            if (tab) tab.style.display = 'none';
+            const tabList = tab?.closest('[role="tablist"]');
+            if (tab && tabList) {
+              const wasSelected = tab.getAttribute('aria-selected') === 'true';
+              tab.style.display = 'none';
+
+              if (wasSelected) {
+                const settingsTab = [...tabList.querySelectorAll('[role="tab"]')]
+                  .find((candidate) => ['Controls', 'Nastavitve'].includes(candidate.textContent.trim()));
+                settingsTab?.click();
+              }
+            }
             return;
           }
 
