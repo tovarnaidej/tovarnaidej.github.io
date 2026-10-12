@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { fn } from 'storybook/test';
 
 import { WebButton } from './WebButton';
 import { DownloadButton, LinkAction } from './WebAction';
+import republikaCss from '../public/fonts/republika.css?raw';
+import webButtonCss from './web-button.css?raw';
+
+const completeCss = `/* Republika font */\n${republikaCss.trim()}\n\n/* Gumb - spletna različica */\n${webButtonCss.trim()}\n`;
 
 const hierarchies = ['primary', 'secondary', 'outline', 'text'];
 const sizes = ['small', 'medium', 'large'];
@@ -92,6 +96,87 @@ const renderDownloadVariants = () => React.createElement(
     ))),
   ),
 );
+
+const CompleteCss = () => {
+  const [copied, setCopied] = useState(false);
+
+  const copyCss = async () => {
+    await navigator.clipboard.writeText(completeCss);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1800);
+  };
+
+  return React.createElement(
+    'section',
+    {
+      style: {
+        boxSizing: 'border-box',
+        minHeight: '100vh',
+        padding: '32px',
+        color: '#0b3a4a',
+        background: '#ffffff',
+        fontFamily: "'Republika', Arial, sans-serif",
+      },
+    },
+    React.createElement(
+      'div',
+      {
+        style: {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '24px',
+          marginBottom: '20px',
+        },
+      },
+      React.createElement(
+        'div',
+        null,
+        React.createElement('h1', { style: { margin: '0 0 8px', fontSize: '28px' } }, 'Celoten CSS'),
+        React.createElement(
+          'p',
+          { style: { margin: 0, color: '#45636d', fontSize: '16px' } },
+          'Vključuje pisavo Republika ter vse velikosti, različice in stanja spletnega gumba.',
+        ),
+      ),
+      React.createElement(
+        'button',
+        {
+          type: 'button',
+          onClick: copyCss,
+          style: {
+            flex: '0 0 auto',
+            padding: '12px 18px',
+            border: 0,
+            borderRadius: '8px',
+            color: '#ffffff',
+            background: copied ? '#447972' : '#3c7b94',
+            font: "700 15px 'Republika', Arial, sans-serif",
+            cursor: 'pointer',
+          },
+        },
+        copied ? 'Kopirano' : 'Kopiraj CSS',
+      ),
+    ),
+    React.createElement(
+      'pre',
+      {
+        style: {
+          overflow: 'auto',
+          margin: 0,
+          padding: '24px',
+          border: '1px solid #d9e2e6',
+          borderRadius: '8px',
+          color: '#eaf4f6',
+          background: '#0b3a4a',
+          font: "14px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+          whiteSpace: 'pre',
+        },
+      },
+      React.createElement('code', null, completeCss),
+    ),
+  );
+};
 
 export default {
   title: 'Gradniki/Gumb - spletna različica',
@@ -247,6 +332,20 @@ export const DownloadCategory = {
     design: {
       type: 'figma',
       url: 'https://www.figma.com/design/Ph5kySZOVPpzP6565W17LV/mSlovenija---Design-System--UI-kit-?node-id=3598-5935',
+    },
+  },
+};
+
+export const Css = {
+  name: 'Celoten CSS',
+  render: () => React.createElement(CompleteCss),
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      source: {
+        code: completeCss,
+        language: 'css',
+      },
     },
   },
 };
