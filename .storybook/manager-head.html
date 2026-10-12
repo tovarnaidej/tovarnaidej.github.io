@@ -1,4 +1,4 @@
-<link rel="icon" type="image/svg+xml" href="/branding/gradient.svg" />
+<link rel="icon" type="image/svg+xml" href="/branding/favicon.svg" />
 <link rel="stylesheet" href="/fonts/republika.css" />
 <style>
   #storybook-sidebar-region {
@@ -6,6 +6,26 @@
     background-image: url('/branding/gradient.svg');
     background-position: center;
     background-size: cover;
+    color: #ffffff;
+  }
+
+  #storybook-sidebar-region a,
+  #storybook-sidebar-region button,
+  #storybook-sidebar-region [role='treeitem'],
+  #storybook-sidebar-region [role='heading'],
+  #storybook-sidebar-region label,
+  #storybook-sidebar-region input,
+  #storybook-sidebar-region svg {
+    color: #ffffff !important;
+  }
+
+  #storybook-sidebar-region svg {
+    fill: currentColor;
+  }
+
+  #storybook-explorer-searchfield::placeholder {
+    color: rgba(255, 255, 255, 0.78) !important;
+    opacity: 1;
   }
 
   #storybook-sidebar-region img[alt="mSlovenija gradniki"] {
