@@ -26,7 +26,8 @@ jobs:
         with:
           # Node 20 is deprecated on GitHub Actions runners.
           node-version: 22
-          cache: npm
+          # Disable cache while diagnosing npm ci failures.
+          # cache: npm
 
       - name: Install dependencies
         env:
@@ -35,7 +36,20 @@ jobs:
         run: |
           node -v
           npm -v
-          npm ci --no-audit --no-fund
+          if ! npm ci --no-audit --no-fund; then
+            echo "::group::npm debug logs"
+            ls -la ~/.npm/_logs || true
+            for f in ~/.npm/_logs/*-debug-*.log; do
+              [ -f "$f" ] || continue
+              echo "===== $f ====="
+              tail -n 80 "$f" || true
+            done
+            echo "::endgroup::"
+            # Surface the real error in public annotations (no login needed).
+            err="$(grep -E 'npm ERR!|error |ERESOLVE|Invalid|ENOENT|EUSAGE' ~/.npm/_logs/*-debug-*.log 2>/dev/null | tail -n 20 | tr '\n' ' ' | cut -c1-600)"
+            echo "::error::npm ci failed: ${err:-see npm debug logs group}"
+            exit 1
+          fi
 
       - name: Build Storybook
         run: npm run build-storybook
