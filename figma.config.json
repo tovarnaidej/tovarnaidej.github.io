@@ -1,0 +1,12 @@
+{
+  "codeConnect": {
+    "include": ["stories/**/*.figma.ts"],
+    "exclude": ["node_modules/**"],
+    "label": "React",
+    "language": "jsx",
+    "parser": "react",
+    "importPaths": {
+      "stories/*": "./stories/"
+    }
+  }
+}

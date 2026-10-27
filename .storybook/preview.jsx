@@ -8,6 +8,16 @@ const preview = {
        date: /Date$/i,
       },
     },
+    docs: {
+      codePanel: false,
+    },
+    html: {
+      removeEmptyComments: true,
+      transform: (code) =>
+        code
+          .replace(/\s+data-[a-zA-Z0-9_-]+="[^"]*"/g, '')
+          .replace(/\s+data-[a-zA-Z0-9_-]+='[^']*'/g, ''),
+    },
     options: {
       storySort: {
         order: ['Gradniki', 'Dokumentacija', 'Primeri'],

@@ -9,6 +9,7 @@ const config = {
   ],
   "addons": [
     "@storybook/addon-a11y",
+    "@whitespace/storybook-addon-html",
     "@storybook/addon-docs",
     "@storybook/addon-mcp"
   ],

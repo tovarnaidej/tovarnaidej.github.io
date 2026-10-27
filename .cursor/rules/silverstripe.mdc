@@ -1,0 +1,26 @@
+---
+description: Silverstripe predloge, CMS polja, theme in renderiranje
+globs: "**/*.{ss,php}"
+alwaysApply: false
+---
+
+# Silverstripe
+
+- Pred delom preveri nameščeno različico Silverstripe in strukturo teme.
+- Uporabi obstoječe `.ss` predloge, Includes, Layout in projektne konvencije.
+- Poslovno logiko in pripravo podatkov ohrani zunaj predlog.
+- Ponovljive vizualne elemente oblikuj kot ponovno uporabne predloge.
+- Če projekt uporablja vsebinske bloke, sledi obstoječi izvedbi.
+  Ne nameščaj novega sistema blokov samodejno.
+- Besedilo, povezave in slike za urednike poveži s CMS polji.
+- Figma vsebino uporabi kot referenco za videz; produkcijske vsebine
+  ne vpisuj trajno neposredno v predloge.
+- Ohrani pravilno escaping obravnavo podatkov.
+- CSS in JavaScript vključi prek obstoječega projektnega postopka.
+- Preveri dejansko renderirano CMS stran tudi pri daljših naslovih,
+  manjkajočih izbirnih slikah in različnih količinah vsebine.
+- Administracija mora omogočati predvideno urejanje komponente.
+
+## Vizualno preverjanje (skupaj s Figma pravili)
+- Za lokalno primerjavo z Figmo smeš začasno uporabiti referenčno
+  vsebino; trajno stanje mora ostati CMS-pogonjeno.

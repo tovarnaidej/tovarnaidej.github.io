@@ -1,0 +1,653 @@
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:root {
+  --search-color-primary: #3c7b94;
+  --search-color-primary-hover: #174859;
+  --search-color-surface: #ffffff;
+  --search-color-border: #d9dde5;
+  --search-color-placeholder: #57585a;
+  --search-color-text: #162033;
+  --search-color-muted: #57585a;
+  --search-color-focus: #3c7b94;
+  --search-color-error: #d32f2f;
+  --search-color-skeleton: #e6e7e9;
+  --search-color-suggestion-active: #f7f8fa;
+  --search-radius: 8px;
+  --search-radius-panel: 12px;
+  --search-gap: 12px;
+  --search-field-height: 48px;
+  --search-max-width: 760px;
+}
+
+.search {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: var(--search-max-width);
+  font-family: 'Republika', Arial, sans-serif;
+}
+
+.search--compact {
+  max-width: 420px;
+}
+
+.search--embedded {
+  max-width: var(--search-max-width);
+}
+
+.search--embedded.search--size-compact {
+  max-width: 560px;
+}
+
+.search--disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.search__row {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--search-gap);
+  width: 100%;
+  min-height: 56px;
+}
+
+.search--size-compact .search__row {
+  min-height: 48px;
+}
+
+.search__field {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  height: var(--search-field-height);
+  padding: 0 16px;
+  border: 1px solid var(--search-color-border);
+  border-radius: var(--search-radius);
+  background: var(--search-color-surface);
+  /* Figma Field clipsContent: true — clip at field edge, not text node. */
+  overflow: hidden;
+}
+
+/*
+  Figma Universal Default: stroke visible false → icon x=16, Query x=48.
+  Visible 1px stroke insets content by 1 (icon x=17). Do not keep a
+  transparent 1px border on default — that wrongly insets “Kaj iščete?”.
+*/
+.search--universal.search--state-default .search__field {
+  border-color: transparent;
+  border-width: 0;
+}
+
+.search--universal.search--state-default:hover .search__field,
+.search--state-hover .search__field {
+  border-width: 1px;
+  border-color: var(--search-color-primary-hover);
+}
+
+.search--compact.search--state-default .search__field,
+.search--state-filled .search__field,
+.search--state-results .search__field,
+.search--state-disabled .search__field {
+  border-width: 1px;
+  border-color: var(--search-color-border);
+}
+
+/* Figma Focus/Error: strokeWeight 2, paddingLeft stays 16 (icon x=18). */
+.search--state-focus .search__field,
+.search--state-default:focus-within .search__field {
+  border: 2px solid var(--search-color-focus);
+  padding: 0 16px;
+}
+
+.search--state-error .search__field {
+  border: 2px solid var(--search-color-error);
+  padding: 0 16px;
+}
+
+.search__icon {
+  flex: 0 0 auto;
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.search__input-wrap {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  align-self: stretch;
+  min-width: 0;
+  width: 100%;
+  min-height: 0;
+  overflow: visible;
+}
+
+/*
+  Figma Field: counterAxisAlignItems CENTER — Query hug + AUTO is a flex
+  child, not absolutely pinned. Absolute top + text-box-trim broke Regular
+  “Kaj iščete?” (node h=19, y=14.5). Face stays in normal flow; input is
+  the absolute hit-target overlay.
+*/
+.search__face {
+  position: relative;
+  z-index: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  color: var(--search-color-placeholder);
+  font-family: 'Republika', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Figma Filled: Medium #57585A. Trim Medium em gap above caps only. */
+.search__face--value {
+  color: #57585a;
+  font-weight: 500;
+  text-box-trim: trim-start;
+  text-box-edge: cap alphabetic;
+}
+
+/* Figma Compact Filled Query: #162033, Medium */
+.search--compact .search__face--value {
+  color: var(--search-color-text);
+}
+
+.search:has(.search__results) .search__face--value {
+  color: #000000;
+  font-weight: 500;
+}
+
+.search__input {
+  box-sizing: border-box;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: transparent;
+  caret-color: var(--search-color-primary);
+  font-family: 'Republika', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0;
+  appearance: none;
+}
+
+.search__input::selection {
+  background: rgba(60, 123, 148, 0.28);
+  color: transparent;
+}
+
+.search--state-filled .search__input,
+.search--state-results .search__input,
+.search--state-hover .search__input,
+.search--state-disabled .search__input,
+.search--state-error .search__input {
+  caret-color: transparent;
+}
+
+.search__input::-webkit-search-decoration,
+.search__input::-webkit-search-cancel-button,
+.search__input::-webkit-search-results-button,
+.search__input::-webkit-search-results-decoration {
+  display: none;
+}
+
+.search__input::placeholder {
+  color: transparent;
+  opacity: 0;
+}
+
+.search__caret {
+  /* Figma Suggestions Typo guide line: 20×1 at field center (3604:8429). */
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 2px;
+  height: 20px;
+  margin-top: -10px;
+  background: var(--search-color-primary);
+  pointer-events: none;
+}
+
+.search__action {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  height: var(--search-field-height);
+  min-width: 108px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: var(--search-radius);
+  color: var(--search-color-surface);
+  background: var(--search-color-primary);
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: normal;
+  white-space: nowrap;
+  cursor: pointer;
+  appearance: none;
+}
+
+/*
+  Figma Action (3604:8312): counterAxisAlignItems CENTER.
+  Label node (3604:8313): y=15.5, h=17 → center 24.
+  Flex-center the trimmed label so cap ink shares that center.
+*/
+.search__action-label {
+  line-height: normal;
+  letter-spacing: 0;
+  text-box-trim: trim-start;
+  text-box-edge: cap alphabetic;
+}
+
+.search--compact .search__action {
+  width: 60px;
+  min-width: 60px;
+  padding: 0;
+}
+
+.search--state-hover .search__action,
+.search--state-default:hover .search__action {
+  background: var(--search-color-primary-hover);
+}
+
+.search__action:focus-visible {
+  outline: 3px solid var(--search-color-focus);
+  outline-offset: 2px;
+}
+
+.search__action-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+/* Embedded: action inside field boundary */
+.search--embedded .search__row {
+  gap: 0;
+  min-height: auto;
+}
+
+.search--embedded .search__shell {
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--search-color-border);
+  border-radius: var(--search-radius);
+  background: var(--search-color-surface);
+}
+
+.search--embedded.search--state-hover .search__shell,
+.search--embedded.search--state-default:hover .search__shell {
+  border-color: var(--search-color-border);
+}
+
+.search--embedded.search--state-focus .search__shell,
+.search--embedded.search--state-default:focus-within .search__shell {
+  border: 2px solid var(--search-color-focus);
+}
+
+.search--embedded.search--state-error .search__shell {
+  border: 2px solid var(--search-color-error);
+}
+
+.search--embedded.search--size-large.search--state-focus .search__shell {
+  border-color: var(--search-color-primary);
+}
+
+.search--embedded.search--size-compact.search--state-focus .search__shell {
+  border-color: #246bfd;
+}
+
+.search--embedded .search__field {
+  height: auto;
+  min-height: 54px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.search--embedded.search--size-compact .search__field {
+  min-height: 46px;
+}
+
+.search--embedded .search__action {
+  min-width: 120px;
+  height: auto;
+  border-radius: 0 var(--search-radius) var(--search-radius) 0;
+}
+
+/* Figma Embedded Large Action label: 15px Republika Bold (3604:8440). */
+.search--embedded.search--size-large .search__action {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.search--embedded.search--size-large .search__action-label {
+  font-weight: 700;
+}
+
+.search--embedded.search--size-compact .search__action {
+  width: 52px;
+  min-width: 52px;
+}
+
+.search--embedded.search--state-hover .search__action,
+.search--embedded.search--state-default:hover .search__action {
+  background: var(--search-color-primary-hover);
+}
+
+.search--embedded.search--size-large {
+  --search-field-height: 56px;
+}
+
+.search--embedded.search--size-large .search__shell {
+  height: 56px;
+}
+
+.search--embedded.search--size-compact .search__shell {
+  height: 48px;
+}
+
+/* Suggestions */
+.search__suggestions {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 8px 0;
+  overflow: hidden;
+  border: 1px solid #d9dee5;
+  border-radius: var(--search-radius);
+  background: var(--search-color-surface);
+  box-shadow: 0 8px 24px rgba(15, 23, 41, 0.14);
+  list-style: none;
+  margin: 0;
+}
+
+.search__suggestion {
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 44px;
+  padding: 12px 16px;
+  border: 0;
+  background: transparent;
+  color: #000000;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.search__suggestion--active,
+.search__suggestion:hover,
+.search__suggestion:focus-visible {
+  background: var(--search-color-suggestion-active);
+  font-weight: 500;
+  outline: none;
+}
+
+/* Results panel */
+.search:has(.search__results) {
+  gap: 24px;
+}
+
+.search__results {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 24px;
+  border: 1px solid var(--search-color-border);
+  border-radius: var(--search-radius-panel);
+  background: var(--search-color-surface);
+}
+
+.search__results--error {
+  border-color: var(--search-color-error);
+}
+
+.search__results-title {
+  margin: 0;
+  color: #000000;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 29px;
+}
+
+.search__results--results .search__results-title {
+  font-size: 22px;
+  line-height: 32px;
+}
+
+.search__results--error .search__results-title {
+  color: var(--search-color-error);
+}
+
+.search__results-meta {
+  margin: 0;
+  color: var(--search-color-muted);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.search__skeleton {
+  height: 16px;
+  border-radius: var(--search-radius);
+  background: var(--search-color-skeleton);
+}
+
+.search__skeleton--sm {
+  width: 72%;
+  max-width: 520px;
+}
+
+.search__skeleton--md {
+  width: 90%;
+  max-width: 640px;
+}
+
+.search__result {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  padding: 14px 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.search__result-title {
+  margin: 0;
+  color: var(--search-color-primary);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 23px;
+}
+
+.search__result-description {
+  margin: 0;
+  color: var(--search-color-muted);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.search-showcase {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  min-height: 100vh;
+  padding: 32px;
+  background: #f4f5f7;
+  font-family: 'Republika', Arial, sans-serif;
+}
+
+.search-showcase__section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.search-showcase__title {
+  margin: 0;
+  color: #0b3a4a;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.search-showcase__grid {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 20px 24px;
+  align-items: center;
+}
+
+.search-showcase__label {
+  margin: 0;
+  color: #45636d;
+  font-size: 14px;
+}
+
+.search-docs {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1296px;
+  padding: 32px;
+  background: #ffffff;
+  color: #0b3a4a;
+  font-family: 'Republika', Arial, sans-serif;
+}
+
+.search-docs__intro {
+  margin: 0;
+  max-width: 900px;
+  color: #45636d;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.search-docs__rules {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.search-docs__rule {
+  box-sizing: border-box;
+  padding: 20px;
+  border: 1px solid #d9e2e6;
+  border-radius: 8px;
+  background: #f7f8fa;
+}
+
+.search-docs__rule h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.search-docs__rule p {
+  margin: 0;
+  color: #45636d;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.search-docs__previews {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.search-docs__preview {
+  box-sizing: border-box;
+  padding: 24px;
+  border: 1px solid #d9e2e6;
+  border-radius: 8px;
+  background: #f4f5f7;
+}
+
+.search-docs__preview h3 {
+  margin: 0 0 16px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .search--universal .search__row {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0;
+    gap: 12px;
+  }
+
+  .search--universal .search__action {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .search,
+  .search--compact,
+  .search--embedded,
+  .search--embedded.search--size-compact {
+    max-width: none;
+  }
+
+  .search-docs__rules,
+  .search-docs__previews {
+    grid-template-columns: 1fr;
+  }
+
+  .search-showcase__grid {
+    grid-template-columns: 1fr;
+  }
+}

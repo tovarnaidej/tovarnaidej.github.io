@@ -1,0 +1,22 @@
+---
+description: React komponente, props, state in Storybook primeri
+globs: "**/*.{js,jsx,ts,tsx}"
+alwaysApply: false
+---
+
+# React
+
+- Sledi obstoječemu ogrodju, usmerjanju, jeziku in načinu stiliranja.
+- Figma komponente in variante preslikaj v smiselne React komponente
+  z jasno določenimi props.
+- Loči prikaz komponente od pridobivanja podatkov, kjer to koristi
+  ponovni uporabi in preverjanju videza.
+- Za enako komponento ne ustvarjaj skoraj identičnih kopij.
+- State uporabi za dejansko spreminjajoče se podatke;
+  izračunljivih vrednosti ne podvajaj v state.
+- Ohrani predvidene interakcije ter loading, empty in error stanja,
+  kjer so relevantna.
+- Če projekt uporablja Storybook ali drugo galerijo komponent,
+  dodaj primere dostavljenih variant in stanj.
+- Vizualno preveri komponento samostojno in znotraj dejanske strani,
+  saj lahko nadrejeni slogi in vsebniki spremenijo rezultat.

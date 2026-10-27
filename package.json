@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "storybook": "storybook dev -p 6006 --ci --disable-telemetry",
-    "build-storybook": "storybook build --output-dir ./storybook-static"
+    "storybook": "cross-env CACHE_DIR=./.sb-cache storybook dev -p 6006 --ci --disable-telemetry",
+    "build-storybook": "storybook build --output-dir ./storybook-static",
+    "figma:connect:parse": "figma connect parse",
+    "figma:connect:publish": "figma connect publish",
+    "figma:connect:unpublish": "figma connect unpublish"
   },
   "repository": {
     "type": "git",
@@ -21,17 +24,25 @@
   },
   "homepage": "https://github.com/tovarnaidej/tovarnaidej.github.io#readme",
   "devDependencies": {
-    "storybook": "^10.6.1",
-    "@storybook/react-vite": "^10.6.1",
     "@chromatic-com/storybook": "latest",
-    "@storybook/addon-vitest": "^10.6.1",
+    "@figma/code-connect": "^2.1.0",
     "@storybook/addon-a11y": "^10.6.1",
     "@storybook/addon-docs": "^10.6.1",
     "@storybook/addon-mcp": "^10.6.1",
-    "prop-types": "latest",
-    "vitest": "latest",
+    "@storybook/addon-vitest": "^10.6.1",
+    "@storybook/react-vite": "^10.6.1",
+    "@vitejs/plugin-react": "^6.1.2",
     "@vitest/browser-playwright": "latest",
     "@vitest/coverage-v8": "latest",
-    "playwright": "latest"
+    "@whitespace/storybook-addon-html": "^9.0.0",
+    "cross-env": "^10.1.0",
+    "playwright": "latest",
+    "prettier": "^3.9.10",
+    "prop-types": "latest",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "storybook": "^10.6.1",
+    "vite": "^8.3.5",
+    "vitest": "latest"
   }
 }

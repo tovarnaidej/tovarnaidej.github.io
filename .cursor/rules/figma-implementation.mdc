@@ -1,0 +1,121 @@
+---
+description: Implementacija dizajnov iz Figme — natančnost, postavitev, preverjanje
+alwaysApply: true
+---
+
+# Implementacija dizajnov iz Figme
+
+## Vir dizajna
+- Figma je glavni vir za videz implementirane komponente.
+- Pred implementacijo odpri navedeni frame/node: dimenzije, lastnosti,
+  Auto Layout, variante in povezane komponente.
+- Preglej kontekst na strani: širino vsebnika, zunanje razmike, ozadje,
+  poravnavo.
+- Če povezava ali podatki niso dostopni, to jasno povej.
+  Ne predstavljaj ugibanih vrednosti kot izmerjenih.
+
+## Obvezni izpis parametrov PRED kodo (brez Code Connect)
+Pred prvim CSS/JSX zapisom iz Figme (MCP `get_design_context` +
+`get_screenshot` + po potrebi `use_figma` dump) zapiši kontrolni seznam
+točnih vrednosti. Šele nato implementiraj. Seznam mora vsebovati:
+- Layout: width/height, padding, gap, radius, stroke (barva, debelina,
+  align), align/justify, clipsContent
+- Tipografija vsakega text nodea: family, style/weight, size, lineHeight
+  (AUTO ali px), letterSpacing, fill
+- Barve fills/strokes (hex), sence (x/y/blur/spread/color)
+- Ikone/asset: velikost, položaj
+- Variante in stanja, ki so v scopeu
+Nobene vrednosti v kodi, ki je ni na tem seznamu — razen eksplicitno
+dokumentirane prilagoditve platforme (npr. native `<input>` `overflow:
+clip`), kjer navedeš Figma vrednost, omejitev brskalnika in izračun
+(npr. `48 − 2×1px border = 46`), ne “približno kot ikona”.
+
+## Natančnost
+- Uporabi točne vrednosti za padding, margin, gap, širine, višine,
+  max-width, robove, radije, sence in barve.
+- Vrednosti ne zaokrožuj na najbližjo vrednost obstoječe CSS lestvice.
+- Uporabi točno družino pisave, rez, velikost, line-height in
+  letter-spacing. Preveri, da se pisava dejansko naloži.
+- Ohrani prelome besedila pri referenčni širini in enaki vsebini.
+- Uporabi originalne slike, SVG-je in ikone iz dizajna.
+  Ne nadomeščaj jih s podobnimi ikonami ali emoji.
+- Ohrani razmerje stranic, izrez in položaj slike.
+- Ne spreminjaj dizajna zaradi lastnih estetskih preferenc.
+
+## Tipografija v poljih (Republika + native input) — naučeno
+Teh napak ne ponavljaj (Search / podobni form controli):
+
+1. **Ne ugibaj `line-height` / `height` po višini ikone** (npr. 20px).
+   Figma Query: `lineHeight: AUTO`, hug višina (Regular ≈ 19, Medium ≈ 16).
+2. **Native `<input>`**: Chromium vedno `overflow: clip` in Republika Medium
+   ima `fontBoundingBoxDescent: 0`, medtem ko glifi še vedno descenderjajo.
+   Posledica: porezan spodnji del (g/p) in prenizek optični položaj.
+3. **Pravilna shema (kot Search)**:
+   - Vidni glifi na **span** (`.search__face`) z Figma tipi
+     (`font-size`, weight, `line-height: normal`, barva).
+   - `<input>` prosojen (`color: transparent`) za caret/a11y/vnos.
+   - Polje: Figma `clipsContent` → `overflow: hidden` na field, **ne** na
+     text face (sicer porežeš descenderje zunaj hug boxa).
+4. **Vertikalni položaj**: uporabi **točen Figma `y` text nodea**, ne
+   `top: 50%` + `translateY(-50%)` na `text-box-trim` boxu (to spusti
+   črnilo pod Figma položaj).
+5. **Stroke visible false ≠ transparent 1px border.** Figma Default ima
+   `strokes.visible: false` → icon x=16, Query x=48. Vidni 1px stroke
+   inseta na x=17/49. CSS: `border-width: 0` ko je stroke neviden;
+   `1px` / `2px` ko je viden. Focus/Error: stroke 2, **padding ostane 16**
+   (ne zožuj na 15).
+6. **Vertikalno**: Field `counterAxisAlignItems: CENTER` → face v normal
+   flow + flex `align-items: center` na wrap/field. **Ne** absolute `top`
+   po Figma y (pokvari Regular h=19). Input = `position: absolute; inset: 0`.
+7. **`text-box-trim`**: samo za Medium value/label (prazen prostor nad
+   caps). **Ne** na Regular placeholder — trim + fixed top zamakne
+   “Kaj iščete?”.
+8. **Action label**: flex CENTER + trim na Medium/Bold label; tipografija
+   po variantah (Universal 17 Medium; Embedded Large 15 Bold).
+9. Preveri **vsa stanja** — default brez stroke vs hover/filled z 1px vs
+   focus/error z 2px; meri icon x / face x proti Figmi (16/48 vs 17/49).
+
+## Postavitev in odzivnost
+- Auto Layout prevedi v ustrezno strukturo Flexbox ali Grid.
+- Razlikuj fiksne mere, prilagajanje vsebini in zapolnjevanje prostora.
+- Absolute positioning le za elemente, ki ga dejansko zahtevajo.
+- Upoštevaj vse dostavljene desktop, tablet in mobile dizajne.
+- Če manjka odzivna različica, uporabi projektna pravila in navedi
+  predpostavke. Pri bistveno različnih postavitvah vprašaj.
+- Med referenčnimi širinami zagotovi tekoče prilagajanje brez
+  prekrivanja, odrezanega besedila ali horizontalnega drsenja.
+
+## Komponente in slogi
+- Najprej preveri obstoječe komponente, tokene in slogovne konvencije.
+- Ponovno uporabi ustrezno komponento in njene variante.
+- Če obstoječa komponenta odstopa od Figme, dodaj ustrezno varianto.
+  Ne spreminjaj vseh njenih pojavitev zaradi ene implementacije.
+- Ponavljajoče se oblikovne vrednosti poveži v smiselne tokene.
+- Ne uvajaj nove UI ali CSS knjižnice brez potrebe.
+- Ne dodajaj globalnih CSS popravkov za lokalni problem.
+
+## Obnašanje in dostopnost
+- Implementiraj prikazana stanja (hover, focus, disabled, error,
+  odprta), kjer so določena. Za manjkajoča uporabi projektne konvencije.
+- Uporabi semantični HTML, oznake obrazcev, fokus in tipkovnico.
+- Če dizajn povzroča težavo z dostopnostjo, jo izpostavi in predlagaj
+  najmanjši potreben popravek.
+
+## Prioriteta pri konfliktu Figma ↔ knjižnica
+1. Uporabi obstoječi gradnik, če vizualno ustreza Figmi.
+2. Če se razlikujeta: navedi razliko; dodaj varianto/razširitev,
+   ne pokvari drugih uporab.
+3. Točne Figma vrednosti uporabi v novi/razširjeni variantni plasti
+   ali v postavitvi nadrejene komponente — ne z naključnimi
+   preglasitvami notranjih razmikov gradnika.
+4. Razmike med komponentami določi v nadrejeni postavitvi.
+
+## Obvezno vizualno preverjanje
+- Zaženi dejansko stran/komponento v brskalniku.
+- Primerjaj posnetek z Figma framom pri enaki širini, vsebini in stanju.
+- Pred zajemom počakaj na nalaganje pisav in slik.
+- Kjer so orodja na voljo, uporabi prekrivanje ali vizualni diff.
+- Popravi odstopanja in ponovno preveri; preveri tudi med breakpointi.
+- Če preverjanja ne moreš opraviti, to izrecno navedi.
+- V zaključku navedi preverjene širine in preostala odstopanja.
+  Ne trdi 1:1, če primerjava ni bila opravljena.

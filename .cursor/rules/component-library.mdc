@@ -1,0 +1,29 @@
+---
+description: Uporaba obstoječe knjižnice gradnikov in Storybooka
+alwaysApply: true
+---
+
+# Uporaba obstoječe knjižnice gradnikov
+
+## Pred implementacijo
+- Preveri projektno knjižnico in njen Storybook
+  (objavljeno: https://tovarnaidej.github.io/ ali lokalni `npm run storybook`).
+- Najprej poišči ustrezen gradnik, varianto, velikost in stanje.
+- Če gradnik že obstaja, ga uporabi. Ne ustvarjaj vzporedne kopije.
+- Uporabi izvorno komponento oziroma projektni paket.
+  Ne uvažaj prevedenih JS datotek z objavljenega Storybooka.
+
+## Figma vs Storybook
+- Figma določa zahtevani videz in postavitev.
+- Storybook dokumentira obstoječo implementacijo gradnikov.
+- Če se razlikujeta, navedi konkretno razliko in njen obseg.
+- Ne spreminjaj skupne komponente tako, da bi pokvaril druge uporabe.
+- Projektno posebnost izvedi kot jasno določeno varianto ali razširitev.
+- Razmike med komponentami določi v postavitvi nadrejene komponente.
+  Notranjih razmikov gradnika ne spreminjaj z naključnimi preglasitvami.
+
+## Spremembe gradnikov
+- Pri spremembi dopolni Storybook primere.
+- Preveri vse prizadete variante in interaktivna stanja.
+- CSS predstavitvenih tabel/dokumentacije ne prenašaj v produkcijo.
+- Po vključitvi preveri gradnik tudi na dejanski strani.
