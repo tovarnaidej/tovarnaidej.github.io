@@ -1,0 +1,75 @@
+.si-action {
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 360px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  font-family: 'Republika', Arial, sans-serif;
+  background: #ffffff;
+  color: #0b3a4a;
+}
+
+.si-action--elevated {
+  box-shadow: 0 4px 14px rgba(11, 58, 74, 0.18);
+}
+
+.si-action--outlined {
+  border: 1px solid #c5d4da;
+}
+
+.si-action--filled {
+  background: #0b3a4a;
+  color: #ffffff;
+}
+
+.si-action__message {
+  flex: 1;
+  margin: 0;
+  font: 400 15px/1.35 'Republika', Arial, sans-serif;
+}
+
+.si-action--lines-1 .si-action__message {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.si-action--lines-2 .si-action__message {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.si-action__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.si-action__btn {
+  border: 0;
+  background: transparent;
+  color: #3c7b94;
+  font: 700 14px/1 'Republika', Arial, sans-serif;
+  cursor: pointer;
+}
+
+.si-action--filled .si-action__btn,
+.si-action--filled .si-action__dismiss {
+  color: #ffffff;
+}
+
+.si-action__dismiss {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: #45636d;
+  font-size: 20px;
+  cursor: pointer;
+}

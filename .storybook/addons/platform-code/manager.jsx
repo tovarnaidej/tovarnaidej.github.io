@@ -57,6 +57,10 @@ import {
   APP_BAR_PLATFORMS,
   buildAppBarSnippet,
 } from '../../../stories/code-snippets/app-bar.js';
+import {
+  ACTION_PLATFORMS,
+  buildActionSnippet,
+} from '../../../stories/code-snippets/action.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -75,6 +79,7 @@ const snippetBuilders = {
   calendar: buildCalendarSnippet,
   divider: buildDividerSnippet,
   'app-bar': buildAppBarSnippet,
+  action: buildActionSnippet,
 };
 
 const platformsByComponent = {
@@ -90,6 +95,7 @@ const platformsByComponent = {
   calendar: CALENDAR_PLATFORMS,
   divider: DIVIDER_PLATFORMS,
   'app-bar': APP_BAR_PLATFORMS,
+  action: ACTION_PLATFORMS,
 };
 
 const emptyMessage =
