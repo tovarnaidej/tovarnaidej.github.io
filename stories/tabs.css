@@ -1,0 +1,59 @@
+.si-tabs {
+  box-sizing: border-box;
+  display: flex;
+  width: 360px;
+  font-family: 'Republika', Arial, sans-serif;
+  border-bottom: 1px solid #d9e2e6;
+}
+
+.si-tabs--scrollable {
+  overflow-x: auto;
+}
+
+.si-tabs--fixed .si-tabs__tab {
+  flex: 1;
+}
+
+.si-tabs__tab {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #45636d;
+  padding: 12px 16px;
+  font: 600 15px/1.2 'Republika', Arial, sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  position: relative;
+}
+
+.si-tabs--underline .si-tabs__tab--selected {
+  color: #3c7b94;
+}
+
+.si-tabs--underline .si-tabs__tab--selected::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: -1px;
+  height: 2px;
+  background: #3c7b94;
+}
+
+.si-tabs--filled {
+  border-bottom: 0;
+  gap: 6px;
+  padding: 4px;
+  background: #e6e7e9;
+  border-radius: 10px;
+}
+
+.si-tabs--filled .si-tabs__tab {
+  border-radius: 8px;
+}
+
+.si-tabs--filled .si-tabs__tab--selected {
+  background: #ffffff;
+  color: #0b3a4a;
+  box-shadow: 0 1px 3px rgba(11, 58, 74, 0.12);
+}
