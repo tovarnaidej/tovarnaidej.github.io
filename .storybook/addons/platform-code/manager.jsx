@@ -81,6 +81,10 @@ import {
   SWITCH_PLATFORMS,
   buildSwitchSnippet,
 } from '../../../stories/code-snippets/switch.js';
+import {
+  PHONE_INPUT_PLATFORMS,
+  buildPhoneInputSnippet,
+} from '../../../stories/code-snippets/phone-input.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -105,6 +109,7 @@ const snippetBuilders = {
   checkbox: buildCheckboxSnippet,
   'pass-login': buildPassLoginSnippet,
   switch: buildSwitchSnippet,
+  'phone-input': buildPhoneInputSnippet,
 };
 
 const platformsByComponent = {
@@ -126,6 +131,7 @@ const platformsByComponent = {
   checkbox: CHECKBOX_PLATFORMS,
   'pass-login': PASS_LOGIN_PLATFORMS,
   switch: SWITCH_PLATFORMS,
+  'phone-input': PHONE_INPUT_PLATFORMS,
 };
 
 const emptyMessage =

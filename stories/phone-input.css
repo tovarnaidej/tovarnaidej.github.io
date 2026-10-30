@@ -1,0 +1,59 @@
+.si-phone-input {
+  box-sizing: border-box;
+  width: 320px;
+  font-family: 'Republika', Arial, sans-serif;
+  color: #0b3a4a;
+}
+
+.si-phone-input__label {
+  display: block;
+  margin-bottom: 6px;
+  font: 600 13px/1.2 'Republika', Arial, sans-serif;
+  color: #45636d;
+}
+
+.si-phone-input__row {
+  display: flex;
+  gap: 8px;
+}
+
+.si-phone-input__country,
+.si-phone-input__field {
+  box-sizing: border-box;
+  height: 48px;
+  border: 1px solid #c5d4da;
+  border-radius: 8px;
+  background: #ffffff;
+  font: 400 16px/1 'Republika', Arial, sans-serif;
+  color: #0b3a4a;
+}
+
+.si-phone-input__country {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+.si-phone-input__field {
+  flex: 1;
+  padding: 0 14px;
+  outline: none;
+}
+
+.si-phone-input--error .si-phone-input__country,
+.si-phone-input--error .si-phone-input__field {
+  border-color: #b3261e;
+}
+
+.si-phone-input__error {
+  margin-top: 6px;
+  color: #b3261e;
+  font: 400 13px/1.3 'Republika', Arial, sans-serif;
+}
+
+.si-phone-input--disabled {
+  opacity: 0.38;
+  pointer-events: none;
+}
