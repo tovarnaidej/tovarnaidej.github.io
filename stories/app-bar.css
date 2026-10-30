@@ -1,0 +1,61 @@
+.si-app-bar {
+  box-sizing: border-box;
+  width: 360px;
+  font-family: 'Republika', Arial, sans-serif;
+}
+
+.si-app-bar--light {
+  background: #ffffff;
+  color: #0b3a4a;
+}
+
+.si-app-bar--primary {
+  background: #3c7b94;
+  color: #ffffff;
+}
+
+.si-app-bar__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 56px;
+  padding: 0 8px;
+}
+
+.si-app-bar--medium .si-app-bar__row {
+  min-height: 64px;
+}
+
+.si-app-bar--large .si-app-bar__row {
+  min-height: 88px;
+  align-items: flex-end;
+  padding-bottom: 12px;
+}
+
+.si-app-bar__title {
+  flex: 1;
+  font: 700 18px/1.2 'Republika', Arial, sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.si-app-bar--large .si-app-bar__title {
+  font-size: 28px;
+}
+
+.si-app-bar__actions {
+  display: flex;
+  gap: 4px;
+}
+
+.si-app-bar__icon {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 20px;
+  background: transparent;
+  color: inherit;
+  font-size: 20px;
+  cursor: pointer;
+}
