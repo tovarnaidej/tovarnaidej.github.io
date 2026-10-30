@@ -1,0 +1,61 @@
+.si-accordion {
+  box-sizing: border-box;
+  width: 320px;
+  font-family: 'Republika', Arial, sans-serif;
+  background: transparent;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.si-accordion--outlined {
+  border: 1px solid #c5d4da;
+  background: #ffffff;
+}
+
+.si-accordion--filled {
+  background: #d9e8ee;
+}
+
+.si-accordion__header {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 0;
+  background: transparent;
+  color: #0b3a4a;
+  font: 700 16px/1.25 'Republika', Arial, sans-serif;
+  text-align: left;
+  cursor: pointer;
+  appearance: none;
+}
+
+.si-accordion__chevron {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #3c7b94;
+  border-bottom: 2px solid #3c7b94;
+  transform: rotate(45deg);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.si-accordion--expanded .si-accordion__chevron {
+  transform: rotate(-135deg);
+}
+
+.si-accordion__body {
+  margin: 0;
+  padding: 0 16px 12px;
+  list-style: none;
+}
+
+.si-accordion__item {
+  padding: 10px 0;
+  border-top: 1px solid #d9e2e6;
+  color: #45636d;
+  font: 400 15px/1.35 'Republika', Arial, sans-serif;
+}

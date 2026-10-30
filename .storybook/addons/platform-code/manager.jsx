@@ -25,6 +25,10 @@ import {
   FILTER_PLATFORMS,
   buildFilterSnippet,
 } from '../../../stories/code-snippets/filter.js';
+import {
+  ACCORDION_PLATFORMS,
+  buildAccordionSnippet,
+} from '../../../stories/code-snippets/accordion.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -35,6 +39,7 @@ const snippetBuilders = {
   avatar: buildAvatarSnippet,
   'range-bar': buildRangeBarSnippet,
   filter: buildFilterSnippet,
+  accordion: buildAccordionSnippet,
 };
 
 const platformsByComponent = {
@@ -42,6 +47,7 @@ const platformsByComponent = {
   avatar: AVATAR_PLATFORMS,
   'range-bar': RANGE_BAR_PLATFORMS,
   filter: FILTER_PLATFORMS,
+  accordion: ACCORDION_PLATFORMS,
 };
 
 const emptyMessage =
