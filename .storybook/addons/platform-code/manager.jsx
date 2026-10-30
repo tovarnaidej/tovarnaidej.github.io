@@ -97,6 +97,10 @@ import {
   PROGRESS_BAR_PLATFORMS,
   buildProgressBarSnippet,
 } from '../../../stories/code-snippets/progress-bar.js';
+import {
+  TAB_BAR_PLATFORMS,
+  buildTabBarSnippet,
+} from '../../../stories/code-snippets/tab-bar.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -125,6 +129,7 @@ const snippetBuilders = {
   'calendar-input': buildCalendarInputSnippet,
   input: buildInputSnippet,
   'progress-bar': buildProgressBarSnippet,
+  'tab-bar': buildTabBarSnippet,
 };
 
 const platformsByComponent = {
@@ -150,6 +155,7 @@ const platformsByComponent = {
   'calendar-input': CALENDAR_INPUT_PLATFORMS,
   input: INPUT_PLATFORMS,
   'progress-bar': PROGRESS_BAR_PLATFORMS,
+  'tab-bar': TAB_BAR_PLATFORMS,
 };
 
 const emptyMessage =
