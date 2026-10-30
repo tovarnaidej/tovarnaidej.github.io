@@ -49,6 +49,10 @@ import {
   CALENDAR_PLATFORMS,
   buildCalendarSnippet,
 } from '../../../stories/code-snippets/calendar.js';
+import {
+  DIVIDER_PLATFORMS,
+  buildDividerSnippet,
+} from '../../../stories/code-snippets/divider.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -65,6 +69,7 @@ const snippetBuilders = {
   radio: buildRadioSnippet,
   card: buildCardSnippet,
   calendar: buildCalendarSnippet,
+  divider: buildDividerSnippet,
 };
 
 const platformsByComponent = {
@@ -78,6 +83,7 @@ const platformsByComponent = {
   radio: RADIO_PLATFORMS,
   card: CARD_PLATFORMS,
   calendar: CALENDAR_PLATFORMS,
+  divider: DIVIDER_PLATFORMS,
 };
 
 const emptyMessage =

@@ -1,0 +1,23 @@
+.si-divider {
+  box-sizing: border-box;
+  width: 320px;
+  font-family: 'Republika', Arial, sans-serif;
+}
+
+.si-divider--inset {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.si-divider__label {
+  display: block;
+  margin-bottom: 8px;
+  color: #45636d;
+  font: 600 13px/1.2 'Republika', Arial, sans-serif;
+}
+
+.si-divider__line {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid #c5d4da;
+}
