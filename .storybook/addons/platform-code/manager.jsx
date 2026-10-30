@@ -89,6 +89,10 @@ import {
   CALENDAR_INPUT_PLATFORMS,
   buildCalendarInputSnippet,
 } from '../../../stories/code-snippets/calendar-input.js';
+import {
+  INPUT_PLATFORMS,
+  buildInputSnippet,
+} from '../../../stories/code-snippets/input.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -115,6 +119,7 @@ const snippetBuilders = {
   switch: buildSwitchSnippet,
   'phone-input': buildPhoneInputSnippet,
   'calendar-input': buildCalendarInputSnippet,
+  input: buildInputSnippet,
 };
 
 const platformsByComponent = {
@@ -138,6 +143,7 @@ const platformsByComponent = {
   switch: SWITCH_PLATFORMS,
   'phone-input': PHONE_INPUT_PLATFORMS,
   'calendar-input': CALENDAR_INPUT_PLATFORMS,
+  input: INPUT_PLATFORMS,
 };
 
 const emptyMessage =
