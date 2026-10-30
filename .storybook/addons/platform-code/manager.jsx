@@ -21,6 +21,10 @@ import {
   RANGE_BAR_PLATFORMS,
   buildRangeBarSnippet,
 } from '../../../stories/code-snippets/range-bar.js';
+import {
+  FILTER_PLATFORMS,
+  buildFilterSnippet,
+} from '../../../stories/code-snippets/filter.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -30,12 +34,14 @@ const snippetBuilders = {
   button: buildButtonSnippet,
   avatar: buildAvatarSnippet,
   'range-bar': buildRangeBarSnippet,
+  filter: buildFilterSnippet,
 };
 
 const platformsByComponent = {
   button: BUTTON_PLATFORMS,
   avatar: AVATAR_PLATFORMS,
   'range-bar': RANGE_BAR_PLATFORMS,
+  filter: FILTER_PLATFORMS,
 };
 
 const emptyMessage =

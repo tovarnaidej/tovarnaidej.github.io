@@ -1,0 +1,83 @@
+.si-filter-wrap,
+.si-filter-bar {
+  font-family: 'Republika', Arial, sans-serif;
+}
+
+.si-filter-bar {
+  display: flex;
+  gap: 8px;
+  max-width: 360px;
+}
+
+.si-filter-bar--singleRowScrollable {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.si-filter-bar--multiRowOverflow {
+  flex-wrap: wrap;
+}
+
+.si-filter {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 18px;
+  border: 1px solid #3c7b94;
+  background: #ffffff;
+  color: #0b3a4a;
+  font: 600 14px/1 'Republika', Arial, sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  appearance: none;
+}
+
+.si-filter--filled {
+  background: #3c7b94;
+  color: #ffffff;
+  border-color: #3c7b94;
+}
+
+.si-filter--tonal {
+  background: #d9e8ee;
+  color: #0b3a4a;
+  border-color: transparent;
+}
+
+.si-filter--disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.si-filter__icon {
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+.si-filter__badge {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: #0b3a4a;
+  color: #ffffff;
+  font: 700 11px/18px 'Republika', Arial, sans-serif;
+  text-align: center;
+}
+
+.si-filter--filled .si-filter__badge {
+  background: #ffffff;
+  color: #3c7b94;
+}
+
+.si-filter__dismiss {
+  font-size: 16px;
+  line-height: 1;
+  margin-left: 2px;
+}
