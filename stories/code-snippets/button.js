@@ -1,6 +1,6 @@
 /**
- * Args-driven insert snippets for WebButton / mobile SIButton.
- * Mobile fields: mobileType, mobileSize; enabled follows state !== 'disabled'.
+ * Args-driven insert snippets for mobile SIButton.
+ * Fields: label, variant, size, state, leadingIcon.
  */
 
 const escapeJsString = (value) =>
@@ -9,11 +9,11 @@ const escapeJsString = (value) =>
 const escapeDoubleQuoted = (value) =>
   String(value ?? '').replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 
-const mobileEnabled = (args) => args?.state !== 'disabled';
+const buttonEnabled = (args) => args?.state !== 'disabled';
 
-const mobileType = (args) => args?.mobileType || 'filled';
+const buttonVariant = (args) => args?.variant || 'filled';
 
-const mobileSize = (args) => args?.mobileSize || 'regular';
+const buttonSize = (args) => args?.size || 'regular';
 
 const androidStyle = (type) => {
   const map = {
@@ -29,50 +29,18 @@ const androidStyle = (type) => {
  * @param {Record<string, unknown>} args
  * @returns {string}
  */
-export function buildReactSnippet(args = {}) {
-  const label = args.label ?? 'Nadaljuj';
-  const hierarchy = args.hierarchy ?? 'primary';
-  const size = args.size ?? 'medium';
-  const leadingIcon = Boolean(args.leadingIcon);
-  const trailingIcon = Boolean(args.trailingIcon);
-  const fullWidth = Boolean(args.fullWidth);
-  const lines = [
-    '<WebButton',
-    `  label="${escapeDoubleQuoted(label)}"`,
-    `  hierarchy="${hierarchy}"`,
-    `  size="${size}"`,
-  ];
-
-  if (args.state === 'disabled') {
-    lines.push('  state="disabled"');
-  }
-
-  lines.push(
-    `  leadingIcon={${leadingIcon}}`,
-    `  trailingIcon={${trailingIcon}}`,
-    `  fullWidth={${fullWidth}}`,
-    '/>',
-  );
-
-  return lines.join('\n');
-}
-
-/**
- * @param {Record<string, unknown>} args
- * @returns {string}
- */
 export function buildFlutterSnippet(args = {}) {
-  const label = escapeJsString(args.label ?? 'Nadaljuj');
-  const type = mobileType(args);
-  const size = mobileSize(args);
-  const enabled = mobileEnabled(args);
+  const label = escapeJsString(args.label ?? 'Example Button');
+  const type = buttonVariant(args);
+  const size = buttonSize(args);
+  const enabled = buttonEnabled(args);
   const lines = ['SIButton('];
 
   lines.push(`  label: '${label}',`);
 
   if (args.leadingIcon) {
     lines.push(
-      "  icon: const SIIcon(",
+      '  icon: const SIIcon(',
       "    path: 'icons/plus.svg',",
       "    package: 'si_component_library',",
       '  ),',
@@ -95,10 +63,10 @@ export function buildFlutterSnippet(args = {}) {
  * @returns {string}
  */
 export function buildAndroidSnippet(args = {}) {
-  const label = escapeDoubleQuoted(args.label ?? 'Nadaljuj');
-  const style = androidStyle(mobileType(args));
-  const enabled = mobileEnabled(args);
-  const useCardAction = mobileSize(args) === 'small';
+  const label = escapeDoubleQuoted(args.label ?? 'Example Button');
+  const style = androidStyle(buttonVariant(args));
+  const enabled = buttonEnabled(args);
+  const useCardAction = buttonSize(args) === 'small';
   const lines = [
     'SIButton(context).apply {',
     `    style = SIButtonStyle.${style}`,
@@ -123,10 +91,10 @@ export function buildAndroidSnippet(args = {}) {
  * @returns {string}
  */
 export function buildIosSnippet(args = {}) {
-  const label = escapeDoubleQuoted(args.label ?? 'Nadaljuj');
-  const variant = mobileType(args);
-  const size = mobileSize(args);
-  const enabled = mobileEnabled(args);
+  const label = escapeDoubleQuoted(args.label ?? 'Example Button');
+  const variant = buttonVariant(args);
+  const size = buttonSize(args);
+  const enabled = buttonEnabled(args);
   const usesCompactHeight = size === 'small';
   const lines = [
     'SIButton(',
@@ -150,21 +118,19 @@ export function buildIosSnippet(args = {}) {
 }
 
 /**
- * @param {'react' | 'android' | 'ios' | 'flutter'} platform
+ * @param {'android' | 'ios' | 'flutter'} platform
  * @param {Record<string, unknown>} args
  * @returns {string}
  */
 export function buildButtonSnippet(platform, args) {
   switch (platform) {
-    case 'android':
-      return buildAndroidSnippet(args);
     case 'ios':
       return buildIosSnippet(args);
     case 'flutter':
       return buildFlutterSnippet(args);
-    case 'react':
+    case 'android':
     default:
-      return buildReactSnippet(args);
+      return buildAndroidSnippet(args);
   }
 }
 
@@ -172,7 +138,6 @@ export function buildButtonSnippet(platform, args) {
 // typescript, …). kotlin/swift/dart are unsupported and render as plain
 // black text — map them to typescript for the same colored theme.
 export const BUTTON_PLATFORMS = [
-  { id: 'react', label: 'React', language: 'jsx' },
   { id: 'android', label: 'Android', language: 'typescript' },
   { id: 'ios', label: 'iOS', language: 'typescript' },
   { id: 'flutter', label: 'Flutter', language: 'typescript' },

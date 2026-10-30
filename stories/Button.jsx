@@ -23,6 +23,7 @@ const getIcon = (variant, state) => {
 export const Button = ({
   label = 'Example Button',
   variant = 'filled',
+  size = 'regular',
   state = 'enabled',
   leadingIcon = false,
   disabled = false,
@@ -35,6 +36,7 @@ export const Button = ({
   const classes = [
     'storybook-button',
     `storybook-button--${normalizedVariant}`,
+    `storybook-button--${size}`,
     `storybook-button--${normalizedState}`,
     leadingIcon ? 'storybook-button--with-icon' : '',
     className,
@@ -68,6 +70,7 @@ export const Button = ({
 Button.propTypes = {
   label: PropTypes.string,
   variant: PropTypes.oneOf(['filled', 'elevated', 'outline', 'text', 'solid', 'ghost']),
+  size: PropTypes.oneOf(['regular', 'small']),
   state: PropTypes.oneOf(['enabled', 'pressed', 'disabled']),
   leadingIcon: PropTypes.bool,
   disabled: PropTypes.bool,

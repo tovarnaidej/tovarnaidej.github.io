@@ -67,6 +67,7 @@
       ['Interactions', 'Interakcije'],
       ['Visual tests', 'Vizualni testi'],
       ['Accessibility', 'Dostopnost'],
+      ['HTML', 'Koda'],
       ['Copy', 'Kopiraj'],
       ['Copied', 'Kopirano'],
       ['Name', 'Ime'],
@@ -87,8 +88,6 @@
       ['onClick', 'Ob kliku'],
       ['hierarchy', 'Hierarhija'],
       ['size', 'Velikost'],
-      ['mobileType', 'Slog (mobile)'],
-      ['mobileSize', 'Velikost (mobile)'],
       ['filled', 'Polni'],
       ['elevated', 'Dvignjeni'],
       ['regular', 'Običajna'],
@@ -112,8 +111,12 @@
       Match labels with startsWith — Storybook badges concatenate
       ("Nastavitve15"), so exact equality fails and used to leave
       Interactions selected while its tab was display:none.
+
+      Koda is mutual-exclusive:
+      - Gradniki - mobile → platform panel (title "Koda")
+      - everything else → HTML panel (translated to "Koda")
     */
-    const hiddenPanelLabels = [
+    const alwaysHiddenPanelLabels = [
       'Actions',
       'Dejanja',
       'Interactions',
@@ -121,11 +124,11 @@
       'Visual tests',
       'Vizualni testi',
       'Code',
-      'HTML',
     ];
     const preferredPanelLabels = [
       'Controls',
       'Nastavitve',
+      'HTML',
       'Koda',
       'Accessibility',
       'Dostopnost',
@@ -136,6 +139,11 @@
     const labelMatches = (text, labels) =>
       labels.some((label) => text === label || text.startsWith(label));
 
+    const isMobileStory = () =>
+      /gradniki-mobile/i.test(
+        `${window.location.pathname}${window.location.search}${window.location.hash}`,
+      );
+
     const getMainPanelTabList = () => {
       const root = document.querySelector('#storybook-panel-root');
       if (!root) return null;
@@ -143,16 +151,54 @@
       return root.querySelector('[role="tablist"]');
     };
 
+    const tagPanelKind = (tab) => {
+      if (tab.dataset.msPanelKind) return tab.dataset.msPanelKind;
+      const label = tabLabel(tab);
+      if (label === 'HTML' || label.startsWith('HTML')) {
+        tab.dataset.msPanelKind = 'html';
+      } else if (label === 'Koda' || label.startsWith('Koda')) {
+        // Platform panel is registered as "Koda"; HTML is still "HTML"
+        // when we first see it (before translation).
+        tab.dataset.msPanelKind = 'platform';
+      } else if (labelMatches(label, ['Controls', 'Nastavitve'])) {
+        tab.dataset.msPanelKind = 'controls';
+      } else if (labelMatches(label, ['Accessibility', 'Dostopnost'])) {
+        tab.dataset.msPanelKind = 'a11y';
+      } else {
+        tab.dataset.msPanelKind = 'other';
+      }
+      return tab.dataset.msPanelKind;
+    };
+
     const ensurePreferredPanel = (tabList) => {
       if (!tabList) return;
-      const tabs = [...tabList.querySelectorAll(':scope > [role="tab"], :scope [role="tab"]')];
+      const mobile = isMobileStory();
+      const tabs = [...tabList.querySelectorAll(':scope > [role="tab"]')];
+      if (!tabs.length) {
+        // Fallback if Storybook nests tabs without :scope >.
+        tabs.push(...tabList.querySelectorAll('[role="tab"]'));
+      }
+
       const visible = tabs.filter((tab) => {
         const label = tabLabel(tab);
-        if (labelMatches(label, hiddenPanelLabels)) {
+        const kind = tagPanelKind(tab);
+
+        if (labelMatches(label, alwaysHiddenPanelLabels)) {
           tab.style.display = 'none';
           return false;
         }
-        if (labelMatches(label, keptPanelLabels)) {
+
+        if (mobile) {
+          if (kind === 'html') {
+            tab.style.display = 'none';
+            return false;
+          }
+        } else if (kind === 'platform') {
+          tab.style.display = 'none';
+          return false;
+        }
+
+        if (labelMatches(label, keptPanelLabels) || kind === 'html' || kind === 'platform') {
           tab.style.display = '';
           return true;
         }
@@ -163,7 +209,7 @@
       const selectedHidden =
         selected &&
         (getComputedStyle(selected).display === 'none' ||
-          labelMatches(tabLabel(selected), hiddenPanelLabels));
+          labelMatches(tabLabel(selected), alwaysHiddenPanelLabels));
 
       if (selectedHidden || !selected) {
         const next =

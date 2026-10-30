@@ -27,7 +27,7 @@ const platformsByComponent = {
 };
 
 const emptyMessage =
-  'Za to zgodbo ni generatorja kode. Odpri story z konfiguratorjem (npr. Primarni gumb).';
+  'Za to zgodbo ni generatorja kode. Odpri mobilni gradnik z konfiguratorjem (npr. Gradniki - mobile / Gumb).';
 
 function PlatformCodePanel({ active }) {
   const [args] = useArgs();
@@ -35,17 +35,14 @@ function PlatformCodePanel({ active }) {
   const component = platformCode?.component;
   const platforms = platformsByComponent[component] || [];
   const [state, setState] = useAddonState(ADDON_ID, {
-    platform: 'react',
+    platform: 'android',
   });
   const [copied, setCopied] = useState(false);
 
   const platformId =
     platforms.some((item) => item.id === state.platform)
       ? state.platform
-      : platforms[0]?.id || 'react';
-
-  const activePlatform =
-    platforms.find((item) => item.id === platformId) || platforms[0];
+      : platforms[0]?.id || 'android';
 
   const code = useMemo(() => {
     if (!component || !snippetBuilders[component]) {
@@ -113,9 +110,7 @@ function PlatformCodePanel({ active }) {
           <SyntaxHighlighter
             // Storybook Prism ships jsx/tsx/typescript/… but not
             // kotlin/swift/dart — those fall back to uncolored text.
-            language={
-              activePlatform?.id === 'react' ? 'jsx' : 'typescript'
-            }
+            language="typescript"
             copyable={false}
             padded
             format={false}

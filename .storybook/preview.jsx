@@ -20,7 +20,7 @@ const preview = {
     },
     options: {
       storySort: {
-        order: ['Gradniki', 'Dokumentacija', 'Primeri'],
+        order: ['Gradniki', 'Gradniki - mobile', 'Dokumentacija', 'Primeri'],
       },
     },
   },

@@ -26,6 +26,13 @@
   appearance: none;
 }
 
+.storybook-button--small {
+  height: 40px;
+  padding: 8px 12px;
+  font-size: 15px;
+  line-height: 18px;
+}
+
 .storybook-button--filled,
 .storybook-button--elevated {
   color: #ffffff;
