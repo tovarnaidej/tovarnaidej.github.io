@@ -69,6 +69,10 @@ import {
   POPUP_PLATFORMS,
   buildPopupSnippet,
 } from '../../../stories/code-snippets/popup.js';
+import {
+  CHECKBOX_PLATFORMS,
+  buildCheckboxSnippet,
+} from '../../../stories/code-snippets/checkbox.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -90,6 +94,7 @@ const snippetBuilders = {
   action: buildActionSnippet,
   alert: buildAlertSnippet,
   popup: buildPopupSnippet,
+  checkbox: buildCheckboxSnippet,
 };
 
 const platformsByComponent = {
@@ -108,6 +113,7 @@ const platformsByComponent = {
   action: ACTION_PLATFORMS,
   alert: ALERT_PLATFORMS,
   popup: POPUP_PLATFORMS,
+  checkbox: CHECKBOX_PLATFORMS,
 };
 
 const emptyMessage =
