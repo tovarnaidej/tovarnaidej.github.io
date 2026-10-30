@@ -17,6 +17,10 @@ import {
   AVATAR_PLATFORMS,
   buildAvatarSnippet,
 } from '../../../stories/code-snippets/avatar.js';
+import {
+  RANGE_BAR_PLATFORMS,
+  buildRangeBarSnippet,
+} from '../../../stories/code-snippets/range-bar.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -25,11 +29,13 @@ const PARAM_KEY = 'platformCode';
 const snippetBuilders = {
   button: buildButtonSnippet,
   avatar: buildAvatarSnippet,
+  'range-bar': buildRangeBarSnippet,
 };
 
 const platformsByComponent = {
   button: BUTTON_PLATFORMS,
   avatar: AVATAR_PLATFORMS,
+  'range-bar': RANGE_BAR_PLATFORMS,
 };
 
 const emptyMessage =

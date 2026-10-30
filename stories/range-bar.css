@@ -1,0 +1,48 @@
+.si-range-bar {
+  box-sizing: border-box;
+  width: 280px;
+  font-family: 'Republika', Arial, sans-serif;
+}
+
+.si-range-bar__track {
+  position: relative;
+  height: 4px;
+  margin: 14px 8px;
+  border-radius: 2px;
+  background: #c5d4da;
+}
+
+.si-range-bar__fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 2px;
+  background: #3c7b94;
+}
+
+.si-range-bar__thumb {
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  border-radius: 50%;
+  background: #3c7b94;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(11, 58, 74, 0.28);
+  transform: translateY(-50%);
+}
+
+.si-range-bar__ticks {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8px;
+}
+
+.si-range-bar__tick {
+  width: 2px;
+  height: 8px;
+  background: #949598;
+  border-radius: 1px;
+}
