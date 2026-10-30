@@ -1,0 +1,52 @@
+.si-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: 'Republika', Arial, sans-serif;
+}
+
+.si-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: #0b3a4a;
+  font: 400 16px/1.25 'Republika', Arial, sans-serif;
+}
+
+.si-radio input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.si-radio__control {
+  box-sizing: border-box;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #3c7b94;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.si-radio input:checked + .si-radio__control::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: #3c7b94;
+}
+
+.si-radio-group--error .si-radio__control {
+  border-color: #b3261e;
+}
+
+.si-radio-group--error .si-radio input:checked + .si-radio__control::after {
+  background: #b3261e;
+}
+
+.si-radio-group--disabled {
+  opacity: 0.38;
+  pointer-events: none;
+}

@@ -37,6 +37,10 @@ import {
   SEARCH_BAR_PLATFORMS,
   buildSearchBarSnippet,
 } from '../../../stories/code-snippets/search-bar.js';
+import {
+  RADIO_PLATFORMS,
+  buildRadioSnippet,
+} from '../../../stories/code-snippets/radio.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -50,6 +54,7 @@ const snippetBuilders = {
   accordion: buildAccordionSnippet,
   'loading-bar': buildLoadingBarSnippet,
   'search-bar': buildSearchBarSnippet,
+  radio: buildRadioSnippet,
 };
 
 const platformsByComponent = {
@@ -60,6 +65,7 @@ const platformsByComponent = {
   accordion: ACCORDION_PLATFORMS,
   'loading-bar': LOADING_BAR_PLATFORMS,
   'search-bar': SEARCH_BAR_PLATFORMS,
+  radio: RADIO_PLATFORMS,
 };
 
 const emptyMessage =
