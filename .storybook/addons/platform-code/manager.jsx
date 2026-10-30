@@ -111,7 +111,11 @@ function PlatformCodePanel({ active }) {
         </div>
         <div style={styles.codeWrap}>
           <SyntaxHighlighter
-            language={activePlatform?.language || 'jsx'}
+            // Storybook Prism ships jsx/tsx/typescript/… but not
+            // kotlin/swift/dart — those fall back to uncolored text.
+            language={
+              activePlatform?.id === 'react' ? 'jsx' : 'typescript'
+            }
             copyable={false}
             padded
             format={false}

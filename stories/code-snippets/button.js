@@ -168,9 +168,12 @@ export function buildButtonSnippet(platform, args) {
   }
 }
 
+// Storybook SyntaxHighlighter ships only a few Prism langs (jsx, tsx,
+// typescript, …). kotlin/swift/dart are unsupported and render as plain
+// black text — map them to typescript for the same colored theme.
 export const BUTTON_PLATFORMS = [
   { id: 'react', label: 'React', language: 'jsx' },
-  { id: 'android', label: 'Android', language: 'kotlin' },
-  { id: 'ios', label: 'iOS', language: 'swift' },
-  { id: 'flutter', label: 'Flutter', language: 'dart' },
+  { id: 'android', label: 'Android', language: 'typescript' },
+  { id: 'ios', label: 'iOS', language: 'typescript' },
+  { id: 'flutter', label: 'Flutter', language: 'typescript' },
 ];
