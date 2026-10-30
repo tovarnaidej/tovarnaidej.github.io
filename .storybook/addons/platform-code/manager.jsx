@@ -73,6 +73,10 @@ import {
   CHECKBOX_PLATFORMS,
   buildCheckboxSnippet,
 } from '../../../stories/code-snippets/checkbox.js';
+import {
+  PASS_LOGIN_PLATFORMS,
+  buildPassLoginSnippet,
+} from '../../../stories/code-snippets/pass-login.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -95,6 +99,7 @@ const snippetBuilders = {
   alert: buildAlertSnippet,
   popup: buildPopupSnippet,
   checkbox: buildCheckboxSnippet,
+  'pass-login': buildPassLoginSnippet,
 };
 
 const platformsByComponent = {
@@ -114,6 +119,7 @@ const platformsByComponent = {
   alert: ALERT_PLATFORMS,
   popup: POPUP_PLATFORMS,
   checkbox: CHECKBOX_PLATFORMS,
+  'pass-login': PASS_LOGIN_PLATFORMS,
 };
 
 const emptyMessage =

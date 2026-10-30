@@ -1,0 +1,55 @@
+.si-pass-login {
+  box-sizing: border-box;
+  width: 320px;
+  padding: 28px 24px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(11, 58, 74, 0.14);
+  text-align: center;
+  font-family: 'Republika', Arial, sans-serif;
+  color: #0b3a4a;
+}
+
+.si-pass-login__logo {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  border-radius: 14px;
+  background: #3c7b94;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 18px/1 'Republika', Arial, sans-serif;
+}
+
+.si-pass-login__title {
+  margin: 0;
+  font: 700 20px/1.25 'Republika', Arial, sans-serif;
+}
+
+.si-pass-login__text {
+  margin: 10px 0 20px;
+  color: #45636d;
+  font: 400 15px/1.4 'Republika', Arial, sans-serif;
+}
+
+.si-pass-login__primary {
+  width: 100%;
+  height: 48px;
+  border: 0;
+  border-radius: 8px;
+  background: #3c7b94;
+  color: #ffffff;
+  font: 700 17px/1 'Republika', Arial, sans-serif;
+  cursor: pointer;
+}
+
+.si-pass-login__link {
+  margin-top: 12px;
+  border: 0;
+  background: transparent;
+  color: #3c7b94;
+  font: 600 14px/1 'Republika', Arial, sans-serif;
+  cursor: pointer;
+}
