@@ -29,6 +29,10 @@ import {
   ACCORDION_PLATFORMS,
   buildAccordionSnippet,
 } from '../../../stories/code-snippets/accordion.js';
+import {
+  LOADING_BAR_PLATFORMS,
+  buildLoadingBarSnippet,
+} from '../../../stories/code-snippets/loading-bar.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -40,6 +44,7 @@ const snippetBuilders = {
   'range-bar': buildRangeBarSnippet,
   filter: buildFilterSnippet,
   accordion: buildAccordionSnippet,
+  'loading-bar': buildLoadingBarSnippet,
 };
 
 const platformsByComponent = {
@@ -48,6 +53,7 @@ const platformsByComponent = {
   'range-bar': RANGE_BAR_PLATFORMS,
   filter: FILTER_PLATFORMS,
   accordion: ACCORDION_PLATFORMS,
+  'loading-bar': LOADING_BAR_PLATFORMS,
 };
 
 const emptyMessage =
