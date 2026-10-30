@@ -101,6 +101,10 @@ import {
   TAB_BAR_PLATFORMS,
   buildTabBarSnippet,
 } from '../../../stories/code-snippets/tab-bar.js';
+import {
+  STATUS_SCREEN_PLATFORMS,
+  buildStatusScreenSnippet,
+} from '../../../stories/code-snippets/status-screen.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -130,6 +134,7 @@ const snippetBuilders = {
   input: buildInputSnippet,
   'progress-bar': buildProgressBarSnippet,
   'tab-bar': buildTabBarSnippet,
+  'status-screen': buildStatusScreenSnippet,
 };
 
 const platformsByComponent = {
@@ -156,6 +161,7 @@ const platformsByComponent = {
   input: INPUT_PLATFORMS,
   'progress-bar': PROGRESS_BAR_PLATFORMS,
   'tab-bar': TAB_BAR_PLATFORMS,
+  'status-screen': STATUS_SCREEN_PLATFORMS,
 };
 
 const emptyMessage =
