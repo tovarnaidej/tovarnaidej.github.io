@@ -1,0 +1,49 @@
+.si-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Republika', Arial, sans-serif;
+  color: #0b3a4a;
+}
+
+.si-switch__track {
+  box-sizing: border-box;
+  width: 52px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
+  background: #c5d4da;
+  position: relative;
+  cursor: pointer;
+  appearance: none;
+}
+
+.si-switch--on .si-switch__track {
+  background: #3c7b94;
+}
+
+.si-switch__thumb {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(11, 58, 74, 0.25);
+  transition: left 0.15s ease;
+}
+
+.si-switch--on .si-switch__thumb {
+  left: 24px;
+}
+
+.si-switch__label {
+  font: 400 16px/1.25 'Republika', Arial, sans-serif;
+}
+
+.si-switch--disabled {
+  opacity: 0.38;
+  pointer-events: none;
+}
