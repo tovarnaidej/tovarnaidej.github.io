@@ -61,6 +61,10 @@ import {
   ACTION_PLATFORMS,
   buildActionSnippet,
 } from '../../../stories/code-snippets/action.js';
+import {
+  ALERT_PLATFORMS,
+  buildAlertSnippet,
+} from '../../../stories/code-snippets/alert.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -80,6 +84,7 @@ const snippetBuilders = {
   divider: buildDividerSnippet,
   'app-bar': buildAppBarSnippet,
   action: buildActionSnippet,
+  alert: buildAlertSnippet,
 };
 
 const platformsByComponent = {
@@ -96,6 +101,7 @@ const platformsByComponent = {
   divider: DIVIDER_PLATFORMS,
   'app-bar': APP_BAR_PLATFORMS,
   action: ACTION_PLATFORMS,
+  alert: ALERT_PLATFORMS,
 };
 
 const emptyMessage =
