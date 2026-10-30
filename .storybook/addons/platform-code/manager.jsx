@@ -65,6 +65,10 @@ import {
   ALERT_PLATFORMS,
   buildAlertSnippet,
 } from '../../../stories/code-snippets/alert.js';
+import {
+  POPUP_PLATFORMS,
+  buildPopupSnippet,
+} from '../../../stories/code-snippets/popup.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -85,6 +89,7 @@ const snippetBuilders = {
   'app-bar': buildAppBarSnippet,
   action: buildActionSnippet,
   alert: buildAlertSnippet,
+  popup: buildPopupSnippet,
 };
 
 const platformsByComponent = {
@@ -102,6 +107,7 @@ const platformsByComponent = {
   'app-bar': APP_BAR_PLATFORMS,
   action: ACTION_PLATFORMS,
   alert: ALERT_PLATFORMS,
+  popup: POPUP_PLATFORMS,
 };
 
 const emptyMessage =
