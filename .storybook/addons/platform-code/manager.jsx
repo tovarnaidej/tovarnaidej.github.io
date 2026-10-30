@@ -13,6 +13,10 @@ import {
   BUTTON_PLATFORMS,
   buildButtonSnippet,
 } from '../../../stories/code-snippets/button.js';
+import {
+  AVATAR_PLATFORMS,
+  buildAvatarSnippet,
+} from '../../../stories/code-snippets/avatar.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -20,10 +24,12 @@ const PARAM_KEY = 'platformCode';
 
 const snippetBuilders = {
   button: buildButtonSnippet,
+  avatar: buildAvatarSnippet,
 };
 
 const platformsByComponent = {
   button: BUTTON_PLATFORMS,
+  avatar: AVATAR_PLATFORMS,
 };
 
 const emptyMessage =
