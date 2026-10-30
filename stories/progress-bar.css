@@ -1,0 +1,38 @@
+.si-progress {
+  box-sizing: border-box;
+  width: 280px;
+}
+
+.si-progress--linear {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #c5d4da;
+}
+
+.si-progress__fill {
+  height: 100%;
+  background: #3c7b94;
+}
+
+.si-progress--segmented,
+.si-progress--stepped {
+  display: flex;
+  gap: 6px;
+}
+
+.si-progress__step {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: #c5d4da;
+}
+
+.si-progress--stepped .si-progress__step {
+  height: 10px;
+  border-radius: 5px;
+}
+
+.si-progress__step--done {
+  background: #3c7b94;
+}
