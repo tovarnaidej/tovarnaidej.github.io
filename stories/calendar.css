@@ -1,0 +1,73 @@
+.si-calendar {
+  box-sizing: border-box;
+  width: 320px;
+  padding: 12px;
+  border-radius: 12px;
+  font-family: 'Republika', Arial, sans-serif;
+  background: #ffffff;
+  color: #0b3a4a;
+}
+
+.si-calendar--outlined {
+  border: 1px solid #c5d4da;
+}
+
+.si-calendar--filled {
+  background: #e6e7e9;
+}
+
+.si-calendar--elevated {
+  box-shadow: 0 4px 16px rgba(11, 58, 74, 0.16);
+}
+
+.si-calendar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.si-calendar__month {
+  font: 700 16px/1.25 'Republika', Arial, sans-serif;
+}
+
+.si-calendar__nav {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  color: #3c7b94;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.si-calendar__weekdays,
+.si-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+
+.si-calendar__weekdays {
+  margin-bottom: 6px;
+  color: #949598;
+  font: 600 12px/24px 'Republika', Arial, sans-serif;
+}
+
+.si-calendar__day {
+  height: 36px;
+  border-radius: 18px;
+  font: 400 14px/36px 'Republika', Arial, sans-serif;
+}
+
+.si-calendar__day--selected {
+  background: #3c7b94;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.si-calendar__day--empty {
+  visibility: hidden;
+}

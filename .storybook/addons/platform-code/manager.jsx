@@ -45,6 +45,10 @@ import {
   CARD_PLATFORMS,
   buildCardSnippet,
 } from '../../../stories/code-snippets/card.js';
+import {
+  CALENDAR_PLATFORMS,
+  buildCalendarSnippet,
+} from '../../../stories/code-snippets/calendar.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -60,6 +64,7 @@ const snippetBuilders = {
   'search-bar': buildSearchBarSnippet,
   radio: buildRadioSnippet,
   card: buildCardSnippet,
+  calendar: buildCalendarSnippet,
 };
 
 const platformsByComponent = {
@@ -72,6 +77,7 @@ const platformsByComponent = {
   'search-bar': SEARCH_BAR_PLATFORMS,
   radio: RADIO_PLATFORMS,
   card: CARD_PLATFORMS,
+  calendar: CALENDAR_PLATFORMS,
 };
 
 const emptyMessage =
