@@ -41,6 +41,10 @@ import {
   RADIO_PLATFORMS,
   buildRadioSnippet,
 } from '../../../stories/code-snippets/radio.js';
+import {
+  CARD_PLATFORMS,
+  buildCardSnippet,
+} from '../../../stories/code-snippets/card.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -55,6 +59,7 @@ const snippetBuilders = {
   'loading-bar': buildLoadingBarSnippet,
   'search-bar': buildSearchBarSnippet,
   radio: buildRadioSnippet,
+  card: buildCardSnippet,
 };
 
 const platformsByComponent = {
@@ -66,6 +71,7 @@ const platformsByComponent = {
   'loading-bar': LOADING_BAR_PLATFORMS,
   'search-bar': SEARCH_BAR_PLATFORMS,
   radio: RADIO_PLATFORMS,
+  card: CARD_PLATFORMS,
 };
 
 const emptyMessage =
