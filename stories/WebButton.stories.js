@@ -12,6 +12,8 @@ const hierarchies = ['primary', 'secondary', 'outline', 'text'];
 const sizes = ['small', 'medium', 'large'];
 const states = ['default', 'hover', 'focus', 'pressed', 'disabled'];
 const linkStates = ['default', 'hover', 'focus', 'pressed', 'visited', 'disabled'];
+const mobileTypes = ['filled', 'outline', 'text', 'elevated'];
+const mobileSizes = ['regular', 'small'];
 
 const hierarchyNames = {
   primary: 'Primarni',
@@ -178,14 +180,23 @@ const CompleteCss = () => {
   );
 };
 
+const renderWebButton = (args) => {
+  const { mobileType: _mobileType, mobileSize: _mobileSize, ...buttonArgs } = args;
+  return React.createElement(WebButton, buttonArgs);
+};
+
 export default {
   title: 'Gradniki/Gumb - spletna različica',
   component: WebButton,
+  render: renderWebButton,
   parameters: {
     layout: 'fullscreen',
     design: {
       type: 'figma',
       url: 'https://www.figma.com/design/Ph5kySZOVPpzP6565W17LV/mSlovenija---Design-System--UI-kit-?node-id=3588-2562',
+    },
+    platformCode: {
+      component: 'button',
     },
   },
   tags: ['autodocs'],
@@ -197,16 +208,18 @@ export default {
     leadingIcon: false,
     trailingIcon: false,
     fullWidth: false,
+    mobileType: 'filled',
+    mobileSize: 'regular',
     onClick: fn(),
   },
   argTypes: {
     label: {
       name: 'Besedilo',
-      description: 'Besedilo, prikazano na gumbu.',
+      description: 'Besedilo, prikazano na gumbu (vse platforme).',
     },
     hierarchy: {
-      name: 'Hierarhija',
-      description: 'Vizualna pomembnost spletnega dejanja.',
+      name: 'Hierarhija (web)',
+      description: 'Vizualna pomembnost spletnega dejanja (canvas + React).',
       control: {
         type: 'select',
         labels: {
@@ -219,8 +232,8 @@ export default {
       options: hierarchies,
     },
     size: {
-      name: 'Velikost',
-      description: 'Višina in tipografska velikost gumba.',
+      name: 'Velikost (web)',
+      description: 'Višina in tipografska velikost spletnega gumba.',
       control: {
         type: 'select',
         labels: {
@@ -233,7 +246,7 @@ export default {
     },
     state: {
       name: 'Stanje',
-      description: 'Interakcijsko stanje gumba.',
+      description: 'Interakcijsko stanje. Onemogočen vpliva tudi na mobile snippete.',
       control: {
         type: 'select',
         labels: {
@@ -248,18 +261,44 @@ export default {
     },
     leadingIcon: {
       name: 'Vodilna ikona',
-      description: 'Prikaže ikono pred besedilom.',
+      description: 'Prikaže ikono pred besedilom (vse platforme).',
       control: { type: 'boolean', labels: { true: 'Da', false: 'Ne' } },
     },
     trailingIcon: {
-      name: 'Končna ikona',
-      description: 'Prikaže ikono za besedilom.',
+      name: 'Končna ikona (web)',
+      description: 'Prikaže ikono za besedilom (samo web / React).',
       control: { type: 'boolean', labels: { true: 'Da', false: 'Ne' } },
     },
     fullWidth: {
-      name: 'Polna širina',
-      description: 'Raztegne gumb na širino vsebnika.',
+      name: 'Polna širina (web)',
+      description: 'Raztegne gumb na širino vsebnika (samo web / React).',
       control: { type: 'boolean', labels: { true: 'Da', false: 'Ne' } },
+    },
+    mobileType: {
+      name: 'Slog (mobile)',
+      description: 'SIButton tip za Android / iOS / Flutter snippete.',
+      control: {
+        type: 'select',
+        labels: {
+          filled: 'Polni',
+          outline: 'Obroba',
+          text: 'Besedilni',
+          elevated: 'Dvignjeni',
+        },
+      },
+      options: mobileTypes,
+    },
+    mobileSize: {
+      name: 'Velikost (mobile)',
+      description: 'SIButton velikost za Android / iOS / Flutter (small = in-card).',
+      control: {
+        type: 'select',
+        labels: {
+          regular: 'Običajna',
+          small: 'Majhna',
+        },
+      },
+      options: mobileSizes,
     },
     className: {
       name: 'Razred CSS',
@@ -275,6 +314,10 @@ export default {
 export const Variants = {
   name: 'Vse različice',
   render: renderVariants,
+  parameters: {
+    platformCode: null,
+    controls: { disable: true },
+  },
 };
 
 export const Primary = {
@@ -307,6 +350,10 @@ export const Sizes = {
       style: { marginRight: 20 },
     })),
   ),
+  parameters: {
+    platformCode: null,
+    controls: { disable: true },
+  },
 };
 
 export const Disabled = {
@@ -318,6 +365,7 @@ export const LinkActionCategory = {
   name: 'Povezava - akcija',
   render: renderLinkVariants,
   parameters: {
+    platformCode: null,
     design: {
       type: 'figma',
       url: 'https://www.figma.com/design/Ph5kySZOVPpzP6565W17LV/mSlovenija---Design-System--UI-kit-?node-id=3598-5861',
@@ -329,6 +377,7 @@ export const DownloadCategory = {
   name: 'Prenos',
   render: renderDownloadVariants,
   parameters: {
+    platformCode: null,
     design: {
       type: 'figma',
       url: 'https://www.figma.com/design/Ph5kySZOVPpzP6565W17LV/mSlovenija---Design-System--UI-kit-?node-id=3598-5935',
@@ -340,6 +389,7 @@ export const Css = {
   name: 'Celoten CSS',
   render: () => React.createElement(CompleteCss),
   parameters: {
+    platformCode: null,
     controls: { disable: true },
     docs: {
       source: {

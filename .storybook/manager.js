@@ -1,5 +1,6 @@
 import { addons } from 'storybook/manager-api';
 
+import './addons/platform-code/manager';
 import brandTheme from './brand-theme';
 
 addons.setConfig({

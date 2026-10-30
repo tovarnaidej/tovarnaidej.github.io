@@ -67,7 +67,6 @@
       ['Interactions', 'Interakcije'],
       ['Visual tests', 'Vizualni testi'],
       ['Accessibility', 'Dostopnost'],
-      ['HTML', 'Koda'],
       ['Copy', 'Kopiraj'],
       ['Copied', 'Kopirano'],
       ['Name', 'Ime'],
@@ -88,7 +87,11 @@
       ['onClick', 'Ob kliku'],
       ['hierarchy', 'Hierarhija'],
       ['size', 'Velikost'],
+      ['mobileType', 'Slog (mobile)'],
+      ['mobileSize', 'Velikost (mobile)'],
       ['filled', 'Polni'],
+      ['elevated', 'Dvignjeni'],
+      ['regular', 'Običajna'],
       ['enabled', 'Omogočen'],
       ['primary', 'Primarni'],
       ['secondary', 'Sekundarni'],
@@ -118,8 +121,15 @@
       'Visual tests',
       'Vizualni testi',
       'Code',
+      'HTML',
     ];
-    const preferredPanelLabels = ['Controls', 'Nastavitve', 'HTML', 'Koda', 'Accessibility', 'Dostopnost'];
+    const preferredPanelLabels = [
+      'Controls',
+      'Nastavitve',
+      'Koda',
+      'Accessibility',
+      'Dostopnost',
+    ];
     const keptPanelLabels = preferredPanelLabels;
 
     const tabLabel = (tab) => (tab?.textContent || '').replace(/\s+/g, ' ').trim();
