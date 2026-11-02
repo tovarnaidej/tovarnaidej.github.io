@@ -1,7 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import arrowLeft from './assets/mobile/app-bar/arrow-left.svg';
+import avatarIcon from './assets/mobile/app-bar/avatar.svg';
+import paperclip from './assets/mobile/app-bar/paperclip.svg';
+import calendarIcon from './assets/mobile/app-bar/calendar.svg';
+import moreVert from './assets/mobile/app-bar/more-vert.svg';
 import './app-bar.css';
+
+const MULTI_ACTIONS = [
+  { src: paperclip, label: 'Priponka' },
+  { src: calendarIcon, label: 'Koledar' },
+  { src: moreVert, label: 'Več' },
+];
 
 export const AppBar = ({
   configuration = 'small',
@@ -11,39 +22,78 @@ export const AppBar = ({
   title = 'Page Title',
   className = '',
 }) => {
-  const classes = [
-    'si-app-bar',
-    `si-app-bar--${configuration}`,
-    `si-app-bar--${style}`,
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  const isStacked = configuration === 'medium' || configuration === 'large';
+  const actionIcons =
+    actions === 'multiple'
+      ? MULTI_ACTIONS
+      : actions === 'single'
+        ? [{ src: avatarIcon, label: 'Profil', size: 36 }]
+        : [];
 
-  const actionCount = actions === 'multiple' ? 2 : actions === 'single' ? 1 : 0;
+  const leadingBtn =
+    leading !== 'none' ? (
+      <button type="button" className="si-app-bar__icon-btn" aria-label="Nazaj">
+        <img src={arrowLeft} alt="" width="24" height="24" />
+      </button>
+    ) : (
+      <span className="si-app-bar__icon-btn si-app-bar__icon-btn--spacer" />
+    );
+
+  const actionsEl = (
+    <div className="si-app-bar__actions">
+      {actionIcons.map((a) => (
+        <button
+          key={a.label}
+          type="button"
+          className="si-app-bar__icon-btn"
+          aria-label={a.label}
+        >
+          <img
+            src={a.src}
+            alt=""
+            width={a.size || 24}
+            height={a.size || 24}
+          />
+        </button>
+      ))}
+      {actionIcons.length === 0 && (
+        <span className="si-app-bar__icon-btn si-app-bar__icon-btn--spacer" />
+      )}
+    </div>
+  );
+
+  const titleCentered =
+    configuration === 'small' &&
+    (actions === 'none' || actions === 'single');
 
   return (
-    <header className={classes}>
-      <div className="si-app-bar__row">
-        {leading !== 'none' && (
-          <button type="button" className="si-app-bar__icon" aria-label="Nazaj">
-            {leading === 'custom' ? '☰' : '‹'}
-          </button>
-        )}
-        <div className="si-app-bar__title">{title}</div>
-        <div className="si-app-bar__actions">
-          {Array.from({ length: actionCount }).map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              className="si-app-bar__icon"
-              aria-label={`Dejanje ${i + 1}`}
-            >
-              ●
-            </button>
-          ))}
+    <header
+      className={[
+        'si-app-bar',
+        `si-app-bar--${configuration}`,
+        `si-app-bar--${style}`,
+        titleCentered ? 'si-app-bar--title-centered' : '',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      {isStacked ? (
+        <>
+          <div className="si-app-bar__top">
+            {leadingBtn}
+            <div className="si-app-bar__top-spacer" />
+            {actionsEl}
+          </div>
+          <div className="si-app-bar__title">{title}</div>
+        </>
+      ) : (
+        <div className="si-app-bar__row">
+          {leadingBtn}
+          <div className="si-app-bar__title">{title}</div>
+          {actionsEl}
         </div>
-      </div>
+      )}
     </header>
   );
 };

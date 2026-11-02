@@ -1,15 +1,130 @@
+import React from 'react';
+
 import { Filter } from './Filter';
+import {
+  MobileShowcase,
+  ShowcaseRow,
+  ShowcaseSection,
+  ShowcaseStack,
+  figmaMobileUrl,
+} from './mobile-showcase';
 
 const types = ['category', 'filters', 'applied', 'sort'];
-const styles = ['outlined', 'filled', 'tonal'];
+const styles = ['outlined', 'filled'];
 const layouts = ['singleRowScrollable', 'multiRowOverflow'];
 const categoryStates = ['unselected', 'selected', 'disabled'];
+
+const renderVariants = () =>
+  React.createElement(
+    MobileShowcase,
+    { title: 'Filter' },
+    React.createElement(
+      ShowcaseSection,
+      { title: 'Filter Chip' },
+      React.createElement(
+        ShowcaseRow,
+        { gap: 33 },
+        React.createElement(Filter, {
+          type: 'category',
+          categoryState: 'unselected',
+        }),
+        React.createElement(Filter, {
+          type: 'category',
+          categoryState: 'selected',
+        }),
+        React.createElement(Filter, {
+          type: 'category',
+          categoryState: 'disabled',
+        }),
+        React.createElement(Filter, {
+          type: 'category',
+          categoryState: 'unselected',
+          leadingIcon: true,
+        }),
+      ),
+    ),
+    React.createElement(
+      ShowcaseSection,
+      { title: 'Filter button' },
+      React.createElement(
+        ShowcaseStack,
+        { gap: 20 },
+        React.createElement(
+          ShowcaseRow,
+          { gap: 30 },
+          React.createElement(Filter, { type: 'filters', style: 'outlined' }),
+          React.createElement(Filter, {
+            type: 'filters',
+            style: 'outlined',
+            showBadge: true,
+          }),
+        ),
+        React.createElement(
+          ShowcaseRow,
+          { gap: 30 },
+          React.createElement(Filter, { type: 'filters', style: 'filled' }),
+          React.createElement(Filter, {
+            type: 'filters',
+            style: 'filled',
+            showBadge: true,
+          }),
+        ),
+      ),
+    ),
+    React.createElement(
+      ShowcaseSection,
+      { title: 'Sort button' },
+      React.createElement(
+        ShowcaseRow,
+        { gap: 30 },
+        React.createElement(Filter, { type: 'sort', style: 'outlined' }),
+        React.createElement(Filter, { type: 'sort', style: 'filled' }),
+      ),
+    ),
+    React.createElement(
+      ShowcaseSection,
+      { title: 'Applied filter' },
+      React.createElement(
+        ShowcaseStack,
+        { gap: 20 },
+        React.createElement(Filter, { type: 'applied', style: 'outlined' }),
+        React.createElement(Filter, { type: 'applied', style: 'filled' }),
+        React.createElement(Filter, {
+          type: 'applied',
+          style: 'outlined',
+          showDismiss: true,
+        }),
+        React.createElement(Filter, {
+          type: 'applied',
+          style: 'filled',
+          showDismiss: true,
+        }),
+      ),
+    ),
+    React.createElement(
+      ShowcaseSection,
+      { title: 'Chip groups' },
+      React.createElement(
+        ShowcaseRow,
+        { gap: 67 },
+        React.createElement(Filter, {
+          previewAsBar: true,
+          layout: 'singleRowScrollable',
+        }),
+        React.createElement(Filter, {
+          previewAsBar: true,
+          layout: 'multiRowOverflow',
+        }),
+      ),
+    ),
+  );
 
 export default {
   title: 'Gradniki - mobile/Filter',
   component: Filter,
   parameters: {
     layout: 'centered',
+    design: { type: 'figma', url: figmaMobileUrl('3911:6495') },
     platformCode: {
       component: 'filter',
     },
@@ -77,7 +192,6 @@ export default {
         labels: {
           outlined: 'Obrobljeno',
           filled: 'Zapolnjeno',
-          tonal: 'Tonsko',
         },
       },
       options: styles,
@@ -106,8 +220,19 @@ export default {
   },
 };
 
+export const Variants = {
+  name: 'Vse različice',
+  render: renderVariants,
+  parameters: { controls: { disable: true }, layout: 'fullscreen' },
+};
+
 export const Default = {
   name: 'Privzeto',
+};
+
+export const Sort = {
+  name: 'Razvrščanje',
+  args: { type: 'sort' },
 };
 
 export const AsBar = {

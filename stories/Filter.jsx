@@ -1,60 +1,92 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import closeWindow from './assets/mobile/filter/close-window.svg';
+import filterDiamond from './assets/mobile/filter/filter-diamond.svg';
+import filterIcon from './assets/mobile/filter/filter.svg';
+import sortIcon from './assets/mobile/filter/sort.svg';
 import './filter.css';
 
-const defaultLabel = (type) => {
-  const map = {
-    category: 'Kategorija',
-    filters: 'Filtri',
-    applied: 'Uporabljeno',
-    sort: 'Razvrščanje',
-  };
-  return map[type] || 'Filter';
+const DEFAULT_LABELS = {
+  category: 'Category',
+  filters: 'Filters',
+  applied: 'Applied filter',
+  sort: 'Sort',
+};
+
+const BAR_CHIP_COUNT = 9;
+
+const joinClasses = (...names) => names.filter(Boolean).join(' ');
+
+/** Glyph from the Figma SVG, painted with currentColor through a mask. */
+const Icon = ({ src, className = '' }) => (
+  <span
+    className={joinClasses('si-filter__icon', className)}
+    style={{ '--si-icon': `url(${JSON.stringify(src)})` }}
+    aria-hidden="true"
+  />
+);
+
+Icon.propTypes = {
+  src: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 const Chip = ({
   type,
   style,
   label,
-  leadingIcon,
-  badgeCount,
-  showDismiss,
-  enabled,
+  leadingIcon = false,
+  badgeCount = null,
+  showDismiss = false,
+  enabled = true,
+  inBar = false,
 }) => {
-  const classes = [
+  const classes = joinClasses(
     'si-filter',
     `si-filter--${type}`,
     `si-filter--${style}`,
+    inBar ? 'si-filter--in-bar' : '',
     !enabled ? 'si-filter--disabled' : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
+  );
 
   return (
     <button type="button" className={classes} disabled={!enabled}>
-      {leadingIcon && <span className="si-filter__icon" aria-hidden="true" />}
-      <span className="si-filter__label">{label || defaultLabel(type)}</span>
-      {type === 'filters' && badgeCount != null && (
-        <span className="si-filter__badge">{badgeCount}</span>
-      )}
-      {type === 'applied' && showDismiss && (
-        <span className="si-filter__dismiss" aria-hidden="true">
-          ×
+      {type === 'category' && leadingIcon && <Icon src={filterDiamond} />}
+      {type === 'filters' && (
+        <span className="si-filter__group">
+          <Icon src={filterIcon} />
+          <span className="si-filter__label">{label}</span>
         </span>
       )}
+      {type === 'sort' && (
+        <span className="si-filter__group">
+          <Icon src={sortIcon} className="si-filter__icon--sort" />
+          <span className="si-filter__label">{label}</span>
+        </span>
+      )}
+      {(type === 'category' || type === 'applied') && (
+        <span className="si-filter__label">{label}</span>
+      )}
+      {type === 'filters' && badgeCount != null && (
+        <span className="si-filter__badge">
+          <span className="si-filter__badge-count">{badgeCount}</span>
+        </span>
+      )}
+      {type === 'applied' && showDismiss && <Icon src={closeWindow} />}
     </button>
   );
 };
 
 Chip.propTypes = {
-  type: PropTypes.string,
-  style: PropTypes.string,
+  type: PropTypes.oneOf(['category', 'filters', 'applied', 'sort']).isRequired,
+  style: PropTypes.oneOf(['outlined', 'filled']).isRequired,
   label: PropTypes.string,
   leadingIcon: PropTypes.bool,
   badgeCount: PropTypes.number,
   showDismiss: PropTypes.bool,
   enabled: PropTypes.bool,
+  inBar: PropTypes.bool,
 };
 
 export const Filter = ({
@@ -69,58 +101,47 @@ export const Filter = ({
   showDismiss = false,
   className = '',
 }) => {
-  let resolvedStyle = style;
-  let enabled = true;
-
-  if (type === 'category') {
-    if (categoryState === 'selected') {
-      resolvedStyle = 'filled';
-    } else if (categoryState === 'disabled') {
-      resolvedStyle = 'outlined';
-      enabled = false;
-    } else {
-      resolvedStyle = 'outlined';
-    }
-  }
-
-  const chipProps = {
-    type,
-    style: resolvedStyle,
-    label: label || defaultLabel(type),
-    leadingIcon: type === 'category' && leadingIcon,
-    badgeCount: type === 'filters' && showBadge ? 3 : null,
-    showDismiss: type === 'applied' && showDismiss,
-    enabled,
-  };
-
-  if (!previewAsBar) {
+  if (previewAsBar) {
     return (
-      <div className={['si-filter-wrap', className].filter(Boolean).join(' ')}>
-        <Chip {...chipProps} />
+      <div
+        className={joinClasses(
+          'si-filter-bar',
+          `si-filter-bar--${layout}`,
+          className,
+        )}
+      >
+        {Array.from({ length: BAR_CHIP_COUNT }, (_, index) => (
+          <Chip
+            key={index}
+            type="category"
+            style="outlined"
+            label="Label"
+            inBar
+          />
+        ))}
       </div>
     );
   }
 
-  const samples = [
-    { ...chipProps, label: 'Kategorija', type: 'category', style: 'filled', enabled: true },
-    { type: 'filters', style: 'outlined', label: 'Filtri', badgeCount: 3, enabled: true },
-    { type: 'applied', style: 'filled', label: 'Uporabljeno', showDismiss: true, enabled: true },
-    { type: 'sort', style: 'outlined', label: 'Razvrščanje', enabled: true },
-  ];
+  let resolvedStyle = style === 'filled' ? 'filled' : 'outlined';
+  let enabled = true;
+
+  if (type === 'category') {
+    resolvedStyle = categoryState === 'selected' ? 'filled' : 'outlined';
+    enabled = categoryState !== 'disabled';
+  }
 
   return (
-    <div
-      className={[
-        'si-filter-bar',
-        `si-filter-bar--${layout}`,
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
-    >
-      {samples.map((item) => (
-        <Chip key={`${item.type}-${item.label}`} {...item} />
-      ))}
+    <div className={joinClasses('si-filter-wrap', className)}>
+      <Chip
+        type={type}
+        style={resolvedStyle}
+        label={label || DEFAULT_LABELS[type]}
+        leadingIcon={type === 'category' && leadingIcon}
+        badgeCount={type === 'filters' && showBadge ? 3 : null}
+        showDismiss={type === 'applied' && showDismiss}
+        enabled={enabled}
+      />
     </div>
   );
 };
@@ -129,7 +150,7 @@ Filter.propTypes = {
   previewAsBar: PropTypes.bool,
   layout: PropTypes.oneOf(['singleRowScrollable', 'multiRowOverflow']),
   type: PropTypes.oneOf(['category', 'filters', 'applied', 'sort']),
-  style: PropTypes.oneOf(['outlined', 'filled', 'tonal']),
+  style: PropTypes.oneOf(['outlined', 'filled']),
   categoryState: PropTypes.oneOf(['unselected', 'selected', 'disabled']),
   label: PropTypes.string,
   leadingIcon: PropTypes.bool,

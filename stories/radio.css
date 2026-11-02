@@ -1,17 +1,21 @@
+/* Figma Radio 3911:6317 — row pad 10, control in 44 tap, gap 8 */
 .si-radio-group {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 20px;
   font-family: 'Republika', Arial, sans-serif;
 }
 
 .si-radio {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  padding: 10px;
   cursor: pointer;
-  color: #0b3a4a;
-  font: 400 16px/1.25 'Republika', Arial, sans-serif;
+  color: #000000;
+  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
 }
 
 .si-radio input {
@@ -22,15 +26,25 @@
 
 .si-radio__control {
   box-sizing: border-box;
-  width: 22px;
-  height: 22px;
-  border: 2px solid #3c7b94;
+  width: 20px;
+  height: 20px;
+  margin: 12px;
   border-radius: 50%;
+  background: #ffffff;
   position: relative;
   flex-shrink: 0;
 }
 
-.si-radio input:checked + .si-radio__control::after {
+.si-radio--ios .si-radio__control {
+  border: 1.5px solid #3c7b94;
+}
+
+.si-radio--android .si-radio__control {
+  border: 2px solid #3c7b94;
+}
+
+.si-radio input:checked + .si-radio__control::after,
+.si-radio--selected .si-radio__control::after {
   content: '';
   position: absolute;
   inset: 4px;
@@ -38,14 +52,28 @@
   background: #3c7b94;
 }
 
+.si-radio__label {
+  font: inherit;
+  white-space: nowrap;
+}
+
+.si-radio--error,
+.si-radio-group--error .si-radio {
+  color: #d32f2f;
+}
+
+.si-radio--error .si-radio__control,
 .si-radio-group--error .si-radio__control {
-  border-color: #b3261e;
+  border-color: #d32f2f;
 }
 
+.si-radio--error input:checked + .si-radio__control::after,
+.si-radio--error.si-radio--selected .si-radio__control::after,
 .si-radio-group--error .si-radio input:checked + .si-radio__control::after {
-  background: #b3261e;
+  background: #d32f2f;
 }
 
+.si-radio--disabled,
 .si-radio-group--disabled {
   opacity: 0.38;
   pointer-events: none;

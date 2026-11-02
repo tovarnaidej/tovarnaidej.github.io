@@ -1,14 +1,16 @@
+/* Figma Vnosna polja 3911:2408 — width 374; iOS hug ~77, Android 56 */
 .si-input {
   box-sizing: border-box;
-  width: 320px;
+  width: 374px;
   font-family: 'Republika', Arial, sans-serif;
-  color: #0b3a4a;
+  color: #000000;
 }
 
 .si-input__label {
   display: block;
-  margin-bottom: 6px;
-  font: 600 13px/1.2 'Republika', Arial, sans-serif;
+  margin-bottom: 4px;
+  font: 400 13px/16px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
   color: #45636d;
 }
 
@@ -21,14 +23,22 @@
 .si-input__field {
   box-sizing: border-box;
   width: 100%;
-  height: 48px;
   padding: 0 14px;
   border: 1px solid #c5d4da;
   border-radius: 8px;
   background: #ffffff;
-  color: #0b3a4a;
-  font: 400 16px/1 'Republika', Arial, sans-serif;
+  color: #000000;
+  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
   outline: none;
+}
+
+.si-input--ios .si-input__field {
+  height: 48px;
+}
+
+.si-input--android .si-input__field {
+  height: 56px;
 }
 
 .si-input--underline .si-input__field {
@@ -44,20 +54,47 @@
   border-color: transparent;
 }
 
+.si-input--focused .si-input__field,
+.si-input__field:focus {
+  border-color: #3c7b94;
+}
+
+.si-input--underline.si-input--focused .si-input__field,
+.si-input--underline .si-input__field:focus {
+  border-bottom-color: #3c7b94;
+  border-bottom-width: 2px;
+}
+
 .si-input--error .si-input__field {
-  border-color: #b3261e;
+  border-color: #d32f2f;
+}
+
+.si-input--underline.si-input--error .si-input__field {
+  border-bottom-color: #d32f2f;
 }
 
 .si-input__icon {
   position: absolute;
   right: 12px;
-  opacity: 0.6;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #949598;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.si-input--underline .si-input__icon {
+  right: 0;
 }
 
 .si-input__error {
   margin-top: 6px;
-  color: #b3261e;
-  font: 400 13px/1.3 'Republika', Arial, sans-serif;
+  color: #d32f2f;
+  font: 400 13px/16px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
 }
 
 .si-input--disabled {

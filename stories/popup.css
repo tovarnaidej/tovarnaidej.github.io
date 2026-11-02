@@ -1,71 +1,165 @@
+/*
+ * Figma 3911:4428 — Pojavno okno (mobile)
+ * Box 328 wide, padding 24 / 16, radius 16. Figma draws the 1px stroke
+ * inside the box; a 1px (transparent) border is therefore always present
+ * and padding is reduced by 1px (23 / 15) so content stays 296 wide and
+ * the icon stays 24px from the top edge.
+ * Elevated shadow = Figma style Shadows/shadow-lg.
+ */
 .si-popup {
   box-sizing: border-box;
   position: relative;
-  width: 300px;
-  padding: 24px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 328px;
+  padding: 23px 15px;
+  border: 1px solid transparent;
   border-radius: 16px;
-  text-align: center;
-  font-family: 'Republika', Arial, sans-serif;
   background: #ffffff;
-  color: #0b3a4a;
+  color: #000000;
+  font-family: 'Republika', Arial, sans-serif;
 }
 
 .si-popup--outlined {
-  border: 1px solid #c5d4da;
+  border-color: #3c7b94;
 }
 
 .si-popup--filled {
-  background: #e6e7e9;
+  border-color: #3c7b94;
+  background: #3c7b94;
+  color: #ffffff;
 }
 
 .si-popup--elevated {
-  box-shadow: 0 8px 28px rgba(11, 58, 74, 0.2);
+  box-shadow:
+    0 12px 16px -4px rgba(16, 24, 40, 0.08),
+    0 4px 6px -2px rgba(16, 24, 40, 0.03);
 }
 
-.si-popup__close {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 32px;
-  height: 32px;
-  border: 0;
-  background: transparent;
-  color: #45636d;
-  font-size: 22px;
-  cursor: pointer;
+.si-popup__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
 }
 
+/* 72×72 circle #EDF5F8 with check-verified.svg (36×36) centered */
 .si-popup__icon {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto 12px;
-  border-radius: 24px;
-  background: #d9e8ee;
-  color: #3c7b94;
   display: flex;
   align-items: center;
   justify-content: center;
-  font: 700 22px/1 'Republika', Arial, sans-serif;
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #edf5f8;
+}
+
+.si-popup__icon img {
+  display: block;
+  width: 36px;
+  height: 36px;
+}
+
+.si-popup__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+}
+
+.si-popup__text {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+  text-align: center;
+  word-break: break-word;
 }
 
 .si-popup__heading {
   margin: 0;
-  font: 700 20px/1.25 'Republika', Arial, sans-serif;
+  font: 700 32px/40px 'Republika', Arial, sans-serif;
+  letter-spacing: 0;
 }
 
 .si-popup__message {
-  margin: 10px 0 18px;
-  color: #45636d;
-  font: 400 15px/1.4 'Republika', Arial, sans-serif;
+  margin: 0;
+  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
 }
 
+/* Primary CTA: full width (296), height 48, radius 8 */
 .si-popup__action {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 48px;
+  padding: 0 24px;
   border: 0;
   border-radius: 8px;
   background: #3c7b94;
   color: #ffffff;
-  font: 700 17px/1 'Republika', Arial, sans-serif;
+  font: 700 17px/25px 'Republika', Arial, sans-serif;
+  letter-spacing: 0;
+  white-space: nowrap;
   cursor: pointer;
+}
+
+.si-popup--filled .si-popup__action {
+  background: #ffffff;
+  color: #3c7b94;
+}
+
+/*
+ * Dismiss: 48×48 touch target, padding 14 → 20×20 close.svg,
+ * 16px from the outer top / right edge (15 + 1px border).
+ */
+.si-popup__close {
+  box-sizing: border-box;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.si-popup__close img {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+/* Filled popup: transparent button with white icon */
+.si-popup--filled .si-popup__close {
+  background: transparent;
+}
+
+.si-popup--filled .si-popup__close img {
+  filter: brightness(0) invert(1);
+}
+
+.si-popup__close:focus-visible,
+.si-popup__action:focus-visible {
+  outline: 2px solid #3c7b94;
+  outline-offset: 2px;
+}
+
+.si-popup--filled .si-popup__close:focus-visible,
+.si-popup--filled .si-popup__action:focus-visible {
+  outline-color: #ffffff;
 }

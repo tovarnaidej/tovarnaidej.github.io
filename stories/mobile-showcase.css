@@ -1,0 +1,119 @@
+/* Shared Gradniki-mobile Storybook showcase chrome (Figma docs frames). */
+
+.mobile-showcase {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: #ffffff;
+  color: #000000;
+  font-family: 'Republika', Arial, sans-serif;
+}
+
+.mobile-showcase--flush {
+  padding: 0;
+  gap: 0;
+}
+
+.mobile-showcase__title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 25px;
+  letter-spacing: 0;
+  color: #0b3a4a;
+}
+
+.mobile-showcase__subtitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #3c7b94;
+}
+
+.mobile-showcase__section {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobile-showcase__section-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 21px;
+  color: #0b3a4a;
+}
+
+.mobile-showcase__platforms {
+  display: flex;
+  align-items: flex-start;
+  gap: 33px;
+}
+
+.mobile-showcase__platform {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.mobile-showcase__platform-label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.1px;
+  color: #3c7b94;
+  text-transform: uppercase;
+}
+
+.mobile-showcase__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobile-showcase__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.mobile-showcase__grid {
+  display: grid;
+  gap: 16px;
+  align-items: start;
+  justify-items: start;
+}
+
+.mobile-showcase__label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #5c6b73;
+}
+
+.mobile-showcase__panel {
+  box-sizing: border-box;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px dashed rgba(60, 123, 148, 0.35);
+  border-radius: 8px;
+}
+
+.mobile-showcase__width {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--ms-width, 360px);
+}
+
+.mobile-showcase__width > * {
+  width: 100%;
+  max-width: 100%;
+}

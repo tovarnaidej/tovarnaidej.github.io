@@ -1,83 +1,178 @@
+/*
+ * Figma 3911:6495 — Filter (mobile)
+ * accent = #3C7B94 (category / filters / sort) · #447972 (applied)
+ *   category  h 36 (32 in a chip group), radius 8, label Medium 15/21
+ *   filters / sort  h 44, radius 8, px 16, gap 8, label Medium 15/21
+ *   applied   h 32, radius 999, label Medium 13/17, letter-spacing -0.2px
+ * outlined: accent stroke + accent text · filled: accent bg + white text
+ */
 .si-filter-wrap,
 .si-filter-bar {
   font-family: 'Republika', Arial, sans-serif;
 }
 
+.si-filter-wrap {
+  display: inline-flex;
+}
+
+/* ---------- chip groups: 360 wide, py 8, gap 8 ---------- */
 .si-filter-bar {
+  box-sizing: border-box;
   display: flex;
+  align-items: center;
   gap: 8px;
-  max-width: 360px;
+  width: 360px;
+  padding: 8px 0;
 }
 
 .si-filter-bar--singleRowScrollable {
   flex-wrap: nowrap;
   overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.si-filter-bar--singleRowScrollable::-webkit-scrollbar {
+  display: none;
 }
 
 .si-filter-bar--multiRowOverflow {
   flex-wrap: wrap;
+  gap: 16px 8px;
+  overflow: hidden;
 }
 
+/* ---------- chip ---------- */
 .si-filter {
+  --si-filter-accent: #3c7b94;
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 36px;
-  padding: 0 12px;
-  border-radius: 18px;
-  border: 1px solid #3c7b94;
-  background: #ffffff;
-  color: #0b3a4a;
-  font: 600 14px/1 'Republika', Arial, sans-serif;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 8px;
+  height: 44px;
+  margin: 0;
+  padding: 0 16px;
+  border: 1px solid var(--si-filter-accent);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--si-filter-accent);
+  font: 500 15px/21px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
   white-space: nowrap;
   cursor: pointer;
   appearance: none;
 }
 
 .si-filter--filled {
-  background: #3c7b94;
+  background: var(--si-filter-accent);
   color: #ffffff;
-  border-color: #3c7b94;
 }
 
-.si-filter--tonal {
-  background: #d9e8ee;
-  color: #0b3a4a;
-  border-color: transparent;
+.si-filter:focus-visible {
+  outline: 2px solid var(--si-filter-accent);
+  outline-offset: 2px;
 }
 
-.si-filter--disabled {
-  opacity: 0.38;
+.si-filter__label {
+  display: block;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+/*
+ * Republika Medium reports font ascent/descent of 100/0 (Regular: 92/26),
+ * which pushes Medium glyphs ~2.5px below their Regular position in the
+ * same line box. Trim to cap height / baseline (same convention as
+ * search.css) so the Medium labels stay centered in the chip.
+ */
+.si-filter__label,
+.si-filter__badge-count {
+  display: block;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+/* filter / sort: icon + label sit in a group, badge is outside of it */
+.si-filter__group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 16×16 glyph painted with currentColor */
+.si-filter__icon {
+  display: block;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  background-color: currentColor;
+  -webkit-mask: var(--si-icon) center / 16px 16px no-repeat;
+  mask: var(--si-icon) center / 16px 16px no-repeat;
+}
+
+/* sort.svg is an 11×11 glyph centered in a 16×16 box */
+.si-filter__icon--sort {
+  -webkit-mask-size: 11px 11px;
+  mask-size: 11px 11px;
+}
+
+/* ---------- category ---------- */
+.si-filter--category {
+  height: 36px;
+  gap: 10px;
+}
+
+.si-filter--category.si-filter--in-bar {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.si-filter--category.si-filter--disabled {
+  border-color: #e6e7e9;
+  background: #e6e7e9;
+  color: #000000;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
-.si-filter__icon {
-  width: 14px;
-  height: 14px;
-  border: 2px solid currentColor;
-  transform: rotate(45deg);
-  border-radius: 2px;
+/* ---------- filters (with count badge) ---------- */
+.si-filter--filters:has(.si-filter__badge) {
+  gap: 10px;
 }
 
+/* 16×16 circle, count 10px Medium */
 .si-filter__badge {
-  min-width: 18px;
-  height: 18px;
-  padding: 0 5px;
-  border-radius: 9px;
-  background: #0b3a4a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--si-filter-accent);
   color: #ffffff;
-  font: 700 11px/18px 'Republika', Arial, sans-serif;
-  text-align: center;
+  font: 500 10px/normal 'Republika', Arial, sans-serif;
+  letter-spacing: 0;
 }
 
 .si-filter--filled .si-filter__badge {
   background: #ffffff;
-  color: #3c7b94;
+  color: var(--si-filter-accent);
 }
 
-.si-filter__dismiss {
-  font-size: 16px;
-  line-height: 1;
-  margin-left: 2px;
+/* ---------- applied ---------- */
+.si-filter--applied {
+  --si-filter-accent: #447972;
+  height: 32px;
+  gap: 2px;
+  border-radius: 999px;
+  font: 500 13px/17px 'Republika', Arial, sans-serif;
+  letter-spacing: -0.2px;
+}
+
+.si-filter--applied.si-filter--filled {
+  border-color: #ffffff;
 }

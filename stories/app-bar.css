@@ -1,12 +1,13 @@
+/* Figma 3911:4056 + TokenAppBar — heights 64/112/152; light #EDF5F8 */
 .si-app-bar {
   box-sizing: border-box;
-  width: 360px;
+  width: 412px;
   font-family: 'Republika', Arial, sans-serif;
 }
 
 .si-app-bar--light {
-  background: #ffffff;
-  color: #0b3a4a;
+  background: #edf5f8;
+  color: #000000;
 }
 
 .si-app-bar--primary {
@@ -14,48 +15,85 @@
   color: #ffffff;
 }
 
-.si-app-bar__row {
+.si-app-bar--small {
+  height: 64px;
+}
+
+.si-app-bar--medium {
+  height: 112px;
+}
+
+.si-app-bar--large {
+  height: 152px;
+}
+
+.si-app-bar__row,
+.si-app-bar__top {
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 56px;
-  padding: 0 8px;
-}
-
-.si-app-bar--medium .si-app-bar__row {
   min-height: 64px;
+  padding: 0 4px;
 }
 
-.si-app-bar--large .si-app-bar__row {
-  min-height: 88px;
-  align-items: flex-end;
-  padding-bottom: 12px;
+.si-app-bar__top-spacer {
+  flex: 1;
 }
 
 .si-app-bar__title {
   flex: 1;
-  font: 700 18px/1.2 'Republika', Arial, sans-serif;
+  min-width: 0;
+  padding: 0 12px;
+  font: 700 24px/32px 'Republika', Arial, sans-serif;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+.si-app-bar--title-centered .si-app-bar__title {
+  text-align: center;
+}
+
+.si-app-bar--medium .si-app-bar__title,
 .si-app-bar--large .si-app-bar__title {
-  font-size: 28px;
+  flex: none;
+  padding: 0 16px 16px;
+}
+
+.si-app-bar--large .si-app-bar__title {
+  padding-top: 20px;
 }
 
 .si-app-bar__actions {
   display: flex;
-  gap: 4px;
+  align-items: center;
+  gap: 0;
 }
 
-.si-app-bar__icon {
-  width: 40px;
-  height: 40px;
+.si-app-bar__icon-btn {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
   border: 0;
-  border-radius: 20px;
+  border-radius: 24px;
   background: transparent;
-  color: inherit;
-  font-size: 20px;
   cursor: pointer;
+  appearance: none;
+}
+
+.si-app-bar__icon-btn img {
+  display: block;
+}
+
+.si-app-bar--primary .si-app-bar__icon-btn img {
+  filter: brightness(0) invert(1);
+}
+
+.si-app-bar__icon-btn--spacer {
+  visibility: hidden;
+  pointer-events: none;
 }

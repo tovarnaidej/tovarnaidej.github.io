@@ -1,10 +1,51 @@
+import React from 'react';
+
 import { ProgressBar } from './ProgressBar';
+import {
+  MobileShowcase,
+  ShowcasePanel,
+  ShowcaseStack,
+  figmaMobileUrl,
+} from './mobile-showcase';
+
+const renderVariants = () =>
+  React.createElement(
+    MobileShowcase,
+    { title: 'Progress bars' },
+    React.createElement(
+      ShowcasePanel,
+      null,
+      React.createElement(
+        ShowcaseStack,
+        { gap: 32 },
+        React.createElement(ProgressBar, {
+          variant: 'segmented',
+          currentStep: 2,
+          totalSteps: 6,
+        }),
+        React.createElement(ProgressBar, {
+          variant: 'stepped',
+          currentStep: 3,
+          totalSteps: 6,
+        }),
+        React.createElement(ProgressBar, {
+          variant: 'linear',
+          value: 0.55,
+        }),
+        React.createElement(ProgressBar, {
+          variant: 'linear',
+          value: 0.2,
+        }),
+      ),
+    ),
+  );
 
 export default {
   title: 'Gradniki - mobile/Vrstica napredka',
   component: ProgressBar,
   parameters: {
     layout: 'centered',
+    design: { type: 'figma', url: figmaMobileUrl('3911:6870') },
     platformCode: { component: 'progress-bar' },
   },
   tags: ['autodocs'],
@@ -44,6 +85,12 @@ export default {
     },
     className: { table: { disable: true } },
   },
+};
+
+export const Variants = {
+  name: 'Vse različice',
+  render: renderVariants,
+  parameters: { controls: { disable: true }, layout: 'fullscreen' },
 };
 
 export const Default = { name: 'Privzeto' };

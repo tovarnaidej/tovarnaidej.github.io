@@ -1,10 +1,97 @@
+import React from 'react';
+
 import { Alert } from './Alert';
+import {
+  MobileShowcase,
+  ShowcasePanel,
+  ShowcaseSection,
+  ShowcaseStack,
+  figmaMobileUrl,
+} from './mobile-showcase';
+
+const listStyles = ['basic', 'filled', 'outlined'];
+
+const supportingSample =
+  'Supporting line text lorem ipsum dolor sit amet, consectetur';
+
+// Figma list item rows: title only, 2-line (ellipsis), 3-line (wrapping).
+const listConfigs = [
+  { showSupporting: false, showAvatar: false, showChevron: false },
+  { showSupporting: true, supportingLines: 1, showAvatar: false, showChevron: false },
+  { showSupporting: true, supportingLines: 2, showAvatar: false, showChevron: false },
+  { showSupporting: false, showAvatar: true, showChevron: true },
+  { showSupporting: true, supportingLines: 1, showAvatar: true, showChevron: true },
+  { showSupporting: true, supportingLines: 2, showAvatar: true, showChevron: true },
+];
+
+const renderVariants = () =>
+  React.createElement(
+    MobileShowcase,
+    { title: 'Alerts' },
+    React.createElement(
+      ShowcasePanel,
+      null,
+      React.createElement(
+        ShowcaseStack,
+        { gap: 24 },
+        React.createElement(
+          ShowcaseSection,
+          { title: 'Alert' },
+          React.createElement(
+            ShowcaseStack,
+            { gap: 16 },
+            React.createElement(Alert, {
+              mode: 'alert',
+              style: 'filled',
+              showIcon: true,
+              showDismiss: true,
+              title: 'Title',
+              message: 'Message',
+            }),
+            React.createElement(Alert, {
+              mode: 'alert',
+              style: 'stroke',
+              showIcon: true,
+              showDismiss: true,
+              title: 'Title',
+              message: 'Message',
+            }),
+          ),
+        ),
+        React.createElement(
+          ShowcaseSection,
+          { title: 'List' },
+          React.createElement(
+            ShowcaseStack,
+            { gap: 24 },
+            ...listStyles.map((listStyle) =>
+              React.createElement(
+                ShowcaseStack,
+                { key: listStyle, gap: 16 },
+                ...listConfigs.map((config, index) =>
+                  React.createElement(Alert, {
+                    key: index,
+                    mode: 'list',
+                    listStyle,
+                    listTitle: 'List Item',
+                    supportingText: supportingSample,
+                    ...config,
+                  }),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
 
 export default {
   title: 'Gradniki - mobile/Opozorila',
   component: Alert,
   parameters: {
     layout: 'centered',
+    design: { type: 'figma', url: figmaMobileUrl('3911:4207') },
     platformCode: { component: 'alert' },
   },
   tags: ['autodocs'],
@@ -19,9 +106,9 @@ export default {
     showSupporting: true,
     showAvatar: false,
     showChevron: true,
-    listTitle: 'List Item Title',
+    listTitle: 'List Item',
     supportingLines: 2,
-    supportingText: 'Supporting text goes here',
+    supportingText: supportingSample,
   },
   argTypes: {
     mode: {
@@ -94,6 +181,12 @@ export default {
     },
     className: { table: { disable: true } },
   },
+};
+
+export const Variants = {
+  name: 'Vse različice',
+  render: renderVariants,
+  parameters: { controls: { disable: true }, layout: 'fullscreen' },
 };
 
 export const Default = { name: 'Privzeto' };

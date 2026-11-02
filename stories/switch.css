@@ -1,46 +1,69 @@
+/* Figma 3911:6388 + TokenSwitchV2 — 51×31; iOS green / Android primary */
 .si-switch {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   font-family: 'Republika', Arial, sans-serif;
-  color: #0b3a4a;
+  color: #000000;
 }
 
 .si-switch__track {
   box-sizing: border-box;
-  width: 52px;
-  height: 32px;
+  width: 51px;
+  height: 31px;
   padding: 0;
   border: 0;
-  border-radius: 16px;
-  background: #c5d4da;
+  border-radius: 15.5px;
   position: relative;
   cursor: pointer;
   appearance: none;
+  flex-shrink: 0;
+  background: #e9e9eb;
 }
 
-.si-switch--on .si-switch__track {
+.si-switch--ios.si-switch--on .si-switch__track {
+  background: #34c759;
+}
+
+.si-switch--android.si-switch--on .si-switch__track {
   background: #3c7b94;
 }
 
 .si-switch__thumb {
   position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 24px;
-  height: 24px;
-  border-radius: 12px;
+  border-radius: 50%;
   background: #ffffff;
-  box-shadow: 0 1px 3px rgba(11, 58, 74, 0.25);
-  transition: left 0.15s ease;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+  transition: left 0.2s ease;
 }
 
-.si-switch--on .si-switch__thumb {
+/* iOS: 27px thumb, 2px inset */
+.si-switch--ios .si-switch__thumb {
+  top: 2px;
+  left: 2px;
+  width: 27px;
+  height: 27px;
+}
+
+.si-switch--ios.si-switch--on .si-switch__thumb {
+  left: 22px;
+}
+
+/* Android: 23px thumb, 4px inset */
+.si-switch--android .si-switch__thumb {
+  top: 4px;
+  left: 4px;
+  width: 23px;
+  height: 23px;
+}
+
+.si-switch--android.si-switch--on .si-switch__thumb {
   left: 24px;
 }
 
 .si-switch__label {
-  font: 400 16px/1.25 'Republika', Arial, sans-serif;
+  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
 }
 
 .si-switch--disabled {

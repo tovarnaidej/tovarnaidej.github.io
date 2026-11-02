@@ -6,8 +6,9 @@ import './switch.css';
 export const Switch = ({
   value: valueProp = false,
   enabled = true,
-  showLabel = true,
+  showLabel = false,
   label = 'Switch label',
+  platform = 'ios',
   className = '',
 }) => {
   const [on, setOn] = useState(valueProp);
@@ -16,6 +17,7 @@ export const Switch = ({
     <label
       className={[
         'si-switch',
+        `si-switch--${platform}`,
         on ? 'si-switch--on' : '',
         !enabled ? 'si-switch--disabled' : '',
         className,
@@ -43,5 +45,6 @@ Switch.propTypes = {
   enabled: PropTypes.bool,
   showLabel: PropTypes.bool,
   label: PropTypes.string,
+  platform: PropTypes.oneOf(['ios', 'android']),
   className: PropTypes.string,
 };

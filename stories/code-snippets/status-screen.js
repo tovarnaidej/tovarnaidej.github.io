@@ -9,7 +9,8 @@ const SCENARIOS = {
   update: {
     tone: 'primary',
     title: 'Posodobite aplikacijo',
-    description: 'Za nadaljnjo uporabo potrebujete najnovejšo različico.',
+    description:
+      'Za nadaljnjo uporabo potrebujete najnovejšo različico aplikacije. Posodobitev vključuje pomembne varnostne izboljšave in popravke.',
     meta: 'Trenutna različica 2.4.1 · zahtevana 2.5.0',
     primary: 'Posodobi aplikacijo',
     secondary: 'Pomoč pri posodobitvi',
@@ -17,17 +18,19 @@ const SCENARIOS = {
   offline: {
     tone: 'primary',
     title: 'Ni internetne povezave',
-    description: 'Preverite povezavo in poskusite znova.',
-    meta: '',
+    description:
+      'Za preverjanje in namestitev posodobitve se povežite z internetom. Ko bo povezava vzpostavljena, poskusite znova.',
+    meta: 'Povezava je potrebna za nadaljevanje',
     primary: 'Poskusi znova',
-    secondary: 'Pomoč',
+    secondary: 'Pomoč pri posodobitvi',
   },
   unsupported: {
     tone: 'error',
     title: 'Naprava ni več podprta',
-    description: 'Ta naprava ne izpolnjuje več zahtev aplikacije.',
-    meta: '',
-    primary: 'Pomoč',
+    description:
+      'Ta različica aplikacije zahteva novejši operacijski sistem. Posodobite napravo ali se obrnite na podporo.',
+    meta: 'Najnižja podprta različica: iOS 17 / Android 12',
+    primary: 'Pomoč pri posodobitvi',
     secondary: '',
   },
 };
@@ -39,9 +42,9 @@ const resolve = (args = {}) => {
     tone: preset.tone,
     title: args.title || preset.title,
     description: args.description || preset.description,
-    meta: args.meta ?? preset.meta,
+    meta: args.meta || preset.meta,
     primary: args.primaryLabel || preset.primary,
-    secondary: args.secondaryLabel ?? preset.secondary,
+    secondary: args.secondaryLabel || preset.secondary,
   };
 };
 
@@ -99,6 +102,5 @@ export const buildStatusScreenSnippet = makeSnippetBuilder({
   android: buildAndroidSnippet,
   ios: buildIosSnippet,
   flutter: buildFlutterSnippet,
+  platforms: MOBILE_PLATFORMS,
 });
-
-export const STATUS_SCREEN_PLATFORMS = MOBILE_PLATFORMS;

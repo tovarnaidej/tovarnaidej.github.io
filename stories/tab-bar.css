@@ -1,9 +1,10 @@
+/* Figma 3911:2898 + TokenTabBar — width 396; label always black */
 .si-tab-bar {
   box-sizing: border-box;
   display: flex;
-  width: 360px;
+  width: 396px;
   background: #ffffff;
-  border-top: 1px solid #d9e2e6;
+  border-top: 1px solid #e6e7e9;
   font-family: 'Republika', Arial, sans-serif;
 }
 
@@ -13,30 +14,39 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  padding: 10px 4px 12px;
+  padding: 12px 4px 16px;
   border: 0;
   background: transparent;
-  color: #949598;
   cursor: pointer;
   appearance: none;
 }
 
-.si-tab-bar__item--selected {
-  color: #3c7b94;
+.si-tab-bar--ios .si-tab-bar__item {
+  padding-bottom: 18px;
 }
 
 .si-tab-bar__icon {
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
-  background: currentColor;
-  opacity: 0.35;
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-color: #949598;
+  mask: url('./assets/mobile/tab-bar/home-placeholder.svg') center / contain
+    no-repeat;
+  -webkit-mask: url('./assets/mobile/tab-bar/home-placeholder.svg') center /
+    contain no-repeat;
 }
 
 .si-tab-bar__item--selected .si-tab-bar__icon {
-  opacity: 1;
+  background-color: #3c7b94;
 }
 
 .si-tab-bar__label {
-  font: 600 11px/1.2 'Republika', Arial, sans-serif;
+  font: 400 12px/16px 'Republika', Arial, sans-serif;
+  letter-spacing: -0.2px;
+  color: #000000;
+  opacity: 0.8;
+}
+
+.si-tab-bar__item--selected .si-tab-bar__label {
+  opacity: 1;
 }

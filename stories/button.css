@@ -102,18 +102,30 @@
   height: 24px;
 }
 
+/* Figma 3911:4464 — padding 20; row y step 68 → gap 20 with h=48;
+   plain cols gap 52; icon group offset 25; icon cols gap 20 */
 .button-showcase {
   box-sizing: border-box;
-  display: grid;
-  grid-template-columns: repeat(6, max-content);
-  gap: 16px 42px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   min-width: max-content;
-  padding: 16px;
+  padding: 20px;
   background: #ffffff;
 }
 
-@media (max-width: 900px) {
-  .button-showcase {
-    grid-template-columns: repeat(3, max-content);
-  }
+.button-showcase__row {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.button-showcase__group {
+  display: flex;
+  align-items: center;
+  gap: 52px;
+}
+
+.button-showcase__group--icons {
+  gap: 20px;
 }

@@ -1,59 +1,125 @@
+/*
+ * Figma 3911:6740 — Tabs (mobile), width 360
+ *   underline (Default)  bg #FFFFFF, h 47 (scrollable frame: h 48)
+ *   filled (Variant2)    bg #EDF5F8, h 47
+ * Tab: state-layer padding 0 16, label 15/21, letter-spacing -0.2px.
+ * Selected label: underline → Medium #3C7B94, filled → Medium #000000.
+ * Scrollable: leading padding 52, each tab 90 wide.
+ */
 .si-tabs {
   box-sizing: border-box;
   display: flex;
+  align-items: stretch;
   width: 360px;
+  height: 47px;
+  background: #ffffff;
   font-family: 'Republika', Arial, sans-serif;
-  border-bottom: 1px solid #d9e2e6;
+  overflow: hidden;
+}
+
+.si-tabs--filled {
+  background: #edf5f8;
 }
 
 .si-tabs--scrollable {
+  height: 48px;
+  padding-left: 52px;
   overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
 }
 
-.si-tabs--fixed .si-tabs__tab {
-  flex: 1;
+.si-tabs--scrollable::-webkit-scrollbar {
+  display: none;
 }
 
+/* ---------- tab ---------- */
 .si-tabs__tab {
   appearance: none;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0 16px;
   border: 0;
+  border-radius: 0;
   background: transparent;
-  color: #45636d;
-  padding: 12px 16px;
-  font: 600 15px/1.2 'Republika', Arial, sans-serif;
+  color: #000000;
+  font: 400 15px/21px 'Republika', Arial, sans-serif;
+  letter-spacing: -0.2px;
+  text-align: center;
   white-space: nowrap;
   cursor: pointer;
-  position: relative;
 }
 
+.si-tabs--scrollable .si-tabs__tab {
+  flex: 0 0 90px;
+  width: 90px;
+}
+
+.si-tabs__tab:focus-visible {
+  outline: 2px solid #3c7b94;
+  outline-offset: -2px;
+}
+
+/* label box = full tab height, so the indicator can sit on the bottom edge */
+.si-tabs__label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.si-tabs__text {
+  display: block;
+}
+
+.si-tabs__tab--selected {
+  font-weight: 500;
+}
+
+/*
+ * Republika Medium reports font ascent/descent of 100/0 (Regular: 92/26),
+ * which drops Medium glyphs ~2.5px below Regular ones inside the same
+ * 21px line box. Trim the line box to cap height / baseline (same
+ * convention as search.css) so the Medium label stays centered.
+ */
+.si-tabs__tab--selected .si-tabs__text {
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+/* ---------- underline ---------- */
 .si-tabs--underline .si-tabs__tab--selected {
   color: #3c7b94;
 }
 
-.si-tabs--underline .si-tabs__tab--selected::after {
+/* 3px pill, top corners rounded, 2px inset each side of the label width */
+.si-tabs--underline .si-tabs__tab--selected .si-tabs__label::after {
   content: '';
   position: absolute;
-  left: 8px;
-  right: 8px;
-  bottom: -1px;
-  height: 2px;
+  right: 2px;
+  bottom: 0;
+  left: 2px;
+  height: 3px;
+  border-radius: 100px 100px 0 0;
   background: #3c7b94;
 }
 
-.si-tabs--filled {
-  border-bottom: 0;
-  gap: 6px;
-  padding: 4px;
-  background: #e6e7e9;
-  border-radius: 10px;
-}
-
-.si-tabs--filled .si-tabs__tab {
-  border-radius: 8px;
-}
-
-.si-tabs--filled .si-tabs__tab--selected {
-  background: #ffffff;
-  color: #0b3a4a;
-  box-shadow: 0 1px 3px rgba(11, 58, 74, 0.12);
+/* ---------- filled ---------- */
+/* 2px indicator across the full tab width */
+.si-tabs--filled .si-tabs__tab--selected::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: #3c7b94;
 }

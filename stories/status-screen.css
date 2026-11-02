@@ -1,69 +1,259 @@
+/*
+ * Figma 3911:7328 — Zaslon stanja (Prisilen update)
+ *
+ * Fullscreen phone 393×852, bg #fff
+ * Inner: x16 y40, w361
+ * Vsebina: h624 gap16 CENTER/CENTER
+ *   Illustration 88×88 r44; icon 44 at 22,22
+ *   Title Bold 22/28; Desc Regular 17/25; gap12 (block h150)
+ *   Meta Regular 14/17
+ * Dejanja: h120 gap8
+ *   Primary/Secondary h56 r8; Bold/Medium 17/21
+ *
+ * Popup card w361 pad 36/24 r24
+ *   Shadow 0 4 14 / 8% + 0 1 2 / 10%
+ *   Stack gap20; illustration 72 (icon 36)
+ */
+
 .si-status {
   box-sizing: border-box;
-  width: 360px;
-  min-height: 420px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-family: 'Republika', Arial, sans-serif;
-  color: #0b3a4a;
+  color: #000000;
 }
+
+.si-status *,
+.si-status *::before,
+.si-status *::after {
+  box-sizing: border-box;
+}
+
+/* —— Fullscreen (3911:7329) —— */
 
 .si-status--fullScreen {
-  background: #e6e7e9;
-  padding: 24px;
-}
-
-.si-status--popup {
-  background: rgba(11, 58, 74, 0.35);
-  padding: 24px;
-}
-
-.si-status__card {
-  width: 100%;
-  max-width: 320px;
-  padding: 28px 20px 20px;
-  border-radius: 16px;
+  width: 393px;
+  height: 852px;
+  overflow: hidden;
   background: #ffffff;
+}
+
+.si-status--fullScreen .si-status__frame {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 361px;
+  margin: 40px 16px 0;
+}
+
+.si-status--fullScreen .si-status__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  height: 624px;
+  overflow: hidden;
+}
+
+.si-status--fullScreen .si-status__illustration {
+  position: relative;
+  flex-shrink: 0;
+  width: 88px;
+  height: 88px;
+  overflow: hidden;
+  border-radius: 44px;
+  background: #3c7b94;
+}
+
+.si-status--fullScreen.si-status--error .si-status__illustration {
+  background: #d32f2f;
+}
+
+.si-status--fullScreen .si-status__icon {
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  display: block;
+  width: 44px;
+  height: 44px;
+}
+
+.si-status--fullScreen .si-status__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
   text-align: center;
 }
 
-.si-status__illustration {
-  width: 88px;
-  height: 88px;
-  margin: 0 auto 16px;
-  border-radius: 44px;
-  background: linear-gradient(135deg, #3c7b94, #0b3a4a);
-}
-
-.si-status--error .si-status__illustration {
-  background: linear-gradient(135deg, #b3261e, #7a1712);
-}
-
-.si-status__title {
+.si-status--fullScreen .si-status__title {
   margin: 0;
-  font: 700 20px/1.25 'Republika', Arial, sans-serif;
+  width: 100%;
+  font: 700 22px/28px 'Republika', Arial, sans-serif;
+  letter-spacing: 0;
+  color: #000000;
+  text-align: center;
 }
 
-.si-status__description,
-.si-status__meta {
-  margin: 10px 0 0;
-  color: #45636d;
-  font: 400 15px/1.4 'Republika', Arial, sans-serif;
+.si-status--fullScreen .si-status__description {
+  margin: 0;
+  width: 100%;
+  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  letter-spacing: 0;
+  color: #000000;
+  text-align: center;
 }
 
-.si-status__meta {
-  font-size: 13px;
-  margin-bottom: 8px;
+.si-status--fullScreen .si-status__meta {
+  margin: 0;
+  width: 100%;
+  font: 400 14px/17px 'Republika', Arial, sans-serif;
+  letter-spacing: 0;
+  color: #000000;
+  text-align: center;
 }
+
+.si-status--fullScreen .si-status__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+}
+
+.si-status--fullScreen .si-status__actions--single {
+  /* Figma unsupported: Dejanja still FIXED 120 with one button */
+  gap: 0;
+}
+
+/* —— Popup (3911:7372) —— */
+
+.si-status--popup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 393px;
+  min-height: 520px;
+  padding: 24px 16px;
+  background: #ececec;
+}
+
+.si-status--popup .si-status__popup-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 361px;
+  padding: 36px 24px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.si-status--popup .si-status__popup-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.si-status--popup .si-status__illustration {
+  position: relative;
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  border-radius: 36px;
+  background: #3c7b94;
+}
+
+.si-status--popup.si-status--error .si-status__illustration {
+  background: #d32f2f;
+}
+
+.si-status--popup .si-status__icon {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  display: block;
+  width: 36px;
+  height: 36px;
+}
+
+.si-status--popup .si-status__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+}
+
+.si-status--popup .si-status__title {
+  margin: 0;
+  width: 100%;
+  font: 700 22px/28px 'Republika', Arial, sans-serif;
+  letter-spacing: 0;
+  color: #000000;
+  text-align: center;
+}
+
+.si-status--popup .si-status__description {
+  margin: 0;
+  width: 100%;
+  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  letter-spacing: 0;
+  color: #000000;
+  text-align: center;
+}
+
+.si-status--popup .si-status__meta {
+  margin: 0;
+  width: 100%;
+  font: 400 14px/17px 'Republika', Arial, sans-serif;
+  letter-spacing: 0;
+  color: #000000;
+  text-align: center;
+}
+
+.si-status--popup .si-status__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+}
+
+/* Figma unsupported popup: Dejanja hugs to 56 (one button) */
+.si-status--popup .si-status__actions--single {
+  height: auto;
+  gap: 0;
+}
+
+/* —— Buttons (shared) —— */
 
 .si-status__primary,
 .si-status__secondary {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  height: 48px;
-  margin-top: 12px;
+  height: 56px;
+  padding: 0;
+  overflow: hidden;
   border-radius: 8px;
-  font: 700 16px/1 'Republika', Arial, sans-serif;
   cursor: pointer;
 }
 
@@ -71,10 +261,18 @@
   border: 0;
   background: #3c7b94;
   color: #ffffff;
+  font: 700 17px/21px 'Republika', Arial, sans-serif;
+  letter-spacing: 0;
+  text-align: center;
 }
 
 .si-status__secondary {
-  border: 1px solid #3c7b94;
-  background: transparent;
+  /* Figma strokeAlign INSIDE — keep outer h56 */
+  border: 0;
+  background: #ffffff;
+  box-shadow: inset 0 0 0 1px #3c7b94;
   color: #3c7b94;
+  font: 500 17px/21px 'Republika', Arial, sans-serif;
+  letter-spacing: 0;
+  text-align: center;
 }

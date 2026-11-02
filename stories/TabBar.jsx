@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 
 import './tab-bar.css';
 
+
 export const TabBar = ({
   tabCount = 3,
+  platform = 'ios',
   className = '',
 }) => {
   const [selected, setSelected] = useState(0);
@@ -12,7 +14,13 @@ export const TabBar = ({
 
   return (
     <nav
-      className={['si-tab-bar', className].filter(Boolean).join(' ')}
+      className={[
+        'si-tab-bar',
+        `si-tab-bar--${platform}`,
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
       role="tablist"
     >
       {tabs.map((label, index) => (
@@ -39,5 +47,6 @@ export const TabBar = ({
 
 TabBar.propTypes = {
   tabCount: PropTypes.oneOf([2, 3, 4, 5]),
+  platform: PropTypes.oneOf(['ios', 'android']),
   className: PropTypes.string,
 };

@@ -1,9 +1,12 @@
+/* Figma 3911:2801 — 20×20 control, checkmark.svg centered */
 .si-checkbox {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  padding: 12px 16px;
   font-family: 'Republika', Arial, sans-serif;
-  color: #0b3a4a;
+  color: #000000;
   cursor: pointer;
 }
 
@@ -15,44 +18,68 @@
 
 .si-checkbox__control {
   box-sizing: border-box;
-  width: 22px;
-  height: 22px;
-  border: 2px solid #3c7b94;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
   border-radius: 4px;
   background: #ffffff;
   position: relative;
   flex-shrink: 0;
 }
 
-.si-checkbox input:checked + .si-checkbox__control {
+.si-checkbox--ios .si-checkbox__control {
+  border: 1px solid #3c7b94;
+}
+
+.si-checkbox--android .si-checkbox__control {
+  border: 2px solid #3c7b94;
+}
+
+.si-checkbox--checked .si-checkbox__control {
+  border-color: #3c7b94;
   background: #3c7b94;
 }
 
-.si-checkbox input:checked + .si-checkbox__control::after {
-  content: '';
-  position: absolute;
-  left: 5px;
-  top: 1px;
-  width: 6px;
-  height: 11px;
-  border: solid #ffffff;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+.si-checkbox__check {
+  display: block;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
 }
 
 .si-checkbox__label {
-  font: 400 16px/1.25 'Republika', Arial, sans-serif;
+  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
+  white-space: nowrap;
+}
+
+/* Error: checked = red fill; unchecked = red stroke only */
+.si-checkbox--error {
+  color: #d32f2f;
 }
 
 .si-checkbox--error .si-checkbox__control {
-  border-color: #b3261e;
+  border-color: #d32f2f;
+  background: #ffffff;
 }
 
-.si-checkbox--error input:checked + .si-checkbox__control {
-  background: #b3261e;
+.si-checkbox--error.si-checkbox--checked .si-checkbox__control {
+  background: #d32f2f;
+  border-color: #d32f2f;
+}
+
+.si-checkbox--error .si-checkbox__label {
+  color: #d32f2f;
 }
 
 .si-checkbox--disabled {
   opacity: 0.38;
   pointer-events: none;
+}
+
+.si-checkbox--disabled.si-checkbox--checked .si-checkbox__control {
+  border-color: #3c7b94;
+  background: #3c7b94;
 }

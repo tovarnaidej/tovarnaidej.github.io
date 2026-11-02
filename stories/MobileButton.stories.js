@@ -2,23 +2,47 @@ import React from 'react';
 import { fn } from 'storybook/test';
 
 import { Button } from './Button';
+import { figmaMobileUrl } from './mobile-showcase';
 
 const variants = ['filled', 'outline', 'text', 'elevated'];
 const sizes = ['regular', 'small'];
 const states = ['enabled', 'pressed', 'disabled'];
 
-const renderVariants = () => React.createElement(
-  'div',
-  { className: 'button-showcase' },
-  ...variants.flatMap((variant) => [false, true].flatMap((leadingIcon) =>
-    states.map((state) => React.createElement(Button, {
-      key: `${variant}-${state}-${leadingIcon ? 'icon' : 'plain'}`,
-      variant,
-      state,
-      leadingIcon,
-    })),
-  )),
-);
+const renderVariants = () =>
+  React.createElement(
+    'div',
+    { className: 'button-showcase' },
+    ...variants.map((variant) =>
+      React.createElement(
+        'div',
+        { className: 'button-showcase__row', key: variant },
+        React.createElement(
+          'div',
+          { className: 'button-showcase__group' },
+          ...states.map((state) =>
+            React.createElement(Button, {
+              key: `${variant}-${state}-plain`,
+              variant,
+              state,
+              leadingIcon: false,
+            }),
+          ),
+        ),
+        React.createElement(
+          'div',
+          { className: 'button-showcase__group button-showcase__group--icons' },
+          ...states.map((state) =>
+            React.createElement(Button, {
+              key: `${variant}-${state}-icon`,
+              variant,
+              state,
+              leadingIcon: true,
+            }),
+          ),
+        ),
+      ),
+    ),
+  );
 
 export default {
   title: 'Gradniki - mobile/Gumb',
@@ -27,7 +51,7 @@ export default {
     layout: 'fullscreen',
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/design/Ph5kySZOVPpzP6565W17LV/mSlovenija---Design-System--UI-kit-?node-id=2304-1776',
+      url: figmaMobileUrl('3911:4464'),
     },
     platformCode: {
       component: 'button',

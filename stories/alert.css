@@ -1,127 +1,234 @@
+/*
+ * Figma 3911:4207 — Opozorila (mobile)
+ * Alert: 396 wide, radius 8, bg #EDF5F8; content padding 16, gap 16.
+ *   filled → content sits directly on #EDF5F8
+ *   stroke → 4px #EDF5F8 outer frame, inner white box with 1px #3C7B94
+ * List item: 360 wide, radius 8.
+ */
 .si-alert,
 .si-list-item {
   box-sizing: border-box;
-  width: 360px;
   font-family: 'Republika', Arial, sans-serif;
+  color: #000000;
 }
 
+/* ---------- Alert ---------- */
 .si-alert {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px 16px;
+  width: 396px;
   border-radius: 8px;
-}
-
-.si-alert--filled {
-  background: #3c7b94;
-  color: #ffffff;
+  background: #edf5f8;
 }
 
 .si-alert--stroke {
-  background: #ffffff;
-  color: #0b3a4a;
-  border: 1px solid #3c7b94;
+  border: 4px solid #edf5f8;
 }
 
-.si-alert__icon {
-  width: 24px;
-  height: 24px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.2);
-  display: inline-flex;
+.si-alert__content {
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.si-alert--stroke .si-alert__content {
+  border: 1px solid #3c7b94;
+  background: #ffffff;
+}
+
+/* 24×24 slots (alert.svg native 24×24; close.svg native 20×20, centered) */
+.si-alert__icon,
+.si-alert__dismiss {
+  display: flex;
   align-items: center;
   justify-content: center;
-  font: 700 14px/1 'Republika', Arial, sans-serif;
   flex-shrink: 0;
+  width: 24px;
+  height: 24px;
 }
 
-.si-alert--stroke .si-alert__icon {
-  background: #3c7b94;
-  color: #ffffff;
-}
-
-.si-alert__title {
-  font: 700 16px/1.25 'Republika', Arial, sans-serif;
-}
-
-.si-alert__message {
-  margin-top: 4px;
-  font: 400 14px/1.35 'Republika', Arial, sans-serif;
-  opacity: 0.92;
+.si-alert__icon img,
+.si-alert__dismiss img {
+  display: block;
 }
 
 .si-alert__dismiss {
+  padding: 0;
   border: 0;
+  border-radius: 4px;
   background: transparent;
-  color: inherit;
-  font-size: 20px;
   cursor: pointer;
-  line-height: 1;
 }
 
+.si-alert__dismiss:focus-visible,
+.si-list-item:focus-visible {
+  outline: 2px solid #3c7b94;
+  outline-offset: 2px;
+}
+
+.si-alert__text {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.si-alert__title {
+  width: 100%;
+  margin: 0;
+  font: 700 22px/28px 'Republika', Arial, sans-serif;
+  letter-spacing: 0;
+}
+
+.si-alert__message {
+  width: 100%;
+  margin: 0;
+  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
+}
+
+/* ---------- List item ---------- */
 .si-list-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
+  gap: 16px;
+  width: 360px;
+  /* title-only rows are 56 high in Figma (frame insets ÷ 1.04 frame scale) */
+  min-height: 56px;
+  margin: 0;
+  padding: 8px 24px 8px 16px;
   border: 0;
   border-radius: 8px;
-  background: transparent;
-  color: #0b3a4a;
+  background: #ffffff;
   text-align: left;
+  letter-spacing: 0.1px;
   cursor: pointer;
   appearance: none;
 }
 
 .si-list-item--filled {
-  background: #e6e7e9;
-}
-
-.si-list-item--outlined {
-  border: 1px solid #c5d4da;
-  background: #ffffff;
-}
-
-.si-list-item__avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
   background: #3c7b94;
   color: #ffffff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font: 700 14px/1 'Republika', Arial, sans-serif;
-  flex-shrink: 0;
+}
+
+/* inset stroke keeps outer height identical to filled */
+.si-list-item--outlined {
+  background: #ffffff;
+  box-shadow: inset 0 0 0 1px #3c7b94;
 }
 
 .si-list-item__text {
-  flex: 1;
-  min-width: 0;
   display: flex;
+  flex: 1 0 0;
   flex-direction: column;
-  gap: 2px;
+  min-width: 0;
+  overflow: hidden;
+  word-break: break-word;
 }
 
 .si-list-item__title {
-  font: 700 16px/1.25 'Republika', Arial, sans-serif;
+  display: block;
+  width: 100%;
+  font: 700 17px/25px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
 }
 
 .si-list-item__supporting {
-  color: #45636d;
-  font: 400 14px/1.35 'Republika', Arial, sans-serif;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  display: block;
+  width: 100%;
+  font: 400 15px/21px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
 }
 
-.si-list-item__supporting--1 {
-  -webkit-line-clamp: 1;
+/* Avatar 25×25, "A" 15/21 */
+.si-list-item__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  border-radius: 999px;
+  background: #3c7b94;
+  color: #ffffff;
+  font: 400 15px/21px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
+  text-align: center;
 }
 
+.si-list-item--outlined .si-list-item__avatar {
+  font-weight: 700;
+}
+
+.si-list-item--filled .si-list-item__avatar {
+  background: #edf5f8;
+  color: #3c7b94;
+  font-weight: 700;
+}
+
+/* list-item-chevron.svg (25×25), recoloured through a mask */
 .si-list-item__chevron {
-  color: #949598;
-  font-size: 22px;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background-color: #3c7b94;
+  -webkit-mask: var(--si-icon) center / contain no-repeat;
+  mask: var(--si-icon) center / contain no-repeat;
+}
+
+.si-list-item--filled .si-list-item__chevron {
+  background-color: #ffffff;
+}
+
+/* Compact: single-line supporting text (ellipsis), chevron 40×40 */
+.si-list-item--compact.si-list-item--has-chevron {
+  padding-right: 0;
+}
+
+.si-list-item--compact.si-list-item--has-supporting {
+  height: 72px;
+}
+
+.si-list-item--compact .si-list-item__text {
+  justify-content: center;
+  height: 100%;
+}
+
+.si-list-item--compact.si-list-item--has-supporting .si-list-item__text {
+  gap: 4px;
+}
+
+.si-list-item--compact .si-list-item__supporting {
+  height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Multiline: wrapping supporting text, chevron 25×25 aligned to top */
+.si-list-item--multiline {
+  align-items: flex-start;
+  padding: 12px 24px 12px 16px;
+}
+
+.si-list-item--multiline.si-list-item--has-chevron {
+  padding-right: 8px;
+}
+
+.si-list-item--multiline .si-list-item__text {
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.si-list-item--multiline.si-list-item--has-avatar .si-list-item__text {
+  gap: 8px;
+}
+
+.si-list-item--multiline .si-list-item__chevron {
+  width: 25px;
+  height: 25px;
 }

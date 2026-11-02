@@ -1,0 +1,12 @@
+/* Figma 3911:2408 — columns every 419px (374 + 45 gap) */
+.input-showcase__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 374px);
+  gap: 27px 45px;
+  align-items: start;
+  min-width: max-content;
+}
+
+.input-showcase .mobile-showcase__section:last-child .input-showcase__grid {
+  grid-template-columns: repeat(4, 374px);
+}

@@ -1,59 +1,186 @@
+/* Figma 3911:6980 + TokenPhoneAmountV2 */
 .si-phone-input {
   box-sizing: border-box;
-  width: 320px;
+  position: relative;
+  width: 374px;
   font-family: 'Republika', Arial, sans-serif;
-  color: #0b3a4a;
-}
-
-.si-phone-input__label {
-  display: block;
-  margin-bottom: 6px;
-  font: 600 13px/1.2 'Republika', Arial, sans-serif;
-  color: #45636d;
+  color: #000000;
 }
 
 .si-phone-input__row {
   display: flex;
-  gap: 8px;
+  align-items: stretch;
+  gap: 16px;
 }
 
-.si-phone-input__country,
-.si-phone-input__field {
+.si-phone-input__selector {
   box-sizing: border-box;
-  height: 48px;
-  border: 1px solid #c5d4da;
-  border-radius: 8px;
-  background: #ffffff;
-  font: 400 16px/1 'Republika', Arial, sans-serif;
-  color: #0b3a4a;
-}
-
-.si-phone-input__country {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 0 12px;
+  gap: 20px;
+  width: 102px;
+  height: 56px;
+  padding: 0 16px;
+  border: 1px solid #3c7b94;
+  border-radius: 8px;
+  background: #ffffff;
   cursor: pointer;
+  appearance: none;
+}
+
+.si-phone-input__flag-host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.si-phone-input__flag {
+  display: block;
+  width: 29.4px;
+  height: 19.76px;
+  object-fit: cover;
+}
+
+.si-phone-input__chevron {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.si-phone-input__chevron--up {
+  transform: scaleY(-1);
 }
 
 .si-phone-input__field {
+  box-sizing: border-box;
+  position: relative;
   flex: 1;
-  padding: 0 14px;
-  outline: none;
+  min-width: 0;
+  height: 56px;
+  padding: 4px 15px 0;
+  border: 1px solid #3c7b94;
+  border-radius: 8px;
+  background: #ffffff;
 }
 
-.si-phone-input--error .si-phone-input__country,
+.si-phone-input__field-label {
+  display: block;
+  font: 400 12px/16px 'Republika', Arial, sans-serif;
+  letter-spacing: -0.2px;
+  color: #000000;
+}
+
+.si-phone-input__value-row {
+  display: flex;
+  align-items: center;
+  gap: 15.69px;
+  margin-top: 3px;
+  min-height: 25px;
+}
+
+.si-phone-input__prefix {
+  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
+  color: #3c7b94;
+  flex-shrink: 0;
+}
+
+.si-phone-input__number {
+  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
+  color: #000000;
+}
+
+.si-phone-input--error .si-phone-input__selector,
 .si-phone-input--error .si-phone-input__field {
-  border-color: #b3261e;
-}
-
-.si-phone-input__error {
-  margin-top: 6px;
-  color: #b3261e;
-  font: 400 13px/1.3 'Republika', Arial, sans-serif;
+  border-color: #d32f2f;
 }
 
 .si-phone-input--disabled {
   opacity: 0.38;
   pointer-events: none;
+}
+
+.si-phone-input__panel {
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 68px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  width: 374px;
+  padding: 16px 0;
+  border: 1px solid #3c7b94;
+  border-radius: 16px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.si-phone-input__panel-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+}
+
+.si-phone-input__search-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 8px;
+  flex-shrink: 0;
+}
+
+.si-phone-input__search-placeholder {
+  font: 400 16px/24px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.5px;
+  color: #000000;
+}
+
+.si-phone-input__panel-divider {
+  height: 1px;
+  width: 100%;
+  background: #e6e7e9;
+}
+
+.si-phone-input__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.si-phone-input__list-item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 8px 24px 8px 16px;
+  border: 0;
+  border-bottom: 1px solid #e6e7e9;
+  background: transparent;
+  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
+  color: #000000;
+  text-align: left;
+  cursor: pointer;
+}
+
+.si-phone-input__list li:last-child .si-phone-input__list-item {
+  border-bottom: 0;
+}
+
+.si-phone-input__list-flag {
+  display: block;
+  width: 24px;
+  height: 16px;
+  object-fit: cover;
+  flex-shrink: 0;
 }

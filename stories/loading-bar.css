@@ -1,48 +1,86 @@
-.si-loading-bar--linear {
+/*
+ * Figma 3911:6592 — Loading bar (mobile)
+ * Track #E6E7E9, active #3C7B94, round caps.
+ *
+ * Linear: 361 wide, 12 high layout box; the visible bar is a 4px stroke
+ * (radius 2) centered in it. Active fill and remaining track are separated
+ * by a 6px gap.
+ * Circular: thin 40×40 / stroke 4 · thick 44×44 / stroke 8.
+ */
+.si-loading-bar {
   box-sizing: border-box;
-  width: 240px;
-  height: 4px;
-  overflow: hidden;
-  border-radius: 2px;
-  background: #c5d4da;
 }
 
-.si-loading-bar--linear .si-loading-bar__fill {
-  height: 100%;
-  background: #3c7b94;
+/* ---------- linear ---------- */
+.si-loading-bar--linear {
+  display: flex;
+  align-items: center;
+  width: 361px;
+  height: 12px;
+}
+
+.si-loading-bar__fill {
+  flex: 0 0 auto;
+  min-width: 4px;
+  height: 4px;
   border-radius: 2px;
+  background: #3c7b94;
+}
+
+.si-loading-bar__track {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 4px;
+  border-radius: 2px;
+  background: #e6e7e9;
+}
+
+/* 6px gap between active fill end and the remaining track */
+.si-loading-bar__fill + .si-loading-bar__track {
+  margin-left: 6px;
+}
+
+/* indeterminate: the active bar slides through the clipped track */
+.si-loading-bar--linear.si-loading-bar--indeterminate .si-loading-bar__track {
+  overflow: hidden;
 }
 
 .si-loading-bar--linear.si-loading-bar--indeterminate .si-loading-bar__fill {
   width: 40%;
-  animation: si-loading-slide 1.1s ease-in-out infinite;
+  animation: si-loading-slide 1.4s ease-in-out infinite;
 }
 
+/* ---------- circular ---------- */
 .si-loading-bar--circular {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
-.si-loading-bar--circular.si-loading-bar--thin .si-loading-bar__spinner {
-  width: 28px;
-  height: 28px;
-  border-width: 3px;
-}
-
-.si-loading-bar--circular.si-loading-bar--thick .si-loading-bar__spinner {
+.si-loading-bar--circular.si-loading-bar--thin {
   width: 40px;
   height: 40px;
-  border-width: 5px;
 }
 
-.si-loading-bar__spinner {
-  box-sizing: border-box;
-  border-style: solid;
-  border-color: #c5d4da;
-  border-top-color: #3c7b94;
-  border-radius: 50%;
-  animation: si-loading-spin 0.85s linear infinite;
+.si-loading-bar--circular.si-loading-bar--thick {
+  width: 44px;
+  height: 44px;
+}
+
+.si-loading-bar__svg {
+  display: block;
+}
+
+.si-loading-bar__circle-track {
+  stroke: #e6e7e9;
+}
+
+.si-loading-bar__circle-active {
+  stroke: #3c7b94;
+}
+
+.si-loading-bar--circular.si-loading-bar--indeterminate .si-loading-bar__svg {
+  animation: si-loading-spin 1s linear infinite;
 }
 
 @keyframes si-loading-spin {
@@ -56,6 +94,13 @@
     transform: translateX(-100%);
   }
   100% {
-    transform: translateX(350%);
+    transform: translateX(250%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .si-loading-bar--linear.si-loading-bar--indeterminate .si-loading-bar__fill,
+  .si-loading-bar--circular.si-loading-bar--indeterminate .si-loading-bar__svg {
+    animation-duration: 4s;
   }
 }

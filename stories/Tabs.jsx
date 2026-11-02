@@ -38,7 +38,9 @@ export const Tabs = ({
             .join(' ')}
           onClick={() => setSelected(index)}
         >
-          {label}
+          <span className="si-tabs__label">
+            <span className="si-tabs__text">{label}</span>
+          </span>
         </button>
       ))}
     </div>
