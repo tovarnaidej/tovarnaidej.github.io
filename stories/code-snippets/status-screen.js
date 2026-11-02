@@ -98,9 +98,10 @@ export function buildIosSnippet(args = {}) {
   ].join('\n');
 }
 
+export const STATUS_SCREEN_PLATFORMS = MOBILE_PLATFORMS;
+
 export const buildStatusScreenSnippet = makeSnippetBuilder({
   android: buildAndroidSnippet,
   ios: buildIosSnippet,
   flutter: buildFlutterSnippet,
-  platforms: MOBILE_PLATFORMS,
 });
