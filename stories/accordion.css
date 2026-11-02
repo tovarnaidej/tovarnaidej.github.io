@@ -1,61 +1,129 @@
+/*
+ * Figma 3911:3977 — Harmonika (Accordion)
+ *
+ * Surfaces:
+ *   defaultStyle: bg #ffffff, text #000, chevron #3c7b94
+ *   outlined: bg #ffffff, stroke 1 inside #3c7b94
+ *   filled: bg #3c7b94, text/chevron #ffffff
+ *
+ * Collapsed 360×58 r8; header pl16 py8 gap16
+ * Title/items: Republika Regular 17/25 letter-spacing 0.1px
+ * Divider-Inset: 1px #e6e7e9 inset 16, at y≈50 in header
+ * Items h42, gap 6 after first (gap 2 from divider)
+ */
+
 .si-accordion {
   box-sizing: border-box;
   width: 360px;
-  font-family: 'Republika', Arial, sans-serif;
-  background: transparent;
-  border-radius: 8px;
   overflow: hidden;
+  border-radius: 8px;
+  font-family: 'Republika', Arial, sans-serif;
+  color: #000000;
 }
 
-.si-accordion--outlined {
-  border: 1px solid #c5d4da;
+.si-accordion *,
+.si-accordion *::before,
+.si-accordion *::after {
+  box-sizing: border-box;
+}
+
+.si-accordion--defaultStyle {
   background: #ffffff;
 }
 
+.si-accordion--outlined {
+  background: #ffffff;
+  box-shadow: inset 0 0 0 1px #3c7b94;
+}
+
 .si-accordion--filled {
-  background: #d9e8ee;
+  background: #3c7b94;
+  color: #ffffff;
+}
+
+.si-accordion__header-wrap {
+  position: relative;
+  width: 100%;
+  height: 58px;
 }
 
 .si-accordion__header {
-  box-sizing: border-box;
   display: flex;
-  width: 100%;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 16px;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  height: 58px;
+  padding: 8px 0 8px 16px;
   border: 0;
   background: transparent;
-  color: #0b3a4a;
-  font: 700 16px/1.25 'Republika', Arial, sans-serif;
-  text-align: left;
+  color: inherit;
   cursor: pointer;
   appearance: none;
 }
 
-.si-accordion__chevron {
-  width: 10px;
-  height: 10px;
-  border-right: 2px solid #3c7b94;
-  border-bottom: 2px solid #3c7b94;
-  transform: rotate(45deg);
-  transition: transform 0.15s ease;
-  flex-shrink: 0;
+.si-accordion__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
+  text-align: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.si-accordion--expanded .si-accordion__chevron {
-  transform: rotate(-135deg);
+.si-accordion__chevron {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.si-accordion__chevron img {
+  display: block;
+  width: 40px;
+  height: 40px;
+}
+
+/* Collapsed: Figma -scale-y on chevron-up → points down */
+.si-accordion--collapsed .si-accordion__chevron {
+  transform: scaleY(-1);
+}
+
+/* Divider-Inset band: line at y=4 inside 8px band at header bottom */
+.si-accordion__divider {
+  position: absolute;
+  top: 50px;
+  left: 16px;
+  right: 16px;
+  height: 0;
+  border: 0;
+  border-top: 1px solid #e6e7e9;
+  pointer-events: none;
 }
 
 .si-accordion__body {
+  display: flex;
+  flex-direction: column;
   margin: 0;
-  padding: 0 16px 12px;
+  padding: 0 0 12px;
   list-style: none;
 }
 
 .si-accordion__item {
-  padding: 10px 0;
-  border-top: 1px solid #d9e2e6;
-  color: #45636d;
-  font: 400 15px/1.35 'Republika', Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  height: 42px;
+  margin-top: 6px;
+  padding: 0 16px;
+  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
+  color: inherit;
+}
+
+.si-accordion__item:first-child {
+  margin-top: 2px;
 }

@@ -133,14 +133,11 @@
 
 /* —— Popup (3911:7372) —— */
 
+/* Popup is just the card — no gray canvas behind the widget. */
 .si-status--popup {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 393px;
-  min-height: 520px;
-  padding: 24px 16px;
-  background: #ececec;
+  display: block;
+  width: 361px;
+  background: transparent;
 }
 
 .si-status--popup .si-status__popup-card {
