@@ -25,7 +25,7 @@ const aboveColumns = [
 const aboveRows = [
   {},
   { focused: true },
-  { hasError: true, errorText: 'Error text' },
+  { hasError: true },
   { enabled: false },
 ];
 
@@ -37,8 +37,8 @@ const floatingColumns = [
 ];
 const floatingRows = [
   { value: '' },
-  { value: 'Placeholder text' },
-  { value: 'Placeholder text', hasError: true, errorText: 'Helper text' },
+  { value: 'Besedilo' },
+  { value: 'Besedilo', hasError: true },
   { value: '', enabled: false },
 ];
 
@@ -48,7 +48,7 @@ const grid = (rows, columns, base) =>
     { className: 'input-showcase__grid', style: { gridTemplateColumns: `repeat(${columns.length}, 374px)` } },
     ...rows.flatMap((row, r) =>
       columns.map((col, c) =>
-        React.createElement(Input, { key: `${r}-${c}`, label: 'Label', ...base, ...col, ...row }),
+        React.createElement(Input, { key: `${r}-${c}`, label: 'Oznaka', ...base, ...col, ...row }),
       ),
     ),
   );
@@ -60,7 +60,7 @@ const renderVariants = () =>
     React.createElement(
       ShowcaseSection,
       { title: 'Oznaka nad poljem (iOS)' },
-      grid(aboveRows, aboveColumns, { platform: 'ios', labelPosition: 'above', value: 'Text...' }),
+      grid(aboveRows, aboveColumns, { platform: 'ios', labelPosition: 'above', value: 'Besedilo' }),
     ),
     React.createElement(
       ShowcaseSection,
@@ -116,11 +116,11 @@ export default {
     },
     enabled: { name: 'Omogočeno', control: { type: 'boolean' } },
     hasError: { name: 'Napaka', control: { type: 'boolean' } },
-    focused: { name: 'Fokus', control: { type: 'boolean' } },
+    focused: { table: { disable: true } },
     showIcon: { name: 'Ikona', control: { type: 'boolean' } },
     obscure: { name: 'Skrij', control: { type: 'boolean' } },
-    label: { name: 'Besedilo oznake' },
-    value: { name: 'Vrednost' },
+    label: { name: 'Oznaka' },
+    value: { table: { disable: true } },
     errorText: { table: { disable: true } },
     placeholder: { table: { disable: true } },
     className: { table: { disable: true } },
