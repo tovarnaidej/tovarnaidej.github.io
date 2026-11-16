@@ -62,7 +62,7 @@ export default {
       options: ['underline', 'filled'],
     },
     configuration: {
-      name: 'Konfiguracija',
+      name: 'Postavitev',
       control: {
         type: 'select',
         labels: { fixed: 'Fiksno', scrollable: 'Pomakljivo' },
@@ -73,7 +73,7 @@ export default {
       name: 'Zavihki',
       control: {
         type: 'select',
-        labels: { 3: 'Tri', 4: 'Štiri', 5: 'Pet', 8: 'Osem' },
+        labels: { 3: '3', 4: '4', 5: '5', 8: '8' },
       },
       options: [3, 4, 5, 8],
     },
