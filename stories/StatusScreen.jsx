@@ -4,12 +4,16 @@ import PropTypes from 'prop-types';
 import updateIcon from './assets/mobile/status-screen/status-update.svg';
 import wifiSlashIcon from './assets/mobile/status-screen/status-wifi-slash.svg';
 import warningIcon from './assets/mobile/status-screen/status-warning.svg';
+import closeIcon from './assets/mobile/status-screen/status-close.svg';
+import './mobile-tokens.css';
 import './status-screen.css';
 
 const SCENARIOS = {
   update: {
     tone: 'primary',
     icon: updateIcon,
+    // TokenStatusScreenV2.iconOffsetY at the 44 full-screen size
+    iconOffset: 1.5,
     title: 'Posodobite aplikacijo',
     description:
       'Za nadaljnjo uporabo potrebujete najnovejšo različico aplikacije. Posodobitev vključuje pomembne varnostne izboljšave in popravke.',
@@ -20,6 +24,7 @@ const SCENARIOS = {
   offline: {
     tone: 'primary',
     icon: wifiSlashIcon,
+    iconOffset: 0,
     title: 'Ni internetne povezave',
     description:
       'Za preverjanje in namestitev posodobitve se povežite z internetom. Ko bo povezava vzpostavljena, poskusite znova.',
@@ -30,6 +35,7 @@ const SCENARIOS = {
   unsupported: {
     tone: 'error',
     icon: warningIcon,
+    iconOffset: 0.69,
     title: 'Naprava ni več podprta',
     description:
       'Ta različica aplikacije zahteva novejši operacijski sistem. Posodobite napravo ali se obrnite na podporo.',
@@ -47,6 +53,7 @@ export const StatusScreen = ({
   meta,
   primaryLabel,
   secondaryLabel,
+  showClose = true,
   className = '',
 }) => {
   const preset = SCENARIOS[scenario] || SCENARIOS.update;
@@ -62,6 +69,7 @@ export const StatusScreen = ({
   };
   const isPopup = presentation === 'popup';
   const iconSize = isPopup ? 36 : 44;
+  const iconOffset = ((preset.iconOffset || 0) * iconSize) / 44;
 
   const illustration = (
     <div className="si-status__illustration" aria-hidden="true">
@@ -71,6 +79,7 @@ export const StatusScreen = ({
         alt=""
         width={iconSize}
         height={iconSize}
+        style={{ transform: `translateY(${iconOffset}px)` }}
       />
     </div>
   );
@@ -118,8 +127,24 @@ export const StatusScreen = ({
           .filter(Boolean)
           .join(' ')}
       >
-        <div className="si-status__popup-card">
+        <div
+          className={[
+            'si-status__popup-card',
+            showClose ? 'si-status__popup-card--with-close' : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
           <div className="si-status__popup-stack">
+            {showClose ? (
+              <button type="button" className="si-status__close" aria-label="Zapri">
+                <span
+                  className="si-status__close-icon"
+                  style={{ '--si-icon': `url(${JSON.stringify(closeIcon)})` }}
+                  aria-hidden="true"
+                />
+              </button>
+            ) : null}
             {illustration}
             {copy}
             {metaEl}
@@ -157,5 +182,6 @@ StatusScreen.propTypes = {
   meta: PropTypes.string,
   primaryLabel: PropTypes.string,
   secondaryLabel: PropTypes.string,
+  showClose: PropTypes.bool,
   className: PropTypes.string,
 };

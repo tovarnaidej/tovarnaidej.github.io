@@ -76,6 +76,7 @@ export default {
     meta: '',
     primaryLabel: '',
     secondaryLabel: '',
+    showClose: true,
   },
   argTypes: {
     presentation: {
@@ -106,6 +107,11 @@ export default {
     meta: { name: 'Meta' },
     primaryLabel: { name: 'Primarni gumb' },
     secondaryLabel: { name: 'Sekundarni gumb' },
+    showClose: {
+      name: 'Zapri (x)',
+      control: { type: 'boolean' },
+      if: { arg: 'presentation', eq: 'popup' },
+    },
     className: { table: { disable: true } },
   },
 };
