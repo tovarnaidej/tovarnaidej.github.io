@@ -1,28 +1,82 @@
-/* Figma 3911:2898 + TokenTabBar — width 396; label always black */
+/* SITabBar twin — components/flutter/lib/src/components/tab_bar/tab_bar_tokens.dart
+   (Figma 3911:2898, width 396). Icon 24 active #3C7B94 / inactive #949598,
+   label 12/16 -0.2 black (inactive 0.8). */
 .si-tab-bar {
   box-sizing: border-box;
+  position: relative;
   display: flex;
   width: 396px;
   background: #ffffff;
-  border-top: 1px solid #e6e7e9;
   font-family: 'Republika', Arial, sans-serif;
 }
 
 .si-tab-bar__item {
-  flex: 1;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 12px 4px 16px;
+  min-width: 0;
+  margin: 0;
   border: 0;
   background: transparent;
   cursor: pointer;
   appearance: none;
 }
 
+/* ---- Android: 1px top border in layout; padding / gap by item count; items expand */
+.si-tab-bar--android {
+  border-top: 1px solid #e6e7e9;
+  gap: 4px;
+}
+
+.si-tab-bar--android.si-tab-bar--count-3 {
+  gap: 8px;
+  padding: 0 10px;
+}
+
+.si-tab-bar--android.si-tab-bar--count-4 {
+  gap: 24px;
+  padding: 0 12px;
+}
+
+.si-tab-bar--android .si-tab-bar__item {
+  flex: 1 1 0;
+  gap: 4px;
+  padding: 12px 0 16px;
+}
+
+/* ---- iOS: border painted over; 75 x 50 items, end-aligned, space-between */
+.si-tab-bar--ios {
+  justify-content: space-between;
+}
+
+.si-tab-bar--ios::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: #e6e7e9;
+  pointer-events: none;
+}
+
+.si-tab-bar--ios.si-tab-bar--count-2 {
+  padding: 0 64px;
+}
+
+.si-tab-bar--ios.si-tab-bar--count-3 {
+  padding: 0 24px;
+}
+
+.si-tab-bar--ios.si-tab-bar--count-4 {
+  padding: 0 12px;
+}
+
 .si-tab-bar--ios .si-tab-bar__item {
-  padding-bottom: 18px;
+  flex: 0 0 75px;
+  justify-content: flex-end;
+  gap: 2px;
+  height: 50px;
+  padding: 0;
 }
 
 .si-tab-bar__icon {
@@ -43,10 +97,13 @@
 .si-tab-bar__label {
   font: 400 12px/16px 'Republika', Arial, sans-serif;
   letter-spacing: -0.2px;
-  color: #000000;
-  opacity: 0.8;
+  max-width: 100%;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 0.8);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .si-tab-bar__item--selected .si-tab-bar__label {
-  opacity: 1;
+  color: #000000;
 }

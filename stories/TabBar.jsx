@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import './mobile-tokens.css';
 import './tab-bar.css';
 
 
@@ -17,6 +18,7 @@ export const TabBar = ({
       className={[
         'si-tab-bar',
         `si-tab-bar--${platform}`,
+        `si-tab-bar--count-${tabCount}`,
         className,
       ]
         .filter(Boolean)
