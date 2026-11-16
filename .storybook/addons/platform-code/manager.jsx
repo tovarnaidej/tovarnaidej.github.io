@@ -109,14 +109,6 @@ import {
   TABS_PLATFORMS,
   buildTabsSnippet,
 } from '../../../stories/code-snippets/tabs.js';
-import {
-  LIST_ITEM_PLATFORMS,
-  buildListItemSnippet,
-} from '../../../stories/code-snippets/list-item.js';
-import {
-  AMOUNT_INPUT_PLATFORMS,
-  buildAmountInputSnippet,
-} from '../../../stories/code-snippets/amount-input.js';
 
 const ADDON_ID = 'mslovenija/platform-code';
 const PANEL_ID = `${ADDON_ID}/panel`;
@@ -148,8 +140,6 @@ const snippetBuilders = {
   'tab-bar': buildTabBarSnippet,
   'status-screen': buildStatusScreenSnippet,
   tabs: buildTabsSnippet,
-  'list-item': buildListItemSnippet,
-  'amount-input': buildAmountInputSnippet,
 };
 
 const platformsByComponent = {
@@ -178,8 +168,6 @@ const platformsByComponent = {
   'tab-bar': TAB_BAR_PLATFORMS,
   'status-screen': STATUS_SCREEN_PLATFORMS,
   tabs: TABS_PLATFORMS,
-  'list-item': LIST_ITEM_PLATFORMS,
-  'amount-input': AMOUNT_INPUT_PLATFORMS,
 };
 
 const emptyMessage =
