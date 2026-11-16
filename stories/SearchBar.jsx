@@ -8,15 +8,15 @@ import './search-bar.css';
 
 const RESULTS = [
   {
-    title: 'List Item',
+    title: 'List Item One',
     supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur',
   },
   {
-    title: 'List Item',
+    title: 'List Item Two',
     supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur',
   },
   {
-    title: 'List Item',
+    title: 'List Item Three',
     supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur',
   },
 ];
@@ -65,7 +65,7 @@ export const SearchBar = ({
           </div>
           <div className="si-search-bar__divider" />
           {resultsMode === 'empty' ? (
-            <div className="si-search-bar__empty">Ni rezultatov</div>
+            <div className="si-search-bar__empty" aria-hidden="true" />
           ) : (
             <div className="si-search-bar__list">
               {RESULTS.map((item, idx) => (
