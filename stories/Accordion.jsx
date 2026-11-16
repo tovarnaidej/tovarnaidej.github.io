@@ -5,11 +5,12 @@ import chevronDown from './assets/mobile/accordion/chevron-down.svg';
 import './mobile-tokens.css';
 import './accordion.css';
 
-const ITEMS = ['Lorem ipsum', 'Lorem ipsum', 'Lorem ipsum'];
+// accordion_configurator.dart
+const ITEMS = ['Item 1', 'Item 2', 'Item 3'];
 
 export const Accordion = ({
   style = 'defaultStyle',
-  title = 'Accordion component',
+  title = 'Accordion Title',
   initiallyExpanded = false,
   className = '',
 }) => {

@@ -27,12 +27,12 @@ const renderVariants = () =>
             { key: style, gap: 16 },
             React.createElement(Accordion, {
               style,
-              title: 'Accordion component',
+              title: 'Accordion Title',
               initiallyExpanded: false,
             }),
             React.createElement(Accordion, {
               style,
-              title: 'Accordion component',
+              title: 'Accordion Title',
               initiallyExpanded: true,
             }),
           ),
@@ -54,7 +54,7 @@ export default {
   tags: ['autodocs'],
   args: {
     style: 'defaultStyle',
-    title: 'Accordion component',
+    title: 'Accordion Title',
     initiallyExpanded: false,
   },
   argTypes: {
@@ -73,10 +73,7 @@ export default {
     title: {
       name: 'Naslov',
     },
-    initiallyExpanded: {
-      name: 'Razširjeno',
-      control: { type: 'boolean' },
-    },
+    initiallyExpanded: { table: { disable: true } },
     className: { table: { disable: true } },
   },
 };
