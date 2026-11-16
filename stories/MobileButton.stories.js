@@ -59,6 +59,7 @@ export default {
   },
   tags: ['autodocs'],
   args: {
+    enabled: true,
     label: 'Example Button',
     variant: 'filled',
     size: 'regular',
@@ -68,7 +69,7 @@ export default {
   },
   argTypes: {
     label: {
-      name: 'Besedilo',
+      name: 'Oznaka',
       description: 'Besedilo, prikazano na gumbu.',
     },
     variant: {
@@ -77,39 +78,17 @@ export default {
       control: {
         type: 'select',
         labels: {
-          filled: 'Polni',
-          elevated: 'Senca',
-          outline: 'Obroba',
-          text: 'Besedilni',
+          filled: 'Zapolnjeno',
+          outline: 'Obrobljeno',
+          text: 'Besedilo',
+          elevated: 'S senco',
         },
       },
       options: variants,
     },
-    size: {
-      name: 'Velikost',
-      description: 'Običajna (48px) ali majhna in-card (40px).',
-      control: {
-        type: 'select',
-        labels: {
-          regular: 'Običajna',
-          small: 'Majhna',
-        },
-      },
-      options: sizes,
-    },
-    state: {
-      name: 'Stanje',
-      description: 'Trenutno stanje gumba.',
-      control: {
-        type: 'select',
-        labels: {
-          enabled: 'Omogočen',
-          pressed: 'Pritisnjen',
-          disabled: 'Onemogočen',
-        },
-      },
-      options: states,
-    },
+    size: { table: { disable: true } },
+    state: { table: { disable: true } },
+    enabled: { name: 'Omogočeno', control: { type: 'boolean' } },
     leadingIcon: {
       name: 'Vodilna ikona',
       description: 'Prikaže ikono pred besedilom.',

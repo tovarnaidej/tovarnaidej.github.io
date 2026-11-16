@@ -16,11 +16,12 @@ export const Button = ({
   state = 'enabled',
   leadingIcon = false,
   disabled = false,
+  enabled = true,
   className = '',
   ...props
 }) => {
   const normalizedVariant = VARIANT_ALIASES[variant] || variant;
-  const normalizedState = disabled ? 'disabled' : state;
+  const normalizedState = disabled || !enabled ? 'disabled' : state;
   const isDisabled = normalizedState === 'disabled';
   const classes = [
     'storybook-button',
@@ -60,6 +61,7 @@ Button.propTypes = {
   state: PropTypes.oneOf(['enabled', 'pressed', 'disabled']),
   leadingIcon: PropTypes.bool,
   disabled: PropTypes.bool,
+  enabled: PropTypes.bool,
   className: PropTypes.string,
   onClick: PropTypes.func,
 };
