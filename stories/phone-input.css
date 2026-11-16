@@ -108,10 +108,9 @@
 
 .si-phone-input__panel {
   box-sizing: border-box;
-  position: absolute;
-  left: 0;
-  top: 68px;
-  z-index: 2;
+  /* In flow below the row (Storybook preview); native shows it as a sheet. */
+  position: relative;
+  margin-top: 8px;
   display: flex;
   flex-direction: column;
   width: 374px;
@@ -164,7 +163,6 @@
   min-height: 56px;
   padding: 8px 24px 8px 16px;
   border: 0;
-  border-bottom: 1px solid #e6e7e9;
   background: transparent;
   font: 400 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
@@ -173,8 +171,15 @@
   cursor: pointer;
 }
 
-.si-phone-input__list li:last-child .si-phone-input__list-item {
-  border-bottom: 0;
+/* TokenPhoneAmountV2.pickerDividerIndent 52 */
+.si-phone-input__list li + li {
+  border-top: 1px solid #e6e7e9;
+  margin-left: 52px;
+}
+
+.si-phone-input__list li + li .si-phone-input__list-item {
+  margin-left: -52px;
+  width: calc(100% + 52px);
 }
 
 .si-phone-input__list-flag {

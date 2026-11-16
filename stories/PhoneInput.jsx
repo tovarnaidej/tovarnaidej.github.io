@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import flagSi from './assets/mobile/phone/flags/si.png';
-import flagDe from './assets/mobile/phone/flags/de.png';
-import flagGh from './assets/mobile/phone/flags/gh.png';
-import flagGr from './assets/mobile/phone/flags/gr.png';
-import flagGt from './assets/mobile/phone/flags/gt.png';
+import flagSi from './assets/mobile/phone/flags/si.svg';
+import flagDe from './assets/mobile/phone/flags/de.svg';
+import flagGh from './assets/mobile/phone/flags/gh.svg';
+import flagGr from './assets/mobile/phone/flags/gr.svg';
+import flagGt from './assets/mobile/phone/flags/gt.svg';
 import chevronDown from './assets/mobile/phone/chevron-down.svg';
 import magnifyingGlass from './assets/mobile/phone/magnifying-glass.svg';
 import './phone-input.css';
@@ -24,6 +24,7 @@ export const PhoneInput = ({
   countryCode = 'si',
   value = '',
   open = false,
+  label = 'Telefonska številka',
   className = '',
 }) => {
   const [isOpen, setIsOpen] = useState(open);
@@ -75,7 +76,7 @@ export const PhoneInput = ({
         </button>
 
         <div className="si-phone-input__field">
-          <span className="si-phone-input__field-label">Phone number</span>
+          <span className="si-phone-input__field-label">{label}</span>
           <div className="si-phone-input__value-row">
             <span className="si-phone-input__prefix">{selected.dial}</span>
             {value ? (
@@ -96,7 +97,7 @@ export const PhoneInput = ({
               className="si-phone-input__search-icon"
             />
             <span className="si-phone-input__search-placeholder">
-              Search for countries
+              Iskanje držav
             </span>
           </div>
           <div className="si-phone-input__panel-divider" />
@@ -137,5 +138,6 @@ PhoneInput.propTypes = {
   countryCode: PropTypes.string,
   value: PropTypes.string,
   open: PropTypes.bool,
+  label: PropTypes.string,
   className: PropTypes.string,
 };

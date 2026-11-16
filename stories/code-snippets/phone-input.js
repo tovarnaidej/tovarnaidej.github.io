@@ -36,10 +36,18 @@ export function buildAndroidSnippet(args = {}) {
 }
 
 export function buildIosSnippet(args = {}) {
-  return [
-    'SIPhoneInput(',
-    '    label: "Telefonska številka",',
+  const params = [
+    '    text: $phone',
+    '    label: "Telefonska številka"',
     `    countryCode: "${escapeDoubleQuoted(countryCode(args))}"`,
+  ];
+  if (args?.enabled === false) params.push('    enabled: false');
+  if (args?.hasError) params.push('    errorText: "Prišlo je do napake..."');
+  return [
+    `@State private var phone = "${escapeDoubleQuoted(args?.value || '')}"`,
+    '',
+    'SIPhoneInput(',
+    params.join(',\n'),
     ')',
   ].join('\n');
 }
