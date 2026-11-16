@@ -20,14 +20,14 @@ const renderColumn = (thickness) =>
   React.createElement(
     ShowcaseStack,
     { gap: 20 },
-    ...states.map((s) =>
+    ...states.map((s, i) =>
       React.createElement(RadioItem, {
         key: `${thickness}-${s.key}`,
         thickness,
         selected: s.selected,
         enabled: s.enabled,
         hasError: s.hasError,
-        label: 'Placeholder text',
+        label: `Option ${(i % 3) + 1}`,
         name: `si-radio-showcase-${thickness}-${s.key}`,
       }),
     ),
@@ -42,7 +42,7 @@ const renderVariants = () =>
       null,
       React.createElement(PlatformColumns, {
         gap: 63,
-        labels: ['Tanka (1)', 'Debela (2)'],
+        labels: ['Tanka', 'Debela'],
         ios: renderColumn('thin'),
         android: renderColumn('thick'),
       }),
@@ -71,12 +71,12 @@ export default {
     enabled: { name: 'Omogočeno', control: { type: 'boolean' } },
     hasError: { name: 'Napaka', control: { type: 'boolean' } },
     showLabels: { name: 'Prikaži oznake', control: { type: 'boolean' } },
-    label1: { name: 'Oznaka 1' },
-    label2: { name: 'Oznaka 2' },
-    label3: { name: 'Oznaka 3' },
+    label1: { table: { disable: true } },
+    label2: { table: { disable: true } },
+    label3: { table: { disable: true } },
     thickness: {
       name: 'Debelina',
-      control: { type: 'inline-radio', labels: { thin: 'Tanka (1)', thick: 'Debela (2)' } },
+      control: { type: 'inline-radio', labels: { thin: 'Tanka', thick: 'Debela' } },
       options: ['thin', 'thick'],
     },
     className: { table: { disable: true } },
