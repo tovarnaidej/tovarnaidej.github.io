@@ -4,7 +4,7 @@
  *
  * Linear: 361 wide, 12 high layout box; the visible bar is a 4px stroke
  * (radius 2) centered in it. Active fill and remaining track are separated
- * by a 6px gap.
+ * by a 4px gap (components/flutter/lib/src/components/loading_bar/loading_bar_tokens.dart).
  * Circular: thin 40×40 / stroke 4 · thick 44×44 / stroke 8.
  */
 .si-loading-bar {
@@ -35,9 +35,9 @@
   background: #e6e7e9;
 }
 
-/* 6px gap between active fill end and the remaining track */
+/* TokenLoadingBarV2.linearActiveTrackGap = 4 (Figma spec sheet says 6; SOT wins) */
 .si-loading-bar__fill + .si-loading-bar__track {
-  margin-left: 6px;
+  margin-left: 4px;
 }
 
 /* indeterminate: the active bar slides through the clipped track */

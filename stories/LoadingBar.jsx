@@ -14,43 +14,90 @@ const CIRCULAR = {
 
 // Share of the circumference drawn while indeterminate.
 const INDETERMINATE_ARC = 0.3;
+// TokenLoadingBarV2.circularActiveTrackGap
+const CIRCULAR_GAP = 4;
 
+const arcPath = (cx, cy, r, start, sweep) => {
+  const end = start + sweep;
+  const x1 = cx + r * Math.cos(start);
+  const y1 = cy + r * Math.sin(start);
+  const x2 = cx + r * Math.cos(end);
+  const y2 = cy + r * Math.sin(end);
+  const large = sweep > Math.PI ? 1 : 0;
+  return `M ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2}`;
+};
+
+/**
+ * _CircularLoadingPainter: two arcs (active from 12 o'clock + remaining track)
+ * with round caps and a visible gap of circularActiveTrackGap between them —
+ * never a full grey ring under the active arc.
+ */
 const CircularIndicator = ({ thickness, progress, indeterminate }) => {
   const { size, stroke } = CIRCULAR[thickness] || CIRCULAR.thin;
-  const center = size / 2;
-  const radius = (size - stroke) / 2;
-  const circumference = 2 * Math.PI * radius;
-  const share = indeterminate ? INDETERMINATE_ARC : progress;
-  const arcLength = circumference * share;
+  const c = size / 2;
+  const r = (size - stroke) / 2;
+  const full = Math.PI * 2;
+  const top = -Math.PI / 2;
+  const svgProps = {
+    className: 'si-loading-bar__svg',
+    width: size,
+    height: size,
+    viewBox: `0 0 ${size} ${size}`,
+    fill: 'none',
+    'aria-hidden': 'true',
+  };
+
+  if (indeterminate || progress <= 0 || progress >= 1) {
+    const share = indeterminate ? INDETERMINATE_ARC : progress >= 1 ? 1 : 0;
+    const circumference = full * r;
+    return (
+      <svg {...svgProps}>
+        {share < 1 && (
+          <circle className="si-loading-bar__circle-track" cx={c} cy={c} r={r} strokeWidth={stroke} />
+        )}
+        {share > 0 && (
+          <circle
+            className="si-loading-bar__circle-active"
+            cx={c}
+            cy={c}
+            r={r}
+            strokeWidth={stroke}
+            strokeLinecap={share < 1 ? 'round' : 'butt'}
+            strokeDasharray={`${circumference * share} ${circumference}`}
+            transform={`rotate(-90 ${c} ${c})`}
+          />
+        )}
+      </svg>
+    );
+  }
+
+  const gapAngle = (stroke + CIRCULAR_GAP) / r;
+  const capAngle = stroke / 2 / r;
+  const fillEnd = (full - 2 * gapAngle - 0.001) / full;
+  const visibleGap = gapAngle - 2 * capAngle;
+  const drawGap =
+    progress < fillEnd ? visibleGap : visibleGap * (1 - Math.min(1, (progress - fillEnd) / (1 - fillEnd)));
+  const progressAngle = full * progress;
+  const activeSweep = Math.max(0.0001, progressAngle - 2 * capAngle);
+  const trackStart = top + progressAngle + drawGap + capAngle;
+  const trackSweep = full - progressAngle - 2 * drawGap - 2 * capAngle;
 
   return (
-    <svg
-      className="si-loading-bar__svg"
-      width={size}
-      height={size}
-      viewBox={`0 0 ${size} ${size}`}
-      fill="none"
-      aria-hidden="true"
-    >
-      <circle
-        className="si-loading-bar__circle-track"
-        cx={center}
-        cy={center}
-        r={radius}
-        strokeWidth={stroke}
-      />
-      {share > 0 && (
-        <circle
-          className="si-loading-bar__circle-active"
-          cx={center}
-          cy={center}
-          r={radius}
+    <svg {...svgProps}>
+      {trackSweep > 0 && (
+        <path
+          className="si-loading-bar__circle-track"
+          d={arcPath(c, c, r, trackStart, trackSweep)}
           strokeWidth={stroke}
           strokeLinecap="round"
-          strokeDasharray={`${arcLength} ${circumference}`}
-          transform={`rotate(-90 ${center} ${center})`}
         />
       )}
+      <path
+        className="si-loading-bar__circle-active"
+        d={arcPath(c, c, r, top + capAngle, activeSweep)}
+        strokeWidth={stroke}
+        strokeLinecap="round"
+      />
     </svg>
   );
 };
@@ -109,7 +156,7 @@ export const LoadingBar = ({
     );
   }
 
-  // Determinate: active fill, then a 6px gap, then the remaining track.
+  // Determinate: active fill, then a 4px gap (linearActiveTrackGap), then the remaining track.
   return (
     <div className={classes} {...ariaProps}>
       {pct > 0 && (
