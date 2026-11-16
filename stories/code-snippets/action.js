@@ -6,7 +6,8 @@ import {
 } from './_shared.js';
 
 const style = (args) => args?.style || 'elevated';
-const message = (args) => args?.message ?? 'This is a notification';
+const message = (args) => args?.message ?? 'To je obvestilo';
+const label = (args) => args?.actionLabel || 'Razveljavi';
 const maxLinesValue = (args) => {
   if (args?.maxLines === 'one') return 1;
   if (args?.maxLines === 'unlimited') return null;
@@ -23,7 +24,7 @@ export function buildFlutterSnippet(args = {}) {
     `  message: '${msg}',`,
   ];
   if (args?.showAction !== false) {
-    lines.push("  actionLabel: 'Undo',");
+    lines.push(`  actionLabel: '${escapeJsString(label(args))}',`);
     lines.push('  onAction: () {},');
   }
   if (args?.showDismiss !== false) {
@@ -43,7 +44,7 @@ export function buildAndroidSnippet(args = {}) {
     `    message = "${msg}"`,
   ];
   if (args?.showAction !== false) {
-    lines.push('    actionLabel = "Undo"');
+    lines.push(`    actionLabel = "${escapeDoubleQuoted(label(args))}"`);
     lines.push('    onAction = { }');
   }
   if (args?.showDismiss !== false) {
@@ -62,7 +63,7 @@ export function buildIosSnippet(args = {}) {
     `    style: .${style(args)},`,
   ];
   if (args?.showAction !== false) {
-    lines.push('    actionLabel: "Undo",');
+    lines.push(`    actionLabel: "${escapeDoubleQuoted(label(args))}",`);
     lines.push('    onAction: { },');
   }
   if (args?.showDismiss !== false) {

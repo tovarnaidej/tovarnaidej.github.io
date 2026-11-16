@@ -1,220 +1,185 @@
 /*
- * Figma 3911:4327 — Obvestila (mobile) / Snackbar
- * Width 344. Fixed Figma frame heights are expressed as min-height:
- *   one line 48 · two lines 68 (with buttons) / 72 (no buttons)
- * Text is vertically centered in the row, as in the Figma auto layout.
- *   elevated → white, radius 4, shadow 0 1 2 #00000040 (Effects/Elevation/1)
- *   outlined → white, 1px #3C7B94 stroke (inside), radius 8
- *   filled   → #3C7B94, white text, radius 8
+ * SIAction twin — components/flutter/lib/src/components/action/action_tokens.dart
+ * width 344 · min height 48 · message Regular 15/21 +0.1 (every variant)
+ * elevated: white, radius 4, elevation 1 · outlined: white, radius 8, 1px primary
+ * (foreground, no layout) · filled: primary, white text/action/close, radius 8.
+ * Inline: padding-left 16, right 4 (close) / 8 (action) / 16 (none);
+ *   4 gap text→buttons, 4 between action and close.
+ *   Multiline message padding 15/15 (text only) or 13/13 (with buttons), +2/3 nudge.
+ * Action: height 40, padding 0 16, Bold 15/21 -0.2. Close: 40 box, 24 icon.
+ * Stacked: message top 11.2 (13.2 with close), gap 16.8 (11.5), bottom 2 (5.3).
  */
 .si-action {
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
+  position: relative;
   width: 344px;
-  padding: 14px 16px;
-  border: 0;
-  background: #ffffff;
-  color: #000000;
-  font-family: 'Republika', Arial, sans-serif;
+  border-radius: var(--si-radius-m);
+  background: var(--si-surface);
+  color: var(--si-on-surface);
+  font-family: var(--si-font);
+  --si-action-accent: var(--si-primary);
+  --si-action-close: #000000;
+  --si-action-pad-end: 16px;
 }
 
 .si-action--elevated {
-  border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  border-radius: var(--si-radius-s);
+  box-shadow: var(--si-elevation-1);
 }
 
-/* inset stroke keeps outer height identical to filled/elevated */
-.si-action--outlined {
-  border-radius: 8px;
-  box-shadow: inset 0 0 0 1px #3c7b94;
+.si-action--outlined::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--si-primary);
+  border-radius: inherit;
+  pointer-events: none;
 }
 
 .si-action--filled {
-  border-radius: 8px;
-  background: #3c7b94;
-  color: #ffffff;
+  background: var(--si-primary);
+  color: var(--si-on-primary);
+  --si-action-accent: var(--si-on-primary);
+  --si-action-close: var(--si-on-primary);
 }
 
-/* ---------- message ---------- */
-.si-action__message {
-  flex: 1 0 0;
+.si-action--has-action {
+  --si-action-pad-end: 8px;
+}
+
+.si-action--has-dismiss {
+  --si-action-pad-end: 4px;
+}
+
+/* ---------- inline row ---------- */
+.si-action__row {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 var(--si-action-pad-end) 0 16px;
+}
+
+.si-action__measure {
+  position: absolute;
+  inset: 0 0 auto;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.si-action__text {
+  display: block;
+  flex: 1 1 0;
   min-width: 0;
-  margin: 0;
-  font: 400 17px/25px 'Republika', Arial, sans-serif;
-  letter-spacing: 0.1px;
-  word-break: break-word;
 }
 
-.si-action--has-buttons .si-action__message {
-  font-size: 15px;
-  line-height: 21px;
-}
-
-.si-action--lines-one .si-action__message {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.si-action--lines-two .si-action__message {
+.si-action__message {
   display: -webkit-box;
   overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 2;
+  margin: 0;
+  font: var(--si-body-medium);
+  letter-spacing: var(--si-ls-plus01);
+  overflow-wrap: anywhere;
   -webkit-box-orient: vertical;
 }
 
-/* ---------- row heights ---------- */
-.si-action--lines-one {
-  min-height: 48px;
+.si-action__measure .si-action__message {
+  display: block;
 }
 
-.si-action--lines-two {
-  min-height: 72px;
+.si-action--inline .si-action__row:not(.si-action__measure) .si-action__message {
+  transform: translateY(0.6667px);
 }
 
-.si-action--lines-two.si-action--has-buttons {
-  min-height: 68px;
+.si-action--multiline .si-action__row:not(.si-action__measure) .si-action__text {
+  padding: 15px 0;
 }
 
-.si-action--lines-unlimited {
-  min-height: 48px;
+.si-action--multiline.si-action--has-buttons .si-action__row:not(.si-action__measure) .si-action__text {
+  padding: 13px 0;
 }
 
-/* ---------- row paddings (Figma auto layout) ---------- */
-/* action only: pl 16, pr 8 */
-.si-action--has-action {
+.si-action__buttons {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: flex-end;
   gap: 4px;
-  padding-right: 8px;
+  margin-left: 4px;
 }
 
-/*
- * one / two lines: Figma frames have a fixed height (48 / 68 / 72) with the
- * content centered, so the vertical padding (14 / 10 / 4) is absorbed by
- * min-height and the clamped message — no extra block padding here.
- */
-.si-action--lines-one,
-.si-action--lines-two {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-/* dismiss (with or without action): icon button 48 reaches the right edge */
-.si-action--has-dismiss {
-  padding-right: 0;
-}
-
-/* unlimited hugs its content: py 14 without buttons, py 10 with dismiss */
-.si-action--lines-unlimited.si-action--has-dismiss {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-/* ---------- stacked: message on top, buttons row below ---------- */
-/* content: pt 14, px 16 · action row: pl 8, right-aligned */
-.si-action.si-action--stacked.si-action--lines-unlimited {
+/* ---------- stacked ---------- */
+.si-action--stacked .si-action__row:not(.si-action__measure) {
   flex-direction: column;
   align-items: stretch;
-  gap: 14px;
   padding: 0;
 }
 
-.si-action.si-action--stacked.si-action--lines-unlimited.si-action--has-dismiss {
-  gap: 10px;
+.si-action--stacked .si-action__row:not(.si-action__measure) .si-action__text {
+  padding: 11.2px 16px 0;
 }
 
-.si-action--stacked .si-action__message {
-  flex: 0 0 auto;
-  padding: 14px 16px 0;
+.si-action--stacked .si-action__row:not(.si-action__measure) .si-action__buttons {
+  margin: 16.8px 0 0;
+  padding: 0 var(--si-action-pad-end) 2px 0;
 }
 
-.si-action--stacked .si-action__actions {
-  justify-content: flex-end;
-  padding: 0 8px 4px;
+.si-action--stacked.si-action--has-dismiss .si-action__row:not(.si-action__measure) .si-action__text {
+  padding-top: 13.2px;
 }
 
-/* with dismiss the icon button reaches the edge: pl 8, no bottom padding */
-.si-action--stacked.si-action--has-dismiss .si-action__actions {
-  padding: 0 0 0 8px;
+.si-action--stacked.si-action--has-dismiss .si-action__row:not(.si-action__measure) .si-action__buttons {
+  margin-top: 11.5px;
+  padding-bottom: 5.3px;
 }
 
 /* ---------- buttons ---------- */
-.si-action__actions {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-/* Text button: h 40, padding 10 / 12, label padding 0 / 4 */
 .si-action__btn {
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 40px;
-  padding: 10px 12px;
+  padding: 0 16px;
   border: 0;
   border-radius: 100px;
   background: transparent;
-  color: #3c7b94;
-  cursor: pointer;
-}
-
-.si-action__btn-label {
-  padding: 0 4px;
-  font: 700 15px/21px 'Republika', Arial, sans-serif;
-  letter-spacing: -0.2px;
-  text-align: center;
+  color: var(--si-action-accent);
+  font: var(--si-label-large);
+  letter-spacing: var(--si-ls-minus02);
   white-space: nowrap;
-}
-
-/* Icon button: 4 + 8 padding around 24×24 icon = 48×48 */
-.si-action__dismiss {
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  padding: 4px;
-  border: 0;
-  border-radius: 100px;
-  background: transparent;
   cursor: pointer;
 }
 
-.si-action__dismiss-icon {
+.si-action__dismiss {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 40px;
   height: 40px;
-  padding: 8px;
-  box-sizing: border-box;
-  border-radius: 100px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 }
 
-.si-action__dismiss-icon img {
-  display: block;
-}
-
-.si-action--filled .si-action__btn {
-  color: #ffffff;
-}
-
-.si-action--filled .si-action__dismiss-icon img {
-  filter: brightness(0) invert(1);
+.si-action__dismiss-icon {
+  width: 24px;
+  height: 24px;
+  background-color: var(--si-action-close);
+  -webkit-mask: var(--si-icon) center / contain no-repeat;
+  mask: var(--si-icon) center / contain no-repeat;
 }
 
 .si-action__btn:focus-visible,
 .si-action__dismiss:focus-visible {
-  outline: 2px solid #3c7b94;
+  outline: 2px solid var(--si-action-accent);
   outline-offset: -2px;
 }
 
-.si-action--filled .si-action__btn:focus-visible,
-.si-action--filled .si-action__dismiss:focus-visible {
-  outline-color: #ffffff;
+/* maxLines 1: Flutter ellipsis is per character (line-clamp would cut whole words) */
+.si-action--lines-one .si-action__row:not(.si-action__measure) .si-action__message {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

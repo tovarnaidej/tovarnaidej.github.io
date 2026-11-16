@@ -3,7 +3,6 @@ import React from 'react';
 import { Action } from './Action';
 import {
   MobileShowcase,
-  ShowcasePanel,
   ShowcaseRow,
   ShowcaseSection,
   ShowcaseStack,
@@ -12,51 +11,51 @@ import {
 
 const styles = ['elevated', 'outlined', 'filled'];
 const maxLinesOptions = ['one', 'two', 'unlimited'];
+const styleLabels = { elevated: 'S senco', outlined: 'Obrobljeno', filled: 'Zapolnjeno' };
 
 const sampleMessage =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor';
 
-// Figma columns: no buttons · dismiss · action · action + dismiss
-const buttonConfigs = [
-  { showAction: false, showDismiss: false },
-  { showAction: false, showDismiss: true },
-  { showAction: true, showDismiss: false },
-  { showAction: true, showDismiss: true },
+// design_data/Obvestila.png: per style two columns (without / with close) × rows.
+const rows = [
+  { maxLines: 'one', showAction: false },
+  { maxLines: 'one', showAction: true, actionLabel: 'Action' },
+  { maxLines: 'two', showAction: false },
+  { maxLines: 'two', showAction: true, actionLabel: 'Action' },
+  { maxLines: 'unlimited', showAction: true, actionLabel: 'Longer Action' },
 ];
+
+const renderColumn = (style, showDismiss) =>
+  React.createElement(
+    ShowcaseStack,
+    { gap: 24 },
+    ...rows.map((row, index) =>
+      React.createElement(Action, {
+        key: index,
+        style,
+        showDismiss,
+        message: sampleMessage,
+        ...row,
+      }),
+    ),
+  );
 
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Notifications' },
+    { title: 'Obvestila' },
     React.createElement(
-      ShowcasePanel,
-      null,
-      React.createElement(
-        ShowcaseStack,
-        { gap: 32 },
-        ...styles.map((style) =>
+      ShowcaseStack,
+      { gap: 48 },
+      ...styles.map((style) =>
+        React.createElement(
+          ShowcaseSection,
+          { key: style, title: styleLabels[style] },
           React.createElement(
-            ShowcaseSection,
-            { key: style, title: style },
-            React.createElement(
-              ShowcaseStack,
-              { gap: 24 },
-              ...maxLinesOptions.map((maxLines) =>
-                React.createElement(
-                  ShowcaseRow,
-                  { key: maxLines, gap: 24 },
-                  ...buttonConfigs.map((config, index) =>
-                    React.createElement(Action, {
-                      key: index,
-                      style,
-                      maxLines,
-                      message: sampleMessage,
-                      ...config,
-                    }),
-                  ),
-                ),
-              ),
-            ),
+            ShowcaseRow,
+            { gap: 64 },
+            renderColumn(style, false),
+            renderColumn(style, true),
           ),
         ),
       ),
@@ -77,19 +76,15 @@ export default {
     maxLines: 'two',
     showAction: true,
     showDismiss: true,
-    message: sampleMessage,
-    actionLabel: 'Action',
+    message: 'To je obvestilo',
+    actionLabel: 'Razveljavi',
   },
   argTypes: {
     style: {
       name: 'Slog',
       control: {
         type: 'select',
-        labels: {
-          elevated: 'S senco',
-          outlined: 'Obrobljeno',
-          filled: 'Zapolnjeno',
-        },
+        labels: styleLabels,
       },
       options: styles,
     },
@@ -101,7 +96,7 @@ export default {
       },
       options: maxLinesOptions,
     },
-    showAction: { name: 'Akcija', control: { type: 'boolean' } },
+    showAction: { name: 'Dejanje', control: { type: 'boolean' } },
     showDismiss: { name: 'Zapri', control: { type: 'boolean' } },
     message: { name: 'Sporočilo' },
     actionLabel: {
@@ -127,5 +122,5 @@ export const Filled = {
 
 export const UnlimitedWithAction = {
   name: 'Neomejeno z akcijo',
-  args: { maxLines: 'unlimited', actionLabel: 'Longer Action' },
+  args: { maxLines: 'unlimited', message: sampleMessage, actionLabel: 'Longer Action' },
 };
