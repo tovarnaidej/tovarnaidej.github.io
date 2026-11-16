@@ -1,4 +1,5 @@
 /*
+ * SITabs twin — components/flutter/lib/src/components/tabs/tabs_tokens.dart
  * Figma 3911:6740 — Tabs (mobile), width 360
  *   underline (Default)  bg #FFFFFF, h 47 (scrollable frame: h 48)
  *   filled (Variant2)    bg #EDF5F8, h 47
@@ -22,7 +23,7 @@
 }
 
 .si-tabs--scrollable {
-  height: 48px;
+  height: 47px;
   padding-left: 52px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -58,8 +59,23 @@
 }
 
 .si-tabs--scrollable .si-tabs__tab {
-  flex: 0 0 90px;
-  width: 90px;
+  flex: 0 0 auto;
+  min-width: 90px;
+}
+
+/* Fixed: side padding clamp((tab - 24) / 2, 4, 16) via container units */
+.si-tabs--fixed .si-tabs__tab {
+  container-type: inline-size;
+  padding: 0;
+}
+
+.si-tabs--fixed .si-tabs__label {
+  padding: 0 clamp(4px, (100cqw - 24px) / 2, 16px);
+}
+
+.si-tabs--fixed .si-tabs__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .si-tabs__tab:focus-visible {
@@ -67,17 +83,39 @@
   outline-offset: -2px;
 }
 
-/* label box = full tab height, so the indicator can sit on the bottom edge */
+/* SITab: 21px label line sits labelToIndicatorGap (10) + indicator above the
+   bottom (underline 13, filled 12); the indicator is on the tab bottom edge. */
+.si-tabs__tab {
+  align-items: flex-end;
+}
+
 .si-tabs__label {
-  position: relative;
+  position: static;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 0;
+  max-width: 100%;
+  height: 21px;
+  margin-bottom: 13px;
+}
+
+.si-tabs--filled .si-tabs__label {
+  margin-bottom: 12px;
+}
+
+.si-tabs__ink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  max-width: 100%;
   height: 100%;
 }
 
 .si-tabs__text {
   display: block;
+  min-width: 0;
 }
 
 .si-tabs__tab--selected {
@@ -101,11 +139,11 @@
 }
 
 /* 3px pill, top corners rounded, 2px inset each side of the label width */
-.si-tabs--underline .si-tabs__tab--selected .si-tabs__label::after {
+.si-tabs--underline .si-tabs__tab--selected .si-tabs__ink::after {
   content: '';
   position: absolute;
   right: 2px;
-  bottom: 0;
+  bottom: -13px;
   left: 2px;
   height: 3px;
   border-radius: 100px 100px 0 0;

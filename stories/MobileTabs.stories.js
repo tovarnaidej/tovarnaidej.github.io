@@ -18,26 +18,22 @@ const renderVariants = () =>
       React.createElement(
         ShowcaseStack,
         { gap: 20 },
-        React.createElement(Tabs, {
-          style: 'underline',
-          configuration: 'fixed',
-          tabCount: 3,
-        }),
-        React.createElement(Tabs, {
-          style: 'filled',
-          configuration: 'fixed',
-          tabCount: 4,
-        }),
-        React.createElement(Tabs, {
-          style: 'underline',
-          configuration: 'scrollable',
-          tabCount: 4,
-        }),
-        React.createElement(Tabs, {
-          style: 'filled',
-          configuration: 'scrollable',
-          tabCount: 4,
-        }),
+        // design_data/Tabs.png: fixed 3 + 4 in both styles, then scrollable.
+        ...[
+          ['underline', 'fixed', 3],
+          ['filled', 'fixed', 3],
+          ['underline', 'fixed', 4],
+          ['filled', 'fixed', 4],
+          ['underline', 'scrollable', 8],
+          ['filled', 'scrollable', 8],
+        ].map(([style, configuration, tabCount]) =>
+          React.createElement(Tabs, {
+            key: `${style}-${configuration}-${tabCount}`,
+            style,
+            configuration,
+            tabCount,
+          }),
+        ),
       ),
     ),
   );

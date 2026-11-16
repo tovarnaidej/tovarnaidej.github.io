@@ -8,10 +8,10 @@ const configuration = (args) => args?.configuration || 'fixed';
 const tabCount = (args) => Number(args?.tabCount) || 3;
 
 const labels = (count) =>
-  Array.from({ length: count }, (_, i) => `'Tab ${i + 1}'`).join(', ');
+  Array.from({ length: count }, (_, i) => `'Zavihek ${i + 1}'`).join(', ');
 
 const labelsDouble = (count) =>
-  Array.from({ length: count }, (_, i) => `"Tab ${i + 1}"`).join(', ');
+  Array.from({ length: count }, (_, i) => `"Zavihek ${i + 1}"`).join(', ');
 
 export function buildFlutterSnippet(args = {}) {
   const count = tabCount(args);

@@ -10,7 +10,7 @@ export const Tabs = ({
   className = '',
 }) => {
   const [selected, setSelected] = useState(0);
-  const labels = Array.from({ length: tabCount }, (_, i) => `Tab ${i + 1}`);
+  const labels = Array.from({ length: tabCount }, (_, i) => `Zavihek ${i + 1}`);
 
   return (
     <div
@@ -39,7 +39,9 @@ export const Tabs = ({
           onClick={() => setSelected(index)}
         >
           <span className="si-tabs__label">
-            <span className="si-tabs__text">{label}</span>
+            <span className="si-tabs__ink">
+              <span className="si-tabs__text">{label}</span>
+            </span>
           </span>
         </button>
       ))}
