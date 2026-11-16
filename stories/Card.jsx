@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import moreVert from './assets/mobile/app-bar/more-vert.svg';
 import mediaImage from './assets/mobile/card/media.png';
 import mediaCompact from './assets/mobile/card/media-compact.png';
+import './mobile-tokens.css';
 import './card.css';
 
 export const Card = ({
@@ -13,6 +14,7 @@ export const Card = ({
   showMedia = true,
   showContent = true,
   showActions = true,
+  platform = 'android',
   className = '',
 }) => {
   const isCompact = layout === 'compact';
@@ -20,6 +22,7 @@ export const Card = ({
     'si-card',
     `si-card--${style}`,
     `si-card--${layout}`,
+    `si-card--${platform}`,
     className,
   ]
     .filter(Boolean)
@@ -64,7 +67,11 @@ export const Card = ({
             </div>
           </div>
           <button type="button" className="si-card__more" aria-label="Več">
-            <img src={moreVert} alt="" width="24" height="24" />
+            <span
+              className="si-card__more-icon"
+              style={{ '--si-icon': `url(${JSON.stringify(moreVert)})` }}
+              aria-hidden="true"
+            />
           </button>
         </header>
       )}
@@ -118,5 +125,6 @@ Card.propTypes = {
   showMedia: PropTypes.bool,
   showContent: PropTypes.bool,
   showActions: PropTypes.bool,
+  platform: PropTypes.oneOf(['ios', 'android']),
   className: PropTypes.string,
 };

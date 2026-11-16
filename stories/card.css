@@ -1,3 +1,12 @@
+/*
+ * SICard twin — components/flutter/lib/src/components/card/card_tokens.dart
+ * width 360, radius 16; outlined 1px primary painted over (no layout);
+ * filled rgba(80,156,185,.1) on white (#EEF5F8); elevated = elevation 2.
+ * Header: height 74 iOS / 70 Android (+3.33 bottom inset), padding 0 16,
+ *   avatar 40, gap 16, title 17/25 bold, subtitle 15/21; more 48 box, 24 #49454F.
+ * Actions: SIButton small (h40, 8/16, 15/21 bold), padding 12 16, bottom 24 iOS / 19.33 Android.
+ * Compact: height 80 iOS / 82 Android, media 80.
+ */
 .si-card {
   box-sizing: border-box;
   display: flex;
@@ -18,7 +27,16 @@
 }
 
 .si-card--outlined {
+  position: relative;
+}
+
+.si-card--outlined::after {
+  content: '';
+  position: absolute;
+  inset: 0;
   border: 1px solid #3c7b94;
+  border-radius: inherit;
+  pointer-events: none;
 }
 
 .si-card--filled {
@@ -36,6 +54,10 @@
 .si-card--compact {
   flex-direction: row;
   align-items: center;
+  height: 82px;
+}
+
+.si-card--compact.si-card--ios {
   height: 80px;
 }
 
@@ -43,7 +65,13 @@
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 12px 16px;
+  height: 70px;
+  padding: 0 16px 3.3333px;
+}
+
+.si-card--ios .si-card__header {
+  height: 74px;
+  padding-bottom: 0;
 }
 
 .si-card__header-content,
@@ -108,10 +136,13 @@
   cursor: pointer;
 }
 
-.si-card__more img {
+.si-card__more-icon {
   display: block;
   width: 24px;
   height: 24px;
+  background-color: #49454f;
+  -webkit-mask: var(--si-icon) center / contain no-repeat;
+  mask: var(--si-icon) center / contain no-repeat;
 }
 
 .si-card__media {
@@ -156,8 +187,12 @@
   align-items: center;
   gap: 35px;
   width: 100%;
-  padding: 12px 16px 24px;
+  padding: 12px 16px 19.3333px;
   justify-content: flex-start;
+}
+
+.si-card--ios .si-card__actions {
+  padding-bottom: 24px;
 }
 
 .si-card__btn {
@@ -165,9 +200,9 @@
   align-items: center;
   justify-content: center;
   height: 40px;
-  padding: 12px 16px;
+  padding: 8px 16px;
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 0;
   font: 700 15px/21px 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   cursor: pointer;
@@ -177,11 +212,10 @@
 .si-card__btn--primary {
   background: #3c7b94;
   color: #ffffff;
-  border-color: #3c7b94;
 }
 
 .si-card__btn--secondary {
   background: transparent;
   color: #3c7b94;
-  border-color: #3c7b94;
+  box-shadow: inset 0 0 0 1px #3c7b94;
 }

@@ -59,6 +59,7 @@ export default {
   },
   tags: ['autodocs'],
   args: {
+    platform: 'android',
     style: 'outlined',
     layout: 'standard',
     showHeader: true,
@@ -67,6 +68,11 @@ export default {
     showActions: true,
   },
   argTypes: {
+    platform: {
+      name: 'Platforma',
+      control: { type: 'inline-radio', labels: { ios: 'iOS', android: 'Android' } },
+      options: ['ios', 'android'],
+    },
     style: {
       name: 'Slog',
       control: {
