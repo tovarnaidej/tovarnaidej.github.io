@@ -27,7 +27,7 @@ const renderColumn = (thickness) =>
         checked: s.checked,
         enabled: s.enabled,
         hasError: s.hasError,
-        label: 'Placeholder text',
+        label: 'Checkbox label',
       }),
     ),
   );
@@ -41,7 +41,7 @@ const renderVariants = () =>
       null,
       React.createElement(PlatformColumns, {
         gap: 33,
-        labels: ['Tanka (1)', 'Debela (2)'],
+        labels: ['Tanka', 'Debela'],
         ios: renderColumn('thin'),
         android: renderColumn('thick'),
       }),
@@ -73,7 +73,7 @@ export default {
     label: { name: 'Oznaka', if: { arg: 'showLabel', eq: true } },
     thickness: {
       name: 'Debelina',
-      control: { type: 'inline-radio', labels: { thin: 'Tanka (1)', thick: 'Debela (2)' } },
+      control: { type: 'inline-radio', labels: { thin: 'Tanka', thick: 'Debela' } },
       options: ['thin', 'thick'],
     },
     className: { table: { disable: true } },
