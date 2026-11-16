@@ -1,4 +1,6 @@
-/* Figma 3911:4056 + TokenAppBar — heights 64/112/152; light #EDF5F8 */
+/* SIAppBar twin — components/flutter/lib/src/components/app_bar/ (TokenAppBarV2):
+   min heights 64/112/152, light #EDF5F8 / primary #3C7B94, title Bold 24/32,
+   icon buttons 48 (24 icon). */
 .si-app-bar {
   box-sizing: border-box;
   width: 412px;
@@ -16,58 +18,83 @@
 }
 
 .si-app-bar--small {
-  height: 64px;
+  min-height: 64px;
 }
 
 .si-app-bar--medium {
-  height: 112px;
+  min-height: 112px;
 }
 
 .si-app-bar--large {
-  height: 152px;
+  min-height: 152px;
 }
 
-.si-app-bar__row,
-.si-app-bar__top {
+/* Single row: padding 8, leading shifted -7.67, gaps 8, title in a 48 row */
+.si-app-bar__row {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 64px;
-  padding: 0 4px;
+  padding: 8px;
+}
+
+/* Two rows: padding 12 / 8, top row space-between */
+.si-app-bar__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.si-app-bar--medium,
+.si-app-bar--large {
+  padding: 12px 8px;
 }
 
 .si-app-bar__top-spacer {
   flex: 1;
 }
 
+.si-app-bar__row > .si-app-bar__icon-btn:first-child,
+.si-app-bar__top > .si-app-bar__icon-btn:first-child {
+  /* TokenAppBarV2.twoRowLeadingIconShift */
+  transform: translateX(-7.67px);
+}
+
 .si-app-bar__title {
-  flex: 1;
+  flex: 1 1 0;
   min-width: 0;
-  padding: 0 12px;
-  font: 700 24px/32px 'Republika', Arial, sans-serif;
-  white-space: nowrap;
   overflow: hidden;
+  font: 700 24px/32px 'Republika', Arial, sans-serif;
+  letter-spacing: 0;
+  white-space: nowrap;
   text-overflow: ellipsis;
 }
 
+.si-app-bar__row .si-app-bar__title {
+  display: flex;
+  align-items: center;
+  height: 48px;
+}
+
 .si-app-bar--title-centered .si-app-bar__title {
+  justify-content: center;
   text-align: center;
 }
 
 .si-app-bar--medium .si-app-bar__title,
 .si-app-bar--large .si-app-bar__title {
   flex: none;
-  padding: 0 16px 16px;
+  padding: 0 8px 8px;
 }
 
 .si-app-bar--large .si-app-bar__title {
-  padding-top: 20px;
+  padding: 36px 8px 12px;
 }
 
 .si-app-bar__actions {
   display: flex;
   align-items: center;
-  gap: 0;
+  gap: 8px;
 }
 
 .si-app-bar__icon-btn {

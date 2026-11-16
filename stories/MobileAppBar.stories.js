@@ -8,7 +8,11 @@ import {
   figmaMobileUrl,
 } from './mobile-showcase';
 
+// design_data/Navigacija - zgornji meni.png: small + profile (title centred),
+// small + 3 actions (title start), medium, large.
 const configs = [
+  { configuration: 'small', style: 'light', title: 'Page Title', actions: 'single' },
+  { configuration: 'small', style: 'primary', title: 'Page Title', actions: 'single' },
   { configuration: 'small', style: 'light', title: 'Page Title' },
   { configuration: 'small', style: 'primary', title: 'Page Title' },
   { configuration: 'medium', style: 'light', title: 'Page Title' },
@@ -29,10 +33,10 @@ const renderVariants = () =>
         { columns: 2, gap: '40px 41px' },
         ...configs.map((cfg) =>
           React.createElement(AppBar, {
-            key: `${cfg.configuration}-${cfg.style}`,
-            ...cfg,
+            key: `${cfg.configuration}-${cfg.style}-${cfg.actions || 'multiple'}`,
             leading: 'defaultBack',
             actions: 'multiple',
+            ...cfg,
           }),
         ),
       ),
