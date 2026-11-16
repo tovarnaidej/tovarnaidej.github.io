@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import chevronPrimary from './assets/mobile/accordion/chevron-up-primary.svg';
-import chevronWhite from './assets/mobile/accordion/chevron-up-white.svg';
+import chevronDown from './assets/mobile/accordion/chevron-down.svg';
+import './mobile-tokens.css';
 import './accordion.css';
 
 const ITEMS = ['Lorem ipsum', 'Lorem ipsum', 'Lorem ipsum'];
@@ -35,11 +35,9 @@ export const Accordion = ({
         >
           <span className="si-accordion__title">{title}</span>
           <span className="si-accordion__chevron" aria-hidden="true">
-            <img
-              src={isFilled ? chevronWhite : chevronPrimary}
-              alt=""
-              width="40"
-              height="40"
+            <span
+              className="si-accordion__chevron-icon"
+              style={{ '--si-icon': `url(${JSON.stringify(chevronDown)})` }}
             />
           </span>
         </button>

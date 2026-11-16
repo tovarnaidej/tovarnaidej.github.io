@@ -4,7 +4,7 @@ import { Accordion } from './Accordion';
 import {
   MobileShowcase,
   ShowcaseGrid,
-  ShowcasePanel,
+  ShowcaseSurface,
   ShowcaseStack,
   figmaMobileUrl,
 } from './mobile-showcase';
@@ -16,7 +16,7 @@ const renderVariants = () =>
     MobileShowcase,
     { title: 'Accordion' },
     React.createElement(
-      ShowcasePanel,
+      ShowcaseSurface,
       null,
       React.createElement(
         ShowcaseGrid,

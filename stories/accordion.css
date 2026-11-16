@@ -1,14 +1,15 @@
 /*
  * Figma 3911:3977 — Harmonika (Accordion)
  *
+ * SIAccordion twin — components/flutter/lib/src/components/accordion/accordion_tokens.dart
  * Surfaces:
- *   defaultStyle: bg #ffffff, text #000, chevron #3c7b94
+ *   defaultStyle: bg #ffffff, text #000, chevron #000 (chevron-down 20 in a 40 box)
  *   outlined: bg #ffffff, stroke 1 inside #3c7b94
  *   filled: bg #3c7b94, text/chevron #ffffff
  *
  * Collapsed 360×58 r8; header pl16 py8 gap16
  * Title/items: Republika Regular 17/25 letter-spacing 0.1px
- * Divider-Inset: 1px #e6e7e9 inset 16, at y≈50 in header
+ * Divider-Inset: 1px #e6e7e9 inset 16, at y=53 in header (expanded only)
  * Items h42, gap 6 after first (gap 2 from divider)
  */
 
@@ -32,8 +33,18 @@
 }
 
 .si-accordion--outlined {
+  position: relative;
   background: #ffffff;
-  box-shadow: inset 0 0 0 1px #3c7b94;
+}
+
+/* foregroundDecoration: 1px primary painted over the content */
+.si-accordion--outlined::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid #3c7b94;
+  border-radius: inherit;
+  pointer-events: none;
 }
 
 .si-accordion--filled {
@@ -54,7 +65,8 @@
   gap: 16px;
   width: 100%;
   height: 58px;
-  padding: 8px 0 8px 16px;
+  /* 8 ± headerContentOffsetY 1 */
+  padding: 9px 0 7px 16px;
   border: 0;
   background: transparent;
   color: inherit;
@@ -82,21 +94,25 @@
   height: 40px;
 }
 
-.si-accordion__chevron img {
+.si-accordion__chevron-icon {
   display: block;
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
+  background-color: currentColor;
+  -webkit-mask: var(--si-icon) center / contain no-repeat;
+  mask: var(--si-icon) center / contain no-repeat;
+  transition: transform 200ms ease;
 }
 
-/* Collapsed: Figma -scale-y on chevron-up → points down */
-.si-accordion--collapsed .si-accordion__chevron {
-  transform: scaleY(-1);
+/* RotationTransition 0 → 0.5 turns when expanded */
+.si-accordion--expanded .si-accordion__chevron-icon {
+  transform: rotate(180deg);
 }
 
 /* Divider-Inset band: line at y=4 inside 8px band at header bottom */
 .si-accordion__divider {
   position: absolute;
-  top: 50px;
+  top: 53px;
   left: 16px;
   right: 16px;
   height: 0;
