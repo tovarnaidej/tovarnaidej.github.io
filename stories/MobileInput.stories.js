@@ -5,37 +5,50 @@ import {
   MobileShowcase,
   ShowcaseSection,
   figmaMobileUrl,
+  withMobileWidth,
 } from './mobile-showcase';
 import './input-showcase.css';
 
-const iosStyles = ['underline', 'outline', 'filled'];
-const androidStyles = ['outline', 'filled'];
-const stateRows = [
-  { key: 'default', enabled: true, hasError: false, focused: false },
-  { key: 'focused', enabled: true, hasError: false, focused: true },
-  { key: 'error', enabled: true, hasError: true, focused: false },
-  { key: 'disabled', enabled: false, hasError: false, focused: false },
+// design_data/Vnosna polja.png
+// Top: label above (iOS) — underline / outline / filled, without and with icon;
+//      rows enabled / focused / error / disabled.
+// Bottom: floating label (Android) — outline / filled, without and with icon;
+//      rows resting / floated with value / error / disabled.
+const aboveColumns = [
+  { style: 'underline', showIcon: false },
+  { style: 'outline', showIcon: false },
+  { style: 'filled', showIcon: false },
+  { style: 'underline', showIcon: true },
+  { style: 'outline', showIcon: true },
+  { style: 'filled', showIcon: true },
+];
+const aboveRows = [
+  {},
+  { focused: true },
+  { hasError: true, errorText: 'Error text' },
+  { enabled: false },
 ];
 
-const renderPlatformGrid = (platform, styles) =>
+const floatingColumns = [
+  { style: 'outline', showIcon: false },
+  { style: 'filled', showIcon: false },
+  { style: 'outline', showIcon: true },
+  { style: 'filled', showIcon: true },
+];
+const floatingRows = [
+  { value: '' },
+  { value: 'Placeholder text' },
+  { value: 'Placeholder text', hasError: true, errorText: 'Helper text' },
+  { value: '', enabled: false },
+];
+
+const grid = (rows, columns, base) =>
   React.createElement(
     'div',
-    { className: 'input-showcase__grid' },
-    ...stateRows.flatMap((row) =>
-      [false, true].flatMap((showIcon) =>
-        styles.map((style) =>
-          React.createElement(Input, {
-            key: `${platform}-${row.key}-${style}-${showIcon ? 'icon' : 'plain'}`,
-            platform,
-            style,
-            enabled: row.enabled,
-            hasError: row.hasError,
-            focused: row.focused,
-            showIcon,
-            label: 'Label',
-            placeholder: 'Placeholder text',
-          }),
-        ),
+    { className: 'input-showcase__grid', style: { gridTemplateColumns: `repeat(${columns.length}, 374px)` } },
+    ...rows.flatMap((row, r) =>
+      columns.map((col, c) =>
+        React.createElement(Input, { key: `${r}-${c}`, label: 'Label', ...base, ...col, ...row }),
       ),
     ),
   );
@@ -46,61 +59,70 @@ const renderVariants = () =>
     { title: 'Vnosna polja', className: 'input-showcase' },
     React.createElement(
       ShowcaseSection,
-      { title: 'iOS' },
-      renderPlatformGrid('ios', iosStyles),
+      { title: 'Oznaka nad poljem (iOS)' },
+      grid(aboveRows, aboveColumns, { platform: 'ios', labelPosition: 'above', value: 'Text...' }),
     ),
     React.createElement(
       ShowcaseSection,
-      { title: 'Android' },
-      renderPlatformGrid('android', androidStyles),
+      { title: 'Oznaka v polju (Android)' },
+      grid(floatingRows, floatingColumns, { platform: 'android', labelPosition: 'floating' }),
     ),
   );
 
 export default {
   title: 'Gradniki - mobile/Vnosno polje',
   component: Input,
+  decorators: [withMobileWidth],
   parameters: {
     layout: 'centered',
     design: { type: 'figma', url: figmaMobileUrl('3911:2408') },
     platformCode: { component: 'input' },
+    mobileWidth: 361,
   },
   tags: ['autodocs'],
   args: {
     style: 'outline',
+    platform: 'ios',
+    labelPosition: 'above',
     enabled: true,
     hasError: false,
     focused: false,
     showIcon: false,
     obscure: false,
     label: 'Oznaka',
-    placeholder: 'Nadomestno besedilo',
-    platform: 'ios',
+    value: 'Besedilo',
   },
   argTypes: {
     style: {
       name: 'Slog',
       control: {
         type: 'select',
-        labels: {
-          underline: 'Podčrtano',
-          outline: 'Obrobljeno',
-          filled: 'Zapolnjeno',
-        },
+        labels: { underline: 'Podčrtano', outline: 'Obrobljeno', filled: 'Zapolnjeno' },
       },
       options: ['underline', 'outline', 'filled'],
+    },
+    platform: {
+      name: 'Platforma',
+      control: { type: 'inline-radio', labels: { ios: 'iOS', android: 'Android' } },
+      options: ['ios', 'android'],
+    },
+    labelPosition: {
+      name: 'Oznaka',
+      control: {
+        type: 'select',
+        labels: { floating: 'V polju', above: 'Nad poljem', hidden: 'Brez' },
+      },
+      options: ['floating', 'above', 'hidden'],
     },
     enabled: { name: 'Omogočeno', control: { type: 'boolean' } },
     hasError: { name: 'Napaka', control: { type: 'boolean' } },
     focused: { name: 'Fokus', control: { type: 'boolean' } },
     showIcon: { name: 'Ikona', control: { type: 'boolean' } },
     obscure: { name: 'Skrij', control: { type: 'boolean' } },
-    label: { name: 'Oznaka' },
-    placeholder: { name: 'Nadomestno besedilo' },
-    platform: {
-      name: 'Platforma',
-      control: { type: 'select', labels: { ios: 'iOS', android: 'Android' } },
-      options: ['ios', 'android'],
-    },
+    label: { name: 'Besedilo oznake' },
+    value: { name: 'Vrednost' },
+    errorText: { table: { disable: true } },
+    placeholder: { table: { disable: true } },
     className: { table: { disable: true } },
   },
 };
@@ -108,10 +130,15 @@ export default {
 export const Variants = {
   name: 'Vse različice',
   render: renderVariants,
-  parameters: { controls: { disable: true }, layout: 'fullscreen' },
+  parameters: { controls: { disable: true }, layout: 'fullscreen', mobileWidth: 0 },
 };
 
 export const Default = { name: 'Privzeto' };
+
+export const Floating = {
+  name: 'Oznaka v polju (Android)',
+  args: { platform: 'android', labelPosition: 'floating' },
+};
 
 export const Filled = {
   name: 'Zapolnjeno',
@@ -121,4 +148,9 @@ export const Filled = {
 export const Error = {
   name: 'Napaka',
   args: { hasError: true },
+};
+
+export const WithIcon = {
+  name: 'Z ikono',
+  args: { showIcon: true },
 };
