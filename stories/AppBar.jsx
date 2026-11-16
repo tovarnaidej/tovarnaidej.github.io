@@ -9,9 +9,9 @@ import moreVert from './assets/mobile/app-bar/more-vert.svg';
 import './app-bar.css';
 
 const MULTI_ACTIONS = [
-  { src: paperclip, label: 'Priponka' },
-  { src: calendarIcon, label: 'Koledar' },
-  { src: moreVert, label: 'Več' },
+  { src: paperclip, label: 'Priloži datoteko' },
+  { src: calendarIcon, label: 'Izberi datum' },
+  { src: moreVert, label: 'Več možnosti' },
 ];
 
 export const AppBar = ({
@@ -19,7 +19,7 @@ export const AppBar = ({
   style = 'light',
   leading = 'defaultBack',
   actions = 'single',
-  title = 'Page Title',
+  title = 'Title',
   className = '',
 }) => {
   const isStacked = configuration === 'medium' || configuration === 'large';

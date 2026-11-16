@@ -13,9 +13,9 @@ import {
 const ACTIONS = {
   single: [{ icon: 'avatar', label: 'Profil', android: 'ic_si_appbar_avatar', ios: 'TokenAppBar.profileIconName', profile: true }],
   multiple: [
-    { icon: 'paperclip', label: 'Priponka', android: 'ic_si_appbar_attachment', ios: 'TokenAppBar.attachmentIconName' },
-    { icon: 'calendar', label: 'Koledar', android: 'ic_si_appbar_calendar', ios: 'TokenAppBar.calendarIconName' },
-    { icon: 'more-vert', label: 'Več', android: 'ic_si_appbar_more', ios: 'TokenAppBar.moreIconName' },
+    { icon: 'paperclip', label: 'Priloži datoteko', android: 'ic_si_appbar_attachment', ios: 'TokenAppBar.attachmentIconName' },
+    { icon: 'calendar', label: 'Izberi datum', android: 'ic_si_appbar_calendar', ios: 'TokenAppBar.calendarIconName' },
+    { icon: 'more-vert', label: 'Več možnosti', android: 'ic_si_appbar_more', ios: 'TokenAppBar.moreIconName' },
   ],
   none: [],
 };
@@ -23,7 +23,7 @@ const ACTIONS = {
 const resolve = (args = {}) => ({
   configuration: args.configuration || 'small',
   style: args.style || 'light',
-  title: args.title ?? 'Page Title',
+  title: args.title ?? 'Title',
   hideBack: args.leading === 'none',
   actions: ACTIONS[args.actions || 'single'] || [],
 });

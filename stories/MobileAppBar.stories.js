@@ -11,14 +11,14 @@ import {
 // design_data/Navigacija - zgornji meni.png: small + profile (title centred),
 // small + 3 actions (title start), medium, large.
 const configs = [
-  { configuration: 'small', style: 'light', title: 'Page Title', actions: 'single' },
-  { configuration: 'small', style: 'primary', title: 'Page Title', actions: 'single' },
-  { configuration: 'small', style: 'light', title: 'Page Title' },
-  { configuration: 'small', style: 'primary', title: 'Page Title' },
-  { configuration: 'medium', style: 'light', title: 'Page Title' },
-  { configuration: 'medium', style: 'primary', title: 'Page Title' },
-  { configuration: 'large', style: 'light', title: 'Page Title' },
-  { configuration: 'large', style: 'primary', title: 'Page Title' },
+  { configuration: 'small', style: 'light', title: 'Title', actions: 'single' },
+  { configuration: 'small', style: 'primary', title: 'Title', actions: 'single' },
+  { configuration: 'small', style: 'light', title: 'Title' },
+  { configuration: 'small', style: 'primary', title: 'Title' },
+  { configuration: 'medium', style: 'light', title: 'Title' },
+  { configuration: 'medium', style: 'primary', title: 'Title' },
+  { configuration: 'large', style: 'light', title: 'Title' },
+  { configuration: 'large', style: 'primary', title: 'Title' },
 ];
 
 const renderVariants = () =>
@@ -57,14 +57,14 @@ export default {
     style: 'light',
     leading: 'defaultBack',
     actions: 'single',
-    title: 'Page Title',
+    title: 'Title',
   },
   argTypes: {
     configuration: {
-      name: 'Konfiguracija',
+      name: 'Velikost',
       control: {
         type: 'select',
-        labels: { small: 'Majhna', medium: 'Srednja', large: 'Velika' },
+        labels: { small: 'Ozka', medium: 'Srednja', large: 'Široka' },
       },
       options: ['small', 'medium', 'large'],
     },
@@ -72,16 +72,16 @@ export default {
       name: 'Slog',
       control: {
         type: 'select',
-        labels: { light: 'Svetla', primary: 'Primarna' },
+        labels: { light: 'Svetla', primary: 'Temna' },
       },
       options: ['light', 'primary'],
     },
     leading: {
-      name: 'Vodilno',
+      name: 'Primarna ikona',
       control: {
         type: 'select',
         labels: {
-          defaultBack: 'Privzeti nazaj',
+          defaultBack: 'Nazaj',
           none: 'Brez',
           custom: 'Po meri',
         },
@@ -89,10 +89,10 @@ export default {
       options: ['defaultBack', 'none', 'custom'],
     },
     actions: {
-      name: 'Dejanja',
+      name: 'Dodatne ikone',
       control: {
         type: 'select',
-        labels: { single: 'Eno', multiple: 'Več', none: 'Brez' },
+        labels: { single: 'Ena', multiple: 'Več', none: 'Brez' },
       },
       options: ['single', 'multiple', 'none'],
     },
