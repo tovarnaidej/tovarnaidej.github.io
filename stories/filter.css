@@ -12,7 +12,7 @@
  */
 .si-filter-wrap,
 .si-filter-bar {
-  font-family: 'Republika', Arial, sans-serif;
+  font-family: 'SI Republika', 'Republika', Arial, sans-serif;
 }
 
 .si-filter-wrap {
@@ -61,7 +61,7 @@
   border-radius: 8px;
   background: transparent;
   color: var(--si-filter-accent);
-  font: 500 15px/21px 'Republika', Arial, sans-serif;
+  font: 500 15px/21px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   white-space: nowrap;
   cursor: pointer;
@@ -163,7 +163,7 @@
   border-radius: 50%;
   background: var(--si-filter-accent);
   color: #ffffff;
-  font: 500 10px/normal 'Republika', Arial, sans-serif;
+  font: 500 10px/normal 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
 }
 
@@ -179,7 +179,7 @@
   gap: 2px;
   padding: 0 15px;
   border-radius: 999px;
-  font: 500 13px/17px 'Republika', Arial, sans-serif;
+  font: 500 13px/17px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: -0.2px;
 }
 

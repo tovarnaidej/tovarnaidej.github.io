@@ -1,0 +1,25 @@
+/* Republika as shipped in the mobile component library (components/flutter/fonts).
+   Used by Gradniki - mobile twins via --si-font so metrics match the native apps. */
+@font-face {
+  font-family: 'SI Republika';
+  src: url('/fonts/si/republika-regular-webfont.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SI Republika';
+  src: url('/fonts/si/republika-medium-webfont.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SI Republika';
+  src: url('/fonts/si/republika-bold-webfont.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}

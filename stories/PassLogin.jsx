@@ -6,7 +6,7 @@ import chevronIcon from './assets/mobile/pass-login/pass-login-chevron.svg';
 import './pass-login.css';
 
 const DEFAULT_DESCRIPTION =
-  'Za uporabo spletnih storitev eUprave ustvarite svoj uporabniški račun.\nPotrebujete digitalno potrdilo ali mobilno indentiteto smsPASS.';
+  'Za uporabo spletnih storitev eUprave ustvarite svoj uporabniški račun. Potrebujete digitalno potrdilo ali mobilno indentiteto smsPASS.';
 
 export const PassLogin = ({
   title = 'Prijava v aplikacijo',

@@ -1,7 +1,7 @@
 .si-search-bar {
   box-sizing: border-box;
   width: 328px;
-  font-family: 'Republika', Arial, sans-serif;
+  font-family: 'SI Republika', 'Republika', Arial, sans-serif;
   color: #000000;
 }
 
@@ -45,7 +45,7 @@
   flex: 1 1 auto;
   min-width: 0;
   overflow: hidden;
-  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  font: 400 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   color: #000000;
   text-overflow: ellipsis;
@@ -149,7 +149,7 @@
 }
 
 .si-search-bar__value {
-  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  font: 400 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   color: #000000;
   white-space: nowrap;
@@ -171,7 +171,7 @@
 .si-search-bar__empty {
   padding: 24px 16px;
   color: #949598;
-  font: 400 15px/21px 'Republika', Arial, sans-serif;
+  font: 400 15px/21px 'SI Republika', 'Republika', Arial, sans-serif;
   text-align: center;
 }
 
@@ -224,14 +224,14 @@
 }
 
 .si-search-bar__result-title {
-  font: 700 17px/25px 'Republika', Arial, sans-serif;
+  font: 700 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
 }
 
 .si-search-bar__result-support {
   height: 20px;
   overflow: hidden;
-  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  font: 400 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   text-overflow: ellipsis;
   white-space: nowrap;

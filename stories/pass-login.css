@@ -1,6 +1,7 @@
 /*
  * Figma 3911:7308 — Prijava SI-PASS (mobile)
- * Card 360, radius 32, shadow 0 4 14 / 8% + 0 1 2 / 10%
+ * SIPassLogin twin — components/flutter/lib/src/components/pass_login/pass_login_tokens.dart
+ * Card 360, radius 32.308, shadows 0 4.615 13.846 #00000014 + 0 1.154 2.308 #0000001A
  */
 .si-pass-login {
   box-sizing: border-box;
@@ -9,12 +10,12 @@
   align-items: center;
   width: 360px;
   overflow: hidden;
-  border-radius: 32px;
+  border-radius: 32.308px;
   background: #ffffff;
   box-shadow:
-    0 4px 14px rgba(0, 0, 0, 0.08),
-    0 1px 2px rgba(0, 0, 0, 0.1);
-  font-family: 'Republika', Arial, sans-serif;
+    0 4.615px 13.846px rgba(0, 0, 0, 0.08),
+    0 1.154px 2.308px rgba(0, 0, 0, 0.1);
+  font-family: 'SI Republika', 'Republika', Arial, sans-serif;
   color: #000000;
   text-align: left;
 }
@@ -47,16 +48,15 @@
 .si-pass-login__title {
   margin: 0;
   width: 100%;
-  font: 700 22px/28px 'Republika', Arial, sans-serif;
+  font: 700 22px/28px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
 }
 
 .si-pass-login__text {
   margin: 0;
   width: 100%;
-  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  font: 400 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
-  white-space: pre-line;
 }
 
 .si-pass-login__primary {
@@ -84,7 +84,7 @@
 }
 
 .si-pass-login__primary-label {
-  font: 700 17px/21px 'Republika', Arial, sans-serif;
+  font: 700 17px/21px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   white-space: nowrap;
 }
@@ -118,16 +118,16 @@
 
 .si-pass-login__chevron img {
   display: block;
+  /* TokenPassLoginV2.readMoreChevronOffsetY */
+  transform: translateY(-2px);
   width: 6.877px;
   height: 12.502px;
 }
 
 .si-pass-login__link-label {
-  font: 500 17px/25px 'Republika', Arial, sans-serif;
+  font: 500 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   white-space: nowrap;
-  text-box-trim: cap alphabetic;
-  text-box-edge: cap alphabetic;
 }
 
 .si-pass-login__primary:focus-visible,

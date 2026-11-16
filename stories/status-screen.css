@@ -19,7 +19,7 @@
 
 .si-status {
   box-sizing: border-box;
-  font-family: 'Republika', Arial, sans-serif;
+  font-family: 'SI Republika', 'Republika', Arial, sans-serif;
   color: #000000;
 }
 
@@ -93,7 +93,7 @@
 .si-status--fullScreen .si-status__title {
   margin: 0;
   width: 100%;
-  font: 700 22px/28px 'Republika', Arial, sans-serif;
+  font: 700 22px/28px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   color: #000000;
   text-align: center;
@@ -102,7 +102,7 @@
 .si-status--fullScreen .si-status__description {
   margin: 0;
   width: 100%;
-  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  font: 400 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   color: #000000;
   text-align: center;
@@ -111,7 +111,7 @@
 .si-status--fullScreen .si-status__meta {
   margin: 0;
   width: 100%;
-  font: 400 14px/17px 'Republika', Arial, sans-serif;
+  font: 400 14px/17px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   color: #000000;
   text-align: center;
@@ -199,7 +199,7 @@
 .si-status--popup .si-status__title {
   margin: 0;
   width: 100%;
-  font: 700 22px/28px 'Republika', Arial, sans-serif;
+  font: 700 22px/28px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   color: #000000;
   text-align: center;
@@ -208,7 +208,7 @@
 .si-status--popup .si-status__description {
   margin: 0;
   width: 100%;
-  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  font: 400 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   color: #000000;
   text-align: center;
@@ -217,7 +217,7 @@
 .si-status--popup .si-status__meta {
   margin: 0;
   width: 100%;
-  font: 400 14px/17px 'Republika', Arial, sans-serif;
+  font: 400 14px/17px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   color: #000000;
   text-align: center;
@@ -259,7 +259,7 @@
   border: 0;
   background: #3c7b94;
   color: #ffffff;
-  font: 700 17px/21px 'Republika', Arial, sans-serif;
+  font: 700 17px/21px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   text-align: center;
 }
@@ -270,7 +270,7 @@
   background: #ffffff;
   box-shadow: inset 0 0 0 1px #3c7b94;
   color: #3c7b94;
-  font: 500 17px/21px 'Republika', Arial, sans-serif;
+  font: 500 17px/21px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   text-align: center;
 }

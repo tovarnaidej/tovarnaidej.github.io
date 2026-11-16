@@ -15,7 +15,7 @@
   width: 360px;
   overflow: hidden;
   border-radius: 16px;
-  font-family: 'Republika', Arial, sans-serif;
+  font-family: 'SI Republika', 'Republika', Arial, sans-serif;
   background: #ffffff;
   color: #000000;
 }
@@ -97,7 +97,7 @@
   border-radius: 999px;
   background: #3c7b94;
   color: #ffffff;
-  font: 700 17px/25px 'Republika', Arial, sans-serif;
+  font: 700 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   text-align: center;
 }
@@ -115,12 +115,12 @@
 
 .si-card__title {
   width: 100%;
-  font: 700 17px/25px 'Republika', Arial, sans-serif;
+  font: 700 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
 }
 
 .si-card__subtitle {
   width: 100%;
-  font: 400 15px/21px 'Republika', Arial, sans-serif;
+  font: 400 15px/21px 'SI Republika', 'Republika', Arial, sans-serif;
 }
 
 .si-card__more {
@@ -177,7 +177,7 @@
 
 .si-card__body {
   margin: 0;
-  font: 400 15px/21px 'Republika', Arial, sans-serif;
+  font: 400 15px/21px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   color: #000000;
 }
@@ -203,7 +203,7 @@
   padding: 8px 16px;
   border-radius: 8px;
   border: 0;
-  font: 700 15px/21px 'Republika', Arial, sans-serif;
+  font: 700 15px/21px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   cursor: pointer;
   white-space: nowrap;

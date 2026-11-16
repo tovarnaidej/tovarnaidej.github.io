@@ -7,7 +7,7 @@
   overflow: hidden;
   border-radius: 28px;
   background: #ffffff;
-  font-family: 'Republika', Arial, sans-serif;
+  font-family: 'SI Republika', 'Republika', Arial, sans-serif;
   color: #000000;
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.08),
@@ -32,7 +32,7 @@
 
 .si-calendar-input__label {
   margin: 0;
-  font: 400 15px/21px 'Republika', Arial, sans-serif;
+  font: 400 15px/21px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: -0.2px;
   color: #000000;
   white-space: nowrap;
@@ -50,7 +50,7 @@
   margin: 0;
   min-width: 0;
   height: 33.236px;
-  font: 500 32px/40px 'Republika', Arial, sans-serif;
+  font: 500 32px/40px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   color: #000000;
   text-box-trim: cap alphabetic;
@@ -114,7 +114,7 @@
   left: 12px;
   padding: 0 4px;
   background: #ffffff;
-  font: 500 13px/17px 'Republika', Arial, sans-serif;
+  font: 500 13px/17px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   color: #3c7b94;
   white-space: nowrap;
@@ -126,7 +126,7 @@
   display: flex;
   align-items: center;
   height: 48px;
-  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  font: 400 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   color: #000000;
   white-space: nowrap;
@@ -150,7 +150,7 @@
   border: 0;
   border-radius: 100px;
   background: transparent;
-  font: 500 17px/25px 'Republika', Arial, sans-serif;
+  font: 500 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   color: #3c7b94;
   cursor: pointer;

@@ -6,7 +6,7 @@
   height: 520px;
   overflow: hidden;
   border-radius: 28px;
-  font-family: 'Republika', Arial, sans-serif;
+  font-family: 'SI Republika', 'Republika', Arial, sans-serif;
   background: #ffffff;
   color: #000000;
 }
@@ -47,7 +47,7 @@
 
 .si-calendar__label {
   margin: 0;
-  font: 400 15px/21px 'Republika', Arial, sans-serif;
+  font: 400 15px/21px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: -0.2px;
   color: #57585a;
 }
@@ -67,7 +67,7 @@
   flex: 1 1 auto;
   margin: 0;
   min-width: 0;
-  font: 400 32px/40px 'Republika', Arial, sans-serif;
+  font: 400 32px/40px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   color: #000000;
 }
@@ -116,7 +116,7 @@
   border: 0;
   border-radius: 100px;
   background: transparent;
-  font: 700 15px/21px 'Republika', Arial, sans-serif;
+  font: 700 15px/21px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   color: #57585a;
   cursor: pointer;
@@ -165,7 +165,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font: 400 13px/17px 'Republika', Arial, sans-serif;
+  font: 400 13px/17px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   color: #000000;
   text-align: center;
@@ -188,7 +188,7 @@
   height: 40px;
   margin: 0 auto;
   border-radius: 100px;
-  font: 400 13px/17px 'Republika', Arial, sans-serif;
+  font: 400 13px/17px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   color: #000000;
   text-align: center;
@@ -216,7 +216,7 @@
 .si-calendar__day--selected {
   background: #3c7b94;
   color: #ffffff;
-  font: 700 15px/21px 'Republika', Arial, sans-serif;
+  font: 700 15px/21px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
 }
 
@@ -243,7 +243,7 @@
   border: 0;
   border-radius: 100px;
   background: transparent;
-  font: 700 15px/21px 'Republika', Arial, sans-serif;
+  font: 700 15px/21px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   color: #3c7b94;
   cursor: pointer;

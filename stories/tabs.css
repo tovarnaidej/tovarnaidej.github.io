@@ -14,7 +14,7 @@
   width: 360px;
   height: 47px;
   background: #ffffff;
-  font-family: 'Republika', Arial, sans-serif;
+  font-family: 'SI Republika', 'Republika', Arial, sans-serif;
   overflow: hidden;
 }
 
@@ -51,7 +51,7 @@
   border-radius: 0;
   background: transparent;
   color: #000000;
-  font: 400 15px/21px 'Republika', Arial, sans-serif;
+  font: 400 15px/21px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: -0.2px;
   text-align: center;
   white-space: nowrap;
@@ -122,16 +122,6 @@
   font-weight: 500;
 }
 
-/*
- * Republika Medium reports font ascent/descent of 100/0 (Regular: 92/26),
- * which drops Medium glyphs ~2.5px below Regular ones inside the same
- * 21px line box. Trim the line box to cap height / baseline (same
- * convention as search.css) so the Medium label stays centered.
- */
-.si-tabs__tab--selected .si-tabs__text {
-  text-box-trim: trim-both;
-  text-box-edge: cap alphabetic;
-}
 
 /* ---------- underline ---------- */
 .si-tabs--underline .si-tabs__tab--selected {

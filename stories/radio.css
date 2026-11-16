@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  font-family: 'Republika', Arial, sans-serif;
+  font-family: 'SI Republika', 'Republika', Arial, sans-serif;
 }
 
 .si-radio {
@@ -14,7 +14,7 @@
   padding: 10px;
   cursor: pointer;
   color: #000000;
-  font: 400 17px/25px 'Republika', Arial, sans-serif;
+  font: 400 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
 }
 

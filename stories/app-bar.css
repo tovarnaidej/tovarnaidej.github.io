@@ -4,7 +4,7 @@
 .si-app-bar {
   box-sizing: border-box;
   width: 412px;
-  font-family: 'Republika', Arial, sans-serif;
+  font-family: 'SI Republika', 'Republika', Arial, sans-serif;
 }
 
 .si-app-bar--light {
@@ -64,7 +64,7 @@
   flex: 1 1 0;
   min-width: 0;
   overflow: hidden;
-  font: 700 24px/32px 'Republika', Arial, sans-serif;
+  font: 700 24px/32px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   white-space: nowrap;
   text-overflow: ellipsis;
