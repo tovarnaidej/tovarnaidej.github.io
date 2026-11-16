@@ -11,11 +11,11 @@ import magnifyingGlass from './assets/mobile/phone/magnifying-glass.svg';
 import './phone-input.css';
 
 const COUNTRIES = [
-  { code: 'si', dial: '+386', name: 'Slovenia', flag: flagSi },
-  { code: 'de', dial: '+49', name: 'Germany', flag: flagDe },
-  { code: 'gh', dial: '+233', name: 'Ghana', flag: flagGh },
-  { code: 'gr', dial: '+30', name: 'Greece', flag: flagGr },
-  { code: 'gt', dial: '+502', name: 'Guatemala', flag: flagGt },
+  { code: 'si', dial: '+386', name: 'Slovenija', flag: flagSi },
+  { code: 'de', dial: '+49', name: 'Nemčija', flag: flagDe },
+  { code: 'gh', dial: '+233', name: 'Gana', flag: flagGh },
+  { code: 'gr', dial: '+30', name: 'Grčija', flag: flagGr },
+  { code: 'gt', dial: '+502', name: 'Gvatemala', flag: flagGt },
 ];
 
 export const PhoneInput = ({

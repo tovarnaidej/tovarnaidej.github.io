@@ -56,8 +56,8 @@ export default {
   argTypes: {
     enabled: { name: 'Omogočeno', control: { type: 'boolean' } },
     hasError: { name: 'Napaka', control: { type: 'boolean' } },
-    value: { name: 'Številka' },
-    open: { name: 'Odprt seznam', control: { type: 'boolean' } },
+    value: { table: { disable: true } },
+    open: { table: { disable: true } },
     countryCode: { table: { disable: true } },
     className: { table: { disable: true } },
   },
