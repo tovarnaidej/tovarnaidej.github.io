@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import avatarPhoto from './assets/mobile/avatar/avatar-photo.jpg';
 import './avatar.css';
 
 export const Avatar = ({
@@ -21,7 +22,7 @@ export const Avatar = ({
   return (
     <div className={classes} role="img" aria-label={initials}>
       {type === 'photo' ? (
-        <span className="si-avatar__photo" aria-hidden="true" />
+        <img className="si-avatar__photo" src={avatarPhoto} alt="" aria-hidden="true" />
       ) : (
         <span className="si-avatar__initials">{initials}</span>
       )}
