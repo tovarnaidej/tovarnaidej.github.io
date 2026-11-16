@@ -19,6 +19,11 @@ paths:
 - Med platformami je primarni vir **Flutter** (iz njega je izpeljan katalog). Kjer Flutter sam
   veje po platformi (`Platform.isIOS`), dobi dvojček `platform` prop in "Vse različice" `PlatformColumns`.
 - Barve/tipografija: `stories/mobile-tokens.css` (zrcali `tokens.dart`) — uporabljaj `var(--si-…)`.
+- Pisava: mobilni dvojčki uporabljajo družino `'SI Republika'` (`public/fonts/si/` = TTF-ji iz
+  `components/flutter/fonts`, metrike kot v native). Spletni gradniki ostanejo na `'Republika'`.
+- Besedila: privzeti nizi knjižnice (`components/flutter/assets/localization/sl.json`) oz. kataloga.
+- "Vse različice" sledijo postavitvi PNG v `components/design_data/`; kjer se SOT razlikuje od PNG,
+  velja SOT (razliko zapiši v commit sporočilo).
 - V `components` iz tega projekta ne spreminjaj ničesar (samo branje).
 
 ## Struktura gradnika
