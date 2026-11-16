@@ -1,52 +1,54 @@
 /*
- * Figma 3911:4207 — Opozorila (mobile)
- * Alert: 396 wide, radius 8, bg #EDF5F8; content padding 16, gap 16.
- *   filled → content sits directly on #EDF5F8
- *   stroke → 4px #EDF5F8 outer frame, inner white box with 1px #3C7B94
- * List item: 360 wide, radius 8.
+ * SIAlert twin — components/flutter/lib/src/components/alert/alert_tokens.dart
+ * radius 8, padding 16, icon 24, icon–text gap 16, title 22/28 bold,
+ * message 17/25 +0.1, title–message gap 6.
+ *   filled → #EDF5F8
+ *   stroke Android → white + 1px #3C7B94 border
+ *   stroke iOS → white + 4px #EDF5F8 border painted inside (no layout change)
+ * Leading icon top inset: Android 3 (optical), iOS 4 (centred in 32 slot).
+ * Close icon: 24, top inset 4.
  */
-.si-alert,
-.si-list-item {
-  box-sizing: border-box;
-  font-family: 'Republika', Arial, sans-serif;
-  color: #000000;
-}
-
-/* ---------- Alert ---------- */
 .si-alert {
-  width: 396px;
-  border-radius: 8px;
-  background: #edf5f8;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  padding: 16px;
+  border-radius: var(--si-radius-m);
+  background: var(--si-input-primary);
+  color: var(--si-on-surface);
+  font-family: var(--si-font);
 }
 
 .si-alert--stroke {
-  border: 4px solid #edf5f8;
+  background: var(--si-surface);
 }
 
-.si-alert__content {
-  box-sizing: border-box;
+.si-alert--stroke.si-alert--android {
+  /* Flutter Border.fromBorderSide adds the 1px to the layout */
+  border: 1px solid var(--si-primary);
+}
+
+.si-alert--stroke.si-alert--ios::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 4px solid var(--si-input-primary);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.si-alert__icon {
   display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  width: 100%;
-  padding: 16px;
-  border-radius: 8px;
-}
-
-.si-alert--stroke .si-alert__content {
-  border: 1px solid #3c7b94;
-  background: #ffffff;
-}
-
-/* 24×24 slots (alert.svg native 24×24; close.svg native 20×20, centered) */
-.si-alert__icon,
-.si-alert__dismiss {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-shrink: 0;
   width: 24px;
   height: 24px;
+  margin: 3px 16px 0 0;
+}
+
+.si-alert--ios .si-alert__icon {
+  margin-top: 4px;
 }
 
 .si-alert__icon img,
@@ -54,181 +56,39 @@
   display: block;
 }
 
+.si-alert__text {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.si-alert__title {
+  margin: 0;
+  font: var(--si-title-large);
+}
+
+.si-alert__message {
+  margin: 0;
+  font: var(--si-body-large);
+  letter-spacing: var(--si-ls-plus01);
+}
+
 .si-alert__dismiss {
+  display: flex;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin: 4px 0 0 16px;
   padding: 0;
   border: 0;
-  border-radius: 4px;
   background: transparent;
   cursor: pointer;
 }
 
-.si-alert__dismiss:focus-visible,
-.si-list-item:focus-visible {
-  outline: 2px solid #3c7b94;
+.si-alert__dismiss:focus-visible {
+  outline: 2px solid var(--si-primary);
   outline-offset: 2px;
-}
-
-.si-alert__text {
-  display: flex;
-  flex: 1 0 0;
-  flex-direction: column;
-  align-items: flex-start;
-  min-width: 0;
-  word-break: break-word;
-}
-
-.si-alert__title {
-  width: 100%;
-  margin: 0;
-  font: 700 22px/28px 'Republika', Arial, sans-serif;
-  letter-spacing: 0;
-}
-
-.si-alert__message {
-  width: 100%;
-  margin: 0;
-  font: 400 17px/25px 'Republika', Arial, sans-serif;
-  letter-spacing: 0.1px;
-}
-
-/* ---------- List item ---------- */
-.si-list-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  width: 360px;
-  /* title-only rows are 56 high in Figma (frame insets ÷ 1.04 frame scale) */
-  min-height: 56px;
-  margin: 0;
-  padding: 8px 24px 8px 16px;
-  border: 0;
-  border-radius: 8px;
-  background: #ffffff;
-  text-align: left;
-  letter-spacing: 0.1px;
-  cursor: pointer;
-  appearance: none;
-}
-
-.si-list-item--filled {
-  background: #3c7b94;
-  color: #ffffff;
-}
-
-/* inset stroke keeps outer height identical to filled */
-.si-list-item--outlined {
-  background: #ffffff;
-  box-shadow: inset 0 0 0 1px #3c7b94;
-}
-
-.si-list-item__text {
-  display: flex;
-  flex: 1 0 0;
-  flex-direction: column;
-  min-width: 0;
-  overflow: hidden;
-  word-break: break-word;
-}
-
-.si-list-item__title {
-  display: block;
-  width: 100%;
-  font: 700 17px/25px 'Republika', Arial, sans-serif;
-  letter-spacing: 0.1px;
-}
-
-.si-list-item__supporting {
-  display: block;
-  width: 100%;
-  font: 400 15px/21px 'Republika', Arial, sans-serif;
-  letter-spacing: 0.1px;
-}
-
-/* Avatar 25×25, "A" 15/21 */
-.si-list-item__avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 25px;
-  height: 25px;
-  border-radius: 999px;
-  background: #3c7b94;
-  color: #ffffff;
-  font: 400 15px/21px 'Republika', Arial, sans-serif;
-  letter-spacing: 0.1px;
-  text-align: center;
-}
-
-.si-list-item--outlined .si-list-item__avatar {
-  font-weight: 700;
-}
-
-.si-list-item--filled .si-list-item__avatar {
-  background: #edf5f8;
-  color: #3c7b94;
-  font-weight: 700;
-}
-
-/* list-item-chevron.svg (25×25), recoloured through a mask */
-.si-list-item__chevron {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  background-color: #3c7b94;
-  -webkit-mask: var(--si-icon) center / contain no-repeat;
-  mask: var(--si-icon) center / contain no-repeat;
-}
-
-.si-list-item--filled .si-list-item__chevron {
-  background-color: #ffffff;
-}
-
-/* Compact: single-line supporting text (ellipsis), chevron 40×40 */
-.si-list-item--compact.si-list-item--has-chevron {
-  padding-right: 0;
-}
-
-.si-list-item--compact.si-list-item--has-supporting {
-  height: 72px;
-}
-
-.si-list-item--compact .si-list-item__text {
-  justify-content: center;
-  height: 100%;
-}
-
-.si-list-item--compact.si-list-item--has-supporting .si-list-item__text {
-  gap: 4px;
-}
-
-.si-list-item--compact .si-list-item__supporting {
-  height: 20px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* Multiline: wrapping supporting text, chevron 25×25 aligned to top */
-.si-list-item--multiline {
-  align-items: flex-start;
-  padding: 12px 24px 12px 16px;
-}
-
-.si-list-item--multiline.si-list-item--has-chevron {
-  padding-right: 8px;
-}
-
-.si-list-item--multiline .si-list-item__text {
-  align-items: flex-start;
-  gap: 4px;
-}
-
-.si-list-item--multiline.si-list-item--has-avatar .si-list-item__text {
-  gap: 8px;
-}
-
-.si-list-item--multiline .si-list-item__chevron {
-  width: 25px;
-  height: 25px;
 }

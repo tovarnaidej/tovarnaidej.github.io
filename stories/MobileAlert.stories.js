@@ -3,10 +3,13 @@ import React from 'react';
 import { Alert } from './Alert';
 import {
   MobileShowcase,
-  ShowcasePanel,
+  PlatformColumns,
   ShowcaseSection,
   ShowcaseStack,
+  ShowcaseSurface,
+  ShowcaseWidth,
   figmaMobileUrl,
+  withMobileWidth,
 } from './mobile-showcase';
 
 const listStyles = ['basic', 'filled', 'outlined'];
@@ -14,7 +17,8 @@ const listStyles = ['basic', 'filled', 'outlined'];
 const supportingSample =
   'Supporting line text lorem ipsum dolor sit amet, consectetur';
 
-// Figma list item rows: title only, 2-line (ellipsis), 3-line (wrapping).
+// Figma / design_data "Opozorila": title only, 1 line (ellipsis), 2 lines (wrapping);
+// the same three with avatar + chevron. The catalog always reserves the chevron slot.
 const listConfigs = [
   { showSupporting: false, showAvatar: false, showChevron: false },
   { showSupporting: true, supportingLines: 1, showAvatar: false, showChevron: false },
@@ -24,66 +28,73 @@ const listConfigs = [
   { showSupporting: true, supportingLines: 2, showAvatar: true, showChevron: true },
 ];
 
+const renderAlerts = (platform) =>
+  React.createElement(
+    ShowcaseWidth,
+    { width: 361 },
+    React.createElement(
+      ShowcaseStack,
+      { gap: 16 },
+      ...['filled', 'stroke'].map((style) =>
+        React.createElement(Alert, {
+          key: style,
+          mode: 'alert',
+          style,
+          platform,
+          showIcon: true,
+          showDismiss: true,
+          title: 'Title',
+          message: 'Message',
+        }),
+      ),
+    ),
+  );
+
+const renderList = (platform, listStyle) => {
+  const rows = React.createElement(
+    ShowcaseStack,
+    { gap: 16 },
+    ...listConfigs.map((config, index) =>
+      React.createElement(Alert, {
+        key: index,
+        mode: 'list',
+        listStyle,
+        platform,
+        listTitle: 'List Item',
+        supportingText: supportingSample,
+        ...config,
+      }),
+    ),
+  );
+  const sized = React.createElement(ShowcaseWidth, { width: 360 }, rows);
+  return listStyle === 'basic'
+    ? React.createElement(ShowcaseSurface, { padding: 16 }, sized)
+    : sized;
+};
+
+const renderPlatform = (platform) =>
+  React.createElement(
+    ShowcaseStack,
+    { gap: 32 },
+    React.createElement(ShowcaseSection, { title: 'Alert' }, renderAlerts(platform)),
+    ...listStyles.map((listStyle) =>
+      React.createElement(
+        ShowcaseSection,
+        { key: listStyle, title: `List — ${listStyle}` },
+        renderList(platform, listStyle),
+      ),
+    ),
+  );
+
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Alerts' },
-    React.createElement(
-      ShowcasePanel,
-      null,
-      React.createElement(
-        ShowcaseStack,
-        { gap: 24 },
-        React.createElement(
-          ShowcaseSection,
-          { title: 'Alert' },
-          React.createElement(
-            ShowcaseStack,
-            { gap: 16 },
-            React.createElement(Alert, {
-              mode: 'alert',
-              style: 'filled',
-              showIcon: true,
-              showDismiss: true,
-              title: 'Title',
-              message: 'Message',
-            }),
-            React.createElement(Alert, {
-              mode: 'alert',
-              style: 'stroke',
-              showIcon: true,
-              showDismiss: true,
-              title: 'Title',
-              message: 'Message',
-            }),
-          ),
-        ),
-        React.createElement(
-          ShowcaseSection,
-          { title: 'List' },
-          React.createElement(
-            ShowcaseStack,
-            { gap: 24 },
-            ...listStyles.map((listStyle) =>
-              React.createElement(
-                ShowcaseStack,
-                { key: listStyle, gap: 16 },
-                ...listConfigs.map((config, index) =>
-                  React.createElement(Alert, {
-                    key: index,
-                    mode: 'list',
-                    listStyle,
-                    listTitle: 'List Item',
-                    supportingText: supportingSample,
-                    ...config,
-                  }),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    ),
+    { title: 'Opozorila' },
+    React.createElement(PlatformColumns, {
+      ios: renderPlatform('ios'),
+      android: renderPlatform('android'),
+      gap: 48,
+    }),
   );
 
 export default {
@@ -93,11 +104,14 @@ export default {
     layout: 'centered',
     design: { type: 'figma', url: figmaMobileUrl('3911:4207') },
     platformCode: { component: 'alert' },
+    mobileWidth: 361,
   },
   tags: ['autodocs'],
+  decorators: [withMobileWidth],
   args: {
     mode: 'alert',
     style: 'filled',
+    platform: 'android',
     showIcon: true,
     showDismiss: true,
     title: 'Title',
@@ -127,6 +141,11 @@ export default {
       },
       options: ['filled', 'stroke'],
       if: { arg: 'mode', eq: 'alert' },
+    },
+    platform: {
+      name: 'Platforma',
+      control: { type: 'inline-radio', labels: { ios: 'iOS', android: 'Android' } },
+      options: ['ios', 'android'],
     },
     showIcon: {
       name: 'Ikona',
@@ -186,10 +205,20 @@ export default {
 export const Variants = {
   name: 'Vse različice',
   render: renderVariants,
-  parameters: { controls: { disable: true }, layout: 'fullscreen' },
+  parameters: { controls: { disable: true }, layout: 'fullscreen', mobileWidth: 0 },
 };
 
 export const Default = { name: 'Privzeto' };
+
+export const Stroke = {
+  name: 'Obrobljeno',
+  args: { style: 'stroke' },
+};
+
+export const StrokeIos = {
+  name: 'Obrobljeno (iOS)',
+  args: { style: 'stroke', platform: 'ios' },
+};
 
 export const ListItem = {
   name: 'Pojasnilo',

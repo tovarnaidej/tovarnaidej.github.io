@@ -1,0 +1,146 @@
+/*
+ * SIListItem twin — components/flutter/lib/src/components/list_item/
+ * (list_item_tokens.dart + si_list_item.dart). Values in px = dp/pt.
+ */
+.si-list-item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: var(--si-radius-m);
+  background: var(--si-surface);
+  color: var(--si-on-surface);
+  font-family: var(--si-font);
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+}
+
+.si-list-item:focus-visible {
+  outline: 2px solid var(--si-primary);
+  outline-offset: 2px;
+}
+
+.si-list-item--filled {
+  background: var(--si-primary);
+  color: var(--si-on-primary);
+}
+
+.si-list-item--outlined {
+  border-color: var(--si-primary);
+}
+
+.si-list-item--clear {
+  border: 0;
+  background: transparent;
+}
+
+/* Vertical padding: 12 with supporting text, 16 title-only (iOS 16.5) */
+.si-list-item {
+  --si-li-pad-y: 12px;
+}
+
+.si-list-item--title-only {
+  --si-li-pad-y: 16px;
+}
+
+.si-list-item--title-only.si-list-item--ios {
+  --si-li-pad-y: 16.5px;
+}
+
+.si-list-item--multiline {
+  align-items: flex-start;
+}
+
+/* Avatar: left 16, top/bottom = vertical padding, 25 circle */
+.si-list-item__avatar-slot {
+  display: flex;
+  flex-shrink: 0;
+  padding: var(--si-li-pad-y) 0 var(--si-li-pad-y) 16px;
+}
+
+.si-list-item__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  border-radius: var(--si-radius-full);
+  background: var(--si-accent-teal);
+  color: var(--si-on-primary);
+  font: 500 15px/21px var(--si-font);
+  letter-spacing: var(--si-ls-plus01);
+}
+
+.si-list-item--filled .si-list-item__avatar {
+  background: var(--si-input-primary);
+  color: var(--si-accent-teal);
+}
+
+/* Content column: left 16; right 24 (no chevron) / 16 (chevron) / 0 (chevron + multiline) */
+.si-list-item__content {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  min-height: 56px;
+  padding: var(--si-li-pad-y) 24px var(--si-li-pad-y) 16px;
+}
+
+.si-list-item--has-chevron .si-list-item__content {
+  padding-right: 16px;
+}
+
+.si-list-item--has-chevron.si-list-item--multiline .si-list-item__content {
+  padding-right: 0;
+}
+
+.si-list-item__title {
+  overflow: hidden;
+  font: var(--si-title-medium);
+  letter-spacing: var(--si-ls-plus01);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.si-list-item__supporting {
+  display: -webkit-box;
+  overflow: hidden;
+  font: var(--si-body-medium);
+  letter-spacing: var(--si-ls-plus01);
+  -webkit-box-orient: vertical;
+  overflow-wrap: anywhere;
+}
+
+/* Chevron: 40 touch slot (single line) or 25 with 8 side padding, top = vertical padding (multiline) */
+.si-list-item__chevron-slot {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.si-list-item--multiline .si-list-item__chevron-slot {
+  width: 25px;
+  height: 25px;
+  padding: var(--si-li-pad-y) 8px 0;
+}
+
+.si-list-item__chevron {
+  width: 25px;
+  height: 25px;
+  background-color: var(--si-accent-teal);
+  -webkit-mask: var(--si-icon) center / contain no-repeat;
+  mask: var(--si-icon) center / contain no-repeat;
+}
+
+.si-list-item--filled .si-list-item__chevron {
+  background-color: var(--si-on-primary);
+}
