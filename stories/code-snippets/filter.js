@@ -33,8 +33,13 @@ export function buildFlutterSnippet(args = {}) {
       'SIFilterBar(',
       `  layout: SIFilterLayout.${layout},`,
       '  children: [',
-      "    SIFilter(label: 'Kategorija', type: SIFilterType.category, style: SIFilterStyle.filled, onPressed: () {}),",
-      "    SIFilter(label: 'Filtri', type: SIFilterType.filters, style: SIFilterStyle.outlined, badgeCount: 3, onPressed: () {}),",
+      '    for (var i = 0; i < 9; i++)',
+      '      SIFilter(',
+      "        label: 'Oznaka',",
+      '        type: SIFilterType.category,',
+      '        style: i == 0 ? SIFilterStyle.filled : SIFilterStyle.outlined,',
+      '        onPressed: () {},',
+      '      ),',
       '  ],',
       ')',
     ].join('\n');
@@ -73,11 +78,15 @@ export function buildFlutterSnippet(args = {}) {
 
 export function buildAndroidSnippet(args = {}) {
   if (args?.previewAsBar) {
-    const layout = (args?.layout || 'singleRowScrollable').toUpperCase();
+    const layout =
+      args?.layout === 'multiRowOverflow' ? 'MULTI_ROW_OVERFLOW' : 'SINGLE_ROW_SCROLLABLE';
     return [
       'SIFilterBar(context).apply {',
       `    layout = SIFilterLayout.${layout}`,
-      '    // setFilters(listOf(...))',
+      '    setLabels(List(9) { "Oznaka" }) { filter, index ->',
+      '        if (index == 0) filter.style = SIFilterStyle.FILLED',
+      '        filter.onClick = { }',
+      '    }',
       '}',
     ].join('\n');
   }
@@ -112,9 +121,16 @@ export function buildIosSnippet(args = {}) {
   if (args?.previewAsBar) {
     const layout = args?.layout || 'singleRowScrollable';
     return [
-      `SIFilterBar(layout: .${layout}) {`,
-      '    // SIFilter chips…',
-      '}',
+      'SIFilterBar(',
+      '    filters: (0..<9).map { index in',
+      '        SIFilter(',
+      '            label: "Oznaka",',
+      '            style: index == 0 ? .filled : .outlined,',
+      '            onPressed: { }',
+      '        )',
+      '    },',
+      `    layout: .${layout}`,
+      ')',
     ].join('\n');
   }
 

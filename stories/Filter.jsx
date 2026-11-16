@@ -5,13 +5,15 @@ import closeWindow from './assets/mobile/filter/close-window.svg';
 import filterDiamond from './assets/mobile/filter/filter-diamond.svg';
 import filterIcon from './assets/mobile/filter/filter.svg';
 import sortIcon from './assets/mobile/filter/sort.svg';
+import './mobile-tokens.css';
 import './filter.css';
 
+// Catalog labels (filter_configurator.dart)
 const DEFAULT_LABELS = {
-  category: 'Category',
-  filters: 'Filters',
-  applied: 'Applied filter',
-  sort: 'Sort',
+  category: 'Kategorija',
+  filters: 'Filtri',
+  applied: 'Uporabljeno',
+  sort: 'Razvrščanje',
 };
 
 const BAR_CHIP_COUNT = 9;
@@ -73,7 +75,7 @@ const Chip = ({
           <span className="si-filter__badge-count">{badgeCount}</span>
         </span>
       )}
-      {type === 'applied' && showDismiss && <Icon src={closeWindow} />}
+      {type === 'applied' && showDismiss && <Icon src={closeWindow} className="si-filter__icon--dismiss" />}
     </button>
   );
 };
@@ -114,8 +116,9 @@ export const Filter = ({
           <Chip
             key={index}
             type="category"
-            style="outlined"
-            label="Label"
+            // Catalog: first chip selected (filled), labels "Oznaka".
+            style={index === 0 ? 'filled' : 'outlined'}
+            label="Oznaka"
             inBar
           />
         ))}

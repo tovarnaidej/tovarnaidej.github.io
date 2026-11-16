@@ -1,5 +1,9 @@
 /*
- * Figma 3911:6495 — Filter (mobile)
+ * SIFilter twin — components/flutter/lib/src/components/filter/filter_tokens.dart
+ * (Figma 3911:6495). Flutter Container padding sits inside the 1px border:
+ *   category / filters / sort: 16 + 1 · in bar: 11 + 1 · applied: 15 + 1.
+ * Disabled category: #E6E7E9 fill/border, content onSurface @ 0.5.
+ * Filled: border = background colour. Labels cap-centred (text-box trim).
  * accent = #3C7B94 (category / filters / sort) · #447972 (applied)
  *   category  h 36 (32 in a chip group), radius 8, label Medium 15/21
  *   filters / sort  h 44, radius 8, px 16, gap 8, label Medium 15/21
@@ -65,6 +69,7 @@
 }
 
 .si-filter--filled {
+  border-color: var(--si-filter-accent);
   background: var(--si-filter-accent);
   color: #ffffff;
 }
@@ -125,16 +130,20 @@
 
 .si-filter--category.si-filter--in-bar {
   height: 32px;
-  padding: 0 12px;
+  padding: 0 11px;
   font-size: 14px;
   line-height: 20px;
 }
 
+/* TokenFilterV2.barCapCorrection */
+.si-filter--in-bar .si-filter__label {
+  transform: translateY(-0.6667px);
+}
+
 .si-filter--category.si-filter--disabled {
-  border-color: #e6e7e9;
-  background: #e6e7e9;
-  color: #000000;
-  opacity: 0.5;
+  border-color: var(--si-gray-100);
+  background: var(--si-gray-100);
+  color: rgba(0, 0, 0, 0.5);
   cursor: not-allowed;
 }
 
@@ -168,11 +177,19 @@
   --si-filter-accent: #447972;
   height: 32px;
   gap: 2px;
+  padding: 0 15px;
   border-radius: 999px;
   font: 500 13px/17px 'Republika', Arial, sans-serif;
   letter-spacing: -0.2px;
 }
 
-.si-filter--applied.si-filter--filled {
-  border-color: #ffffff;
+.si-filter--applied .si-filter__label {
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+/* close-window.svg painted at 16×16 (TokenFilterV2.dismissBoxSize) */
+.si-filter__icon--dismiss {
+  -webkit-mask-size: 16px 16px;
+  mask-size: 16px 16px;
 }
