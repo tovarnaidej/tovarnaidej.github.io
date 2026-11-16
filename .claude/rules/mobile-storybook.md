@@ -21,7 +21,14 @@ paths:
 - Barve/tipografija: `stories/mobile-tokens.css` (zrcali `tokens.dart`) — uporabljaj `var(--si-…)`.
 - Pisava: mobilni dvojčki uporabljajo družino `'SI Republika'` (`public/fonts/si/` = TTF-ji iz
   `components/flutter/fonts`, metrike kot v native). Spletni gradniki ostanejo na `'Republika'`.
-- Besedila: privzeti nizi knjižnice (`components/flutter/assets/localization/sl.json`) oz. kataloga.
+- **Storybook je kopija Flutter kataloga** (`components/flutter/catalog_app`):
+  - seznam in imena = `catalog_app/lib/main.dart` (`title: 'Gradniki - mobile/<name>'`); kar katalog
+    nima (npr. samostojni Seznam, Vnos zneska), v Storybooku ni;
+  - kontrole = konfigurator (`screens/*_configurator.dart`): `argTypes.name` = oznaka kontrole,
+    enum oznake = `catalogEnumChipLabel` (`widgets/config_controls.dart`), privzete `args` = privzeto stanje;
+    kontrole, ki jih katalog nima, skrij (`table: { disable: true }`), razen "Platforma";
+  - besedila predogledov = dobesedno iz konfiguratorja (tudi angleški vzorci, npr. `Example Button`),
+    nizi knjižnice iz `assets/localization/sl.json`, datumi v en_US (`SIDateFormat`).
 - "Vse različice" sledijo postavitvi PNG v `components/design_data/`; kjer se SOT razlikuje od PNG,
   velja SOT (razliko zapiši v commit sporočilo).
 - V `components` iz tega projekta ne spreminjaj ničesar (samo branje).
