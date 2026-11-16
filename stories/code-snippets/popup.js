@@ -54,7 +54,7 @@ export function buildIosSnippet(args = {}) {
     `    style: .${style(args)},`,
   ];
   if (args?.showAction !== false) {
-    lines.push('    buttonLabel: "Continue",');
+    lines.push('    buttonLabel: "Example Button",');
     lines.push('    onButtonPressed: { },');
   }
   lines.push('    onClose: { }');

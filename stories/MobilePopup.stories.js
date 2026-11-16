@@ -68,10 +68,7 @@ export default {
     showAction: { name: 'Gumb dejanja', control: { type: 'boolean' } },
     heading: { name: 'Naslov' },
     message: { name: 'Sporočilo' },
-    actionLabel: {
-      name: 'Oznaka gumba',
-      if: { arg: 'showAction', eq: true },
-    },
+    actionLabel: { table: { disable: true } },
     className: { table: { disable: true } },
   },
 };
