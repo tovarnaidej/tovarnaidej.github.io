@@ -37,7 +37,7 @@ export const Calendar = ({
         .join(' ')}
     >
       <div className="si-calendar__header">
-        <p className="si-calendar__label">Select date</p>
+        <p className="si-calendar__label">Izberite datum</p>
         <div className="si-calendar__date-row">
           <p className="si-calendar__date">Mon, Jan 17</p>
           <button
@@ -119,10 +119,10 @@ export const Calendar = ({
 
       <div className="si-calendar__actions">
         <button type="button" className="si-calendar__action">
-          Cancel
+          Prekliči
         </button>
         <button type="button" className="si-calendar__action">
-          OK
+          V redu
         </button>
       </div>
     </div>

@@ -20,12 +20,12 @@ export const CalendarInput = ({
         .filter(Boolean)
         .join(' ')}
       role="dialog"
-      aria-label="Select date"
+      aria-label="Izberite datum"
     >
       <div className="si-calendar-input__header">
-        <p className="si-calendar-input__label">Select date</p>
+        <p className="si-calendar-input__label">Izberite datum</p>
         <div className="si-calendar-input__title-row">
-          <p className="si-calendar-input__title">Enter date</p>
+          <p className="si-calendar-input__title">Vnesite datum</p>
           <button
             type="button"
             className="si-calendar-input__icon-btn"
@@ -38,13 +38,13 @@ export const CalendarInput = ({
 
       <div className="si-calendar-input__fields">
         <div className="si-calendar-input__field si-calendar-input__field--active">
-          <span className="si-calendar-input__field-label">Date</span>
-          <span className="si-calendar-input__field-value">dd/mm/yyyy</span>
+          <span className="si-calendar-input__field-label">Datum</span>
+          <span className="si-calendar-input__field-value">dd/mm/llll</span>
         </div>
         {isRange && (
           <div className="si-calendar-input__field">
             <span className="si-calendar-input__field-value si-calendar-input__field-value--placeholder">
-              End date
+              Končni datum
             </span>
           </div>
         )}
@@ -52,10 +52,10 @@ export const CalendarInput = ({
 
       <div className="si-calendar-input__actions">
         <button type="button" className="si-calendar-input__action">
-          Cancel
+          Prekliči
         </button>
         <button type="button" className="si-calendar-input__action">
-          OK
+          V redu
         </button>
       </div>
     </div>
