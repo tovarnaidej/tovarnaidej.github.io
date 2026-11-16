@@ -42,7 +42,7 @@ const renderVariants = () =>
         { gap: 48 },
         React.createElement(
           ShowcaseSection,
-          { title: 'Progress bars' },
+          { title: 'Segmentiran · Linearni · Koračni' },
           React.createElement(
             ShowcaseStack,
             { gap: 40 },
@@ -53,7 +53,7 @@ const renderVariants = () =>
         ),
         React.createElement(
           ShowcaseSection,
-          { title: 'Progress bar with label' },
+          { title: 'Koračni z besedilom' },
           React.createElement(
             ShowcaseStack,
             { gap: 40 },
@@ -65,7 +65,7 @@ const renderVariants = () =>
         ),
         React.createElement(
           ShowcaseSection,
-          { title: 'Linear progress bar with label' },
+          { title: 'Linearni z besedilom' },
           React.createElement(
             ShowcaseStack,
             { gap: 40 },
@@ -87,7 +87,7 @@ const renderVariants = () =>
       ),
       React.createElement(
         ShowcaseSection,
-        { title: 'Vertical progress bar' },
+        { title: 'Koračni · Navpično' },
         bar(
           {
             variant: 'stepped',
@@ -120,7 +120,7 @@ const withCatalogTexts = (args) => {
 };
 
 export default {
-  title: 'Gradniki - mobile/Vrstica napredka',
+  title: 'Gradniki - mobile/Prikaz korakov',
   component: ProgressBar,
   decorators: [withMobileWidth],
   parameters: {

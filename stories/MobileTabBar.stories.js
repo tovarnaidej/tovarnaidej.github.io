@@ -29,7 +29,7 @@ const renderColumn = (platform) =>
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Tab Bar' },
+    { title: 'Navigacija - spodnji meni' },
     React.createElement(
       ShowcasePanel,
       null,
@@ -43,7 +43,7 @@ const renderVariants = () =>
   );
 
 export default {
-  title: 'Gradniki - mobile/Vrstica zavihkov',
+  title: 'Gradniki - mobile/Navigacija - spodnji meni',
   component: TabBar,
   parameters: {
     layout: 'centered',

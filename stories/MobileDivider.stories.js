@@ -24,7 +24,7 @@ const column = (platform) =>
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Divider' },
+    { title: 'Razdelilnik' },
     React.createElement(
       ShowcasePanel,
       null,
@@ -33,7 +33,7 @@ const renderVariants = () =>
   );
 
 export default {
-  title: 'Gradniki - mobile/Ločilo',
+  title: 'Gradniki - mobile/Razdelilnik',
   component: Divider,
   parameters: {
     layout: 'centered',

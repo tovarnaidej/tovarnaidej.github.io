@@ -16,10 +16,10 @@ const progresses = [0, 0.1, 0.3, 0.5, 0.8, 1];
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Loading bar' },
+    { title: 'Kazalnik napredka' },
     React.createElement(
       ShowcaseSection,
-      { title: 'Linear' },
+      { title: 'Linearni' },
       React.createElement(
         ShowcaseStack,
         { gap: 24 },
@@ -39,7 +39,7 @@ const renderVariants = () =>
     ),
     React.createElement(
       ShowcaseSection,
-      { title: 'Circular' },
+      { title: 'Krožni' },
       React.createElement(
         ShowcaseGrid,
         { columns: 4, gap: '19px 24px' },

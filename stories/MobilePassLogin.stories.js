@@ -10,7 +10,7 @@ import {
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'SI-PASS Login' },
+    { title: 'Prijava SI-PASS' },
     React.createElement(
       ShowcasePanel,
       null,

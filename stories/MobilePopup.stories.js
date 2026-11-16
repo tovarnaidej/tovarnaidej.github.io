@@ -16,7 +16,7 @@ const sampleMessage =
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Popup' },
+    { title: 'Pojavno okno' },
     React.createElement(
       ShowcasePanel,
       null,

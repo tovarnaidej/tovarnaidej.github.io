@@ -13,6 +13,7 @@ import {
 } from './mobile-showcase';
 
 const listStyles = ['basic', 'filled', 'outlined'];
+const listStyleLabels = { basic: 'Privzeto', filled: 'Zapolnjeno', outlined: 'Obrobljeno' };
 
 const supportingSample =
   'Supporting line text lorem ipsum dolor sit amet, consectetur';
@@ -76,11 +77,11 @@ const renderPlatform = (platform) =>
   React.createElement(
     ShowcaseStack,
     { gap: 32 },
-    React.createElement(ShowcaseSection, { title: 'Alert' }, renderAlerts(platform)),
+    React.createElement(ShowcaseSection, { title: 'Opozorilo' }, renderAlerts(platform)),
     ...listStyles.map((listStyle) =>
       React.createElement(
         ShowcaseSection,
-        { key: listStyle, title: `List — ${listStyle}` },
+        { key: listStyle, title: `Pojasnilo — ${listStyleLabels[listStyle]}` },
         renderList(platform, listStyle),
       ),
     ),

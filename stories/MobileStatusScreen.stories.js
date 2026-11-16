@@ -12,13 +12,13 @@ import {
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Zaslon stanja' },
+    { title: 'Gradnik za prisilno posodobitev aplikacije' },
     React.createElement(
       ShowcasePanel,
       null,
       React.createElement(
         ShowcaseSection,
-        { title: 'Celozaslonski pregled' },
+        { title: 'Celozaslonsko' },
         React.createElement(
           ShowcaseRow,
           { gap: 24 },
@@ -38,7 +38,7 @@ const renderVariants = () =>
       ),
       React.createElement(
         ShowcaseSection,
-        { title: 'Pop-up' },
+        { title: 'Pojavno okno' },
         React.createElement(
           ShowcaseRow,
           { gap: 24 },
@@ -60,7 +60,7 @@ const renderVariants = () =>
   );
 
 export default {
-  title: 'Gradniki - mobile/Zaslon stanja',
+  title: 'Gradniki - mobile/Gradnik za prisilno posodobitev aplikacije',
   component: StatusScreen,
   parameters: {
     layout: 'centered',

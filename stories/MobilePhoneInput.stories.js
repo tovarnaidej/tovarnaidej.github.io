@@ -11,7 +11,7 @@ import {
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Phone number input' },
+    { title: 'Vnosno polje za telefonsko številko' },
     React.createElement(
       ShowcasePanel,
       null,
@@ -38,7 +38,7 @@ const renderVariants = () =>
   );
 
 export default {
-  title: 'Gradniki - mobile/Telefonska številka',
+  title: 'Gradniki - mobile/Vnosno polje za telefonsko številko',
   component: PhoneInput,
   parameters: {
     layout: 'centered',

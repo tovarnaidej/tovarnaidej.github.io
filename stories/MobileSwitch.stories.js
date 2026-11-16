@@ -33,7 +33,7 @@ const renderColumn = (platform) =>
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Switch/Toggle' },
+    { title: 'Izbira - preklopnik' },
     React.createElement(
       ShowcasePanel,
       null,
@@ -47,7 +47,7 @@ const renderVariants = () =>
   );
 
 export default {
-  title: 'Gradniki - mobile/Stikalo',
+  title: 'Gradniki - mobile/Izbira - preklopnik',
   component: Switch,
   parameters: {
     layout: 'centered',

@@ -16,7 +16,7 @@ const styles = ['outlined', 'filled', 'elevated'];
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Calendar' },
+    { title: 'Koledar' },
     React.createElement(
       ShowcasePanel,
       null,
@@ -25,7 +25,7 @@ const renderVariants = () =>
         { gap: 40 },
         React.createElement(
           ShowcaseSection,
-          { title: 'Android / Material (SIDatePicker)' },
+          { title: 'Android (SIDatePicker)' },
           React.createElement(
             ShowcaseRow,
             { gap: 24, className: 'mobile-showcase__row--top' },
@@ -34,7 +34,7 @@ const renderVariants = () =>
         ),
         React.createElement(
           ShowcaseSection,
-          { title: 'iOS (SIDatePickerIOS / SICalendar) — design_data/Koledar iOS.png' },
+          { title: 'iOS (SIDatePickerIOS)' },
           React.createElement(
             ShowcaseRow,
             { gap: 24, className: 'mobile-showcase__row--top' },

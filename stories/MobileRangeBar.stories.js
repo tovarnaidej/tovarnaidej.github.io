@@ -11,7 +11,7 @@ import {
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Range bar / slider' },
+    { title: 'Drsnik' },
     React.createElement(
       ShowcasePanel,
       null,

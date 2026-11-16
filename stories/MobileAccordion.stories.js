@@ -14,7 +14,7 @@ const styles = ['defaultStyle', 'outlined', 'filled'];
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Accordion' },
+    { title: 'Harmonika' },
     React.createElement(
       ShowcaseSurface,
       null,

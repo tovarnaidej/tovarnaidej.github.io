@@ -24,7 +24,7 @@ const configs = [
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Top App Bar' },
+    { title: 'Navigacija - zgornji meni' },
     React.createElement(
       ShowcaseSection,
       null,

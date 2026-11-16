@@ -36,7 +36,7 @@ const column = (style) => {
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Search bar' },
+    { title: 'Iskalno polje' },
     React.createElement(
       ShowcaseRow,
       { gap: 48, className: 'mobile-showcase__row--top' },

@@ -20,7 +20,7 @@ const renderVariants = () =>
     { title: 'Filter' },
     React.createElement(
       ShowcaseSection,
-      { title: 'Filter Chip' },
+      { title: 'Kategorija' },
       React.createElement(
         ShowcaseRow,
         { gap: 33 },
@@ -45,7 +45,7 @@ const renderVariants = () =>
     ),
     React.createElement(
       ShowcaseSection,
-      { title: 'Filter button' },
+      { title: 'Filtri' },
       React.createElement(
         ShowcaseStack,
         { gap: 20 },
@@ -73,7 +73,7 @@ const renderVariants = () =>
     ),
     React.createElement(
       ShowcaseSection,
-      { title: 'Sort button' },
+      { title: 'Razvrščanje' },
       React.createElement(
         ShowcaseRow,
         { gap: 30 },
@@ -83,7 +83,7 @@ const renderVariants = () =>
     ),
     React.createElement(
       ShowcaseSection,
-      { title: 'Applied filter' },
+      { title: 'Uporabljeno' },
       React.createElement(
         ShowcaseStack,
         { gap: 20 },
@@ -103,7 +103,7 @@ const renderVariants = () =>
     ),
     React.createElement(
       ShowcaseSection,
-      { title: 'Chip groups' },
+      { title: 'Predogled kot vrstica' },
       React.createElement(
         ShowcaseRow,
         { gap: 67 },

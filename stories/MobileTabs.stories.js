@@ -11,7 +11,7 @@ import {
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Tabs' },
+    { title: 'Zavihki' },
     React.createElement(
       ShowcasePanel,
       null,

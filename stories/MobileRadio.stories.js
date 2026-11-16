@@ -36,7 +36,7 @@ const renderColumn = (thickness) =>
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Radio Button' },
+    { title: 'Izbira - izbirni gumb' },
     React.createElement(
       ShowcasePanel,
       null,

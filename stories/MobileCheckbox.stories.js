@@ -35,7 +35,7 @@ const renderColumn = (thickness) =>
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Checkbox' },
+    { title: 'Izbira - potrditveno polje' },
     React.createElement(
       ShowcasePanel,
       null,
@@ -49,7 +49,7 @@ const renderVariants = () =>
   );
 
 export default {
-  title: 'Gradniki - mobile/Potrditveno polje',
+  title: 'Gradniki - mobile/Izbira - potrditveno polje',
   component: Checkbox,
   parameters: {
     layout: 'centered',

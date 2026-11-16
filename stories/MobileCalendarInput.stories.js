@@ -11,7 +11,7 @@ import {
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Calendar Input' },
+    { title: 'Vnosno polje za datum' },
     React.createElement(
       ShowcasePanel,
       null,
@@ -25,7 +25,7 @@ const renderVariants = () =>
   );
 
 export default {
-  title: 'Gradniki - mobile/Vnos datuma',
+  title: 'Gradniki - mobile/Vnosno polje za datum',
   component: CalendarInput,
   parameters: {
     layout: 'centered',

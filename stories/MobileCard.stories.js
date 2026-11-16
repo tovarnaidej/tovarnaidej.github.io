@@ -16,7 +16,7 @@ const layouts = ['standard', 'compact'];
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
-    { title: 'Cards' },
+    { title: 'Kartica' },
     React.createElement(
       ShowcasePanel,
       null,
