@@ -60,7 +60,7 @@ export default {
       name: 'Zavihki',
       control: {
         type: 'select',
-        labels: { 2: 'Dve', 3: 'Tri', 4: 'Štiri', 5: 'Pet' },
+        labels: { 2: 'Dva', 3: 'Tri', 4: 'Štiri', 5: 'Pet' },
       },
       options: [2, 3, 4, 5],
     },

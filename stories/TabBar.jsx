@@ -11,7 +11,7 @@ export const TabBar = ({
   className = '',
 }) => {
   const [selected, setSelected] = useState(0);
-  const tabs = Array.from({ length: tabCount }, (_, i) => `Oznaka ${i + 1}`);
+  const tabs = Array.from({ length: tabCount }, () => 'Oznaka');
 
   return (
     <nav
@@ -27,7 +27,7 @@ export const TabBar = ({
     >
       {tabs.map((label, index) => (
         <button
-          key={label}
+          key={index}
           type="button"
           role="tab"
           aria-selected={selected === index}
