@@ -4,7 +4,8 @@
  * inside the box; a 1px (transparent) border is therefore always present
  * and padding is reduced by 1px (23 / 15) so content stays 296 wide and
  * the icon stays 24px from the top edge.
- * Elevated shadow = Figma style Shadows/shadow-lg.
+ * Elevated shadow = TokenPopupV2.elevatedShadow (0 4 6 #00000008, 0 12 16 #00000014).
+ * Source: components/flutter/lib/src/components/popup/popup_tokens.dart
  */
 .si-popup {
   box-sizing: border-box;
@@ -33,8 +34,8 @@
 
 .si-popup--elevated {
   box-shadow:
-    0 12px 16px -4px rgba(16, 24, 40, 0.08),
-    0 4px 6px -2px rgba(16, 24, 40, 0.03);
+    0 4px 6px rgba(0, 0, 0, 0.03),
+    0 12px 16px rgba(0, 0, 0, 0.08);
 }
 
 .si-popup__body {
@@ -93,20 +94,20 @@
   letter-spacing: 0.1px;
 }
 
-/* Primary CTA: full width (296), height 48, radius 8 */
+/* Primary CTA: SIButton filled, full width (296), height 49, label 17/21 */
 .si-popup__action {
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 48px;
-  padding: 0 24px;
+  height: 49px;
+  padding: 0 16px;
   border: 0;
   border-radius: 8px;
   background: #3c7b94;
   color: #ffffff;
-  font: 700 17px/25px 'Republika', Arial, sans-serif;
+  font: 700 17px/21px 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   white-space: nowrap;
   cursor: pointer;
@@ -134,7 +135,7 @@
   padding: 14px;
   border: 0;
   border-radius: 8px;
-  background: #ffffff;
+  background: transparent;
   cursor: pointer;
 }
 
