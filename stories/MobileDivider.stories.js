@@ -3,12 +3,23 @@ import React from 'react';
 import { Divider } from './Divider';
 import {
   MobileShowcase,
+  PlatformColumns,
   ShowcasePanel,
   ShowcaseStack,
   figmaMobileUrl,
 } from './mobile-showcase';
 
 const types = ['fullWidth', 'inset'];
+
+const column = (platform) =>
+  React.createElement(
+    ShowcaseStack,
+    { gap: 24 },
+    React.createElement(Divider, { platform, type: 'fullWidth' }),
+    React.createElement(Divider, { platform, type: 'inset' }),
+    React.createElement(Divider, { platform, type: 'fullWidth', showLabel: true, label: 'Subheader' }),
+    React.createElement(Divider, { platform, type: 'inset', showLabel: true, label: 'Subheader' }),
+  );
 
 const renderVariants = () =>
   React.createElement(
@@ -17,23 +28,7 @@ const renderVariants = () =>
     React.createElement(
       ShowcasePanel,
       null,
-      React.createElement(
-        ShowcaseStack,
-        { gap: 24 },
-        React.createElement(Divider, {
-          type: 'fullWidth',
-          showLabel: false,
-        }),
-        React.createElement(Divider, {
-          type: 'inset',
-          showLabel: false,
-        }),
-        React.createElement(Divider, {
-          type: 'inset',
-          showLabel: true,
-          label: 'Subheader',
-        }),
-      ),
+      React.createElement(PlatformColumns, { ios: column('ios'), android: column('android') }),
     ),
   );
 
@@ -47,11 +42,17 @@ export default {
   },
   tags: ['autodocs'],
   args: {
+    platform: 'android',
     type: 'fullWidth',
     showLabel: false,
     label: 'Subheader',
   },
   argTypes: {
+    platform: {
+      name: 'Platforma',
+      control: { type: 'inline-radio', labels: { ios: 'iOS', android: 'Android' } },
+      options: ['ios', 'android'],
+    },
     type: {
       name: 'Vrsta',
       control: {
