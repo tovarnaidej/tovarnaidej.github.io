@@ -6,6 +6,15 @@ import {
 const style = (args) => args?.style || 'outlined';
 
 export function buildFlutterSnippet(args = {}) {
+  if (args?.platform === 'ios') {
+    return [
+      'SIDatePickerIOS(',
+      '  selectedDate: DateTime.now(),',
+      `  style: SIDatePickerStyle.${style(args)},`,
+      '  onDateSelected: (d) {},',
+      ')',
+    ].join('\n');
+  }
   return [
     'SIDatePicker(',
     '  initialDate: DateTime.now(),',
@@ -26,9 +35,12 @@ export function buildAndroidSnippet(args = {}) {
 }
 
 export function buildIosSnippet(args = {}) {
+  // SwiftUI ships the iOS calendar design (SICalendarView.swift).
   return [
-    'SIDatePicker(',
-    '    date: Date(),',
+    '@State private var date = Date()',
+    '',
+    'SICalendar(',
+    '    selected: $date,',
     `    style: .${style(args)}`,
     ')',
   ].join('\n');

@@ -1,10 +1,13 @@
 import React from 'react';
 
 import { Calendar } from './Calendar';
+import { CalendarIOS } from './CalendarIOS';
 import {
   MobileShowcase,
   ShowcasePanel,
   ShowcaseRow,
+  ShowcaseSection,
+  ShowcaseStack,
   figmaMobileUrl,
 } from './mobile-showcase';
 
@@ -18,13 +21,25 @@ const renderVariants = () =>
       ShowcasePanel,
       null,
       React.createElement(
-        ShowcaseRow,
-        { gap: 24 },
-        ...styles.map((style) =>
-          React.createElement(Calendar, {
-            key: style,
-            style,
-          }),
+        ShowcaseStack,
+        { gap: 40 },
+        React.createElement(
+          ShowcaseSection,
+          { title: 'Android / Material (SIDatePicker)' },
+          React.createElement(
+            ShowcaseRow,
+            { gap: 24, className: 'mobile-showcase__row--top' },
+            ...styles.map((style) => React.createElement(Calendar, { key: style, style })),
+          ),
+        ),
+        React.createElement(
+          ShowcaseSection,
+          { title: 'iOS (SIDatePickerIOS / SICalendar) — design_data/Koledar iOS.png' },
+          React.createElement(
+            ShowcaseRow,
+            { gap: 24, className: 'mobile-showcase__row--top' },
+            ...styles.map((style) => React.createElement(CalendarIOS, { key: style, style })),
+          ),
         ),
       ),
     ),
@@ -39,10 +54,18 @@ export default {
     platformCode: { component: 'calendar' },
   },
   tags: ['autodocs'],
+  render: ({ platform, ...args }) =>
+    React.createElement(platform === 'ios' ? CalendarIOS : Calendar, args),
   args: {
     style: 'outlined',
+    platform: 'android',
   },
   argTypes: {
+    platform: {
+      name: 'Platforma',
+      control: { type: 'inline-radio', labels: { ios: 'iOS', android: 'Android' } },
+      options: ['ios', 'android'],
+    },
     style: {
       name: 'Slog',
       control: {

@@ -1,0 +1,183 @@
+/*
+ * SIDatePickerIOS twin — components/flutter/lib/src/components/datepicker/datepicker_tokens.dart (ios*)
+ * Container 361, radius 16, padding 24/16; outlined 1px primary, elevated = elevation 2,
+ * filled primary (white texts, no chevrons, no today ring).
+ * Header (25 high): month/year Bold 17/1 + 8 + 24 dropdown chevron; arrows 25 boxes, gap 4;
+ *   both rows padded 18. Section gap 30.
+ * Weekdays Bold 13/17 uppercase, #000 @ 50% (filled #FFF @ 90%), row 17.
+ * Days: 40 circles, Regular 22/28 (selected Bold), row gap 8, space-between;
+ *   today ring 1.2 primary, selected primary / white text (filled: white / primary).
+ */
+.si-cal-ios {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 361px;
+  padding: 24px 16px;
+  border-radius: var(--si-radius-l);
+  background: var(--si-surface);
+  color: var(--si-on-surface);
+  font-family: var(--si-font);
+  --si-cal-accent: var(--si-primary);
+  --si-cal-weekday: rgba(0, 0, 0, 0.5);
+}
+
+.si-cal-ios *,
+.si-cal-ios *::before,
+.si-cal-ios *::after {
+  box-sizing: border-box;
+}
+
+.si-cal-ios--outlined {
+  border: 1px solid var(--si-primary);
+}
+
+.si-cal-ios--elevated {
+  box-shadow: var(--si-elevation-2);
+}
+
+.si-cal-ios--filled {
+  background: var(--si-primary);
+  color: var(--si-on-primary);
+  --si-cal-accent: var(--si-on-primary);
+  --si-cal-weekday: rgba(255, 255, 255, 0.9);
+}
+
+/* ---------- header ---------- */
+.si-cal-ios__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 25px;
+}
+
+.si-cal-ios__month {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 0 18px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.si-cal-ios__month-label {
+  overflow: hidden;
+  font: 700 17px/1 var(--si-font);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.si-cal-ios__dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.si-cal-ios__arrows {
+  display: flex;
+  gap: 4px;
+  padding: 0 18px;
+}
+
+.si-cal-ios__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.si-cal-ios__chevron {
+  display: block;
+  width: 7px;
+  height: 12px;
+  background-color: var(--si-primary);
+  -webkit-mask: var(--si-icon) center / contain no-repeat;
+  mask: var(--si-icon) center / contain no-repeat;
+}
+
+.si-cal-ios--filled .si-cal-ios__chevron {
+  /* iosFilledChevronColor is transparent: the slots stay, the glyphs do not */
+  background-color: transparent;
+}
+
+.si-cal-ios__chevron--flip {
+  transform: scaleX(-1);
+}
+
+/* ---------- grid ---------- */
+.si-cal-ios__body {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.si-cal-ios__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.si-cal-ios__row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 18px;
+}
+
+.si-cal-ios__cell {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.si-cal-ios__weekdays .si-cal-ios__cell {
+  height: 17px;
+}
+
+.si-cal-ios__weekday {
+  color: var(--si-cal-weekday);
+  font: 700 13px/17px var(--si-font);
+}
+
+.si-cal-ios__day {
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font: 400 22px/28px var(--si-font);
+  cursor: pointer;
+}
+
+.si-cal-ios__day--today {
+  border: 1.2px solid var(--si-primary);
+  color: var(--si-primary);
+}
+
+.si-cal-ios--filled .si-cal-ios__day--today {
+  border-color: transparent;
+  color: var(--si-on-primary);
+}
+
+.si-cal-ios__day--selected {
+  background: var(--si-cal-accent);
+  color: var(--si-on-primary);
+  font-weight: 700;
+}
+
+.si-cal-ios--filled .si-cal-ios__day--selected {
+  color: var(--si-primary);
+}
