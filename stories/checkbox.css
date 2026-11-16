@@ -1,4 +1,5 @@
-/* Figma 3911:2801 — 20×20 control, checkmark.svg centered */
+/* SICheckbox twin — selection_tokens.dart: 20 box, radius 4, border thick 2 / thin 1,
+   padding 12/16, gap 8, label 17/25 +0.1; checkmark drawn in a 16 box (stroke 2). */
 .si-checkbox {
   box-sizing: border-box;
   display: inline-flex;
@@ -24,16 +25,16 @@
   width: 20px;
   height: 20px;
   border-radius: 4px;
-  background: #ffffff;
+  background: transparent;
   position: relative;
   flex-shrink: 0;
 }
 
-.si-checkbox--ios .si-checkbox__control {
+.si-checkbox--thin .si-checkbox__control {
   border: 1px solid #3c7b94;
 }
 
-.si-checkbox--android .si-checkbox__control {
+.si-checkbox--thick .si-checkbox__control {
   border: 2px solid #3c7b94;
 }
 
@@ -44,8 +45,9 @@
 
 .si-checkbox__check {
   display: block;
-  width: 20px;
-  height: 20px;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
   pointer-events: none;
 }
 
@@ -62,7 +64,7 @@
 
 .si-checkbox--error .si-checkbox__control {
   border-color: #d32f2f;
-  background: #ffffff;
+  background: transparent;
 }
 
 .si-checkbox--error.si-checkbox--checked .si-checkbox__control {

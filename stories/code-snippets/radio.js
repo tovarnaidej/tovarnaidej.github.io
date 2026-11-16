@@ -16,6 +16,7 @@ export function buildFlutterSnippet(args = {}) {
     '  value: 0,',
     '  groupValue: 0,',
     '  onChanged: (v) {},',
+    ...(args?.thickness === 'thin' ? ['  thickness: SISelectionThickness.thin,'] : []),
     `  label: ${args?.showLabels === false ? 'null' : `'${text}'`},`,
     `  enabled: ${enabled(args)},`,
     `  hasError: ${hasError(args)},`,
@@ -30,6 +31,7 @@ export function buildAndroidSnippet(args = {}) {
     `    isEnabled = ${enabled(args)}`,
     `    hasError = ${hasError(args)}`,
     '    isRadioSelected = true',
+    ...(args?.thickness === 'thin' ? ['    thickness = SISelectionThickness.THIN'] : []),
   ];
   if (args?.showLabels !== false) {
     lines.push(`    labelText = "${text}"`);
@@ -40,13 +42,17 @@ export function buildAndroidSnippet(args = {}) {
 
 export function buildIosSnippet(args = {}) {
   const text = escapeDoubleQuoted(label(args));
+  const thin = args?.thickness === 'thin';
   return [
+    '@State private var selection: Int? = 0',
+    '',
     'SIRadioButton(',
-    '    value: "0",',
-    '    groupValue: "0",',
+    '    value: 0,',
+    '    selection: $selection,',
     `    label: ${args?.showLabels === false ? 'nil' : `"${text}"`},`,
     `    isEnabled: ${enabled(args)},`,
-    `    hasError: ${hasError(args)}`,
+    `    hasError: ${hasError(args)}${thin ? ',' : ''}`,
+    ...(thin ? ['    thickness: .thin'] : []),
     ')',
   ].join('\n');
 }

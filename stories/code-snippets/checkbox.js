@@ -8,6 +8,7 @@ import {
 const enabled = (args) => args?.enabled !== false;
 const hasError = (args) => Boolean(args?.hasError);
 const checked = (args) => Boolean(args?.checked);
+const thin = (args) => args?.thickness === 'thin';
 const label = (args) =>
   args?.showLabel === false ? null : (args?.label ?? 'Checkbox label');
 
@@ -20,6 +21,7 @@ export function buildFlutterSnippet(args = {}) {
     `  label: ${text == null ? 'null' : `'${escapeJsString(text)}'`},`,
     `  enabled: ${enabled(args)},`,
     `  hasError: ${hasError(args)},`,
+    ...(thin(args) ? ['  thickness: SISelectionThickness.thin,'] : []),
     ')',
   ].join('\n');
 }
@@ -32,6 +34,7 @@ export function buildAndroidSnippet(args = {}) {
     `    isEnabled = ${enabled(args)}`,
     `    hasError = ${hasError(args)}`,
     `    labelText = ${text == null ? 'null' : `"${escapeDoubleQuoted(text)}"`}`,
+    ...(thin(args) ? ['    thickness = SISelectionThickness.THIN'] : []),
     '}',
   ].join('\n');
 }
@@ -39,11 +42,14 @@ export function buildAndroidSnippet(args = {}) {
 export function buildIosSnippet(args = {}) {
   const text = label(args);
   return [
+    `@State private var isChecked = ${checked(args)}`,
+    '',
     'SICheckbox(',
     `    label: ${text == null ? 'nil' : `"${escapeDoubleQuoted(text)}"`},`,
     '    isChecked: $isChecked,',
     `    isEnabled: ${enabled(args)},`,
-    `    hasError: ${hasError(args)}`,
+    `    hasError: ${hasError(args)}${thin(args) ? ',' : ''}`,
+    ...(thin(args) ? ['    thickness: .thin'] : []),
     ')',
   ].join('\n');
 }

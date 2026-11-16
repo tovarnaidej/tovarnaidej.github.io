@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import './mobile-tokens.css';
 import './radio.css';
 
 export const RadioItem = ({
@@ -9,7 +10,7 @@ export const RadioItem = ({
   hasError = false,
   label = 'Placeholder text',
   showLabel = true,
-  platform = 'ios',
+  thickness = 'thick',
   name = 'si-radio-item',
   onSelect,
   className = '',
@@ -17,7 +18,7 @@ export const RadioItem = ({
   <label
     className={[
       'si-radio',
-      `si-radio--${platform}`,
+      `si-radio--${thickness}`,
       selected ? 'si-radio--selected' : '',
       hasError ? 'si-radio--error' : '',
       !enabled ? 'si-radio--disabled' : '',
@@ -44,7 +45,7 @@ RadioItem.propTypes = {
   hasError: PropTypes.bool,
   label: PropTypes.string,
   showLabel: PropTypes.bool,
-  platform: PropTypes.oneOf(['ios', 'android']),
+  thickness: PropTypes.oneOf(['thin', 'thick']),
   name: PropTypes.string,
   onSelect: PropTypes.func,
   className: PropTypes.string,
@@ -57,7 +58,7 @@ export const Radio = ({
   label1 = 'Option 1',
   label2 = 'Option 2',
   label3 = 'Option 3',
-  platform = 'ios',
+  thickness = 'thick',
   className = '',
 }) => {
   const [selected, setSelected] = useState(0);
@@ -87,7 +88,7 @@ export const Radio = ({
           hasError={hasError}
           label={opt.label}
           showLabel={showLabels}
-          platform={platform}
+          thickness={thickness}
           name="si-radio"
           onSelect={() => setSelected(opt.value)}
         />
@@ -103,6 +104,6 @@ Radio.propTypes = {
   label1: PropTypes.string,
   label2: PropTypes.string,
   label3: PropTypes.string,
-  platform: PropTypes.oneOf(['ios', 'android']),
+  thickness: PropTypes.oneOf(['thin', 'thick']),
   className: PropTypes.string,
 };

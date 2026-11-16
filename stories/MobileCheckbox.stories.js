@@ -16,14 +16,14 @@ const states = [
   { key: 'error', checked: true, enabled: true, hasError: true },
 ];
 
-const renderColumn = (platform) =>
+const renderColumn = (thickness) =>
   React.createElement(
     ShowcaseStack,
     { gap: 10 },
     ...states.map((s) =>
       React.createElement(Checkbox, {
-        key: `${platform}-${s.key}`,
-        platform,
+        key: `${thickness}-${s.key}`,
+        thickness,
         checked: s.checked,
         enabled: s.enabled,
         hasError: s.hasError,
@@ -41,9 +41,9 @@ const renderVariants = () =>
       null,
       React.createElement(PlatformColumns, {
         gap: 33,
-        showLabels: false,
-        ios: renderColumn('ios'),
-        android: renderColumn('android'),
+        labels: ['Tanka (1)', 'Debela (2)'],
+        ios: renderColumn('thin'),
+        android: renderColumn('thick'),
       }),
     ),
   );
@@ -63,7 +63,7 @@ export default {
     hasError: false,
     showLabel: true,
     label: 'Checkbox label',
-    platform: 'ios',
+    thickness: 'thick',
   },
   argTypes: {
     checked: { name: 'Označeno', control: { type: 'boolean' } },
@@ -71,10 +71,10 @@ export default {
     hasError: { name: 'Napaka', control: { type: 'boolean' } },
     showLabel: { name: 'Prikaži oznako', control: { type: 'boolean' } },
     label: { name: 'Oznaka', if: { arg: 'showLabel', eq: true } },
-    platform: {
-      name: 'Platforma',
-      control: { type: 'select', labels: { ios: 'iOS', android: 'Android' } },
-      options: ['ios', 'android'],
+    thickness: {
+      name: 'Debelina',
+      control: { type: 'inline-radio', labels: { thin: 'Tanka (1)', thick: 'Debela (2)' } },
+      options: ['thin', 'thick'],
     },
     className: { table: { disable: true } },
   },

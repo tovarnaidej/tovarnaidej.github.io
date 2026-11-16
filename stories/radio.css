@@ -30,16 +30,16 @@
   height: 20px;
   margin: 12px;
   border-radius: 50%;
-  background: #ffffff;
+  background: transparent;
   position: relative;
   flex-shrink: 0;
 }
 
-.si-radio--ios .si-radio__control {
-  border: 1.5px solid #3c7b94;
+.si-radio--thin .si-radio__control {
+  border: 1px solid #3c7b94;
 }
 
-.si-radio--android .si-radio__control {
+.si-radio--thick .si-radio__control {
   border: 2px solid #3c7b94;
 }
 
@@ -47,7 +47,12 @@
 .si-radio--selected .si-radio__control::after {
   content: '';
   position: absolute;
-  inset: 4px;
+  /* TokenRadioButtonV2.innerDotSize 12, centred regardless of ring width */
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  transform: translate(-50%, -50%);
   border-radius: 50%;
   background: #3c7b94;
 }

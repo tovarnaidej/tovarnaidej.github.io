@@ -18,7 +18,8 @@
   cursor: pointer;
   appearance: none;
   flex-shrink: 0;
-  background: #e9e9eb;
+  /* TokenSwitchV2.offColor = gray200 */
+  background: #d1d2d4;
 }
 
 .si-switch--ios.si-switch--on .si-switch__track {

@@ -77,6 +77,7 @@ export const PlatformColumns = ({
   gap = 33,
   className = '',
   showLabels = true,
+  labels = ['iOS', 'Android'],
 }) =>
   React.createElement(
     'div',
@@ -93,7 +94,7 @@ export const PlatformColumns = ({
         ? React.createElement(
             'p',
             { className: 'mobile-showcase__platform-label' },
-            'iOS',
+            labels[0],
           )
         : null,
       ios,
@@ -105,7 +106,7 @@ export const PlatformColumns = ({
         ? React.createElement(
             'p',
             { className: 'mobile-showcase__platform-label' },
-            'Android',
+            labels[1],
           )
         : null,
       android,
@@ -118,6 +119,7 @@ PlatformColumns.propTypes = {
   gap: PropTypes.number,
   className: PropTypes.string,
   showLabels: PropTypes.bool,
+  labels: PropTypes.arrayOf(PropTypes.string),
 };
 
 export const ShowcaseStack = ({ children, gap = 10, className = '' }) =>
