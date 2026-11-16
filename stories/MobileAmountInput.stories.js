@@ -24,8 +24,8 @@ const column = (layout) =>
     ShowcaseStack,
     { gap: 24 },
     ...['outline', 'filled'].flatMap((style) =>
-      states.map((s) =>
-        React.createElement(AmountInput, { key: `${style}-${s.key}`, layout, style, ...s }),
+      states.map(({ key, ...state }) =>
+        React.createElement(AmountInput, { key: `${style}-${key}`, layout, style, ...state }),
       ),
     ),
   );
