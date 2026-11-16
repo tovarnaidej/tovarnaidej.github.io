@@ -126,3 +126,7 @@
 .mobile-showcase__row--top {
   align-items: flex-start;
 }
+
+.mobile-showcase__surface--primary {
+  background: var(--si-primary, #3c7b94);
+}

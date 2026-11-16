@@ -3,57 +3,44 @@ import React from 'react';
 import { SearchBar } from './SearchBar';
 import {
   MobileShowcase,
-  ShowcasePanel,
   ShowcaseRow,
   ShowcaseStack,
+  ShowcaseSurface,
   figmaMobileUrl,
 } from './mobile-showcase';
 
-const styles = ['defaultStyle', 'filled', 'outlined'];
+const styles = ['filled', 'defaultStyle', 'outlined'];
 const resultsModes = ['hide', 'empty', 'shown'];
+
+// design_data/Iskalno polje.png: one column per style (default sits on the
+// primary app bar colour, TokenSearchBarV2.defaultOuterBackground).
+const column = (style) => {
+  const stack = React.createElement(
+    ShowcaseStack,
+    { gap: 24 },
+    React.createElement(SearchBar, { style, resultsMode: 'hide', showAvatar: false }),
+    React.createElement(SearchBar, { style, resultsMode: 'hide', showAvatar: true }),
+    React.createElement(SearchBar, { style, resultsMode: 'empty' }),
+    React.createElement(SearchBar, { style, resultsMode: 'shown', showResultAvatars: true }),
+    React.createElement(SearchBar, { style, resultsMode: 'shown', showResultAvatars: false }),
+  );
+  return style === 'defaultStyle'
+    ? React.createElement(
+        ShowcaseSurface,
+        { key: style, padding: 16, className: 'mobile-showcase__surface--primary' },
+        stack,
+      )
+    : React.createElement('div', { key: style, style: { paddingTop: 16 } }, stack);
+};
 
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
     { title: 'Search bar' },
     React.createElement(
-      ShowcasePanel,
-      null,
-      React.createElement(
-        ShowcaseStack,
-        { gap: 24 },
-        ...styles.map((style) =>
-          React.createElement(
-            ShowcaseRow,
-            { key: style, gap: 24 },
-            React.createElement(SearchBar, {
-              style,
-              resultsMode: 'hide',
-              showAvatar: false,
-            }),
-            React.createElement(SearchBar, {
-              style,
-              resultsMode: 'hide',
-              showAvatar: true,
-            }),
-          ),
-        ),
-        React.createElement(
-          ShowcaseRow,
-          { gap: 24 },
-          React.createElement(SearchBar, {
-            style: 'defaultStyle',
-            resultsMode: 'shown',
-            showAvatar: false,
-            showResultAvatars: true,
-          }),
-          React.createElement(SearchBar, {
-            style: 'filled',
-            resultsMode: 'empty',
-            showAvatar: false,
-          }),
-        ),
-      ),
+      ShowcaseRow,
+      { gap: 48, className: 'mobile-showcase__row--top' },
+      ...styles.map(column),
     ),
   );
 

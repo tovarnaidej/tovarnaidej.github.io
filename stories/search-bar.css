@@ -63,9 +63,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  padding: 8px;
+  width: 48px;
+  height: 48px;
+  padding: 12px;
 }
 
 .si-search-bar__search-icon img {
@@ -88,13 +88,9 @@
   color: #ffffff;
 }
 
-/*
- * Figma Avatar Initial (I3911:3844;51592:5119): Roboto Medium 16 / 24,
- * letter-spacing 0.15px, textAlign CENTER/CENTER in 30×30 box.
- * Not Republika — Medium descent 0 shifts the monogram optically.
- */
+/* TokenSearchBarV2.avatarInitialStyle: Republika Medium 16/24, +0.15px */
 .si-search-bar__avatar-letter {
-  font: 500 16px/24px 'Roboto', Arial, sans-serif;
+  font: 500 16px/24px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.15px;
   text-align: center;
 }
@@ -200,6 +196,7 @@
   height: 40px;
   overflow: hidden;
   border-radius: 100px;
+  /* on filled: white with primary initials; otherwise primary with white */
   background: #ffffff;
   color: #3c7b94;
 }
@@ -210,7 +207,8 @@
 
 .si-search-bar--defaultStyle .si-search-bar__result-avatar,
 .si-search-bar--outlined .si-search-bar__result-avatar {
-  background: #edf5f8;
+  background: #3c7b94;
+  color: #ffffff;
 }
 
 .si-search-bar__result-text {
