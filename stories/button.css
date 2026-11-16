@@ -1,3 +1,12 @@
+/*
+ * SIButton twin — components/flutter/lib/src/components/button/button_tokens.dart
+ * Regular: min height 48, padding 12/16, label Bold 17/21.
+ * Small: min height 40, padding 8/16, label Bold 15/21.
+ * Leading icon + label: start padding 21.25, 24px SVG centre-cropped to 13.5,
+ * gap 13.25. Outline stroke 1px painted over the button (no content inset).
+ * Pressed: opacity 0.8. Disabled (all types): opacity 0.38; filled/elevated
+ * #949598 + black, outline/text black content and stroke.
+ */
 :root {
   --button-color-primary: #3c7b94;
   --button-color-disabled: #949598;
@@ -9,12 +18,12 @@
 .storybook-button {
   box-sizing: border-box;
   display: inline-flex;
-  height: 48px;
+  min-height: 48px;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 11px 16px;
-  border: 1px solid transparent;
+  padding: 12px 16px;
+  border: 0;
   border-radius: var(--button-radius);
   font-family: 'Republika', Arial, sans-serif;
   font-size: 17px;
@@ -27,10 +36,15 @@
 }
 
 .storybook-button--small {
-  height: 40px;
-  padding: 8px 12px;
+  min-height: 40px;
+  padding: 8px 16px;
   font-size: 15px;
-  line-height: 18px;
+  line-height: 21px;
+}
+
+.storybook-button--with-icon {
+  gap: 13.25px;
+  padding-left: 21.25px;
 }
 
 .storybook-button--filled,
@@ -46,7 +60,7 @@
 .storybook-button--outline {
   color: var(--button-color-primary);
   background: transparent;
-  border-color: var(--button-color-primary);
+  box-shadow: inset 0 0 0 1px currentColor;
 }
 
 .storybook-button--text {
@@ -70,36 +84,20 @@
   background: var(--button-color-disabled);
 }
 
-.storybook-button--outline.storybook-button--disabled {
-  background: transparent;
-  border-color: #000000;
-}
-
-.storybook-button--text.storybook-button--disabled {
-  background: transparent;
-}
-
-.storybook-button--with-icon.storybook-button--outline.storybook-button--disabled {
-  color: var(--button-color-disabled);
-  border-color: var(--button-color-disabled);
-  opacity: var(--button-opacity-pressed);
-}
-
-.storybook-button--with-icon.storybook-button--text.storybook-button--disabled {
-  color: var(--button-color-disabled);
-  opacity: var(--button-opacity-pressed);
-}
-
 .storybook-button:focus-visible {
   outline: 2px solid #000000;
   outline-offset: 2px;
 }
 
+/* 24px plus.svg centre-cropped to a 13.5 box, tinted with the label colour */
 .storybook-button__icon {
   display: block;
-  flex: 0 0 24px;
-  width: 24px;
-  height: 24px;
+  flex: 0 0 13.5px;
+  width: 13.5px;
+  height: 13.5px;
+  background-color: currentColor;
+  -webkit-mask: var(--si-icon) center / 24px 24px no-repeat;
+  mask: var(--si-icon) center / 24px 24px no-repeat;
 }
 
 /* Figma 3911:4464 — padding 20; row y step 68 → gap 20 with h=48;

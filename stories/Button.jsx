@@ -1,23 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import addBlack from './assets/button/add-black.svg';
-import addDisabled from './assets/button/add-disabled.svg';
-import addPrimary from './assets/button/add-primary.svg';
-import addWhite from './assets/button/add-white.svg';
+import plusIcon from './assets/button/plus.svg';
 import './button.css';
 
 const VARIANT_ALIASES = {
   solid: 'filled',
   ghost: 'elevated',
-};
-
-const getIcon = (variant, state) => {
-  if (state === 'disabled') {
-    return ['filled', 'elevated'].includes(variant) ? addBlack : addDisabled;
-  }
-
-  return ['filled', 'elevated'].includes(variant) ? addWhite : addPrimary;
 };
 
 export const Button = ({
@@ -53,12 +42,9 @@ export const Button = ({
       {...props}
     >
       {leadingIcon && (
-        <img
+        <span
           className="storybook-button__icon"
-          src={getIcon(normalizedVariant, normalizedState)}
-          width="24"
-          height="24"
-          alt=""
+          style={{ '--si-icon': `url(${JSON.stringify(plusIcon)})` }}
           aria-hidden="true"
         />
       )}
