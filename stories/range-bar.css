@@ -1,48 +1,76 @@
+/*
+ * SIRangeBar twin — components/flutter/lib/src/components/range_bar/range_bar_tokens.dart
+ * Height 62; track 6 (radius 3) centred at y 27, from x 16 to width-16, #E6E7E9;
+ * active #3C7B94 to the thumb centre. Thumb: white pill 38×24, shadows
+ * 0 0.5 4 / 0 6 13 #0000001F; travel inset 19. Ticks: 4px dots #E6E7E9,
+ * 9 below the track centre, inset 18 from the track ends.
+ */
 .si-range-bar {
   box-sizing: border-box;
+  position: relative;
   width: 361px;
-  font-family: 'Republika', Arial, sans-serif;
+  height: 62px;
+  --si-range-track-w: calc(100% - 32px);
+  --si-range-thumb-x: calc(16px + 19px + (100% - 32px - 38px) * var(--si-range-p));
+}
+
+.si-range-bar__track,
+.si-range-bar__fill {
+  position: absolute;
+  top: 24px;
+  left: 16px;
+  height: 6px;
+  border-radius: 3px;
 }
 
 .si-range-bar__track {
-  position: relative;
-  height: 4px;
-  margin: 14px 8px;
-  border-radius: 2px;
-  background: #c5d4da;
+  width: var(--si-range-track-w);
+  background: var(--si-background);
 }
 
 .si-range-bar__fill {
+  width: calc(var(--si-range-thumb-x) - 16px);
+  background: var(--si-primary);
+}
+
+.si-range-bar__ticks {
+  position: absolute;
+  top: 34px;
+  left: calc(16px + 18px);
+  width: calc(100% - 32px - 36px);
+  height: 4px;
+}
+
+.si-range-bar__tick {
   position: absolute;
   top: 0;
-  left: 0;
-  height: 100%;
-  border-radius: 2px;
-  background: #3c7b94;
+  left: calc(100% * var(--si-tick-t) - 2px);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--si-background);
 }
 
 .si-range-bar__thumb {
   position: absolute;
-  top: 50%;
-  width: 20px;
-  height: 20px;
-  margin-left: -10px;
-  border-radius: 50%;
-  background: #3c7b94;
-  border: 2px solid #ffffff;
-  box-shadow: 0 1px 4px rgba(11, 58, 74, 0.28);
-  transform: translateY(-50%);
+  top: 15px;
+  left: calc(var(--si-range-thumb-x) - 19px);
+  width: 38px;
+  height: 24px;
+  border-radius: 100px;
+  background: var(--si-on-primary);
+  box-shadow:
+    0 0.5px 4px rgba(0, 0, 0, 0.12),
+    0 6px 13px rgba(0, 0, 0, 0.12);
+  pointer-events: none;
 }
 
-.si-range-bar__ticks {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 8px;
-}
-
-.si-range-bar__tick {
-  width: 2px;
-  height: 8px;
-  background: #949598;
-  border-radius: 1px;
+.si-range-bar__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
 }
