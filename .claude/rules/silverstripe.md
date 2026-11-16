@@ -1,7 +1,7 @@
 ---
 description: Silverstripe predloge, CMS polja, theme in renderiranje
-globs: "**/*.{ss,php}"
-alwaysApply: false
+paths:
+  - "**/*.{ss,php}"
 ---
 
 # Silverstripe

@@ -1,6 +1,5 @@
 ---
 description: Uporaba obstoječe knjižnice gradnikov in Storybooka
-alwaysApply: true
 ---
 
 # Uporaba obstoječe knjižnice gradnikov

@@ -1,6 +1,5 @@
 ---
 description: Implementacija dizajnov iz Figme — natančnost, postavitev, preverjanje
-alwaysApply: true
 ---
 
 # Implementacija dizajnov iz Figme

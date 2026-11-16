@@ -1,0 +1,25 @@
+---
+description: SwiftUI komponente, state in Figma natančnost
+globs: "**/*.{swift}"
+alwaysApply: false
+---
+
+# iOS (SwiftUI)
+
+- Sledi obstoječi arhitekturi, navigaciji, theme in targetom projekta.
+- Figma komponente in variante preslikaj v smiselne SwiftUI Viewe
+  z jasnimi properties / init parametri.
+- Loči prikaz od podatkovnega sloja, kjer to koristi reuse in Previews.
+- Za enako komponento ne ustvarjaj skoraj identičnih kopij.
+- State (`@State` / `@Observable` / project pattern) samo za dejansko
+  spremenljive podatke; izračunljivega ne podvajaj.
+- Ohrani loading, empty in error stanja, kjer so relevantna.
+- Uporabi projektne barve/fonte iz Asset Catalog / design tokens.
+  Originalne ikone iz Figme — ne zamenjuj s “podobnimi” SF Symbols,
+  razen če Figma eksplicitno uporablja SF Symbol.
+- VoiceOver labels in Dynamic Type: če Figma lomi a11y, izpostavi
+  najmanjši popravek.
+- Xcode Canvas Preview ni dovolj za zaključek.
+  **Obvezno:** screenshot na simulatorju/napravi in primerjava z Figmo
+  (glej `figma-implementation.mdc`). Če je v projektu tudi Android,
+  ADB preverjanje ostane obvezno za Android build.

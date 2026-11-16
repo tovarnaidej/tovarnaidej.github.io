@@ -1,0 +1,30 @@
+---
+description: Uporaba obstoječe knjižnice gradnikov (Flutter / Android / iOS)
+alwaysApply: true
+---
+
+# Uporaba obstoječe knjižnice gradnikov
+
+## Pred implementacijo
+- Preveri projektno knjižnico in njen katalog komponent
+  (Widgetbook, Showkase, SwiftUI Previews, custom gallery, …).
+- Najprej poišči ustrezen gradnik, varianto, velikost in stanje.
+- Če gradnik že obstaja, ga uporabi. Ne ustvarjaj vzporedne kopije.
+- Uporabi izvorno komponento / paket / modul projekta.
+  Ne kopiraj “prevedenih” ali snapshot artefaktov iz kataloga.
+
+## Figma vs katalog
+- Figma določa zahtevani videz in postavitev.
+- Katalog dokumentira obstoječo implementacijo gradnikov.
+- Če se razlikujeta, navedi konkretno razliko in njen obseg.
+- Ne spreminjaj skupne komponente tako, da bi pokvaril druge uporabe.
+- Projektno posebnost izvedi kot jasno določeno varianto ali razširitev.
+- Razmike med komponentami določi v postavitvi nadrejene komponente.
+  Notranjih razmikov gradnika ne spreminjaj z naključnimi preglasitvami.
+
+## Spremembe gradnikov
+- Pri spremembi dopolni katalog / preview primere.
+- Preveri vse prizadete variante in interaktivna stanja.
+- Predstavitvenih slogov kataloga ne prenašaj v produkcijski UI.
+- Po vključitvi preveri gradnik tudi na dejanskem zaslonu **prek ADB**
+  (glej `figma-implementation.mdc`) in primerjaj z Figmo.

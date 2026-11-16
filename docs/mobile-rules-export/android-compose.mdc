@@ -1,0 +1,25 @@
+---
+description: Jetpack Compose komponente, state in Figma natančnost
+globs: "**/*.{kt,kts}"
+alwaysApply: false
+---
+
+# Android (Jetpack Compose)
+
+- Sledi obstoječi arhitekturi, navigaciji, theme in modulom projekta.
+- Figma komponente in variante preslikaj v smiselne Composable funkcije
+  z jasnimi parametri.
+- Loči UI od ViewModel / data layer, kjer to koristi reuse in preview.
+- Za enako komponento ne ustvarjaj skoraj identičnih kopij.
+- State: dejansko spremenljivi podatki; izračunljivega ne podvajaj.
+- Ohrani loading, empty in error stanja, kjer so relevantna.
+- Uporabi projektne tokene / MaterialTheme razširitve; ne hardcodaj
+  barv, ki že obstajajo kot tokeni — razen ko Figma zahteva točno
+  vrednost, ki je še ni v theme (potem dodaj token ali lokalno
+  dokumentiraj).
+- Min touch target in TalkBack semantics upoštevaj; če Figma lomi
+  a11y, izpostavi najmanjši popravek.
+- Compose Preview ni dovolj za zaključek.
+  **Obvezno:** zaženi na emulatorju/napravi, zajemi prek ADB
+  (`adb exec-out screencap -p > capture.png`), primerjaj z Figmo
+  (glej `figma-implementation.mdc`).

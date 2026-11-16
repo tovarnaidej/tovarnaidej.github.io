@@ -1,0 +1,30 @@
+---
+description: Flutter widgeti, props, state, Riverpod in katalog primerov
+globs: "**/*.{dart}"
+alwaysApply: false
+---
+
+# Flutter
+
+- Sledi obstoječemu ogrodju, usmerjanju (GoRouter/auto_route), jeziku
+  in načinu stiliranja (Theme, tokens).
+- Figma komponente in variante preslikaj v smiselne Flutter widgete
+  z jasnimi parametri.
+- Preferiraj majhne private widget razrede namesto `_build…` metod.
+- Loči prikaz komponente od pridobivanja podatkov, kjer to koristi
+  ponovni uporabi in preverjanju videza.
+- Za enako komponento ne ustvarjaj skoraj identičnih kopij.
+- State uporabi za dejansko spreminjajoče se podatke;
+  izračunljivih vrednosti ne podvajaj v state.
+- Riverpod: preferiraj `@riverpod` / Notifier / AsyncNotifier;
+  izogibaj se StateProvider / StateNotifier / ChangeNotifier, razen
+  če projekt že tako dela.
+- Ohrani predvidene interakcije ter loading, empty in error stanja,
+  kjer so relevantna. Napake prikaži vidno (npr. SelectableText.rich),
+  ne samo s SnackBar.
+- Če projekt uporablja Widgetbook ali drugo galerijo, dodaj primere
+  dostavljenih variant in stanj.
+- `const` konstruktorji, kjer gre; trailing commas; line length po
+  projektu.
+- Po UI spremembi **obvezno** ADB screenshot + Figma primerjava
+  (glej `figma-implementation.mdc`). Preview v IDE ni dovolj.

@@ -1,7 +1,7 @@
 ---
 description: React komponente, props, state in Storybook primeri
-globs: "**/*.{js,jsx,ts,tsx}"
-alwaysApply: false
+paths:
+  - "**/*.{js,jsx,ts,tsx}"
 ---
 
 # React
