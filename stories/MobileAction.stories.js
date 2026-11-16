@@ -19,10 +19,10 @@ const sampleMessage =
 // design_data/Obvestila.png: per style two columns (without / with close) × rows.
 const rows = [
   { maxLines: 'one', showAction: false },
-  { maxLines: 'one', showAction: true, actionLabel: 'Action' },
+  { maxLines: 'one', showAction: true, actionLabel: 'Razveljavi' },
   { maxLines: 'two', showAction: false },
-  { maxLines: 'two', showAction: true, actionLabel: 'Action' },
-  { maxLines: 'unlimited', showAction: true, actionLabel: 'Longer Action' },
+  { maxLines: 'two', showAction: true, actionLabel: 'Razveljavi' },
+  { maxLines: 'unlimited', showAction: true, actionLabel: 'Razveljavi' },
 ];
 
 const renderColumn = (style, showDismiss) =>
@@ -99,10 +99,7 @@ export default {
     showAction: { name: 'Dejanje', control: { type: 'boolean' } },
     showDismiss: { name: 'Zapri', control: { type: 'boolean' } },
     message: { name: 'Sporočilo' },
-    actionLabel: {
-      name: 'Oznaka akcije',
-      if: { arg: 'showAction', eq: true },
-    },
+    actionLabel: { table: { disable: true } },
     className: { table: { disable: true } },
   },
 };
@@ -122,5 +119,5 @@ export const Filled = {
 
 export const UnlimitedWithAction = {
   name: 'Neomejeno z akcijo',
-  args: { maxLines: 'unlimited', message: sampleMessage, actionLabel: 'Longer Action' },
+  args: { maxLines: 'unlimited', message: sampleMessage, actionLabel: 'Razveljavi' },
 };
