@@ -122,3 +122,7 @@
   box-sizing: border-box;
   background: var(--si-background, #e6e7e9);
 }
+
+.mobile-showcase__row--top {
+  align-items: flex-start;
+}
