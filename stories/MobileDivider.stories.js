@@ -65,10 +65,7 @@ export default {
       options: types,
     },
     showLabel: { name: 'Prikaži oznako', control: { type: 'boolean' } },
-    label: {
-      name: 'Oznaka',
-      if: { arg: 'showLabel', eq: true },
-    },
+    label: { table: { disable: true } },
     className: { table: { disable: true } },
   },
 };
