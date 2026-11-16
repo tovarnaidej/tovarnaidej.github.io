@@ -1,0 +1,68 @@
+/*
+ * mSlovenija mobile design tokens (V2).
+ * Mirror of components/flutter/lib/src/tokens/tokens.dart (TokenColorsV2,
+ * TokenTextStyleV2, TokenSurfaceV2, TokenRadiusV2, TokenOpacityV2).
+ * Keep in sync with the native library — it is the source of truth.
+ */
+:root {
+  /* Colors */
+  --si-primary: #3c7b94;
+  --si-on-primary: #ffffff;
+  --si-secondary: #447972;
+  --si-tertiary: #4c7520;
+  --si-background: #e6e7e9;
+  --si-surface: #ffffff;
+  --si-on-surface: #000000;
+  --si-outline: #d1d2d4;
+  --si-divider: #d1d2d4;
+  --si-error: #d32f2f;
+  --si-success: #2e7d32;
+  --si-warning: #ed6c02;
+  --si-input-primary: #edf5f8;
+  --si-filled-card: rgba(80, 156, 185, 0.1);
+  --si-accent-teal: #1c7c97;
+  --si-gray-100: #e6e7e9;
+  --si-gray-200: #d1d2d4;
+  --si-gray-300: #bcbdc0;
+  --si-gray-500: #949598;
+  --si-gray-700: #57585a;
+  --si-gray-800: #323335;
+  --si-gray-900: #1a1b1d;
+  --si-blue-300: #509cb9;
+  --si-blue-700: #174859;
+
+  /* Radius */
+  --si-radius-s: 4px;
+  --si-radius-m: 8px;
+  --si-radius-l: 16px;
+  --si-radius-xl: 24px;
+  --si-radius-full: 999px;
+
+  /* Opacity */
+  --si-opacity-disabled: 0.38;
+  --si-opacity-pressed: 0.8;
+
+  /* Elevation */
+  --si-elevation-1: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --si-elevation-2: 0 1px 2px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /* Typography (font shorthand: weight size/line-height) + letter-spacing */
+  --si-font: 'Republika', Arial, sans-serif;
+  --si-display-large: 700 57px/64px var(--si-font);
+  --si-display-medium: 700 45px/52px var(--si-font);
+  --si-display-small: 700 36px/44px var(--si-font);
+  --si-headline-large: 400 32px/40px var(--si-font);
+  --si-headline-medium: 400 28px/36px var(--si-font);
+  --si-headline-small: 400 24px/32px var(--si-font);
+  --si-title-large: 700 22px/28px var(--si-font);
+  --si-title-medium: 700 17px/25px var(--si-font);
+  --si-title-small: 700 15px/21px var(--si-font);
+  --si-label-large: 700 15px/21px var(--si-font);
+  --si-label-medium: 700 13px/17px var(--si-font);
+  --si-label-small: 400 12px/16px var(--si-font);
+  --si-body-large: 400 17px/25px var(--si-font);
+  --si-body-medium: 400 15px/21px var(--si-font);
+  --si-body-small: 400 13px/17px var(--si-font);
+  --si-ls-plus01: 0.1px;
+  --si-ls-minus02: -0.2px;
+}

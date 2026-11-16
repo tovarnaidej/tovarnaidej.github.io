@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './mobile-tokens.css';
 import './mobile-showcase.css';
 
 export const FIGMA_MOBILE_FILE =
@@ -204,4 +205,31 @@ ShowcaseWidth.propTypes = {
   width: PropTypes.number,
   children: PropTypes.node,
   className: PropTypes.string,
+};
+
+/** Grey app background (TokenColorsV2.background #E6E7E9) behind white surfaces. */
+export const ShowcaseSurface = ({ children, padding = 20, className = '' }) =>
+  React.createElement(
+    'div',
+    {
+      className: ['mobile-showcase__surface', className].filter(Boolean).join(' '),
+      style: { padding },
+    },
+    children,
+  );
+
+ShowcaseSurface.propTypes = {
+  children: PropTypes.node,
+  padding: PropTypes.number,
+  className: PropTypes.string,
+};
+
+/**
+ * Story decorator: renders single-widget stories at the native preview width
+ * (`parameters.mobileWidth`, px). Stories without it render unchanged.
+ */
+export const withMobileWidth = (Story, context) => {
+  const width = context?.parameters?.mobileWidth;
+  if (!width) return React.createElement(Story);
+  return React.createElement(ShowcaseWidth, { width }, React.createElement(Story));
 };

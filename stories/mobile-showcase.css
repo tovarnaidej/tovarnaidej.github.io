@@ -109,11 +109,16 @@
 
 .mobile-showcase__width {
   box-sizing: border-box;
-  width: 100%;
-  max-width: var(--ms-width, 360px);
+  width: var(--ms-width, 360px);
+  flex-shrink: 0;
 }
 
 .mobile-showcase__width > * {
   width: 100%;
   max-width: 100%;
+}
+
+.mobile-showcase__surface {
+  box-sizing: border-box;
+  background: var(--si-background, #e6e7e9);
 }

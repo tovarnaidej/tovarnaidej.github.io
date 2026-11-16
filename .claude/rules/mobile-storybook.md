@@ -16,6 +16,9 @@ paths:
 - Vizualna referenca: `components/design_data/*.png` (posnetki Figma frameov) in
   `components/design_data/figma_json_export.txt` (CSS vrednosti po sekcijah gradnikov).
 - Ko se native koda in Figma/PNG razlikujeta, **velja native koda**; razliko zabeleži.
+- Med platformami je primarni vir **Flutter** (iz njega je izpeljan katalog). Kjer Flutter sam
+  veje po platformi (`Platform.isIOS`), dobi dvojček `platform` prop in "Vse različice" `PlatformColumns`.
+- Barve/tipografija: `stories/mobile-tokens.css` (zrcali `tokens.dart`) — uporabljaj `var(--si-…)`.
 - V `components` iz tega projekta ne spreminjaj ničesar (samo branje).
 
 ## Struktura gradnika
@@ -32,6 +35,9 @@ paths:
   - Platforme: Android (Kotlin Views `SIX(context).apply { … }`), iOS (SwiftUI), Flutter. Brez UIKit, brez React.
   - Samo vstavek brez importov; imena parametrov/enumov morajo ustrezati trenutnemu native API-ju.
   - Ob spremembi native API-ja posodobi tudi snippet.
+  - Snippeti so v manager bundle — po spremembi **ponovno zaženi** `npm run storybook` (HMR jih ne osveži).
+- Širina posameznih storyjev: meta `decorators: [withMobileWidth]` + `parameters.mobileWidth`;
+  `Variants` nastavi `mobileWidth: 0`.
 
 ## Preverjanje
 - `npm run storybook` (6006), posnetek `iframe.html?id=gradniki-mobile-<x>--variants` primerjaj
