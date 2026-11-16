@@ -61,7 +61,7 @@ const renderList = (platform, listStyle) => {
         mode: 'list',
         listStyle,
         platform,
-        listTitle: 'List Item',
+        listTitle: 'Title',
         supportingText: supportingSample,
         ...config,
       }),
@@ -121,9 +121,9 @@ export default {
     showSupporting: true,
     showAvatar: false,
     showChevron: true,
-    listTitle: 'List Item',
+    listTitle: 'Title',
     supportingLines: 2,
-    supportingText: supportingSample,
+    supportingText: 'Message',
   },
   argTypes: {
     mode: {
@@ -161,7 +161,7 @@ export default {
     title: { name: 'Naslov', if: { arg: 'mode', eq: 'alert' } },
     message: { name: 'Sporočilo', if: { arg: 'mode', eq: 'alert' } },
     listStyle: {
-      name: 'Slog seznama',
+      name: 'Slog',
       control: {
         type: 'select',
         labels: {
@@ -180,12 +180,12 @@ export default {
       if: { arg: 'mode', eq: 'list' },
     },
     supportingText: {
-      name: 'Podporno besedilo',
+      name: 'Besedilo',
       if: { arg: 'mode', eq: 'list' },
     },
     supportingLines: {
-      name: 'Vrstice',
-      control: { type: 'select', labels: { 1: '1 vrstica', 2: '2 vrstici' } },
+      name: 'Besedilo',
+      control: { type: 'select', labels: { 1: 'Ena', 2: 'Dve' } },
       options: [1, 2],
       if: { arg: 'mode', eq: 'list' },
     },

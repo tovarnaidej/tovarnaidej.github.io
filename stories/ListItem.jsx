@@ -16,7 +16,7 @@ const joinClasses = (...names) => names.filter(Boolean).join(' ');
  */
 export const ListItem = ({
   style = 'basic',
-  title = 'List Item',
+  title = 'Title',
   supportingText = '',
   supportingLineLimit = 2,
   showAvatar = false,
