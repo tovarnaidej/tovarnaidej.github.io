@@ -95,8 +95,8 @@ export default {
       control: {
         type: 'select',
         labels: {
-          update: 'Posodobitev',
-          offline: 'Brez povezave',
+          update: 'Posodobitev aplikacije',
+          offline: 'Ni interneta',
           unsupported: 'Nepodprto',
         },
       },
@@ -107,11 +107,7 @@ export default {
     meta: { name: 'Meta' },
     primaryLabel: { name: 'Primarni gumb' },
     secondaryLabel: { name: 'Sekundarni gumb' },
-    showClose: {
-      name: 'Zapri (x)',
-      control: { type: 'boolean' },
-      if: { arg: 'presentation', eq: 'popup' },
-    },
+    showClose: { table: { disable: true } },
     className: { table: { disable: true } },
   },
 };
@@ -125,6 +121,6 @@ export const Variants = {
 export const Default = { name: 'Privzeto' };
 
 export const OfflinePopup = {
-  name: 'Brez povezave (popup)',
+  name: 'Ni interneta (pojavno okno)',
   args: { scenario: 'offline', presentation: 'popup' },
 };
