@@ -63,7 +63,7 @@ export default {
     platform: 'ios',
   },
   argTypes: {
-    value: { name: 'Vrednost', control: { type: 'boolean' } },
+    value: { name: 'Vklopljeno', control: { type: 'boolean' } },
     enabled: { name: 'Omogočeno', control: { type: 'boolean' } },
     showLabel: { name: 'Prikaži oznako', control: { type: 'boolean' } },
     label: { name: 'Oznaka', if: { arg: 'showLabel', eq: true } },
