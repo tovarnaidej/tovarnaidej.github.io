@@ -41,7 +41,7 @@ export default {
       name: 'Način',
       control: {
         type: 'select',
-        labels: { single: 'Enojni', range: 'Območje' },
+        labels: { single: 'En datum', range: 'Datumsko obdobje' },
       },
       options: ['single', 'range'],
     },
