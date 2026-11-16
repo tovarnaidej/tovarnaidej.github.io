@@ -144,7 +144,7 @@ export default {
       name: 'Različica',
       control: {
         type: 'select',
-        labels: { segmented: 'Segmentirana', linear: 'Linearna', stepped: 'Koraki' },
+        labels: { segmented: 'Segmentiran', linear: 'Linearni', stepped: 'Koračni' },
       },
       options: ['segmented', 'linear', 'stepped'],
     },
@@ -165,7 +165,7 @@ export default {
       if: { arg: 'variant', eq: 'linear' },
     },
     currentStep: { name: 'Trenutni korak', control: { type: 'number', min: 1, max: 10 } },
-    totalSteps: { name: 'Število korakov', control: { type: 'number', min: 2, max: 10 } },
+    totalSteps: { name: 'Skupaj korakov', control: { type: 'number', min: 2, max: 10 } },
     label: { table: { disable: true } },
     supportingText: { table: { disable: true } },
     stepLabels: { table: { disable: true } },
@@ -182,12 +182,12 @@ export const Variants = {
 export const Default = { name: 'Privzeto' };
 
 export const Linear = {
-  name: 'Linearna z besedilom',
+  name: 'Linearni',
   args: { variant: 'linear', currentStep: 6, totalSteps: 10 },
 };
 
 export const Stepped = {
-  name: 'Koraki',
+  name: 'Koračni',
   args: { variant: 'stepped', currentStep: 2, totalSteps: 3 },
 };
 
