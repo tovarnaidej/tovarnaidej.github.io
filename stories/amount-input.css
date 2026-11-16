@@ -1,0 +1,179 @@
+/*
+ * SIAmountInput twin — components/flutter/lib/src/components/phone_amount/phone_amount_tokens.dart
+ * Width 375: selector 142 + gap 6 + value field. Heights: style1 58 / style2 52.
+ * Fields: radius 8, padding 8/16, border 1 primary (focused 1.5 primary, active
+ * #5E6366, error #D32F2F); filled: #EDF5F8, border only on error.
+ * Selector: flag 35×24, gap 8, code 16/1 #ABAFB1, chevron 16 #898989 in a 20 host.
+ * Labels / helper 12/1 #5E6366 (inner gap 8, outer padding 0 4 + gap 8, helper gap 8).
+ * Value 16/1 black, placeholder #ABAFB1. Disabled: 0.38.
+ */
+.si-amount {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 375px;
+  font-family: var(--si-font);
+  --si-amount-h: 58px;
+  --si-amount-line: var(--si-primary);
+  --si-amount-w: 1px;
+}
+
+.si-amount *,
+.si-amount *::before,
+.si-amount *::after {
+  box-sizing: border-box;
+}
+
+.si-amount--style2 {
+  --si-amount-h: 52px;
+}
+
+.si-amount--active {
+  --si-amount-line: #5e6366;
+}
+
+.si-amount--focused {
+  --si-amount-line: var(--si-primary);
+  --si-amount-w: 1.5px;
+}
+
+.si-amount--error {
+  --si-amount-line: var(--si-error);
+  --si-amount-w: 1px;
+}
+
+.si-amount--disabled .si-amount__row,
+.si-amount--disabled .si-amount__outer-label {
+  opacity: var(--si-opacity-disabled);
+}
+
+.si-amount__outer-label,
+.si-amount__inner-label,
+.si-amount__helper {
+  margin: 0;
+  color: #5e6366;
+  font: 400 12px/1 var(--si-font);
+}
+
+.si-amount__outer-label {
+  margin-bottom: 8px;
+  padding: 0 4px;
+}
+
+.si-amount--error .si-amount__outer-label,
+.si-amount--error .si-amount__inner-label,
+.si-amount--error .si-amount__helper {
+  color: var(--si-error);
+}
+
+.si-amount__row {
+  display: flex;
+  gap: 6px;
+}
+
+.si-amount__selector,
+.si-amount__field {
+  display: flex;
+  height: var(--si-amount-h);
+  padding: 8px 16px;
+  border: var(--si-amount-w) solid var(--si-amount-line);
+  border-radius: var(--si-radius-m);
+  background: transparent;
+}
+
+.si-amount__selector {
+  flex: 0 0 142px;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  border-color: var(--si-primary);
+  border-width: 1px;
+  cursor: pointer;
+}
+
+.si-amount--error .si-amount__selector {
+  border-color: var(--si-error);
+}
+
+.si-amount--filled .si-amount__selector,
+.si-amount--filled .si-amount__field {
+  border-color: transparent;
+  background: var(--si-input-primary);
+}
+
+.si-amount--filled.si-amount--error .si-amount__selector,
+.si-amount--filled.si-amount--error .si-amount__field {
+  border-color: var(--si-error);
+}
+
+.si-amount__flag {
+  display: block;
+  flex-shrink: 0;
+  width: 35px;
+  height: 24px;
+}
+
+.si-amount__code {
+  flex: 1 1 0;
+  overflow: hidden;
+  color: #abafb1;
+  font: 400 16px/1 var(--si-font);
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.si-amount__chevron-host {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+.si-amount__chevron-host img {
+  display: block;
+}
+
+.si-amount__field {
+  flex: 1 1 0;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  cursor: text;
+}
+
+.si-amount--style1 .si-amount__field {
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.si-amount__editor {
+  display: block;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--si-on-surface);
+  font: 400 16px/1 var(--si-font);
+  caret-color: var(--si-primary);
+}
+
+.si-amount--style2 .si-amount__editor {
+  flex: 0 0 auto;
+}
+
+.si-amount__editor::placeholder {
+  color: #abafb1;
+  opacity: 1;
+}
+
+.si-amount__helper {
+  margin-top: 8px;
+  padding: 0 4px;
+}
