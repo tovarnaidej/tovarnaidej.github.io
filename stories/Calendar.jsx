@@ -9,7 +9,7 @@ import './calendar.css';
 
 const WEEKDAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
-/** Januar 2026 starts Thursday → offsets: Sun/Mon empty, then 1..31 */
+/** January 2026 starts Thursday → offsets: Sun/Mon empty, then 1..31 */
 const buildCells = () => {
   const cells = [];
   for (let i = 0; i < 2; i += 1) cells.push(null);
@@ -52,7 +52,7 @@ export const Calendar = ({
 
       <div className="si-calendar__month-row">
         <button type="button" className="si-calendar__month-btn">
-          <span>Januar 2026</span>
+          <span>January 2026</span>
           <img
             src={chevronIcon}
             alt=""
