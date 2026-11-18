@@ -1,11 +1,20 @@
 /* Republika as shipped in the mobile component library (components/flutter/fonts).
-   Used by Gradniki - mobile twins via --si-font so metrics match the native apps. */
+   Used by Gradniki - mobile twins via --si-font so metrics match the native apps.
+
+   ascent/descent/line-gap overrides pin the line metrics to the fonts' hhea table,
+   which is what Flutter (Android/iOS) uses. Chromium on Windows would otherwise use
+   OS/2 winAscent/winDescent — for Medium that is 92.6/21.9 instead of 75/25, which
+   put every Medium text ~0.1em lower than in the apps. */
 @font-face {
   font-family: 'SI Republika';
   src: url('/fonts/si/republika-regular-webfont.ttf') format('truetype');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
+  /* hhea 1876 / -532 / 0 @ 2048 */
+  ascent-override: 91.6016%;
+  descent-override: 25.9766%;
+  line-gap-override: 0%;
 }
 
 @font-face {
@@ -14,6 +23,10 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
+  /* hhea 750 / -250 / 0 @ 1000 */
+  ascent-override: 75%;
+  descent-override: 25%;
+  line-gap-override: 0%;
 }
 
 @font-face {
@@ -22,4 +35,8 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
+  /* hhea 2271 / -662 / 0 @ 2048 */
+  ascent-override: 110.8887%;
+  descent-override: 32.3242%;
+  line-gap-override: 0%;
 }
