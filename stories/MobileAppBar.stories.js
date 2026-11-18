@@ -15,6 +15,11 @@ const configs = [
   { configuration: 'small', style: 'primary', title: 'Title', actions: 'single' },
   { configuration: 'small', style: 'light', title: 'Title' },
   { configuration: 'small', style: 'primary', title: 'Title' },
+  // Primarna ikona: Po meri (alert) / Brez
+  { configuration: 'small', style: 'light', title: 'Title', leading: 'custom' },
+  { configuration: 'small', style: 'primary', title: 'Title', leading: 'custom' },
+  { configuration: 'small', style: 'light', title: 'Title', leading: 'none', actions: 'none' },
+  { configuration: 'small', style: 'primary', title: 'Title', leading: 'none', actions: 'none' },
   { configuration: 'medium', style: 'light', title: 'Title' },
   { configuration: 'medium', style: 'primary', title: 'Title' },
   { configuration: 'large', style: 'light', title: 'Title' },
@@ -33,7 +38,7 @@ const renderVariants = () =>
         { columns: 2, gap: '40px 41px' },
         ...configs.map((cfg) =>
           React.createElement(AppBar, {
-            key: `${cfg.configuration}-${cfg.style}-${cfg.actions || 'multiple'}`,
+            key: `${cfg.configuration}-${cfg.style}-${cfg.actions || 'multiple'}-${cfg.leading || 'back'}`,
             leading: 'defaultBack',
             actions: 'multiple',
             ...cfg,
