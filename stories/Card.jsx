@@ -33,7 +33,7 @@ export const Card = ({
       <article className={classes}>
         <div className="si-card__compact-body">
           <span className="si-card__avatar" aria-hidden="true">
-            A
+            <span className="si-cap-centred si-cap-centred--bold">A</span>
           </span>
           <div className="si-card__text">
             <div className="si-card__title">Header</div>
@@ -59,7 +59,7 @@ export const Card = ({
         <header className="si-card__header">
           <div className="si-card__header-content">
             <span className="si-card__avatar" aria-hidden="true">
-              A
+              <span className="si-cap-centred si-cap-centred--bold">A</span>
             </span>
             <div className="si-card__text">
               <div className="si-card__title">Header</div>

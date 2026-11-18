@@ -33,6 +33,19 @@ paths:
   velja SOT (razliko zapiši v commit sporočilo).
 - V `components` iz tega projekta ne spreminjaj ničesar (samo branje).
 
+## Mere, poravnave, sence (obvezno preveri)
+- Mere: `components/design_data/figma_json_export.txt` (sekcija na gradnik, `cssProps` vsakega nodea) —
+  ne samo PNG "na oko". Primerjaj z izmerjenimi vrednostmi v brskalniku.
+- Metrike pisave: `public/fonts/si-republika.css` z `ascent-override`/`descent-override` pripne
+  metrike na hhea (kot Flutter). Brez tega Chromium za Medium uporabi OS/2 win metrike (besedilo ~0,1em nižje).
+- Native tipografske korekcije prenesi vedno: `StrutStyle(forceStrutHeight)` → premik osnovnice
+  (`--si-strut-medium-on-bold` 0.1428em, `--si-strut-medium-on-regular` 0.0781em), cap-centriranje
+  (`.si-cap-centred`; `text-box-trim` deluje le pri Medium — Regular/Bold imata napačen sCapHeight,
+  zato `--bold`/`--regular` različici s `transform`), `Transform.translate` / `*OffsetY` tokeni.
+- Sence: Flutter `blurRadius` R → CSS blur = 1.1547·R + 1 (sigma 0.577R+0.5 vs B/2). Izjema:
+  `MaskFilter.blur(sigma)` → CSS blur = 2·sigma.
+- Storyji: na gradnik samo **Vse različice** (vse variante iz design_data) in **Privzeto** (kontrole kot katalog).
+
 ## Struktura gradnika
 - `stories/MobileX.stories.js` — naslov `Gradniki - mobile/<Ime>`, `Variants` ("Vse različice",
   1:1 postavitev Figma doc framea s helperji iz `stories/mobile-showcase.jsx`),

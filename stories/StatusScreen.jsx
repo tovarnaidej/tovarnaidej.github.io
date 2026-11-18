@@ -105,11 +105,11 @@ export const StatusScreen = ({
         .join(' ')}
     >
       <button type="button" className="si-status__primary">
-        {resolved.primary}
+        <span className="si-status__btn-label">{resolved.primary}</span>
       </button>
       {resolved.secondary ? (
         <button type="button" className="si-status__secondary">
-          {resolved.secondary}
+          <span className="si-status__btn-label">{resolved.secondary}</span>
         </button>
       ) : null}
     </div>

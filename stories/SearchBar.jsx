@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import magnifier from './assets/mobile/search/magnifying-glass.svg';
 import arrowLeft from './assets/mobile/search/arrow-left.svg';
 import closeIcon from './assets/mobile/search/close.svg';
+import './mobile-tokens.css';
 import './search-bar.css';
 
 const RESULTS = [
@@ -75,7 +76,7 @@ export const SearchBar = ({
                       className="si-search-bar__result-avatar"
                       aria-hidden="true"
                     >
-                      <span className="si-search-bar__avatar-letter">A</span>
+                      <span className="si-search-bar__avatar-letter si-cap-centred">A</span>
                     </span>
                   )}
                   <div className="si-search-bar__result-text">
@@ -105,7 +106,7 @@ export const SearchBar = ({
           </span>
           {showAvatar && (
             <span className="si-search-bar__avatar" aria-hidden="true">
-              <span className="si-search-bar__avatar-letter">A</span>
+              <span className="si-search-bar__avatar-letter si-cap-centred">A</span>
             </span>
           )}
         </div>

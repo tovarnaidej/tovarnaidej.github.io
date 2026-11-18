@@ -9,9 +9,6 @@
   background: #ffffff;
   font-family: 'SI Republika', 'Republika', Arial, sans-serif;
   color: #000000;
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.08),
-    0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .si-calendar-input *,
@@ -49,12 +46,11 @@
   flex: 1 1 auto;
   margin: 0;
   min-width: 0;
-  height: 33.236px;
   font: 500 32px/40px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
   color: #000000;
-  text-box-trim: cap alphabetic;
-  text-box-edge: cap alphabetic;
+  /* TokenCalendarInputV2.headerTitleOffsetY */
+  transform: translateY(5px);
 }
 
 .si-calendar-input__icon-btn {
@@ -63,7 +59,9 @@
   align-items: center;
   justify-content: center;
   width: 52px;
-  height: 40px;
+  height: 48px;
+  /* TokenCalendarInputV2.headerIconOffsetY */
+  transform: translateY(1.5px);
   padding: 0;
   border: 0;
   border-radius: 100px;
@@ -110,16 +108,16 @@
 
 .si-calendar-input__field-label {
   position: absolute;
-  top: -12px;
-  left: 12px;
+  /* TokenCalendarInputV2.fieldLabelTop -8 / fieldLabelLeft 12 from the outer edge
+     (CSS offsets are from the padding box, inside the 1px border) */
+  top: -9px;
+  left: 11px;
   padding: 0 4px;
   background: #ffffff;
   font: 500 13px/17px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   color: #3c7b94;
   white-space: nowrap;
-  text-box-trim: cap alphabetic;
-  text-box-edge: cap alphabetic;
 }
 
 .si-calendar-input__field-value {
@@ -154,6 +152,4 @@
   letter-spacing: 0.1px;
   color: #3c7b94;
   cursor: pointer;
-  text-box-trim: cap alphabetic;
-  text-box-edge: cap alphabetic;
 }

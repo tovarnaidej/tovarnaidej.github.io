@@ -151,3 +151,8 @@
   height: 2px;
   background: #3c7b94;
 }
+
+/* TokenTabsV2.labelStrut: selected (Medium) label on the Regular baseline */
+.si-tabs__tab--selected .si-tabs__text {
+  transform: translateY(var(--si-strut-medium-on-regular));
+}

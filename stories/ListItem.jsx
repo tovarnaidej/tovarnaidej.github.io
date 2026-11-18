@@ -67,7 +67,7 @@ export const ListItem = ({
       {showAvatar && (
         <span className="si-list-item__avatar-slot">
           <span className="si-list-item__avatar" aria-hidden="true">
-            {avatarInitials}
+            <span className="si-cap-centred">{avatarInitials}</span>
           </span>
         </span>
       )}

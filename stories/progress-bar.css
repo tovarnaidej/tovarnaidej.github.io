@@ -107,7 +107,8 @@
 }
 
 .si-progress__number {
-  transform: translateY(-0.5px);
+  /* _inkCentred: bold strut + (0, -0.5) */
+  transform: translateY(calc(var(--si-strut-medium-on-bold) - 0.5px));
   font: 500 17px/25px var(--si-font);
   letter-spacing: var(--si-ls-plus01);
 }

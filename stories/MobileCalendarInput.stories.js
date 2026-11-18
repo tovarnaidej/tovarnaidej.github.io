@@ -3,7 +3,7 @@ import React from 'react';
 import { CalendarInput } from './CalendarInput';
 import {
   MobileShowcase,
-  ShowcasePanel,
+  ShowcaseSurface,
   ShowcaseStack,
   figmaMobileUrl,
 } from './mobile-showcase';
@@ -13,7 +13,7 @@ const renderVariants = () =>
     MobileShowcase,
     { title: 'Vnosno polje za datum' },
     React.createElement(
-      ShowcasePanel,
+      ShowcaseSurface,
       null,
       React.createElement(
         ShowcaseStack,
