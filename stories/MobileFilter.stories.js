@@ -229,13 +229,3 @@ export const Variants = {
 export const Default = {
   name: 'Privzeto',
 };
-
-export const Sort = {
-  name: 'Razvrščanje',
-  args: { type: 'sort' },
-};
-
-export const AsBar = {
-  name: 'Vrstica filtrov',
-  args: { previewAsBar: true },
-};

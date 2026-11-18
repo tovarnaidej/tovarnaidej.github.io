@@ -80,13 +80,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const Filled = {
-  name: 'Zapolnjeno',
-  args: { style: 'filled' },
-};
-
-export const Elevated = {
-  name: 'S senco',
-  args: { style: 'elevated' },
-};

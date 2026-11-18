@@ -122,13 +122,3 @@ export const Variants = {
 export const Default = {
   name: 'Privzeto',
 };
-
-export const Circular = {
-  name: 'Krožni',
-  args: { variant: 'circular', indeterminate: true },
-};
-
-export const Indeterminate = {
-  name: 'Nedoločen',
-  args: { indeterminate: true },
-};

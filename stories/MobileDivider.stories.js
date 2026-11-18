@@ -77,8 +77,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const InsetLabeled = {
-  name: 'Vdelan z oznako',
-  args: { type: 'inset', showLabel: true },
-};

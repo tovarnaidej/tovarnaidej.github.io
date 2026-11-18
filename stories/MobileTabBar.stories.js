@@ -80,8 +80,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const FiveTabs = {
-  name: 'Pet zavihkov',
-  args: { tabCount: 5 },
-};

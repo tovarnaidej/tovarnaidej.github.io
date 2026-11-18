@@ -210,18 +210,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const Stroke = {
-  name: 'Obrobljeno',
-  args: { style: 'stroke' },
-};
-
-export const StrokeIos = {
-  name: 'Obrobljeno (iOS)',
-  args: { style: 'stroke', platform: 'ios' },
-};
-
-export const ListItem = {
-  name: 'Pojasnilo',
-  args: { mode: 'list' },
-};

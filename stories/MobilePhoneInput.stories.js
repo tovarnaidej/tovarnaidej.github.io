@@ -70,8 +70,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const Error = {
-  name: 'Napaka',
-  args: { hasError: true },
-};

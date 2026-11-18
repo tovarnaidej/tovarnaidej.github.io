@@ -102,18 +102,3 @@ export const Variants = {
 export const Default = {
   name: 'Privzeto',
 };
-
-export const Photo = {
-  name: 'Fotografija',
-  args: { type: 'photo' },
-};
-
-export const Outlined = {
-  name: 'Obrobljeno',
-  args: { type: 'outlined' },
-};
-
-export const Large = {
-  name: 'S100',
-  args: { size: 100 },
-};

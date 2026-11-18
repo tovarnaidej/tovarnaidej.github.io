@@ -119,13 +119,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const Compact = {
-  name: 'Kompaktna',
-  args: { layout: 'compact' },
-};
-
-export const Elevated = {
-  name: 'S senco',
-  args: { style: 'elevated' },
-};

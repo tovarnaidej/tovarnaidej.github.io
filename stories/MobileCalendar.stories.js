@@ -89,8 +89,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const Filled = {
-  name: 'Zapolnjeno',
-  args: { style: 'filled' },
-};

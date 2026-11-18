@@ -180,18 +180,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const Linear = {
-  name: 'Linearni',
-  args: { variant: 'linear', currentStep: 6, totalSteps: 10 },
-};
-
-export const Stepped = {
-  name: 'Koračni',
-  args: { variant: 'stepped', currentStep: 2, totalSteps: 3 },
-};
-
-export const Vertical = {
-  name: 'Navpično',
-  args: { variant: 'stepped', orientation: 'vertical', currentStep: 6, totalSteps: 10 },
-};

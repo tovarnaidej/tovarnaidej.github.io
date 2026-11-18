@@ -68,8 +68,3 @@ export const Variants = {
 export const Default = {
   name: 'Privzeto',
 };
-
-export const WithoutTicks = {
-  name: 'Brez oznak',
-  args: { showTicks: false },
-};

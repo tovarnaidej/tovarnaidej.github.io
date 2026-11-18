@@ -134,23 +134,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const Floating = {
-  name: 'Oznaka v polju (Android)',
-  args: { platform: 'android', labelPosition: 'floating' },
-};
-
-export const Filled = {
-  name: 'Zapolnjeno',
-  args: { style: 'filled' },
-};
-
-export const Error = {
-  name: 'Napaka',
-  args: { hasError: true },
-};
-
-export const WithIcon = {
-  name: 'Z ikono',
-  args: { showIcon: true },
-};

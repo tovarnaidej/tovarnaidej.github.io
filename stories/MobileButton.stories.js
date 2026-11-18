@@ -124,31 +124,4 @@ export const Variants = {
   },
 };
 
-export const Filled = {
-  name: 'Polni',
-};
-
-export const Elevated = {
-  name: 'Senca',
-  args: { variant: 'elevated' },
-};
-
-export const Outline = {
-  name: 'Obroba',
-  args: { variant: 'outline' },
-};
-
-export const Text = {
-  name: 'Besedilni',
-  args: { variant: 'text' },
-};
-
-export const WithLeadingIcon = {
-  name: 'Z vodilno ikono',
-  args: { leadingIcon: true },
-};
-
-export const Disabled = {
-  name: 'Onemogočen',
-  args: { state: 'disabled' },
-};
+export const Default = { name: 'Privzeto' };

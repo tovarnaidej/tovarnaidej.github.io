@@ -108,8 +108,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const PrimaryLarge = {
-  name: 'Primarna velika',
-  args: { style: 'primary', configuration: 'large' },
-};

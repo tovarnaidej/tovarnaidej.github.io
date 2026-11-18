@@ -111,13 +111,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const Filled = {
-  name: 'Zapolnjeno',
-  args: { style: 'filled' },
-};
-
-export const UnlimitedWithAction = {
-  name: 'Neomejeno z akcijo',
-  args: { maxLines: 'unlimited', message: sampleMessage, actionLabel: 'Razveljavi' },
-};

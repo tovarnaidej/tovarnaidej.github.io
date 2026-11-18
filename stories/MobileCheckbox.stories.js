@@ -87,13 +87,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const Checked = {
-  name: 'Označeno',
-  args: { checked: true },
-};
-
-export const Error = {
-  name: 'Napaka',
-  args: { hasError: true, checked: true },
-};

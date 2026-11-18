@@ -83,8 +83,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const On = {
-  name: 'Vklopljeno',
-  args: { value: true },
-};

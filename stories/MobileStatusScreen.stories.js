@@ -119,8 +119,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const OfflinePopup = {
-  name: 'Ni interneta (pojavno okno)',
-  args: { scenario: 'offline', presentation: 'popup' },
-};

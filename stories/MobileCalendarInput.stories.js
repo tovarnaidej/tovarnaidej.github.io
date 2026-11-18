@@ -56,8 +56,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const Range = {
-  name: 'Območje',
-  args: { mode: 'range' },
-};

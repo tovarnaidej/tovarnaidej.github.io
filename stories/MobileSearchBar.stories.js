@@ -103,8 +103,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const WithResults = {
-  name: 'Z rezultati',
-  args: { resultsMode: 'shown' },
-};

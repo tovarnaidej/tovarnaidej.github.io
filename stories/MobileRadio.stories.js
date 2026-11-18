@@ -90,13 +90,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const Error = {
-  name: 'Napaka',
-  args: { hasError: true },
-};
-
-export const Disabled = {
-  name: 'Onemogočeno',
-  args: { enabled: false },
-};

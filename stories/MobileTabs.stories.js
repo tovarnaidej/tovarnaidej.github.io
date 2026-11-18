@@ -88,8 +88,3 @@ export const Variants = {
 };
 
 export const Default = { name: 'Privzeto' };
-
-export const FilledScrollable = {
-  name: 'Zapolnjeno pomakljivo',
-  args: { style: 'filled', configuration: 'scrollable', tabCount: 8 },
-};

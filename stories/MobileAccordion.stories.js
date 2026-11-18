@@ -87,13 +87,3 @@ export const Variants = {
 export const Default = {
   name: 'Privzeto',
 };
-
-export const Outlined = {
-  name: 'Obrobljeno',
-  args: { style: 'outlined', initiallyExpanded: true },
-};
-
-export const Filled = {
-  name: 'Zapolnjeno',
-  args: { style: 'filled', initiallyExpanded: true },
-};
