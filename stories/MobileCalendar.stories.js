@@ -13,6 +13,9 @@ import {
 
 const styles = ['outlined', 'filled', 'elevated'];
 
+/* Fixed sample for the overview (the catalog preview itself uses DateTime.now()). */
+const sample = { initialDate: '2026-01-17', today: '2026-01-05' };
+
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
@@ -27,9 +30,16 @@ const renderVariants = () =>
           ShowcaseSection,
           { title: 'Android (SIDatePicker)' },
           React.createElement(
-            ShowcaseRow,
-            { gap: 24, className: 'mobile-showcase__row--top' },
-            ...styles.map((style) => React.createElement(Calendar, { key: style, style })),
+            ShowcaseStack,
+            { gap: 24 },
+            ...styles.map((style) =>
+              React.createElement(
+                ShowcaseRow,
+                { key: style, gap: 24, className: 'mobile-showcase__row--top' },
+                React.createElement(Calendar, { style, ...sample }),
+                React.createElement(Calendar, { style, ...sample, initialView: 'years' }),
+              ),
+            ),
           ),
         ),
         React.createElement(
@@ -55,7 +65,10 @@ export default {
   },
   tags: ['autodocs'],
   render: ({ platform, ...args }) =>
-    React.createElement(platform === 'ios' ? CalendarIOS : Calendar, args),
+    React.createElement(platform === 'ios' ? CalendarIOS : Calendar, {
+      key: `${platform}-${args.style}-${args.initialDate}-${args.today}-${args.initialView}`,
+      ...args,
+    }),
   args: {
     style: 'outlined',
     platform: 'android',
@@ -78,6 +91,9 @@ export default {
       },
       options: styles,
     },
+    initialDate: { control: 'text', type: { name: 'string' }, table: { disable: true } },
+    today: { control: 'text', type: { name: 'string' }, table: { disable: true } },
+    initialView: { control: 'text', type: { name: 'string' }, table: { disable: true } },
     className: { table: { disable: true } },
   },
 };
