@@ -25,6 +25,7 @@ const resolve = (args = {}) => ({
   style: args.style || 'light',
   title: args.title ?? 'Title',
   hideBack: args.leading === 'none',
+  customLeading: args.leading === 'custom',
   actions: ACTIONS[args.actions || 'single'] || [],
 });
 
@@ -37,6 +38,17 @@ export function buildFlutterSnippet(args = {}) {
     `  title: '${escapeJsString(r.title)}',`,
   ];
   if (r.hideBack) lines.push('  hideDefaultBackButton: true,');
+  if (r.customLeading) {
+    lines.push(
+      '  leading: SIIconButton(',
+      '    icon: const SIIcon(',
+      "        path: 'icons/alert.svg',",
+      "        package: 'si_component_library',",
+      '    ),',
+      '    onTap: () {},',
+      '  ),',
+    );
+  }
   if (r.actions.length) {
     lines.push('  actions: [');
     r.actions.forEach((a) => {
@@ -66,6 +78,7 @@ export function buildAndroidSnippet(args = {}) {
     `    title = "${escapeDoubleQuoted(r.title)}"`,
   ];
   if (r.hideBack) lines.push('    hideDefaultBackButton = true');
+  if (r.customLeading) lines.push('    leadingIconResId = R.drawable.ic_si_alert', '    onLeadingClick = { }');
   if (r.actions.length) {
     lines.push(`    trailingIconResIds = listOf(${r.actions.map((a) => `R.drawable.${a.android}`).join(', ')})`);
     lines.push(`    trailingIconContentDescriptions = listOf(${r.actions.map((a) => `"${a.label}"`).join(', ')})`);
@@ -83,6 +96,7 @@ export function buildIosSnippet(args = {}) {
     `    style: .${r.style}`,
   ];
   if (r.hideBack) params.push('    showsLeadingButton: false');
+  if (r.customLeading) params.push('    leadingIconName: "alert"', '    leadingAction: { }');
   if (r.actions.length) {
     const items = r.actions.map(
       (a) => `        .init(iconName: ${a.ios}, accessibilityLabel: "${a.label}") { }`,

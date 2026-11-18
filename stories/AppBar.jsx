@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import arrowLeft from './assets/mobile/app-bar/arrow-left.svg';
+import alertIcon from './assets/mobile/alert/alert.svg';
 import avatarIcon from './assets/mobile/app-bar/avatar.svg';
 import paperclip from './assets/mobile/app-bar/paperclip.svg';
 import calendarIcon from './assets/mobile/app-bar/calendar.svg';
@@ -33,7 +34,8 @@ export const AppBar = ({
   const leadingBtn =
     leading !== 'none' ? (
       <button type="button" className="si-app-bar__icon-btn" aria-label="Nazaj">
-        <img src={arrowLeft} alt="" width="24" height="24" />
+        {/* Catalog: "Po meri" = alert.svg, otherwise the default back arrow */}
+        <img src={leading === 'custom' ? alertIcon : arrowLeft} alt="" width="24" height="24" />
       </button>
     ) : (
       <span className="si-app-bar__icon-btn si-app-bar__icon-btn--spacer" />
