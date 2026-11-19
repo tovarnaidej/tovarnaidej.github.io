@@ -21,6 +21,7 @@ const column = (style) => {
     { gap: 24 },
     React.createElement(SearchBar, { style, resultsMode: 'hide', showAvatar: false }),
     React.createElement(SearchBar, { style, resultsMode: 'hide', showAvatar: true }),
+    React.createElement(SearchBar, { style, resultsMode: 'empty', query: '' }),
     React.createElement(SearchBar, { style, resultsMode: 'empty' }),
     React.createElement(SearchBar, { style, resultsMode: 'shown', showResultAvatars: true }),
     React.createElement(SearchBar, { style, resultsMode: 'shown', showResultAvatars: false }),
@@ -94,6 +95,7 @@ export default {
       if: { arg: 'resultsMode', eq: 'shown' },
     },
     placeholder: { name: 'Nadomestno besedilo' },
+    query: { table: { disable: true } },
     className: { table: { disable: true } },
   },
 };

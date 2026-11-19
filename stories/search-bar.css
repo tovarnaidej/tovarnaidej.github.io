@@ -23,10 +23,25 @@
   border: 0;
 }
 
-.si-search-bar--outlined .si-search-bar__field,
-.si-search-bar--outlined.si-search-bar--expanded .si-search-bar__expanded-inner {
+.si-search-bar--outlined .si-search-bar__field {
   background: #ffffff;
   border: 1px solid #3c7b94;
+}
+
+/* Expanded outlined: the stroke is a foregroundDecoration, painted on top of the content
+   inside the box (it does not inset the header or add to the height). */
+.si-search-bar--outlined.si-search-bar--expanded .si-search-bar__expanded-inner {
+  position: relative;
+  background: #ffffff;
+}
+
+.si-search-bar--outlined.si-search-bar--expanded .si-search-bar__expanded-inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid #3c7b94;
+  border-radius: inherit;
+  pointer-events: none;
 }
 
 /* Collapsed outlined field: stroke only (the pane shows through); the 1px border is

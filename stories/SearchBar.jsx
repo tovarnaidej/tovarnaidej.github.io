@@ -28,6 +28,7 @@ export const SearchBar = ({
   showAvatar = false,
   showResultAvatars = true,
   placeholder = 'Input search text',
+  query = 'Input text',
   className = '',
 }) => {
   const isExpanded = resultsMode !== 'hide';
@@ -53,16 +54,25 @@ export const SearchBar = ({
               <img src={arrowLeft} alt="" width="24" height="24" />
             </button>
             <div className="si-search-bar__input-face">
-              <span className="si-search-bar__value">Input text</span>
-              <span className="si-search-bar__caret" aria-hidden="true" />
+              {query ? (
+                <>
+                  <span className="si-search-bar__value">{query}</span>
+                  <span className="si-search-bar__caret" aria-hidden="true" />
+                </>
+              ) : (
+                <span className="si-search-bar__value si-search-bar__value--hint">{placeholder}</span>
+              )}
             </div>
-            <button
-              type="button"
-              className="si-search-bar__icon-btn"
-              aria-label="Počisti"
-            >
-              <img src={closeIcon} alt="" width="24" height="24" />
-            </button>
+            {/* The clear button exists only while the field has text. */}
+            {query && (
+              <button
+                type="button"
+                className="si-search-bar__icon-btn"
+                aria-label="Počisti"
+              >
+                <img src={closeIcon} alt="" width="24" height="24" />
+              </button>
+            )}
           </div>
           <div className="si-search-bar__divider" />
           {resultsMode === 'empty' ? (
@@ -121,5 +131,7 @@ SearchBar.propTypes = {
   showAvatar: PropTypes.bool,
   showResultAvatars: PropTypes.bool,
   placeholder: PropTypes.string,
+  /** Text in the expanded field (catalog: `Input text`); empty shows the placeholder without the clear button. */
+  query: PropTypes.string,
   className: PropTypes.string,
 };
