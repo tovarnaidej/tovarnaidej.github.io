@@ -40,3 +40,18 @@
   descent-override: 32.3242%;
   line-gap-override: 0%;
 }
+
+/* Republika Medium has no ellipsis glyph (U+2026); Regular and Bold do. Android draws the
+   missing glyph with the system font of the same weight, so truncated Medium labels end in
+   Roboto Medium's "…". Subset of Roboto Medium (Apache License 2.0) with that one glyph. */
+@font-face {
+  font-family: 'SI Republika';
+  src: url('/fonts/si/roboto-medium-ellipsis.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  unicode-range: U+2026;
+  ascent-override: 75%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}

@@ -70,12 +70,9 @@
 }
 
 .si-tabs--fixed .si-tabs__label {
+  box-sizing: border-box;
+  width: 100%;
   padding: 0 clamp(4px, (100cqw - 24px) / 2, 16px);
-}
-
-.si-tabs--fixed .si-tabs__text {
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .si-tabs__tab:focus-visible {
@@ -104,18 +101,18 @@
   margin-bottom: 12px;
 }
 
-.si-tabs__ink {
-  position: relative;
-  display: flex;
-  align-items: center;
-  min-width: 0;
-  max-width: 100%;
-  height: 100%;
-}
-
 .si-tabs__text {
   display: block;
-  min-width: 0;
+  flex: none;
+}
+
+/* Measures candidate labels for the Fiksno ellipsis (Tabs.jsx). */
+.si-tabs__probe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .si-tabs__tab--selected {
@@ -128,16 +125,25 @@
   color: #3c7b94;
 }
 
-/* 3px pill, top corners rounded, 2px inset each side of the label width */
-.si-tabs--underline .si-tabs__tab--selected .si-tabs__ink::after {
-  content: '';
+/* 3px pill, top corners rounded, centred on the tab. Width = the whole (uncut) label
+   - 2px each side, at most the tab width (SITab: TextPainter width, Center in the tab). */
+.si-tabs__pill {
   position: absolute;
-  right: 2px;
-  bottom: -13px;
-  left: 2px;
+  bottom: 0;
+  left: 50%;
+  max-width: 100%;
   height: 3px;
+  overflow: hidden;
   border-radius: 100px 100px 0 0;
   background: #3c7b94;
+  transform: translateX(-50%);
+}
+
+.si-tabs__pill-size {
+  display: block;
+  height: 0;
+  margin: 0 -2px;
+  visibility: hidden;
 }
 
 /* ---------- filled ---------- */
@@ -155,6 +161,18 @@
 /* TokenTabsV2.labelStrut: selected (Medium) label on the Regular baseline */
 .si-tabs__tab--selected .si-tabs__text {
   transform: translateY(var(--si-strut-medium-on-regular));
+}
+
+/* The strut's font family does not resolve in the library (doubled package prefix), so a
+   device lays the forced 21px strut out with the system font. Roboto (hhea 0.9277 / 0.2441):
+   baseline (21 - 17.58) / 2 + 13.92 = 15.63px below the line top; Chromium puts Republika
+   Regular at 15.0 and the strut-shifted Medium at 15.17. */
+.si-tabs__text {
+  translate: 0 0.63px;
+}
+
+.si-tabs__tab--selected .si-tabs__text {
+  translate: 0 0.46px;
 }
 
 /* Privzeto: fills the catalog preview width (withMobileWidth). */
