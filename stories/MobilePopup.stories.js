@@ -50,9 +50,16 @@ export default {
     showAction: true,
     heading: 'Sample Heading',
     message: sampleMessage,
-    actionLabel: 'Example Button',
+    platform: 'android',
   },
   argTypes: {
+    // The library widget is the same on both platforms; only the catalog sample label
+    // differs (popup_configurator.dart: iOS 'Example Button', Android 'Continue').
+    platform: {
+      name: 'Platforma',
+      control: { type: 'select', labels: { ios: 'iOS', android: 'Android' } },
+      options: ['ios', 'android'],
+    },
     style: {
       name: 'Slog',
       control: {
@@ -79,4 +86,11 @@ export const Variants = {
   parameters: { controls: { disable: true }, layout: 'fullscreen' },
 };
 
-export const Default = { name: 'Privzeto' };
+export const Default = {
+  name: 'Privzeto',
+  render: ({ platform, ...args }) =>
+    React.createElement(Popup, {
+      ...args,
+      actionLabel: platform === 'ios' ? 'Example Button' : 'Continue',
+    }),
+};
