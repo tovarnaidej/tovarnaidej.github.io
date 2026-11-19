@@ -50,6 +50,8 @@
   align-items: center;
   justify-content: space-between;
   height: 25px;
+  /* measured on the Flutter render: header and rows start 2 inside the 16 padding */
+  padding: 0 2px;
 }
 
 .si-cal-ios__month {
@@ -57,7 +59,7 @@
   align-items: center;
   gap: 8px;
   min-width: 0;
-  padding: 0 18px;
+  padding: 0;
   border: 0;
   background: transparent;
   color: inherit;
@@ -67,6 +69,8 @@
 .si-cal-ios__month-label {
   overflow: hidden;
   font: 700 17px/1 var(--si-font);
+  /* inherited from Material bodyMedium in the catalog */
+  letter-spacing: 0.25px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -82,7 +86,6 @@
 .si-cal-ios__arrows {
   display: flex;
   gap: 4px;
-  padding: 0 18px;
 }
 
 .si-cal-ios__arrow {
@@ -131,7 +134,7 @@
 .si-cal-ios__row {
   display: flex;
   justify-content: space-between;
-  padding: 0 18px;
+  padding: 0 2px;
 }
 
 .si-cal-ios__cell {
@@ -150,6 +153,9 @@
 .si-cal-ios__weekday {
   color: var(--si-cal-weekday);
   font: 700 13px/17px var(--si-font);
+  letter-spacing: 0.25px;
+  /* Bold 13/17: Chromium rounds the negative half-leading down (0.6px higher than Flutter) */
+  translate: 0 0.6px;
 }
 
 .si-cal-ios__day {
@@ -160,6 +166,17 @@
   color: inherit;
   font: 400 22px/28px var(--si-font);
   cursor: pointer;
+}
+
+/* Day numbers are painted with a TextPainter: proportional leading. */
+.si-cal-ios__day-number {
+  display: block;
+  translate: 0 var(--si-lead-regular);
+}
+
+.si-cal-ios__day--selected .si-cal-ios__day-number {
+  /* + 0.64: Chromium rounds Bold 22/28's negative half-leading down */
+  translate: 0 calc(var(--si-lead-bold) + 0.64px);
 }
 
 .si-cal-ios__day--today {

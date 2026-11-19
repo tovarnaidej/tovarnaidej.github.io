@@ -26,15 +26,35 @@ Chevron.propTypes = { className: PropTypes.string };
  * Twin of SIDatePickerIOS (components/flutter/lib/src/components/datepicker/si_date_picker_ios.dart).
  * en_US symbols (weeks start on Sunday), as SIDateFormat in the library.
  */
+const toDate = (value) => {
+  if (value instanceof Date) return new Date(value.getFullYear(), value.getMonth(), value.getDate());
+  if (typeof value === 'string' && value) {
+    const [y, m, d] = value.split('-').map(Number);
+    return new Date(y, (m || 1) - 1, d || 1);
+  }
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+};
+
 export const CalendarIOS = ({
   style = 'outlined',
-  year = 2022,
-  month = 5,
-  today = 10,
-  selected = 16,
+  initialDate,
+  today: todayProp,
   className = '',
 }) => {
-  const [day, setDay] = useState(selected);
+  const [selectedDate, setSelectedDate] = useState(() => toDate(initialDate));
+  const [displayed, setDisplayed] = useState(() => {
+    const d = toDate(initialDate);
+    return new Date(d.getFullYear(), d.getMonth(), 1);
+  });
+  const todayDate = toDate(todayProp);
+  const year = displayed.getFullYear();
+  const month = displayed.getMonth();
+  const inMonth = (d) => d.getFullYear() === year && d.getMonth() === month;
+  const day = inMonth(selectedDate) ? selectedDate.getDate() : null;
+  const today = inMonth(todayDate) ? todayDate.getDate() : null;
+  const setDay = (d) => setSelectedDate(new Date(year, month, d));
+  const step = (delta) => setDisplayed(new Date(year, month + delta, 1));
   const first = new Date(year, month, 1).getDay();
   const days = new Date(year, month + 1, 0).getDate();
   const cells = [...Array(first).fill(null), ...Array.from({ length: days }, (_, i) => i + 1)];
@@ -46,7 +66,7 @@ export const CalendarIOS = ({
       <div className="si-cal-ios__header">
         <button type="button" className="si-cal-ios__month">
           <span className="si-cal-ios__month-label">
-            {MONTHS[month]} {year}
+            {`${MONTHS[month]} ${year}`}
           </span>
           <span className="si-cal-ios__dropdown">
             <Chevron />
@@ -54,10 +74,10 @@ export const CalendarIOS = ({
         </button>
         {(
           <span className="si-cal-ios__arrows">
-            <button type="button" className="si-cal-ios__arrow" aria-label="Prejšnji mesec">
+            <button type="button" className="si-cal-ios__arrow" aria-label="Prejšnji mesec" onClick={() => step(-1)}>
               <Chevron className="si-cal-ios__chevron--flip" />
             </button>
-            <button type="button" className="si-cal-ios__arrow" aria-label="Naslednji mesec">
+            <button type="button" className="si-cal-ios__arrow" aria-label="Naslednji mesec" onClick={() => step(1)}>
               <Chevron />
             </button>
           </span>
@@ -89,7 +109,7 @@ export const CalendarIOS = ({
                     )}
                     onClick={() => setDay(d)}
                   >
-                    {d}
+                    <span className="si-cal-ios__day-number">{d}</span>
                   </button>
                 ),
               )}
@@ -103,9 +123,9 @@ export const CalendarIOS = ({
 
 CalendarIOS.propTypes = {
   style: PropTypes.oneOf(['outlined', 'filled', 'elevated']),
-  year: PropTypes.number,
-  month: PropTypes.number,
-  today: PropTypes.number,
-  selected: PropTypes.number,
+  /** `YYYY-MM-DD` or Date; defaults to today (catalog: `DateTime.now()`). */
+  initialDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+  /** `YYYY-MM-DD` or Date; defaults to the current day. */
+  today: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
   className: PropTypes.string,
 };

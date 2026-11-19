@@ -15,6 +15,8 @@ const styles = ['outlined', 'filled', 'elevated'];
 
 /* Fixed sample for the overview (the catalog preview itself uses DateTime.now()). */
 const sample = { initialDate: '2026-01-17', today: '2026-01-05' };
+/* design_data/Koledar iOS.png: June 2022, today 10, selected 16. */
+const iosSample = { initialDate: '2022-06-16', today: '2022-06-10' };
 
 const renderVariants = () =>
   React.createElement(
@@ -48,7 +50,7 @@ const renderVariants = () =>
           React.createElement(
             ShowcaseRow,
             { gap: 24, className: 'mobile-showcase__row--top' },
-            ...styles.map((style) => React.createElement(CalendarIOS, { key: style, style })),
+            ...styles.map((style) => React.createElement(CalendarIOS, { key: style, style, ...iosSample })),
           ),
         ),
       ),

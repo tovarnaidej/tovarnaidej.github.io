@@ -1,4 +1,5 @@
 import React from 'react';
+import { useArgs, useEffect, useRef } from 'storybook/preview-api';
 
 import { Tabs } from './Tabs';
 import {
@@ -49,6 +50,19 @@ export default {
   },
   tags: ['autodocs'],
   decorators: [withMobileWidth],
+  render: (args) => {
+    // Catalog: switching to "Pomakljivo" with 3 tabs jumps to 8 tabs.
+    const [, updateArgs] = useArgs();
+    const previous = useRef(args.configuration);
+    useEffect(() => {
+      const before = previous.current;
+      previous.current = args.configuration;
+      if (before !== args.configuration && args.configuration === 'scrollable' && Number(args.tabCount) === 3) {
+        updateArgs({ tabCount: 8 });
+      }
+    }, [args.configuration]);
+    return React.createElement(Tabs, args);
+  },
   args: {
     style: 'underline',
     configuration: 'fixed',
