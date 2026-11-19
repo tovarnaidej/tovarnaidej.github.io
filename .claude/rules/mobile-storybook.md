@@ -39,6 +39,11 @@ paths:
   tekst x / osnovnico / širino / pisavo. `compare.mjs` jih primerja z dvojčkom (toleranca 0,6 px),
   `imgdiff.py` in `inkbox.py` preverita ikone, robove in sence. Ob spremembi gradnika: izriši
   privzeto stanje + vsako kontrolo kataloga in primerjaj.
+- **Tri preverjanja na primer** (`bash fullpass.sh <map> <out>`): postavitev (`compare.mjs`),
+  dejanski izris črk (`inkruns.py`) in barve ploskev (`flatdiff.py`). Gradnik je usklajen šele, ko
+  vsak primer izpiše `ALL TEXT RUNS MATCH`, `INK OK` in `FLAT OK` - za Android in za iOS veje.
+  Samo številke postavitve niso dovolj: ne pokažejo odrezanih spodnjih delov črk, zamika zaradi
+  zaokroževanja na piko in polnila, ki se od podlage loči le malo.
 - `components/design_data/figma_json_export.txt` (`cssProps` po sekcijah) in PNG služijo za postavitev
   "Vse različice" in za gradnike/stanja, ki jih katalog ne pokaže. Kjer se razlikujejo od izrisa, velja izris.
 - Pregled Figma izvoza: `python figaudit.py` + `node figaudit.mjs [sekcija]` (v `tools/flutter-reference/`) izpiše
@@ -67,10 +72,21 @@ paths:
   (`mobileWidth` 361, polna širina 393 za Razdelilnik / Drsnik).
 - iOS veje (`Platform.isIOS`): `IOS=1 bash tools/flutter-reference/setup.sh` naredi kopijo knjižnice in
   kataloga z vklopljenimi iOS vejami (`.flutter-ref/ios`); dvojček primerjaj s `platform:ios`.
-- Znane posebnosti izrisa (ne popravljaj dvojčka): Zavihki — strut pade na sistemsko pisavo (v testu
-  ~1 px višje, na napravi Roboto/SF ≤ 0,25 px od dvojčka); Republika Medium nima znaka "…" (naprava ga
-  nariše s sistemsko pisavo, test nič); značka Filtra na iOS ima namenski zamik za CoreText (viden
-  rezultat je enak Androidu).
+- Kar izris pokaže, koda pa ne (vse je v dvojčkih, ne odstranjuj):
+  - Zavihki: družina pisave struta se v knjižnici ne razreši, zato naprava vrstico postavi s sistemsko
+    pisavo (Roboto) - oznake so 0,63 px nižje kot z Republiko (`tabs.css`);
+  - Republika Medium nima znaka "…": naprava ga nariše z Roboto Medium. `si-republika.css` ima zanj
+    `@font-face` z `unicode-range: U+2026` (izrez iz Roboto Medium, Apache 2.0);
+  - `TextOverflow.ellipsis` + `TextAlign.center` obrezano vrstico centrira; CSS `text-overflow` jo pusti
+    levo, zato Zavihki rez izračunajo sami (`Tabs.jsx`, polno besedilo v `data-text`);
+  - obrobljeni Filter in obrobljeno Iskalno polje imata belo polnilo (ne prozornega);
+  - Kartica: katalog kot sliko poda enobarvno ploskev #F5F5F5 - enako Privzeto; vzorčna slika iz Figme
+    je le v "Vse različice" (`sampleMedia`).
+- Zamik besedila za delček pike: `position: relative; top: …`, ne `translate` / `transform` (Chromium
+  besedilo s transformacijo izriše do 0,5 px nižje). Vrstico, ki bi se začela na delčku pike, pripni na
+  celo piko (Avatar: `--si-avatar-initials-top`); `text-box-trim` pri tem ni zanesljiv.
+- Znana posebnost izrisa (ne popravljaj dvojčka): značka Filtra na iOS ima namenski zamik za CoreText
+  (viden rezultat je enak Androidu).
 
 ## Struktura gradnika
 - `stories/MobileX.stories.js` — naslov `Gradniki - mobile/<Ime>`, `Variants` ("Vse različice",

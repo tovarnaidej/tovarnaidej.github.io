@@ -5,7 +5,7 @@ import { createRequire } from 'module';
 import fs from 'fs';
 const require = createRequire('D:/projekti_tovarna/mslovenija_web/package.json');
 const { chromium } = require('playwright');
-const HERE = (process.env.FLUTTER_REF_WORK || 'D:/projekti_tovarna/mslovenija_web/.flutter-ref').replace(/\/g, '/');
+const HERE = (process.env.FLUTTER_REF_WORK || 'D:/projekti_tovarna/mslovenija_web/.flutter-ref').replace(/\\/g, '/');
 const [name, id, rootSel, args = '', click = ''] = process.argv.slice(2);
 const OUT = fs.existsSync(`${HERE}/cat/test/out/${name}.json`) ? `${HERE}/cat/test/out` : `${HERE}/sot_render/test/out`;
 const ref = JSON.parse(fs.readFileSync(`${OUT}/${name}.json`, 'utf8'));
@@ -27,6 +27,13 @@ await p.waitForTimeout(300);
 if (click) { await p.click(click); await p.waitForTimeout(400); }
 const el = await p.$(rootSel);
 if (!el) { console.log('ROOT NOT FOUND', rootSel); await b.close(); process.exit(1); }
+// Put the twin on the same pixel fraction as the Flutter widget (a centred story lands on
+// half pixels): glyphs snap to pixels, so inkruns.py needs both renders on the same grid.
+await el.evaluate((root, [rx, ry]) => {
+  const r = root.getBoundingClientRect();
+  const frac = (v) => v - Math.floor(v);
+  document.getElementById('storybook-root').style.translate = `${frac(rx) - frac(r.x)}px ${frac(ry) - frac(r.y)}px`;
+}, [ref.x ?? 0, ref.y ?? 0]);
 const twin = await el.evaluate((root) => {
   const ASC = { 400: 0.916016, 500: 0.75, 700: 1.108887 };
   const rr = root.getBoundingClientRect();
@@ -34,7 +41,8 @@ const twin = await el.evaluate((root) => {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   let n;
   while ((n = walker.nextNode())) {
-    const text = n.textContent.replace(/\s+/g, ' ').trim();
+    // data-text: the full string of a label the twin shortens itself (Flutter reports the full text).
+    const text = (n.parentElement.dataset.text ?? n.textContent).replace(/\s+/g, ' ').trim();
     if (!text) continue;
     const e = n.parentElement;
     const cs = getComputedStyle(e);
@@ -55,14 +63,18 @@ const twin = await el.evaluate((root) => {
     out.push({
       text, x: left - rr.left, w: right - left, baseline: top + Math.round(ASC[w] * size) - rr.top,
       size, weight: w, lh: cs.lineHeight, ls: cs.letterSpacing, color: cs.color,
-      lines: new Set(rects.map((r) => Math.round(r.top))).size, si: cs.fontFamily.includes('SI Republika'),
+      // a fallback glyph (ellipsis) has its own rect top on the same line: lines are > 0.6em apart
+      // shortened by CSS text-overflow: the range still spans the whole string
+      clipped: cs.textOverflow === 'ellipsis' && e.scrollWidth > e.clientWidth + 1,
+      cx: (left + right) / 2 - rr.left, cy: (top + Math.max(...rects.map((r) => r.bottom))) / 2 - rr.top,
+      lines: rects.map((r) => r.top).sort((a, b) => a - b).filter((t, i, a) => i === 0 || t - a[i - 1] > size * 0.6).length, si: cs.fontFamily.includes('SI Republika'),
     });
   }
   return { w: rr.width, h: rr.height, texts: out };
 });
 const box = await el.boundingBox();
 const pad = ref.pad ?? 16;
-await p.screenshot({ path: `${OUT}/${name}.twin.png`, clip: { x: Math.round(box.x) - pad, y: Math.round(box.y) - pad, width: box.width + 2 * pad, height: box.height + 2 * pad } });
+await p.screenshot({ path: `${OUT}/${name}.twin.png`, clip: { x: Math.floor(box.x * 2) / 2 - pad, y: Math.floor(box.y * 2) / 2 - pad, width: box.width + 2 * pad, height: box.height + 2 * pad } });
 const f = (v) => (v >= 0 ? '+' : '') + v.toFixed(2);
 console.log(`SIZE ref ${ref.w}x${ref.h}  twin ${twin.w}x${twin.h}  ${Math.abs(ref.w - twin.w) < 0.3 && Math.abs(ref.h - twin.h) < 0.3 ? 'OK' : '<<< DIFF'}`);
 const used = new Set();
@@ -72,7 +84,14 @@ for (const r of ref.texts) {
   if (/^[\ue000-\uf8ff]$/.test(r.text)) continue;
   const rt = norm(r.text.replace('[editable] ', ''));
   if (!rt) continue;
-  if (r.editable) { console.log(`    (editable "${rt.slice(0, 24)}" bl ${r.baseline.toFixed(2)} x ${r.x.toFixed(2)} — check image)`); continue; }
+  if (r.editable || r.painted) {
+    // TextField value / TextPainter text: no comparable run, the pixels are checked by inkruns.py
+    const i = twin.texts.findIndex((t, k) => !used.has(k) && t.text === rt && t.cx > r.x - 2 && t.cx < r.x + r.w + 2 && t.cy > r.y - 2 && t.cy < r.y + r.h + 2);
+    if (i >= 0) used.add(i);
+    else if (r.painted) { console.log(`MISSING in twin: painted "${rt.slice(0, 40)}"`); bad++; }
+    // an editable's value lives in the twin's <input>, which has no text node
+    continue;
+  }
   let best = -1, bd = 1e9;
   twin.texts.forEach((t, i) => {
     if (used.has(i) || t.text !== rt) return;
@@ -84,10 +103,11 @@ for (const r of ref.texts) {
   const t = twin.texts[best];
   const dx = t.x - r.x, db = t.baseline - r.baseline, dw = t.w - r.w;
   const styleDiff = [t.size !== r.size ? `size ${t.size}≠${r.size}` : '', r.weight && t.weight !== (r.weight >= 600 ? 700 : r.weight >= 500 ? 500 : 400) ? `weight ${t.weight}≠${r.weight}` : '', t.si ? '' : '!font', (r.lines ?? 1) !== t.lines ? `lines ${t.lines}≠${r.lines}` : ''].filter(Boolean).join(' ');
-  const flag = Math.abs(dx) > 0.6 || Math.abs(db) > 0.6 || Math.abs(dw) > 0.8 || styleDiff;
+  const flag = Math.abs(dx) > 0.6 || Math.abs(db) > 0.6 || (!t.clipped && Math.abs(dw) > 0.8) || styleDiff;
   if (flag) bad++;
   if (flag || process.env.ALL) console.log(`${flag ? '<<<' : '   '} dx ${f(dx)} dbl ${f(db)} dw ${f(dw)}  ${String(r.weight).padEnd(4)}${r.size}/${r.lh ? (r.lh * r.size).toFixed(0) : '-'} ls ${r.ls ?? '-'} | twin lh ${t.lh} ls ${t.ls}  "${rt.slice(0, 28)}" ${styleDiff}`);
 }
-twin.texts.forEach((t, i) => { if (!used.has(i)) { console.log(`EXTRA in twin: "${t.text.slice(0, 40)}"`); bad++; } });
+// A lazy Flutter list builds only what is within its cache extent (250) of the viewport.
+twin.texts.forEach((t, i) => { if (!used.has(i) && !(t.x > twin.w + 250 || t.x + t.w < -250)) { console.log(`EXTRA in twin: "${t.text.slice(0, 40)}"`); bad++; } });
 console.log(bad ? `${bad} issue(s)` : 'ALL TEXT RUNS MATCH (≤0.6px)');
 await b.close();

@@ -13,7 +13,7 @@ input|gradniki-mobile-vnosno-polje--default|.si-input|platform:android;labelPosi
 loading-bar|gradniki-mobile-kazalnik-napredka--default|.si-loading-bar
 pass-login|gradniki-mobile-prijava-si-pass--default|.si-pass-login
 phone-input|gradniki-mobile-vnosno-polje-za-telefonsko-številko--default|.si-phone-input
-popup|gradniki-mobile-pojavno-okno--default|.si-popup
+popup|gradniki-mobile-pojavno-okno--default|.si-popup|platform:android
 progress-bar|gradniki-mobile-prikaz-korakov--default|.si-progress
 radio|gradniki-mobile-izbira-izbirni-gumb--default|.si-radio-group
 range-bar|gradniki-mobile-drsnik--default|.si-range-bar

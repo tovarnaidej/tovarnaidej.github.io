@@ -11,8 +11,22 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
     }
     await loader.load();
   }
+  final material = '${Platform.environment['FLUTTER_ROOT']}/bin/cache/artifacts/material_fonts';
+  ByteData font(String file) => ByteData.sublistView(File('$material/$file').readAsBytesSync());
   final icons = FontLoader('MaterialIcons');
-  icons.addFont(Future.value(ByteData.sublistView(File('${Platform.environment['FLUTTER_ROOT']}/bin/cache/artifacts/material_fonts/MaterialIcons-Regular.otf').readAsBytesSync())));
+  icons.addFont(Future.value(font('MaterialIcons-Regular.otf')));
   await icons.load();
+  // Android system font. A device falls back to it (a) for glyphs Republika lacks (Medium has
+  // no ellipsis) - the harness theme lists 'Roboto' as fontFamilyFallback (library styles
+  // inherit it with their package prefix) - and (b) for a font
+  // family that does not resolve: TokenTabsV2.labelStrut ends up with a doubled package prefix.
+  // Without this the test would use the 0.75/0.25 test font there.
+  for (final family in ['Roboto', 'packages/si_component_library/Roboto', 'packages/si_component_library/packages/si_component_library/Republika']) {
+    final roboto = FontLoader(family);
+    for (final file in ['Roboto-Regular.ttf', 'Roboto-Medium.ttf', 'Roboto-Bold.ttf']) {
+      roboto.addFont(Future.value(font(file)));
+    }
+    await roboto.load();
+  }
   await testMain();
 }

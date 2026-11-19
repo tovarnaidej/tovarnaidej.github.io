@@ -29,7 +29,50 @@ font, strut, leading distribution) and `test/out/<name>.full.png` (2x).
     python inkbox.py <name> x0 y0 x1 y1        # ink bounding box of icons etc. in both
     python refdump.py <name>                   # reference numbers
 
-`map.txt` / `manmap.txt` list `name|storyId|selector|args` used for the last full pass.
+## Full pass: three checks per case
+
+    cd .flutter-ref
+    bash fullpass.sh map.txt full_map.txt       # default state of every widget
+    bash fullpass.sh manmap.txt full_man.txt    # multi-step / conditional variants
+    bash fullpass.sh inputmap.txt full_input.txt
+    bash fullpass.sh varmap.txt full_var.txt    # one case per catalog control (genvars.py)
+
+`map.txt`, `manmap.txt`, `inputmap.txt` and the generated `varmap.txt` list
+`name|storyId|selector|args`. For every case `fullpass.sh` runs:
+
+1. `compare.mjs` - **layout**: size of the widget and x / baseline / width / font of every
+   text run (0.6px).
+2. `inkruns.py` - **rendered pixels**: the ink bounding box of every text run in both images.
+   Layout numbers do not show what the rasteriser does: Chromium snaps a line that starts on
+   a fraction of a pixel, `text-box-trim` rounds, a parent clips descenders. Images are 2x, so
+   edges are quantised to 0.5px and a run is flagged from 1px. Flutter and Chromium snap glyphs
+   to pixels independently: +-0.5px here is not a difference, 1px is.
+3. `flatdiff.py` - **fills**: the colour of every flat area. `imgdiff.py` counts only strong
+   differences, so a white fill against the light grey catalog canvas passes it (outlined
+   Filter chip, outlined Iskalno polje) and is invisible on Storybook's own white page.
+
+A pass is clean when every case prints `ALL TEXT RUNS MATCH`, `INK OK` and `FLAT OK`
+(`grep -c` them in the output file). Helpers for a finding:
+`python cropcmp.py out.png <name> x0 y0 x1 y1 [zoom]` (flutter | twin crop),
+`node inkprobe.mjs <storyId> "<args>" <rootSel> <textSel> <fracY> "<css>" ...` (where
+Chromium really draws a text for a set of css overrides).
+
+What the harness and compare do so that the two renders are comparable:
+- The twin is moved onto the same pixel fraction as the Flutter widget (a centred story sits
+  on half pixels).
+- Android system font: Roboto (from the Flutter SDK cache) is the theme's
+  `fontFamilyFallback` and is also registered under the font family that does not resolve in
+  the library (`TokenTabsV2.labelStrut` gets a doubled package prefix). A device uses the
+  system font in both places: the ellipsis of a Medium label (Republika Medium has no U+2026)
+  and the Zavihki strut. Without it the test draws a box / uses the 0.75/0.25 test font.
+- Text runs are measured word by word (a box over the whole text includes the space a line
+  was broken at); SIAvatar initials (TextPainter, no RenderParagraph) are reported as
+  `painted` and checked by pixels; an ellipsised twin label carries the full string in
+  `data-text`.
+- After a control is tapped the catalog page is scrolled back to the top (otherwise the app
+  bar covers part of the preview in the image).
+- `genvars.py`: `SKIP` (controls that exist only in another mode - covered by `manmap.txt`),
+  `LINKED` (values the catalog changes together with a control), `SELECTOR`.
 
 ## iOS branches
 
@@ -41,6 +84,11 @@ also creates `.flutter-ref/ios/` with scratch copies of the library and the cata
     cd .flutter-ref/ios/cat && flutter test test/all_test.dart     # + var / man / input
     flutter test test/ios_input_floating_test.dart                 # iOS default is "Nad poljem"
     cd .. && FLUTTER_REF_WORK=$PWD node compare.mjs <name> <storyId> <sel> "platform:ios;..."
+
+Full pass for iOS (maps with `platform:ios`, written by `iosmaps.py`):
+
+    cd .flutter-ref && node argtypes.mjs && python genvars.py && python iosmaps.py
+    cd ios && FLUTTER_REF_WORK=$PWD bash fullpass.sh map.txt full_map.txt     # + manmap / inputmap / varmap
 
 Deliberately not mirrored: the Filter badge digit offset on iOS (`badgeDigitOffsetYIOS`
 compensates CoreText, the visible result equals Android).
@@ -69,16 +117,12 @@ Check each remaining value against the Flutter tokens; the Flutter render wins.
 
 - `Platform.isIOS` is false: the plain work dir renders only the Android / default
   branches (see "iOS branches").
-- Zavihki: `TokenTabsV2.labelStrut` resolves to a doubled package font family, so the
-  strut falls back to the platform font; in the test that is the 0.75/0.25 test font.
-  On a device it is Roboto (0.79) / SF (0.80): baseline 16.6 / 16.8 vs the twin's 16.5,
-  so ignore `dbl +0.75 / +0.92` there.
-- Republika Medium has no ellipsis glyph: devices draw it from the system font, the test
-  draws nothing (a clipped selected tab label without the ellipsis is this artefact, not a
-  library bug).
 - `imgdiff.py` crops are rounded to whole pixels; a uniform 0.5px shift of everything is
   the crop, the text-run numbers are authoritative.
-- Multi-line text: Flutter's boxes include the trailing space of wrapped lines (`dw -3…-4`).
 - Images: the harness precaches every `Image` in a real async gap, so the Avatar photo is drawn.
-  The Kartica media in the catalog is a flat #F5F5F5 placeholder (the twin shows the Figma sample image).
-- `ensureVisible` may scroll the page; the crop in `*.full.png` is then off, the JSON is right.
+  The Kartica media in the catalog is a flat #F5F5F5 placeholder; the twin shows the same in
+  Privzeto and the Figma sample image only in "Vse različice" (`sampleMedia`).
+- iOS work dir: the system font is Roboto there too (SF is not available to the test), so the
+  ellipsis of a Medium label and the Zavihki strut are the Android ones.
+- `filter__bar-multirow`: SIFilterBar (a Wrap) is as wide as its widest row, the twin's bar is
+  a 360 block. Nothing is drawn on that box, the chips match.

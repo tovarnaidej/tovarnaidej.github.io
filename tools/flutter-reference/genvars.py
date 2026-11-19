@@ -16,21 +16,36 @@ ctor = {
  'tab-bar': ('TabBarConfigurator', 'ty(SITabBar)', 396), 'tabs': ('TabsConfigurator', 'ty(SITabs)', 393),
 }
 base = {'input': 'platform:android;labelPosition:floating'}
+# Controls the catalog shows only in another mode (or that the twin exposes without a catalog
+# control): one tap from the default state cannot reach them, manmap.txt / man_test.dart do.
+SKIP = {
+ 'alert': {'listStyle', 'showSupporting', 'showAvatar', 'showChevron', 'supportingLines'},
+ 'button': {'leadingIcon'}, 'calendar-input': {'focused'},
+ 'filter': {'previewAsBar', 'layout', 'style', 'showBadge', 'showDismiss'},
+ 'loading-bar': {'thickness'}, 'progress-bar': {'showText', 'orientation'},
+}
+# The catalog changes other values together with a control; a story URL sets only one arg.
+LINKED = {
+ ('progress-bar', 'variant', 'linear'): 'totalSteps:10', ('progress-bar', 'variant', 'stepped'): 'totalSteps:3',
+ ('tabs', 'configuration', 'scrollable'): 'tabCount:8',
+}
+# The twin's root element changes with the value.
+SELECTOR = {('alert', 'mode', 'list'): '.si-list-item'}
 tests = []; rows = []
 BS = chr(92)
 esc = lambda s: s.replace(BS, BS + BS).replace("'", BS + "'").replace('$', BS + '$')
-for key, sid, sel in maprows:
+for key, sid, sel in (r[:3] for r in maprows):
     if key not in ctor or sid not in at or 'argTypes' not in at[sid]: continue
     a = at[sid]; args = a['args']; b = base.get(key, 'platform:android' if 'platform' in a['argTypes'] else '')
     for arg, t in a['argTypes'].items():
-        if arg in ('platform', 'className', 'onClick') or not t.get('name'): continue
+        if arg in ('platform', 'className', 'onClick') or not t.get('name') or arg in SKIP.get(key, ()): continue
         if t.get('options'):
             for o in t['options']:
                 if o == args.get(arg) or (key == 'input' and arg == 'labelPosition'): continue
                 chip = (t.get('labels') or {}).get(str(o), str(o))
                 name = f'{key}__{arg}-{o}'
                 tests.append((name, key, f"enumTap('{esc(t['name'])}', '{esc(chip)}')"))
-                rows.append((name, sid, sel, ';'.join(x for x in [b, f'{arg}:{o}'] if x)))
+                rows.append((name, sid, SELECTOR.get((key, arg, o), sel), ';'.join(x for x in [b, f'{arg}:{o}', LINKED.get((key, arg, o))] if x)))
         elif t.get('control') == 'boolean':
             v = not bool(args.get(arg))
             name = f'{key}__{arg}-{str(v).lower()}'

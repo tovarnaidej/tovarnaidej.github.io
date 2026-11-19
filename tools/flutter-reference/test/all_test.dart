@@ -52,7 +52,7 @@ void main() {
     'radio': (const RadioConfigurator(), preview, const Size(393, 852)),
     'range-bar': (const RangeBarConfigurator(), ty(SIRangeBar), const Size(393, 852)),
     'search-bar': (const SearchBarConfigurator(), preview, const Size(393, 852)),
-    'status-screen': (const StatusScreenConfigurator(), ty(SIStatusScreen), const Size(393, 852)),
+    'status-screen': (const StatusScreenConfigurator(), ty(SIStatusScreen), const Size(393, 908)),
     'switch': (const SwitchConfigurator(), ty(SISwitch), const Size(393, 852)),
     'tab-bar': (const TabBarConfigurator(), ty(SITabBar), const Size(396, 852)),
     'tabs': (const TabsConfigurator(), ty(SITabs), const Size(393, 852)),

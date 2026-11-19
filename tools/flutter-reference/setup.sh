@@ -20,7 +20,7 @@ from fontTools.ttLib import TTFont
 f = TTFont(sys.argv[1]); f['OS/2'].usWinAscent = 750; f['OS/2'].usWinDescent = 250; f.save(sys.argv[2])
 PY
 cp "$HERE"/test/*.dart "$WORK/cat/test/"
-cp "$HERE"/*.py "$HERE"/*.mjs "$HERE"/*.txt "$WORK/"
+cp "$HERE"/*.py "$HERE"/*.mjs "$HERE"/*.txt "$HERE"/*.sh "$WORK/"
 (cd "$WORK/cat" && flutter pub get)
 
 # iOS branches: `Platform.isIOS` cannot be overridden in tests, so IOS=1 also builds
@@ -42,7 +42,7 @@ s = s.replace("  debugDisableShadows = false;\n", "  debugDisableShadows = false
 s = s.replace("  debugDisableShadows = true;\n}", "  debugDisableShadows = true;\n  debugDefaultTargetPlatformOverride = null;\n}")
 open(p, 'w', encoding='utf8').write(s)
 PYIOS
-  cp "$HERE"/*.py "$HERE"/*.mjs "$WORK/ios/"
+  cp "$HERE"/*.py "$HERE"/*.mjs "$HERE"/*.txt "$HERE"/fullpass.sh "$WORK/ios/"
   (cd "$WORK/ios/cat" && flutter pub get)
   echo "Ready (iOS): cd $WORK/ios/cat && flutter test test/all_test.dart ; compare with FLUTTER_REF_WORK=$WORK/ios and platform:ios"
 fi
