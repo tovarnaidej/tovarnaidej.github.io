@@ -83,6 +83,14 @@
   height: 24px;
 }
 
+.si-cal-ios__dropdown--open .si-cal-ios__chevron {
+  transform: rotate(90deg);
+}
+
+.si-cal-ios__dropdown .si-cal-ios__chevron {
+  transition: transform 200ms;
+}
+
 .si-cal-ios__arrows {
   display: flex;
   gap: 4px;
@@ -197,4 +205,88 @@
 
 .si-cal-ios--filled .si-cal-ios__day--selected {
   color: var(--si-primary);
+}
+
+/* ---------- year / month picker ---------- */
+/* Years: header gap 39 (15 + 24), 4 rows of 53, 15 below; side padding 24 (16 + 8). */
+.si-cal-ios--view-years {
+  gap: 39px;
+}
+
+.si-cal-ios__years {
+  display: flex;
+  flex-direction: column;
+  padding: 0 8px 15px;
+}
+
+.si-cal-ios__years .si-cal-ios__picker-row {
+  height: 53px;
+}
+
+/* Months: the 6-row day slot (280) + 8 on top, 4 equal rows; side padding 18 (16 + 2). */
+.si-cal-ios__months {
+  display: flex;
+  flex-direction: column;
+  height: 288px;
+  padding: 8px 2px 0;
+}
+
+.si-cal-ios__months .si-cal-ios__picker-row {
+  flex: 1 1 0;
+}
+
+.si-cal-ios__picker-row {
+  display: flex;
+}
+
+.si-cal-ios__picker-slot {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.si-cal-ios__picker-cell {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 53px;
+  padding: 0;
+  border: 0;
+  border-radius: 100px;
+  background: transparent;
+  color: inherit;
+  font: 400 17px/25px var(--si-font);
+  letter-spacing: 0.1px;
+  cursor: pointer;
+}
+
+.si-cal-ios__picker-label {
+  position: relative;
+}
+
+.si-cal-ios__picker-cell--selected {
+  color: var(--si-on-primary);
+  font-weight: 700;
+}
+
+.si-cal-ios--filled .si-cal-ios__picker-cell--selected {
+  color: var(--si-primary);
+}
+
+/* Month: the whole 88 × 53 cell is the pill. Year: a 72 × 37 chip centred in the cell. */
+.si-cal-ios__months .si-cal-ios__picker-cell--selected {
+  background: var(--si-cal-accent);
+}
+
+.si-cal-ios__years .si-cal-ios__picker-cell--selected::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 18.5px;
+  background: var(--si-cal-accent);
 }

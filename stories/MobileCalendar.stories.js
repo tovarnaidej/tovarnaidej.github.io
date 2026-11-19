@@ -48,9 +48,20 @@ const renderVariants = () =>
           ShowcaseSection,
           { title: 'iOS (SIDatePickerIOS)' },
           React.createElement(
-            ShowcaseRow,
-            { gap: 24, className: 'mobile-showcase__row--top' },
-            ...styles.map((style) => React.createElement(CalendarIOS, { key: style, style, ...iosSample })),
+            ShowcaseStack,
+            { gap: 24 },
+            React.createElement(
+              ShowcaseRow,
+              { gap: 24, className: 'mobile-showcase__row--top' },
+              ...styles.map((style) => React.createElement(CalendarIOS, { key: style, style, ...iosSample })),
+            ),
+            React.createElement(
+              ShowcaseRow,
+              { gap: 24, className: 'mobile-showcase__row--top' },
+              ...styles.map((style) =>
+                React.createElement(CalendarIOS, { key: style, style, ...iosSample, initialView: 'years' }),
+              ),
+            ),
           ),
         ),
       ),
