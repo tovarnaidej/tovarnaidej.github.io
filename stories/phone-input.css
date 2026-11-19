@@ -123,10 +123,13 @@
   box-sizing: border-box;
   /* In flow below the row (Storybook preview); native shows it as a sheet. */
   position: relative;
-  margin-top: 8px;
+  /* pickerInlineGap 12; as wide as the field (pickerWidth 374 at most), pickerMaxHeight 317 */
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
-  width: 374px;
+  width: 100%;
+  max-width: 374px;
+  height: 317px;
   padding: 16px 0;
   border: 1px solid #3c7b94;
   border-radius: 16px;
@@ -145,7 +148,8 @@
   display: block;
   width: 24px;
   height: 24px;
-  margin: 8px;
+  /* 24 icon centred in the 48 host (pickerSearchIconBox) */
+  margin: 12px;
   flex-shrink: 0;
 }
 
@@ -156,14 +160,19 @@
 }
 
 .si-phone-input__panel-divider {
+  flex: none;
   height: 1px;
   width: 100%;
-  background: #e6e7e9;
+  background: #cfd3d4;
 }
 
 .si-phone-input__list {
+  flex: 1 1 0;
+  min-height: 0;
   margin: 0;
   padding: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
   list-style: none;
 }
 
@@ -184,15 +193,15 @@
   cursor: pointer;
 }
 
-/* TokenPhoneAmountV2.pickerDividerIndent 52 */
+/* Divider: pickerDividerIndent 52, endIndent = pickerRowPaddingRight 24 */
 .si-phone-input__list li + li {
-  border-top: 1px solid #e6e7e9;
-  margin-left: 52px;
+  border-top: 1px solid #cfd3d4;
+  margin: 0 24px 0 52px;
 }
 
 .si-phone-input__list li + li .si-phone-input__list-item {
   margin-left: -52px;
-  width: calc(100% + 52px);
+  width: calc(100% + 76px);
 }
 
 .si-phone-input__list-flag {
