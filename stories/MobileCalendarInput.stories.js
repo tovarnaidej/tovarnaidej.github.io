@@ -18,8 +18,8 @@ const renderVariants = () =>
       React.createElement(
         ShowcaseStack,
         { gap: 20 },
-        React.createElement(CalendarInput, { mode: 'single' }),
-        React.createElement(CalendarInput, { mode: 'range' }),
+        React.createElement(CalendarInput, { mode: 'single', focused: true }),
+        React.createElement(CalendarInput, { mode: 'range', focused: true }),
       ),
     ),
   );

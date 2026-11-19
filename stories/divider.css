@@ -32,3 +32,8 @@
   font: 700 15px/21px var(--si-font);
   letter-spacing: var(--si-ls-plus01);
 }
+
+/* Privzeto: fills the catalog preview width (withMobileWidth). */
+.mobile-showcase__width > .si-divider {
+  width: 100%;
+}

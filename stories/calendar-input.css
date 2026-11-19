@@ -97,7 +97,9 @@
   width: 100%;
   height: 56px;
   min-width: 0;
-  padding: 4px 0 4px 16px;
+  /* TokenCalendarInputV2: padding 4 / 16 measured from the outer edge; the 1px border is
+     painted inside the 56 box, so the CSS padding is one less. */
+  padding: 3px 0 3px 15px;
   border: 1px solid #79747e;
   border-radius: 4px;
 }
@@ -116,8 +118,12 @@
   background: #ffffff;
   font: 500 13px/17px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
-  color: #3c7b94;
+  color: #79747e;
   white-space: nowrap;
+}
+
+.si-calendar-input__field--active .si-calendar-input__field-label {
+  color: #3c7b94;
 }
 
 .si-calendar-input__field-value {
@@ -128,6 +134,23 @@
   letter-spacing: 0.1px;
   color: #000000;
   white-space: nowrap;
+}
+
+.si-calendar-input__field-input {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0 15px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: 400 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
+  color: transparent;
+  caret-color: #3c7b94;
 }
 
 .si-calendar-input__actions {

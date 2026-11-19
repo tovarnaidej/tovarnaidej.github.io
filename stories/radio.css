@@ -2,7 +2,9 @@
 .si-radio-group {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  /* Catalog preview: Column of SIRadioButton rows (64 each), no gap, centred. */
+  align-items: center;
+  gap: 0;
   font-family: 'SI Republika', 'Republika', Arial, sans-serif;
 }
 

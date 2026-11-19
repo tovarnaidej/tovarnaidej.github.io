@@ -6,6 +6,7 @@ import {
   ShowcasePanel,
   ShowcaseStack,
   figmaMobileUrl,
+  withMobileWidth,
 } from './mobile-showcase';
 
 const renderVariants = () =>
@@ -39,6 +40,7 @@ export default {
     },
   },
   tags: ['autodocs'],
+  decorators: [withMobileWidth],
   args: {
     value: 0.5,
     showTicks: true,
@@ -65,6 +67,5 @@ export const Variants = {
   parameters: { controls: { disable: true }, layout: 'fullscreen' },
 };
 
-export const Default = {
-  name: 'Privzeto',
-};
+/* Catalog preview fills the pane (393 wide phone). */
+export const Default = { name: 'Privzeto', parameters: { mobileWidth: 393 } };

@@ -17,13 +17,15 @@
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  gap: 20px;
+  /* 16 + flag host 30 + 20 gap measured from the outer edge; the 1px border is inside. */
+  gap: 21px;
   width: 102px;
   height: 56px;
-  padding: 0 16px;
+  padding: 0 15px;
   border: 1px solid #3c7b94;
   border-radius: 8px;
-  background: #ffffff;
+  /* outlined: no fill in the library (the preview pane shows through) */
+  background: transparent;
   cursor: pointer;
   appearance: none;
 }
@@ -65,7 +67,7 @@
   padding: 4px 15px 0;
   border: 1px solid #3c7b94;
   border-radius: 8px;
-  background: #ffffff;
+  background: transparent;
 }
 
 .si-phone-input__field-label {
@@ -188,4 +190,9 @@
   height: 16px;
   object-fit: cover;
   flex-shrink: 0;
+}
+
+/* Privzeto: fills the catalog preview width (withMobileWidth). */
+.mobile-showcase__width > .si-phone-input {
+  width: 100%;
 }

@@ -7,6 +7,7 @@ import {
   ShowcaseStack,
   ShowcaseSurface,
   figmaMobileUrl,
+  withMobileWidth,
 } from './mobile-showcase';
 
 const styles = ['filled', 'defaultStyle', 'outlined'];
@@ -53,6 +54,7 @@ export default {
     platformCode: { component: 'search-bar' },
   },
   tags: ['autodocs'],
+  decorators: [withMobileWidth],
   args: {
     style: 'defaultStyle',
     resultsMode: 'hide',
@@ -102,4 +104,5 @@ export const Variants = {
   parameters: { controls: { disable: true }, layout: 'fullscreen' },
 };
 
-export const Default = { name: 'Privzeto' };
+/* Catalog preview fills the pane (393 wide phone). */
+export const Default = { name: 'Privzeto', parameters: { mobileWidth: 361 } };

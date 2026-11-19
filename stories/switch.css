@@ -7,6 +7,15 @@
   color: #000000;
 }
 
+/* SISwitch: ConstrainedBox(minHeight: tap target) — iOS 44, Android 48. */
+.si-switch--ios {
+  min-height: 44px;
+}
+
+.si-switch--android {
+  min-height: 48px;
+}
+
 .si-switch__track {
   box-sizing: border-box;
   width: 51px;

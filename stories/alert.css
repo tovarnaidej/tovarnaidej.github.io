@@ -68,6 +68,9 @@
 .si-alert__title {
   margin: 0;
   font: var(--si-title-large);
+  /* Bold 22/28: Chromium rounds the negative half-leading down, Flutter does not —
+     0.64px lower on the Flutter render. */
+  translate: 0 0.64px;
 }
 
 .si-alert__message {

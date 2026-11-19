@@ -74,3 +74,8 @@
   opacity: 0;
   cursor: pointer;
 }
+
+/* Privzeto: fills the catalog preview width (withMobileWidth). */
+.mobile-showcase__width > .si-range-bar {
+  width: 100%;
+}

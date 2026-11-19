@@ -156,3 +156,8 @@
 .si-tabs__tab--selected .si-tabs__text {
   transform: translateY(var(--si-strut-medium-on-regular));
 }
+
+/* Privzeto: fills the catalog preview width (withMobileWidth). */
+.mobile-showcase__width > .si-tabs {
+  width: 100%;
+}

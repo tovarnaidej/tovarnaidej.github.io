@@ -49,6 +49,9 @@
   margin: 0;
   width: 100%;
   font: 700 22px/28px 'SI Republika', 'Republika', Arial, sans-serif;
+  /* Bold 22/28: Chromium rounds the negative half-leading down, Flutter does not —
+     0.64px lower on the Flutter render. */
+  translate: 0 0.64px;
   letter-spacing: 0;
 }
 

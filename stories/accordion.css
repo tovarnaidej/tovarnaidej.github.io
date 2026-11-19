@@ -60,12 +60,13 @@
 
 .si-accordion__header {
   display: flex;
-  align-items: center;
+  /* Stack > Padding(9 / 7) > Row: the row is only as tall as the 40 chevron and sits at
+     the top of the 58 header (measured on the Flutter render: chevron y 9, title y 16.5). */
+  align-items: flex-start;
   justify-content: center;
   gap: 16px;
   width: 100%;
   height: 58px;
-  /* 8 ± headerContentOffsetY 1 */
   padding: 9px 0 7px 16px;
   border: 0;
   background: transparent;
@@ -78,6 +79,8 @@
   flex: 1 1 auto;
   min-width: 0;
   overflow: hidden;
+  /* centred in the 40 row: (40 − 25) / 2 */
+  margin-top: 7.5px;
   font: 400 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   text-align: left;
@@ -92,6 +95,12 @@
   justify-content: center;
   width: 40px;
   height: 40px;
+  /* _chevronColor: primary on default / outlined, white on filled */
+  color: #3c7b94;
+}
+
+.si-accordion--filled .si-accordion__chevron {
+  color: #ffffff;
 }
 
 .si-accordion__chevron-icon {

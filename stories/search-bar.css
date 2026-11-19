@@ -50,6 +50,8 @@
   color: #000000;
   text-overflow: ellipsis;
   white-space: nowrap;
+  /* TextField hint: proportional leading */
+  translate: 0 var(--si-lead-regular);
 }
 
 .si-search-bar__trailing {
@@ -149,6 +151,8 @@
   letter-spacing: 0.1px;
   color: #000000;
   white-space: nowrap;
+  /* TextField value: proportional leading */
+  translate: 0 var(--si-lead-regular);
 }
 
 .si-search-bar__caret {
@@ -233,4 +237,9 @@
   letter-spacing: 0.1px;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Privzeto: fills the catalog preview width (withMobileWidth). */
+.mobile-showcase__width > .si-search-bar {
+  width: 100%;
 }

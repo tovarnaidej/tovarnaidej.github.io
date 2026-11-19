@@ -6,6 +6,7 @@ import {
   ShowcasePanel,
   ShowcaseStack,
   figmaMobileUrl,
+  withMobileWidth,
 } from './mobile-showcase';
 
 const renderVariants = () =>
@@ -46,11 +47,12 @@ export default {
     platformCode: { component: 'phone-input' },
   },
   tags: ['autodocs'],
+  decorators: [withMobileWidth],
   args: {
     enabled: true,
     hasError: false,
     countryCode: 'si',
-    value: '41 321 654',
+    value: '',
     open: false,
   },
   argTypes: {
@@ -69,4 +71,5 @@ export const Variants = {
   parameters: { controls: { disable: true }, layout: 'fullscreen' },
 };
 
-export const Default = { name: 'Privzeto' };
+/* Catalog preview fills the pane (393 wide phone). */
+export const Default = { name: 'Privzeto', parameters: { mobileWidth: 361 } };

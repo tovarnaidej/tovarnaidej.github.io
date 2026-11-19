@@ -7,6 +7,7 @@ import {
   ShowcasePanel,
   ShowcaseStack,
   figmaMobileUrl,
+  withMobileWidth,
 } from './mobile-showcase';
 
 const types = ['fullWidth', 'inset'];
@@ -41,6 +42,7 @@ export default {
     platformCode: { component: 'divider' },
   },
   tags: ['autodocs'],
+  decorators: [withMobileWidth],
   args: {
     platform: 'android',
     type: 'fullWidth',
@@ -76,4 +78,5 @@ export const Variants = {
   parameters: { controls: { disable: true }, layout: 'fullscreen' },
 };
 
-export const Default = { name: 'Privzeto' };
+/* Catalog preview fills the pane (393 wide phone). */
+export const Default = { name: 'Privzeto', parameters: { mobileWidth: 393 } };

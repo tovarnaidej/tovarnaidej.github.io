@@ -78,6 +78,19 @@
   --si-strut-medium-on-bold: 0.1428em;
   --si-strut-medium-on-regular: 0.0781em;
   --si-strut-regular-on-bold: 0.0647em;
+
+  /*
+   * Flutter text that does NOT inherit Material's DefaultTextStyle (TextField value /
+   * hint, InputDecorator label, TextPainter) distributes the extra line height
+   * proportionally to ascent : descent, CSS splits it evenly. Baseline shift
+   * = (line-height − (asc + desc)·size) · (asc − desc) / (2 · (asc + desc)).
+   * Use as `translate: 0 var(--si-lead-regular)`. Text inside Material / Text widgets
+   * is `leadingDistribution: even` (= CSS) and needs no shift — verified on the Flutter
+   * reference renders.
+   */
+  --si-lead-regular: calc((1lh - 1.17578em) * 0.2791);
+  --si-lead-medium: calc((1lh - 1em) * 0.25);
+  --si-lead-bold: calc((1lh - 1.43213em) * 0.2743);
 }
 
 /*
