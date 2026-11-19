@@ -106,7 +106,7 @@ const renderVariants = () =>
       { title: 'Predogled kot vrstica' },
       React.createElement(
         ShowcaseRow,
-        { gap: 67 },
+        { gap: 67, className: 'mobile-showcase__row--top' },
         React.createElement(Filter, {
           previewAsBar: true,
           layout: 'singleRowScrollable',
