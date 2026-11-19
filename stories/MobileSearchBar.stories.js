@@ -57,6 +57,7 @@ export default {
   tags: ['autodocs'],
   decorators: [withMobileWidth],
   args: {
+    platform: 'android',
     style: 'defaultStyle',
     resultsMode: 'hide',
     showAvatar: false,
@@ -64,6 +65,11 @@ export default {
     placeholder: 'Input search text',
   },
   argTypes: {
+    platform: {
+      name: 'Platforma',
+      control: { type: 'inline-radio', labels: { ios: 'iOS', android: 'Android' } },
+      options: ['ios', 'android'],
+    },
     style: {
       name: 'Slog',
       control: {

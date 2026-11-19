@@ -44,11 +44,10 @@
   pointer-events: none;
 }
 
-/* Collapsed outlined field: stroke only (the pane shows through); the 1px border is
+/* Collapsed outlined field (white, as on the Flutter render): the 1px border is
    painted inside the 56 box, so the horizontal padding is one less. */
 .si-search-bar--outlined .si-search-bar__field {
   padding: 3px 15px;
-  background: transparent;
 }
 
 .si-search-bar__field {
@@ -73,7 +72,10 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   /* TextField hint: proportional leading */
-  translate: 0 var(--si-lead-regular);
+  /* relative + top, not translate: Chromium draws a text moved by a fraction of a pixel
+     with a transform up to 0.5px lower than the same offset in layout */
+  position: relative;
+  top: var(--si-lead-regular);
 }
 
 .si-search-bar__trailing {
@@ -156,6 +158,13 @@
   cursor: pointer;
 }
 
+/* SIIconButton on iOS: 40x40 touch slot (TokenAppBarV2.iosIconTouchTarget), icon centred */
+.si-search-bar--ios .si-search-bar__icon-btn {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+}
+
 .si-search-bar__icon-btn img {
   display: block;
   width: 24px;
@@ -177,7 +186,10 @@
   color: #000000;
   white-space: nowrap;
   /* TextField value: proportional leading */
-  translate: 0 var(--si-lead-regular);
+  /* relative + top, not translate: Chromium draws a text moved by a fraction of a pixel
+     with a transform up to 0.5px lower than the same offset in layout */
+  position: relative;
+  top: var(--si-lead-regular);
 }
 
 .si-search-bar__caret {
@@ -245,7 +257,8 @@
   flex-direction: column;
   justify-content: center;
   min-width: 0;
-  overflow: hidden;
+  /* horizontal only: the supporting line's descenders (p, g) reach below the 45px column */
+  overflow-x: clip;
   color: #000000;
 }
 
@@ -255,14 +268,19 @@
 }
 
 .si-search-bar__result-support {
-  height: 20px;
+  /* 25px line that takes 20px of the column (title 25 + 20 = 45, as in the Flutter render) */
+  height: 25px;
+  margin-bottom: -5px;
   overflow: hidden;
   font: 400 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
   text-overflow: ellipsis;
   white-space: nowrap;
   /* proportional leading (measured on the Flutter render) */
-  translate: 0 var(--si-lead-regular);
+  /* relative + top, not translate: Chromium draws a text moved by a fraction of a pixel
+     with a transform up to 0.5px lower than the same offset in layout */
+  position: relative;
+  top: var(--si-lead-regular);
 }
 
 /* Privzeto: fills the catalog preview width (withMobileWidth). */

@@ -29,6 +29,7 @@ export const SearchBar = ({
   showResultAvatars = true,
   placeholder = 'Input search text',
   query = 'Input text',
+  platform = 'android',
   className = '',
 }) => {
   const isExpanded = resultsMode !== 'hide';
@@ -36,6 +37,7 @@ export const SearchBar = ({
     'si-search-bar',
     `si-search-bar--${style}`,
     isExpanded ? 'si-search-bar--expanded' : 'si-search-bar--collapsed',
+    `si-search-bar--${platform}`,
     className,
   ]
     .filter(Boolean)
@@ -133,5 +135,7 @@ SearchBar.propTypes = {
   placeholder: PropTypes.string,
   /** Text in the expanded field (catalog: `Input text`); empty shows the placeholder without the clear button. */
   query: PropTypes.string,
+  /** SIIconButton (back / clear) is a 48 slot on Android and 40 on iOS. */
+  platform: PropTypes.oneOf(['ios', 'android']),
   className: PropTypes.string,
 };
