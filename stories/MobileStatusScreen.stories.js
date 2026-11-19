@@ -9,6 +9,35 @@ import {
   figmaMobileUrl,
 } from './mobile-showcase';
 
+/* design_data "Prisilen update Pop-up pregled": the pop-up over a 393 × 852 app screen.
+   Geometry is the Figma frame (measured on the PNG): bar 361 × 56 at 16 / 20, content
+   cards 361 × 88 from 96, overlay rgba(0,0,0,.42); the pop-up top is 162 (198 for the
+   shortest scenario). The backdrop is sample content, not part of the library widget. */
+const abs = (style) => ({ position: 'absolute', left: 16, width: 361, background: '#ffffff', ...style });
+
+const popupOnScreen = (scenario, top) =>
+  React.createElement(
+    'div',
+    {
+      key: scenario,
+      style: { position: 'relative', flex: 'none', width: 393, height: 852, overflow: 'hidden', background: '#e6e7e9' },
+    },
+    React.createElement(
+      'div',
+      { style: abs({ top: 20, height: 56, borderRadius: 8, display: 'flex', alignItems: 'center', paddingLeft: 16, boxSizing: 'border-box' }) },
+      React.createElement('div', { style: { width: 160, height: 12, borderRadius: 6, background: '#d1d2d4' } }),
+    ),
+    ...[96, 200, 304, 408].map((y) =>
+      React.createElement('div', { key: y, style: abs({ top: y, height: 88, borderRadius: 12 }) }),
+    ),
+    React.createElement('div', { style: { position: 'absolute', inset: 0, background: 'rgba(0, 0, 0, 0.42)' } }),
+    React.createElement(
+      'div',
+      { style: { position: 'absolute', left: 16, top } },
+      React.createElement(StatusScreen, { presentation: 'popup', scenario }),
+    ),
+  );
+
 const renderVariants = () =>
   React.createElement(
     MobileShowcase,
@@ -54,6 +83,17 @@ const renderVariants = () =>
             presentation: 'popup',
             scenario: 'unsupported',
           }),
+        ),
+      ),
+      React.createElement(
+        ShowcaseSection,
+        { title: 'Pojavno okno na zaslonu' },
+        React.createElement(
+          ShowcaseRow,
+          { gap: 85, className: 'mobile-showcase__row--top' },
+          popupOnScreen('update', 162),
+          popupOnScreen('offline', 162),
+          popupOnScreen('unsupported', 198),
         ),
       ),
     ),
