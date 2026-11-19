@@ -11,6 +11,7 @@ export const Checkbox = ({
   showLabel = true,
   label = 'Checkbox label',
   thickness = 'thick',
+  platform = 'android',
   className = '',
 }) => {
   const [checked, setChecked] = useState(checkedProp);
@@ -20,6 +21,7 @@ export const Checkbox = ({
       className={[
         'si-checkbox',
         `si-checkbox--${thickness}`,
+        `si-checkbox--${platform}`,
         checked ? 'si-checkbox--checked' : '',
         hasError ? 'si-checkbox--error' : '',
         !enabled ? 'si-checkbox--disabled' : '',
@@ -54,5 +56,7 @@ Checkbox.propTypes = {
   showLabel: PropTypes.bool,
   label: PropTypes.string,
   thickness: PropTypes.oneOf(['thin', 'thick']),
+  /** Tap target: iOS 44, Android 48 (visible without a label). */
+  platform: PropTypes.oneOf(['ios', 'android']),
   className: PropTypes.string,
 };

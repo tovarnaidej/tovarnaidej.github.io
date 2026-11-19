@@ -64,8 +64,14 @@ export default {
     showLabel: true,
     label: 'Checkbox label',
     thickness: 'thick',
+    platform: 'android',
   },
   argTypes: {
+    platform: {
+      name: 'Platforma',
+      control: { type: 'select', labels: { ios: 'iOS', android: 'Android' } },
+      options: ['ios', 'android'],
+    },
     checked: { name: 'Označeno', control: { type: 'boolean' } },
     enabled: { name: 'Omogočeno', control: { type: 'boolean' } },
     hasError: { name: 'Napaka', control: { type: 'boolean' } },
