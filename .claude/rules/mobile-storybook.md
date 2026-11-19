@@ -62,8 +62,12 @@ paths:
 - Storyji: na gradnik samo **Vse različice** (vse variante iz design_data) in **Privzeto** (kontrole kot katalog,
   imena kontrol dobesedno; notranje props skrij). Privzeto ima širino predogleda kataloga
   (`mobileWidth` 361, polna širina 393 za Razdelilnik / Drsnik).
-- Znane posebnosti izrisa: Zavihki (strut pade na sistemsko pisavo → v testu ~1 px višje, ne popravljaj),
-  veje `Platform.isIOS` se ne izrišejo.
+- iOS veje (`Platform.isIOS`): `IOS=1 bash tools/flutter-reference/setup.sh` naredi kopijo knjižnice in
+  kataloga z vklopljenimi iOS vejami (`.flutter-ref/ios`); dvojček primerjaj s `platform:ios`.
+- Znane posebnosti izrisa (ne popravljaj dvojčka): Zavihki — strut pade na sistemsko pisavo (v testu
+  ~1 px višje, na napravi Roboto/SF ≤ 0,25 px od dvojčka); Republika Medium nima znaka "…" (naprava ga
+  nariše s sistemsko pisavo, test nič); značka Filtra na iOS ima namenski zamik za CoreText (viden
+  rezultat je enak Androidu).
 
 ## Struktura gradnika
 - `stories/MobileX.stories.js` — naslov `Gradniki - mobile/<Ime>`, `Variants` ("Vse različice",

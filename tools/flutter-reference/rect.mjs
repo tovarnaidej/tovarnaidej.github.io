@@ -1,0 +1,10 @@
+import { createRequire } from 'module';
+const require = createRequire('D:/projekti_tovarna/mslovenija_web/package.json');
+const { chromium } = require('playwright');
+const [id, args, ...sels] = process.argv.slice(2);
+const b = await chromium.launch({ channel: 'msedge' });
+const p = await b.newPage({ viewport: { width: 1400, height: 1200 }, deviceScaleFactor: 2 });
+await p.goto(`http://localhost:6006/iframe.html?id=${id}&viewMode=story&args=${args}`, { waitUntil: 'networkidle' });
+await p.evaluate(() => document.fonts.ready);
+for (const s of sels) console.log(s, JSON.stringify(await p.$$eval(s, (els) => els.slice(0, 4).map((e) => { const r = e.getBoundingClientRect(); return [r.x, r.y, r.width, r.height].map((v) => +v.toFixed(2)); }))));
+await b.close();

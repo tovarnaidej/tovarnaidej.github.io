@@ -31,14 +31,40 @@ font, strut, leading distribution) and `test/out/<name>.full.png` (2x).
 
 `map.txt` / `manmap.txt` list `name|storyId|selector|args` used for the last full pass.
 
+## iOS branches
+
+`Platform.isIOS` is false under `flutter test`. `IOS=1 bash tools/flutter-reference/setup.sh`
+also creates `.flutter-ref/ios/` with scratch copies of the library and the catalog in which
+`Platform.isIOS` is replaced by `true`, and a harness that sets
+`debugDefaultTargetPlatformOverride = TargetPlatform.iOS`. Same tests, same scripts:
+
+    cd .flutter-ref/ios/cat && flutter test test/all_test.dart     # + var / man / input
+    flutter test test/ios_input_floating_test.dart                 # iOS default is "Nad poljem"
+    cd .. && FLUTTER_REF_WORK=$PWD node compare.mjs <name> <storyId> <sel> "platform:ios;..."
+
+Deliberately not mirrored: the Filter badge digit offset on iOS (`badgeDigitOffsetYIOS`
+compensates CoreText, the visible result equals Android).
+
+## Directly pumped widgets
+
+`test/direct_*_test.dart` (with `direct_harness.dart`, `shot()`) pump a library widget
+without a configurator: fixed dates for Koledar, SIDatePickerIOS year / month views.
+`phone_open_test.dart` taps the catalog preview (open country list).
+`node rect.mjs <storyId> "<args>" <selector>...` prints twin bounding boxes.
+
 ## Known artefacts of the test environment
 
-- `Platform.isIOS` is false: only the Android / default branches render. iOS-only
-  widgets with their own class (SIDatePickerIOS, SIDatePicker with a fixed date) can be
-  pumped directly in a small extra test with the same harness idea.
+- `Platform.isIOS` is false: the plain work dir renders only the Android / default
+  branches (see "iOS branches").
 - Zavihki: `TokenTabsV2.labelStrut` resolves to a doubled package font family, so the
-  strut falls back to the platform font; in the test that is the 0.75/0.25 test font
-  (labels ~1px higher than on a device). Ignore `dbl +0.75 / +0.92` there.
+  strut falls back to the platform font; in the test that is the 0.75/0.25 test font.
+  On a device it is Roboto (0.79) / SF (0.80): baseline 16.6 / 16.8 vs the twin's 16.5,
+  so ignore `dbl +0.75 / +0.92` there.
+- Republika Medium has no ellipsis glyph: devices draw it from the system font, the test
+  draws nothing (a clipped selected tab label without the ellipsis is this artefact, not a
+  library bug).
+- `imgdiff.py` crops are rounded to whole pixels; a uniform 0.5px shift of everything is
+  the crop, the text-run numbers are authoritative.
 - Multi-line text: Flutter's boxes include the trailing space of wrapped lines (`dw -3…-4`).
 - Catalog image assets and photo avatars are not loaded.
 - `ensureVisible` may scroll the page; the crop in `*.full.png` is then off, the JSON is right.
