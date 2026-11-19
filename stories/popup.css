@@ -86,6 +86,10 @@
   margin: 0;
   font: 700 32px/40px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0;
+  /* Bold 32/40 has a negative half-leading (45.8px of content in 40px); Chromium rounds it
+     down, the Flutter render sits 0.57px lower */
+  position: relative;
+  top: 0.57px;
 }
 
 .si-popup__message {
