@@ -63,8 +63,14 @@ export default {
     leading: 'defaultBack',
     actions: 'single',
     title: 'Title',
+    platform: 'android',
   },
   argTypes: {
+    platform: {
+      name: 'Platforma',
+      control: { type: 'select', labels: { ios: 'iOS', android: 'Android' } },
+      options: ['ios', 'android'],
+    },
     configuration: {
       name: 'Velikost',
       control: {

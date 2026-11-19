@@ -21,6 +21,7 @@ export const AppBar = ({
   leading = 'defaultBack',
   actions = 'single',
   title = 'Title',
+  platform = 'android',
   className = '',
 }) => {
   const isStacked = configuration === 'medium' || configuration === 'large';
@@ -74,6 +75,7 @@ export const AppBar = ({
         'si-app-bar',
         `si-app-bar--${configuration}`,
         `si-app-bar--${style}`,
+        `si-app-bar--${platform}`,
         titleCentered ? 'si-app-bar--title-centered' : '',
         className,
       ]
@@ -106,5 +108,7 @@ AppBar.propTypes = {
   leading: PropTypes.oneOf(['defaultBack', 'none', 'custom']),
   actions: PropTypes.oneOf(['single', 'multiple', 'none']),
   title: PropTypes.string,
+  /** iOS: SIIconButton is a 40-pt slot, so the icon row of Srednja / Široka is 40 high. */
+  platform: PropTypes.oneOf(['ios', 'android']),
   className: PropTypes.string,
 };

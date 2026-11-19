@@ -120,6 +120,11 @@
   filter: brightness(0) invert(1);
 }
 
+.si-app-bar--ios .si-app-bar__top .si-app-bar__icon-btn {
+  /* iOS two-row: 40-pt buttons padded to 48 wide slots — the title sits 8 higher */
+  height: 40px;
+}
+
 .si-app-bar__icon-btn--spacer {
   visibility: hidden;
   pointer-events: none;
