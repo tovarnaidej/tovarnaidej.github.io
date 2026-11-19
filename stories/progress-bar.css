@@ -110,7 +110,10 @@
 
 .si-progress__number {
   /* _inkCentred: bold strut + (0, -0.5) */
-  transform: translateY(calc(var(--si-strut-medium-on-bold) - 0.5px));
+  /* relative + top, not translate: Chromium draws a text moved by a fraction of a pixel
+     with a transform up to 0.5px lower than the same offset in layout */
+  position: relative;
+  top: calc(var(--si-strut-medium-on-bold) - 0.5px);
   font: 500 17px/25px var(--si-font);
   letter-spacing: var(--si-ls-plus01);
 }
