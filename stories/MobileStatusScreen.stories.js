@@ -41,7 +41,7 @@ const renderVariants = () =>
         { title: 'Pojavno okno' },
         React.createElement(
           ShowcaseRow,
-          { gap: 24 },
+          { gap: 24, className: 'mobile-showcase__row--top' },
           React.createElement(StatusScreen, {
             presentation: 'popup',
             scenario: 'update',

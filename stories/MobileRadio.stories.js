@@ -13,7 +13,7 @@ const states = [
   { key: 'unselected', selected: false, enabled: true, hasError: false },
   { key: 'selected', selected: true, enabled: true, hasError: false },
   { key: 'disabled', selected: false, enabled: false, hasError: false },
-  { key: 'error', selected: true, enabled: true, hasError: true },
+  { key: 'error', selected: false, enabled: true, hasError: true },
 ];
 
 const renderColumn = (thickness) =>
