@@ -77,8 +77,11 @@ export default {
     primaryLabel: '',
     secondaryLabel: '',
     showClose: true,
+    // Catalog: the app bar replaces the Figma top inset.
+    fullScreenTopInset: 0,
   },
   argTypes: {
+    fullScreenTopInset: { table: { disable: true } },
     presentation: {
       name: 'Prikaz',
       control: {

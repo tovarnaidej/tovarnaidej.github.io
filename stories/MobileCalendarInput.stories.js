@@ -45,6 +45,7 @@ export default {
       },
       options: ['single', 'range'],
     },
+    focused: { table: { disable: true } },
     className: { table: { disable: true } },
   },
 };

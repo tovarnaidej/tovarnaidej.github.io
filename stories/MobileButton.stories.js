@@ -90,7 +90,7 @@ export default {
     state: { table: { disable: true } },
     enabled: { name: 'Omogočeno', control: { type: 'boolean' } },
     leadingIcon: {
-      name: 'Vodilna ikona',
+      name: 'Ikona',
       description: 'Prikaže ikono pred besedilom.',
       control: {
         type: 'boolean',
@@ -105,14 +105,8 @@ export default {
       description: 'Onemogoči uporabo gumba.',
       table: { disable: true },
     },
-    className: {
-      name: 'Razred CSS',
-      description: 'Dodaten razred CSS.',
-    },
-    onClick: {
-      name: 'Ob kliku',
-      description: 'Dogodek, ki se sproži ob kliku.',
-    },
+    className: { table: { disable: true } },
+    onClick: { table: { disable: true } },
   },
 };
 

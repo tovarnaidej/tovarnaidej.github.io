@@ -159,7 +159,7 @@ export default {
       if: { arg: 'mode', eq: 'alert' },
     },
     title: { name: 'Naslov', if: { arg: 'mode', eq: 'alert' } },
-    message: { name: 'Sporočilo', if: { arg: 'mode', eq: 'alert' } },
+    message: { name: 'Besedilo', if: { arg: 'mode', eq: 'alert' } },
     listStyle: {
       name: 'Slog',
       control: {

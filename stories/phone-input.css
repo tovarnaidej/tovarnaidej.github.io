@@ -103,6 +103,17 @@
   border-color: #d32f2f;
 }
 
+.si-phone-input--error .si-phone-input__field-label {
+  color: #d32f2f;
+}
+
+/* errorText: 8 below the row, Regular 12 / 12, error colour */
+.si-phone-input__error {
+  margin: 8px 0 0;
+  font: 400 12px/12px 'SI Republika', 'Republika', Arial, sans-serif;
+  color: #d32f2f;
+}
+
 .si-phone-input--disabled {
   opacity: 0.38;
   pointer-events: none;

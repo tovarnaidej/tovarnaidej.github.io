@@ -28,6 +28,8 @@
 .si-progress__supporting {
   margin: 0;
   font: 400 15px/21px var(--si-font);
+  /* inherited from Material bodyMedium in the catalog (measured on the Flutter render) */
+  letter-spacing: 0.25px;
   color: var(--si-progress-active);
 }
 
@@ -198,6 +200,7 @@
   min-width: 0;
   padding: 3px 0 0 12px;
   font: 400 15px/21px var(--si-font);
+  letter-spacing: 0.25px;
   color: #000000;
 }
 

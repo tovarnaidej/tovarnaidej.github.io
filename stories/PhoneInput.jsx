@@ -25,6 +25,7 @@ export const PhoneInput = ({
   value = '',
   open = false,
   label = 'Telefonska številka',
+  errorText = 'Prišlo je do napake...',
   className = '',
 }) => {
   const [isOpen, setIsOpen] = useState(open);
@@ -86,6 +87,10 @@ export const PhoneInput = ({
         </div>
       </div>
 
+      {hasError && errorText ? (
+        <p className="si-phone-input__error">{errorText}</p>
+      ) : null}
+
       {isOpen && (
         <div className="si-phone-input__panel" role="listbox">
           <div className="si-phone-input__panel-header">
@@ -135,6 +140,8 @@ export const PhoneInput = ({
 PhoneInput.propTypes = {
   enabled: PropTypes.bool,
   hasError: PropTypes.bool,
+  /** Shown under the field while `hasError` (catalog: 'Prišlo je do napake...'). */
+  errorText: PropTypes.string,
   countryCode: PropTypes.string,
   value: PropTypes.string,
   open: PropTypes.bool,

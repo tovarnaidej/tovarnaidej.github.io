@@ -29,6 +29,13 @@
   border: 1px solid #3c7b94;
 }
 
+/* Collapsed outlined field: stroke only (the pane shows through); the 1px border is
+   painted inside the 56 box, so the horizontal padding is one less. */
+.si-search-bar--outlined .si-search-bar__field {
+  padding: 3px 15px;
+  background: transparent;
+}
+
 .si-search-bar__field {
   display: flex;
   align-items: center;
@@ -105,8 +112,11 @@
   overflow: hidden;
   border-radius: 16px;
   background: #edf5f8;
+}
+
+/* Result list ends 16 above the bottom edge; the empty state (72) has no extra padding. */
+.si-search-bar__list {
   padding-bottom: 16px;
-  padding-top: 4px;
 }
 
 .si-search-bar__header {
@@ -165,14 +175,13 @@
 .si-search-bar__divider {
   width: 100%;
   height: 1px;
-  background: #e6e7e9;
+  /* SIDivider: Android #D1D2D4 (iOS #E6E7E9) */
+  background: #d1d2d4;
 }
 
 .si-search-bar__empty {
-  padding: 24px 16px;
-  color: #949598;
-  font: 400 15px/21px 'SI Republika', 'Republika', Arial, sans-serif;
-  text-align: center;
+  /* TokenSearchBarV2.emptyResultsHeight */
+  height: 72px;
 }
 
 .si-search-bar__list {
@@ -237,6 +246,8 @@
   letter-spacing: 0.1px;
   text-overflow: ellipsis;
   white-space: nowrap;
+  /* proportional leading (measured on the Flutter render) */
+  translate: 0 var(--si-lead-regular);
 }
 
 /* Privzeto: fills the catalog preview width (withMobileWidth). */

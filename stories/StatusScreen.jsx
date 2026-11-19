@@ -54,6 +54,7 @@ export const StatusScreen = ({
   primaryLabel,
   secondaryLabel,
   showClose = true,
+  fullScreenTopInset = 40,
   className = '',
 }) => {
   const preset = SCENARIOS[scenario] || SCENARIOS.update;
@@ -165,6 +166,7 @@ export const StatusScreen = ({
       ]
         .filter(Boolean)
         .join(' ')}
+      style={{ '--si-status-top-inset': `${fullScreenTopInset}px` }}
     >
       <div className="si-status__frame">
         <div className="si-status__content">{illustration}{copy}{metaEl}</div>
@@ -183,5 +185,7 @@ StatusScreen.propTypes = {
   primaryLabel: PropTypes.string,
   secondaryLabel: PropTypes.string,
   showClose: PropTypes.bool,
+  /** Fullscreen top inset (library default 40; the catalog passes 0 under its app bar). */
+  fullScreenTopInset: PropTypes.number,
   className: PropTypes.string,
 };

@@ -147,17 +147,17 @@
 
 /*
  * Android: Flutter _tightTextHeight (applyHeightToFirstAscent/LastDescent false,
- * even leading) drops the half-leading above the first and below the last line.
- * Half-leading from the SOT TTF hhea metrics: Bold 17/25 → 0.33, Regular 15/21 → 1.68.
+ * even leading) drops the half-leading above the first and below the last line, and
+ * the text box is laid out at a whole pixel. Measured on the Flutter render:
+ * title 24 high (Bold 17/25, half-leading 0.33), supporting line 18 (Regular 15/21,
+ * half-leading 1.68) → 72 with supporting text, 58 title-only.
  */
 .si-list-item--android .si-list-item__title {
   margin-top: -0.33px;
-}
-
-.si-list-item--android.si-list-item--title-only .si-list-item__title {
-  margin-bottom: -0.33px;
+  margin-bottom: -0.67px;
 }
 
 .si-list-item--android .si-list-item__supporting {
-  margin-bottom: -1.68px;
+  margin-top: -1.68px;
+  margin-bottom: -1.32px;
 }

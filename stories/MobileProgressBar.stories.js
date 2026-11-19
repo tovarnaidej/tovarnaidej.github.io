@@ -1,4 +1,5 @@
 import React from 'react';
+import { useArgs, useEffect, useRef } from 'storybook/preview-api';
 
 import { ProgressBar } from './ProgressBar';
 import {
@@ -130,7 +131,28 @@ export default {
     mobileWidth: 361,
   },
   tags: ['autodocs'],
-  render: (args) => React.createElement(ProgressBar, withCatalogTexts(args)),
+  render: (args) => {
+    // Catalog (_setVariant / _setOrientation): switching the variant or the orientation
+    // resets the step counts to the Figma specimen of that variant.
+    const [, updateArgs] = useArgs();
+    const previous = useRef({ variant: args.variant, orientation: args.orientation });
+    useEffect(() => {
+      const before = previous.current;
+      previous.current = { variant: args.variant, orientation: args.orientation };
+      const vertical = args.variant === 'stepped' && args.orientation === 'vertical';
+      if (before.variant !== args.variant) {
+        const totalSteps = { segmented: 6, linear: 10, stepped: vertical ? 10 : 3 }[args.variant];
+        updateArgs({ totalSteps, currentStep: Math.min(Math.max(args.currentStep, 1), totalSteps) });
+      } else if (before.orientation !== args.orientation) {
+        updateArgs(
+          args.orientation === 'vertical'
+            ? { totalSteps: 10, currentStep: 6 }
+            : { totalSteps: 3, currentStep: Math.min(Math.max(args.currentStep, 1), 3) },
+        );
+      }
+    }, [args.variant, args.orientation]);
+    return React.createElement(ProgressBar, withCatalogTexts(args));
+  },
   args: {
     variant: 'segmented',
     orientation: 'horizontal',

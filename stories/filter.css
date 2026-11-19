@@ -42,6 +42,8 @@
 .si-filter-bar--multiRowOverflow {
   flex-wrap: wrap;
   gap: 16px 8px;
+  /* Wrap(runSpacing 16): rows of 32 with no vertical padding (3 rows = 128) */
+  padding: 0;
   overflow: hidden;
 }
 
@@ -91,11 +93,18 @@
  * same line box. Trim to cap height / baseline (same convention as
  * search.css) so the Medium labels stay centered in the chip.
  */
-.si-filter__label,
-.si-filter__badge-count {
+.si-filter__label {
   display: block;
   text-box-trim: trim-both;
   text-box-edge: cap alphabetic;
+}
+
+/* Flutter: Medium 10 / 10 line box centred in the 16 circle (baseline 0.75em), measured
+   0.33px lower on the reference render — not cap-centred. */
+.si-filter__badge-count {
+  display: block;
+  line-height: 10px;
+  translate: 0 0.33px;
 }
 
 /* filter / sort: icon + label sit in a group, badge is outside of it */

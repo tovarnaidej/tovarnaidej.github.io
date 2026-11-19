@@ -58,6 +58,8 @@ export default {
   argTypes: {
     enabled: { name: 'Omogočeno', control: { type: 'boolean' } },
     hasError: { name: 'Napaka', control: { type: 'boolean' } },
+    label: { table: { disable: true } },
+    errorText: { table: { disable: true } },
     value: { table: { disable: true } },
     open: { table: { disable: true } },
     countryCode: { table: { disable: true } },
