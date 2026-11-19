@@ -50,7 +50,20 @@ compensates CoreText, the visible result equals Android).
 `test/direct_*_test.dart` (with `direct_harness.dart`, `shot()`) pump a library widget
 without a configurator: fixed dates for Koledar, SIDatePickerIOS year / month views.
 `phone_open_test.dart` taps the catalog preview (open country list).
+`direct_search_test.dart`: expanded Iskalno polje in all three styles, also without a query.
 `node rect.mjs <storyId> "<args>" <selector>...` prints twin bounding boxes.
+
+## Figma export audit
+
+`design_data/figma_json_export.txt` holds the Figma `cssProps` per section. From the work dir:
+
+    python figaudit.py            # -> fig/sections.json (all 30 sections, normalised)
+    node figaudit.mjs [section]   # Figma values with no counterpart in the twin's computed styles
+
+The list is a triage aid, not a verdict: twins use margins / inset shadows / `<img>` icons where
+Figma has padding / gap / strokes / vectors, and the library deliberately differs from Figma in
+places (letter-spacing inherited from Material 3, disabled colours, no divider above Drsnik ...).
+Check each remaining value against the Flutter tokens; the Flutter render wins.
 
 ## Known artefacts of the test environment
 
@@ -66,5 +79,6 @@ without a configurator: fixed dates for Koledar, SIDatePickerIOS year / month vi
 - `imgdiff.py` crops are rounded to whole pixels; a uniform 0.5px shift of everything is
   the crop, the text-run numbers are authoritative.
 - Multi-line text: Flutter's boxes include the trailing space of wrapped lines (`dw -3…-4`).
-- Catalog image assets and photo avatars are not loaded.
+- Images: the harness precaches every `Image` in a real async gap, so the Avatar photo is drawn.
+  The Kartica media in the catalog is a flat #F5F5F5 placeholder (the twin shows the Figma sample image).
 - `ensureVisible` may scroll the page; the crop in `*.full.png` is then off, the JSON is right.

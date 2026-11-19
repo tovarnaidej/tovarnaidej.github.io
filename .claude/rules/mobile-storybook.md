@@ -41,6 +41,9 @@ paths:
   privzeto stanje + vsako kontrolo kataloga in primerjaj.
 - `components/design_data/figma_json_export.txt` (`cssProps` po sekcijah) in PNG služijo za postavitev
   "Vse različice" in za gradnike/stanja, ki jih katalog ne pokaže. Kjer se razlikujejo od izrisa, velja izris.
+- Pregled Figma izvoza: `python figaudit.py` + `node figaudit.mjs [sekcija]` (v `tools/flutter-reference/`) izpiše
+  Figma vrednosti brez ujemanja v dvojčku. Vsako preveri v Flutter tokenih: kjer se knjižnica namenoma
+  razlikuje od Figme, dvojčka ne spreminjaj.
 - Kar se iz kode ne vidi, a izris pokaže (ne ugibaj, izmeri):
   - `Text` brez `height` / `letterSpacing` podeduje Material 3 `bodyMedium` iz kataloga
     (višina 1.43, razmik 0.25) — npr. Koledar, oznake Prikaza korakov;

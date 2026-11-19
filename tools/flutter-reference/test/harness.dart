@@ -28,6 +28,13 @@ Future<void> screen(WidgetTester tester, String name, Widget screen, Finder Func
   ));
   Future<void> settle() async {
     await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 200)));
+    // Asset images decode on a real async gap: without this a photo stays empty in the test.
+    await tester.pump();
+    await tester.runAsync(() async {
+      for (final e in find.byType(Image).evaluate().toList()) {
+        await precacheImage((e.widget as Image).image, e, onError: (_, __) {});
+      }
+    });
     try {
       await tester.pumpAndSettle(const Duration(milliseconds: 50), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 3));
     } catch (_) {
