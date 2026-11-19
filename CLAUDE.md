@@ -23,5 +23,6 @@ Pri mobilnih gradnikih ima `mobile-storybook.md` prednost pred splošnim pravilo
 ## Opombe
 - Figma: uporabi Figma MCP (`get_design_context`, `get_screenshot`). Če ni povezan, to povej in ne ugibaj vrednosti.
 - Zgodovina Cursor chatov in planov je v `.ai-history/cursor/` (ni v gitu).
+- `tools/flutter-reference/` — izris Flutter kataloga in številčna primerjava z mobilnimi dvojčki (glej README).
 - `docs/mobile-rules-export/` — kopija pravil za mobilne projekte (ni pravilo tega projekta).
 - `node_modules/` je (zgodovinsko) v gitu — teh sprememb ne commitaj.

@@ -34,22 +34,41 @@ paths:
 - V `components` iz tega projekta ne spreminjaj ničesar (samo branje).
 
 ## Mere, poravnave, sence (obvezno preveri)
-- Mere: `components/design_data/figma_json_export.txt` (sekcija na gradnik, `cssProps` vsakega nodea) —
-  ne samo PNG "na oko". Primerjaj z izmerjenimi vrednostmi v brskalniku.
+- **Referenca je izris dejanskega Flutter kataloga**, ne branje kode ali PNG "na oko":
+  `tools/flutter-reference/` (README) z `flutter test` izriše zaslone `catalog_app` in zapiše za vsak
+  tekst x / osnovnico / širino / pisavo. `compare.mjs` jih primerja z dvojčkom (toleranca 0,6 px),
+  `imgdiff.py` in `inkbox.py` preverita ikone, robove in sence. Ob spremembi gradnika: izriši
+  privzeto stanje + vsako kontrolo kataloga in primerjaj.
+- `components/design_data/figma_json_export.txt` (`cssProps` po sekcijah) in PNG služijo za postavitev
+  "Vse različice" in za gradnike/stanja, ki jih katalog ne pokaže. Kjer se razlikujejo od izrisa, velja izris.
+- Kar se iz kode ne vidi, a izris pokaže (ne ugibaj, izmeri):
+  - `Text` brez `height` / `letterSpacing` podeduje Material 3 `bodyMedium` iz kataloga
+    (višina 1.43, razmik 0.25) — npr. Koledar, oznake Prikaza korakov;
+  - besedilo v `Text` / Material je `leadingDistribution: even` (= CSS). `TextField` vrednost/namig,
+    oznaka `InputDecorator` in `TextPainter` so **proporcionalni** → `translate: 0 var(--si-lead-regular|medium|bold)`;
+  - obroba je v Flutterju največkrat narisana znotraj mere (CSS padding = token − 1px), `Stack` zrahlja
+    omejitve (Harmonika: vrstica na vrhu glave), `ConstrainedBox(minHeight: tap target)` (48 / 44);
+  - katalog ob menjavi kontrole spremeni tudi druge vrednosti (Prikaz korakov 6/10/3, Zavihki 3→8) —
+    v storyju z `useArgs` iz `storybook/preview-api`.
 - Metrike pisave: `public/fonts/si-republika.css` z `ascent-override`/`descent-override` pripne
-  metrike na hhea (kot Flutter). Brez tega Chromium za Medium uporabi OS/2 win metrike (besedilo ~0,1em nižje).
+  metrike na hhea (kot naprave). Brez tega Chromium za Medium uporabi OS/2 win metrike (besedilo ~0,1em nižje).
+  Chromium zaokroži negativni half-leading navzdol (Bold 22/28, 13/17: +0,6 px `translate`).
 - Native tipografske korekcije prenesi vedno: `StrutStyle(forceStrutHeight)` → premik osnovnice
   (`--si-strut-medium-on-bold` 0.1428em, `--si-strut-medium-on-regular` 0.0781em), cap-centriranje
   (`.si-cap-centred`; `text-box-trim` deluje le pri Medium — Regular/Bold imata napačen sCapHeight,
   zato `--bold`/`--regular` različici s `transform`), `Transform.translate` / `*OffsetY` tokeni.
 - Sence: Flutter `blurRadius` R → CSS blur = 1.1547·R + 1 (sigma 0.577R+0.5 vs B/2). Izjema:
   `MaskFilter.blur(sigma)` → CSS blur = 2·sigma.
-- Storyji: na gradnik samo **Vse različice** (vse variante iz design_data) in **Privzeto** (kontrole kot katalog).
+- Storyji: na gradnik samo **Vse različice** (vse variante iz design_data) in **Privzeto** (kontrole kot katalog,
+  imena kontrol dobesedno; notranje props skrij). Privzeto ima širino predogleda kataloga
+  (`mobileWidth` 361, polna širina 393 za Razdelilnik / Drsnik).
+- Znane posebnosti izrisa: Zavihki (strut pade na sistemsko pisavo → v testu ~1 px višje, ne popravljaj),
+  veje `Platform.isIOS` se ne izrišejo.
 
 ## Struktura gradnika
 - `stories/MobileX.stories.js` — naslov `Gradniki - mobile/<Ime>`, `Variants` ("Vse različice",
   1:1 postavitev Figma doc framea s helperji iz `stories/mobile-showcase.jsx`),
-  `Default` ("Privzeto") + nekaj args storyjev. `parameters.design.url = figmaMobileUrl('3911:…')`.
+  `Default` ("Privzeto"). `parameters.design.url = figmaMobileUrl('3911:…')`.
 - `stories/X.jsx` + `stories/x.css` — React dvojček; točne vrednosti iz SOT (ne zaokroževati).
   Pisava Republika (`public/fonts/republika.css`). Gradniki z iOS/Android razliko imajo `platform` prop.
 - Asseti v `stories/assets/mobile/<widget>/`, kopirani iz `components/flutter/icons` ali
@@ -65,7 +84,7 @@ paths:
   `Variants` nastavi `mobileWidth: 0`.
 
 ## Preverjanje
-- `npm run storybook` (6006), posnetek `iframe.html?id=gradniki-mobile-<x>--variants` primerjaj
-  s PNG v `design_data` pri enaki širini; počakaj na pisave.
+- `npm run storybook` (6006); `Privzeto` + kontrole primerjaj s Flutter izrisom (`tools/flutter-reference`),
+  `iframe.html?id=gradniki-mobile-<x>--variants` s PNG v `design_data` pri enaki širini; počakaj na pisave.
 - Commit na gradnik: `Align Gradniki - mobile/<Ime> with components SOT` (ali `Add …` za nov gradnik).
-- Ne commitaj `node_modules/`, `debug-storybook.log`, `.sb-cache/`, `storybook-static/`.
+- Ne commitaj `node_modules/`, `debug-storybook.log`, `.sb-cache/`, `storybook-static/`, `.flutter-ref/`.
