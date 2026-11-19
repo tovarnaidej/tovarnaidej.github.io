@@ -62,9 +62,31 @@
   object-fit: cover;
 }
 
-/* Cap height centred (baseline → cap top), as _initialsPaintOffset */
+/* _initialsPaintOffset centres the cap height, taken as 0.73em (TokenAvatarV2.capHeightEm):
+   baseline = size / 2 + 0.365 * font-size = 29.8 / 39.67 / 66.06. Chromium snaps a line
+   that starts on a fraction of a pixel (text-box-trim centring put the letters 1px too
+   high at 45 and 60), so the line is pinned to the whole pixel instead:
+   top = round(baseline) - round(0.75 * font-size) = 30 - 15 / 40 - 20 / 66 - 33. */
 .si-avatar__initials {
   display: block;
-  text-box-trim: trim-both;
-  text-box-edge: cap alphabetic;
+  align-self: flex-start;
+  margin-top: var(--si-avatar-initials-top);
+  line-height: normal;
+}
+
+.si-avatar--s45 {
+  --si-avatar-initials-top: 15px;
+}
+
+.si-avatar--s60 {
+  --si-avatar-initials-top: 20px;
+}
+
+.si-avatar--s100 {
+  --si-avatar-initials-top: 33px;
+}
+
+/* the 1px border is inside the size */
+.si-avatar--outlined .si-avatar__initials {
+  margin-top: calc(var(--si-avatar-initials-top) - 1px);
 }
