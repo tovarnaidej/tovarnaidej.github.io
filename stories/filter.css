@@ -61,7 +61,8 @@
   padding: 0 16px;
   border: 1px solid var(--si-filter-accent);
   border-radius: 8px;
-  background: transparent;
+  /* outlined: TokenFilterV2.surface, not transparent (visible on the grey catalog canvas) */
+  background: var(--si-surface);
   color: var(--si-filter-accent);
   font: 500 15px/21px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
