@@ -31,6 +31,7 @@ const renderVariants = () =>
               key: `standard-${style}`,
               style,
               layout: 'standard',
+              sampleMedia: true,
             }),
           ),
         ),
@@ -42,6 +43,7 @@ const renderVariants = () =>
               key: `compact-${style}`,
               style,
               layout: 'compact',
+              sampleMedia: true,
             }),
           ),
         ),
@@ -108,6 +110,7 @@ export default {
       control: { type: 'boolean' },
       if: { arg: 'layout', eq: 'standard' },
     },
+    sampleMedia: { table: { disable: true } },
     className: { table: { disable: true } },
   },
 };

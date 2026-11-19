@@ -15,6 +15,7 @@ export const Card = ({
   showContent = true,
   showActions = true,
   platform = 'android',
+  sampleMedia = false,
   className = '',
 }) => {
   const isCompact = layout === 'compact';
@@ -40,7 +41,10 @@ export const Card = ({
             <div className="si-card__subtitle">Subhead</div>
           </div>
         </div>
-        {showMedia && (
+        {showMedia && !sampleMedia && (
+          <div className="si-card__media si-card__media--compact" />
+        )}
+        {showMedia && sampleMedia && (
           <img
             className="si-card__media si-card__media--compact"
             src={mediaCompact}
@@ -75,7 +79,8 @@ export const Card = ({
           </button>
         </header>
       )}
-      {showMedia && (
+      {showMedia && !sampleMedia && <div className="si-card__media" />}
+      {showMedia && sampleMedia && (
         <img
           className="si-card__media"
           src={mediaImage}
@@ -126,5 +131,7 @@ Card.propTypes = {
   showContent: PropTypes.bool,
   showActions: PropTypes.bool,
   platform: PropTypes.oneOf(['ios', 'android']),
+  /** Figma sample illustration instead of the catalog's plain placeholder (overview only). */
+  sampleMedia: PropTypes.bool,
   className: PropTypes.string,
 };
