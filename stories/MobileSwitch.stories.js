@@ -20,13 +20,18 @@ const renderColumn = (platform) =>
     ShowcaseStack,
     { gap: 20 },
     ...states.map((s) =>
-      React.createElement(Switch, {
-        key: `${platform}-${s.key}`,
-        platform,
-        value: s.value,
-        enabled: s.enabled,
-        showLabel: false,
-      }),
+      // Same 48 row on both platforms (tap target 44 on iOS, 48 on Android), so the
+      // tracks of the two columns sit on one line as in design_data.
+      React.createElement(
+        'div',
+        { key: `${platform}-${s.key}`, style: { display: 'flex', alignItems: 'center', height: 48 } },
+        React.createElement(Switch, {
+          platform,
+          value: s.value,
+          enabled: s.enabled,
+          showLabel: false,
+        }),
+      ),
     ),
   );
 
