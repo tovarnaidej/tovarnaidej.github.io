@@ -321,5 +321,8 @@
 }
 
 .si-status__secondary .si-status__btn-label {
-  transform: translateY(var(--si-strut-medium-on-bold));
+  /* relative + top, not translate: Chromium draws a text moved by a fraction of a pixel
+     with a transform up to 0.5px lower than the same offset in layout */
+  position: relative;
+  top: var(--si-strut-medium-on-bold);
 }
