@@ -87,9 +87,9 @@
   padding: 12px 16px;
 }
 
-/* Android compact: the 80 row sits inside the 1px stroke (82 high), so the content
-   starts 17 from the outer edge (measured on the Flutter render). */
-.si-card--compact.si-card--android .si-card__compact-body {
+/* Compact: the row sits inside the 1px stroke, so the content starts 17 from the
+   outer edge (measured on the Flutter render, both platforms). */
+.si-card--compact .si-card__compact-body {
   padding-left: 17px;
 }
 
