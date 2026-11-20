@@ -29,7 +29,7 @@ font, strut, leading distribution) and `test/out/<name>.full.png` (2x).
     python inkbox.py <name> x0 y0 x1 y1        # ink bounding box of icons etc. in both
     python refdump.py <name>                   # reference numbers
 
-## Full pass: three checks per case
+## Full pass: four checks per case
 
     cd .flutter-ref
     bash fullpass.sh map.txt full_map.txt       # default state of every widget
@@ -51,8 +51,26 @@ font, strut, leading distribution) and `test/out/<name>.full.png` (2x).
    differences, so a white fill against the light grey catalog canvas passes it (outlined
    Filter chip, outlined Iskalno polje) and is invisible on Storybook's own white page.
 
-A pass is clean when every case prints `ALL TEXT RUNS MATCH`, `INK OK` and `FLAT OK`
-(`grep -c` them in the output file). Helpers for a finding:
+4. `shapediff.py` - **icons, strokes, shapes**: what is neither a text run nor a flat fill.
+   Both renders are blurred by 1 CSS px and subtracted (text runs left out): a shape half a
+   pixel off passes, one pixel off does not. Self-test: `SHIFT=2 python shapediff.py <name>`
+   moves the twin by one CSS px and must report it. This is the check that sees an icon in the
+   wrong place (the search icon next to the avatar), a missing corner radius (the flag) or a
+   1.8px line drawn as 1px.
+
+`inkruns.py` drops ink that reaches the edge of a run's box: a white digit in a coloured badge on
+a white chip has its own colour all around the badge, and the whole box counted as ink (the
+Filter badge passed while the digit sat 1px too high).
+
+A pass is clean when every case prints `ALL TEXT RUNS MATCH`, `INK OK`, `FLAT OK` and `SHAPE OK`
+(`grep -c` them in the output file). Not comparable: `loading-bar__indeterminate-true` (the
+indicator loops, the two renders are different moments).
+
+Text on a filled shape (badge, selected day, avatar) is centred on the shape, not on the page:
+`python blob.py <name> <hexcolor> [text]` prints the shape's box and the gaps between the ink and
+its edges in both renders, `python painted.py <name>` does the same for every `SIAvatar`.
+
+Helpers for a finding:
 `python cropcmp.py out.png <name> x0 y0 x1 y1 [zoom]` (flutter | twin crop),
 `node inkprobe.mjs <storyId> "<args>" <rootSel> <textSel> <fracY> "<css>" ...` (where
 Chromium really draws a text for a set of css overrides).

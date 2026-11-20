@@ -19,6 +19,8 @@ for m in ['map.txt', 'manmap.txt', 'inputmap.txt', 'varmap.txt']:
             args = ';'.join(x for x in ['platform:ios', args] if x)
         if name == 'input' or (name.startswith('input__') and m == 'varmap.txt'):
             args = args.replace('labelPosition:floating', 'labelPosition:above')
+        if selector == '.si-calendar':
+            selector = '.si-cal-ios'  # SIDatePickerIOS is a separate twin (CalendarIOS.jsx)
         out.append('|'.join([name, story, selector, args]))
     open('ios/' + m, 'w', encoding='utf8', newline='\n').write('\n'.join(out) + '\n')
     print('ios/' + m, len(out))

@@ -22,13 +22,21 @@ W, H = int(min(a.width, b.width, VX)), int(min(a.height, b.height, VY))
 
 def bbox(im, box, c, bg):
     span = max(abs(c[k] - bg[k]) for k in range(3))
-    r = im.crop(box); px = r.load(); x0 = y0 = 10 ** 9; x1 = y1 = -1
-    for y in range(r.height):
-        for x in range(r.width):
-            q = px[x, y]
-            if max(abs(q[0] - c[0]), abs(q[1] - c[1]), abs(q[2] - c[2])) <= span * 0.45:
-                x0 = min(x0, x); x1 = max(x1, x + 1); y0 = min(y0, y); y1 = max(y1, y + 1)
-    return None if x1 < 0 else (x0 / 2, x1 / 2, y0 / 2, y1 / 2)
+    r = im.crop(box); px = r.load(); w, h = r.size
+    ink = set((x, y) for y in range(h) for x in range(w)
+              if max(abs(px[x, y][0] - c[0]), abs(px[x, y][1] - c[1]), abs(px[x, y][2] - c[2])) <= span * 0.45)
+    # What reaches the edge of the box is not the run: a white digit in a coloured badge on a white
+    # chip has its own colour all around the badge, and the box would count as ink from edge to edge.
+    todo = [q for q in ink if q[0] in (0, w - 1) or q[1] in (0, h - 1)]
+    if len(todo) > (w + h) / 2:
+        ink.difference_update(todo)
+        while todo:
+            x, y = todo.pop()
+            for q in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+                if q in ink: ink.discard(q); todo.append(q)
+    if not ink: return None
+    xs = [q[0] for q in ink]; ys = [q[1] for q in ink]
+    return (min(xs) / 2, (max(xs) + 1) / 2, min(ys) / 2, (max(ys) + 1) / 2)
 
 def inkbox(im, box):
     """colour-free: pixels that differ from the region's main colour by more than half the largest difference"""

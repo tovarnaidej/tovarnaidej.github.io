@@ -8,6 +8,7 @@ import 'package:catalog_app/screens/alert_configurator.dart';
 import 'package:catalog_app/screens/app_bar_configurator.dart';
 import 'package:catalog_app/screens/avatar_configurator.dart';
 import 'package:catalog_app/screens/button_configurator.dart';
+import 'package:catalog_app/screens/calendar_configurator.dart';
 import 'package:catalog_app/screens/calendar_input_configurator.dart';
 import 'package:catalog_app/screens/card_configurator.dart';
 import 'package:catalog_app/screens/checkbox_configurator.dart';
@@ -29,6 +30,7 @@ import 'harness.dart';
 
 Finder preview() => find.byKey(const Key('PREVIEW'));
 Finder Function() ty(Type t) => () => find.byType(t);
+Finder datePicker() => find.byWidgetPredicate((w) => w is SIDatePicker || w is SIDatePickerIOS);
 
 late WidgetTester T;
 Future<void> Function() enumTap(String label, String chip) => () async {
@@ -71,4 +73,13 @@ void main() {
   testWidgets('status__popup-offline', (t) async { T = t; await screen(t, 'status__popup-offline', const StatusScreenConfigurator(), ty(SIStatusScreen), act: () async { await enumTap('Scenarij','Ni interneta')(); await t.pumpAndSettle(const Duration(milliseconds: 50), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 2)).catchError((_) => 0); await enumTap('Prikaz','Pojavno okno')(); await t.pumpAndSettle(const Duration(milliseconds: 50), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 2)).catchError((_) => 0); final open = find.text('Odpri pojavno okno'); await t.ensureVisible(open.first); await t.pump(); await t.tap(open.first, warnIfMissed: false); await t.pumpAndSettle(const Duration(milliseconds: 50), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 2)).catchError((_) => 0); }, size: const Size(393, 852)); });
   // Pojavno okno: the catalog preview is a button that opens the dialog
   testWidgets('status__popup-unsupported', (t) async { T = t; await screen(t, 'status__popup-unsupported', const StatusScreenConfigurator(), ty(SIStatusScreen), act: () async { await enumTap('Scenarij','Nepodprto')(); await t.pumpAndSettle(const Duration(milliseconds: 50), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 2)).catchError((_) => 0); await enumTap('Prikaz','Pojavno okno')(); await t.pumpAndSettle(const Duration(milliseconds: 50), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 2)).catchError((_) => 0); final open = find.text('Odpri pojavno okno'); await t.ensureVisible(open.first); await t.pump(); await t.tap(open.first, warnIfMissed: false); await t.pumpAndSettle(const Duration(milliseconds: 50), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 2)).catchError((_) => 0); }, size: const Size(393, 852)); });
+  // Koledar: SIDatePicker on Android, SIDatePickerIOS in the iOS copy (today = selected day)
+  testWidgets('calendar', (t) async { T = t; await screen(t, 'calendar', const CalendarConfigurator(), datePicker, size: const Size(393, 852)); });
+  testWidgets('calendar__style-filled', (t) async { T = t; await screen(t, 'calendar__style-filled', const CalendarConfigurator(), datePicker, act: () async { await enumTap('Slog','Zapolnjeno')(); await t.pumpAndSettle(const Duration(milliseconds: 50), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 2)).catchError((_) => 0); }, size: const Size(393, 852)); });
+  testWidgets('calendar__style-elevated', (t) async { T = t; await screen(t, 'calendar__style-elevated', const CalendarConfigurator(), datePicker, act: () async { await enumTap('Slog','S senco')(); await t.pumpAndSettle(const Duration(milliseconds: 50), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 2)).catchError((_) => 0); }, size: const Size(393, 852)); });
+  // Kartica: compact without the outline (media 80 in a card of 82 on Android)
+  testWidgets('card__compact-elevated', (t) async { T = t; await screen(t, 'card__compact-elevated', const CardConfigurator(), ty(SICard), act: () async { await enumTap('Slog','S senco')(); await t.pumpAndSettle(const Duration(milliseconds: 50), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 2)).catchError((_) => 0); await enumTap('Postavitev','Kompaktna')(); await t.pumpAndSettle(const Duration(milliseconds: 50), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 2)).catchError((_) => 0); }, size: const Size(393, 852)); });
+  testWidgets('card__compact-filled', (t) async { T = t; await screen(t, 'card__compact-filled', const CardConfigurator(), ty(SICard), act: () async { await enumTap('Slog','Zapolnjeno')(); await t.pumpAndSettle(const Duration(milliseconds: 50), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 2)).catchError((_) => 0); await enumTap('Postavitev','Kompaktna')(); await t.pumpAndSettle(const Duration(milliseconds: 50), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 2)).catchError((_) => 0); }, size: const Size(393, 852)); });
+  // Koledar with another day selected (today keeps its ring): compare with initialDate:<yyyy-mm>-10
+  testWidgets('calendar__day-10', (t) async { T = t; await screen(t, 'calendar__day-10', const CalendarConfigurator(), datePicker, act: () async { await t.tap(find.descendant(of: datePicker(), matching: find.text('10')).first, warnIfMissed: false); await t.pumpAndSettle(const Duration(milliseconds: 50), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 2)).catchError((_) => 0); }, size: const Size(393, 852)); });
 }

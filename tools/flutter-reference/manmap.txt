@@ -22,3 +22,8 @@ alert__list-oneline|gradniki-mobile-opozorila--default|.si-list-item|mode:list;s
 status__popup|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status|presentation:popup
 status__popup-offline|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status|presentation:popup;scenario:offline
 status__popup-unsupported|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status|presentation:popup;scenario:unsupported
+calendar|gradniki-mobile-koledar--default|.si-calendar|platform:android
+calendar__style-filled|gradniki-mobile-koledar--default|.si-calendar|platform:android;style:filled
+calendar__style-elevated|gradniki-mobile-koledar--default|.si-calendar|platform:android;style:elevated
+card__compact-elevated|gradniki-mobile-kartica--default|.si-card|platform:android;style:elevated;layout:compact
+card__compact-filled|gradniki-mobile-kartica--default|.si-card|platform:android;style:filled;layout:compact
