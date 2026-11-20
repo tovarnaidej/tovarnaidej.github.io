@@ -179,12 +179,13 @@
 /* Day numbers are painted with a TextPainter: proportional leading. */
 .si-cal-ios__day-number {
   display: block;
-  translate: 0 var(--si-lead-regular);
+  position: relative;
+  top: var(--si-lead-regular);
 }
 
 .si-cal-ios__day--selected .si-cal-ios__day-number {
   /* + 0.64: Chromium rounds Bold 22/28's negative half-leading down */
-  translate: 0 calc(var(--si-lead-bold) + 0.64px);
+  top: calc(var(--si-lead-bold) + 0.64px);
 }
 
 .si-cal-ios__day--today {

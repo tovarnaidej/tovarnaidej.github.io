@@ -194,12 +194,18 @@
   color: var(--si-calendar-fg);
 }
 
-/* BoxShape.circle in the 40 × 41 cell: Ø 40, centred. */
+/* BoxShape.circle in the 40 × 41 cell: Ø 40, centred, so from 0.5 to 40.5. Chromium snaps a
+   box placed at 0.5px to the whole pixel (the circle came out at 1..41, 0.5 below the Flutter
+   one and off the digits); a transform is not snapped. */
 .si-calendar__day::before {
   content: '';
   position: absolute;
-  inset: 0.5px 0;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
+  transform: translateY(0.5px);
 }
 
 .si-calendar__day-number {
@@ -230,7 +236,12 @@
 }
 
 .si-calendar__day--selected .si-calendar__day-number {
+  /* Baseline of the row's regular numbers (_SameBaselineText): 1.09 above the centred line.
+     Chromium puts this line on whole pixels only (13.5 or 14.5 from the circle's top, Flutter
+     draws it at 14), so half of the shift is a transform, which is not snapped. */
+  display: inline-block;
   top: -1.5px;
+  transform: translateY(0.5px);
 }
 
 /* Year / month picker: rows of 53 (8 + 6 + 25 + 6 + 8), cells evenly spaced. */
