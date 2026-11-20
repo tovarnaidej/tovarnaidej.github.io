@@ -100,12 +100,15 @@
   text-box-edge: cap alphabetic;
 }
 
-/* Flutter: Medium 10 / 10 line box centred in the 16 circle (baseline 0.75em), measured
-   0.33px lower on the reference render — not cap-centred. */
+/* Flutter: 10 / 10 line box centred in the 16 circle and moved by badgeDigitOffsetY (1/3).
+   The strut names no font family, so the device lays the line out with the system font
+   (Roboto: ascent share 0.9277 / 1.1719 = 0.7917) and the baseline is at 7.92 instead of
+   Republika's 7.5: 0.42 lower. Rendered: digit 4.5 / 4.5 from the circle edges. */
 .si-filter__badge-count {
   display: block;
+  position: relative;
+  top: 0.75px;
   line-height: 10px;
-  translate: 0 0.33px;
 }
 
 /* filter / sort: icon + label sit in a group, badge is outside of it */
