@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import './loading-bar.css';
@@ -12,8 +12,6 @@ const CIRCULAR = {
   thick: { size: 44, stroke: 8 },
 };
 
-// Share of the circumference drawn while indeterminate.
-const INDETERMINATE_ARC = 0.3;
 // TokenLoadingBarV2.circularActiveTrackGap
 const CIRCULAR_GAP = 4;
 
@@ -32,7 +30,7 @@ const arcPath = (cx, cy, r, start, sweep) => {
  * with round caps and a visible gap of circularActiveTrackGap between them —
  * never a full grey ring under the active arc.
  */
-const CircularIndicator = ({ thickness, progress, indeterminate }) => {
+const CircularIndicator = ({ thickness, progress }) => {
   const { size, stroke } = CIRCULAR[thickness] || CIRCULAR.thin;
   const c = size / 2;
   const r = (size - stroke) / 2;
@@ -47,26 +45,17 @@ const CircularIndicator = ({ thickness, progress, indeterminate }) => {
     'aria-hidden': 'true',
   };
 
-  if (indeterminate || progress <= 0 || progress >= 1) {
-    const share = indeterminate ? INDETERMINATE_ARC : progress >= 1 ? 1 : 0;
-    const circumference = full * r;
+  // progress <= 0 / >= 1: one full ring (track / indicator colour), butt caps
+  if (progress <= 0 || progress >= 1) {
     return (
       <svg {...svgProps}>
-        {share < 1 && (
-          <circle className="si-loading-bar__circle-track" cx={c} cy={c} r={r} strokeWidth={stroke} />
-        )}
-        {share > 0 && (
-          <circle
-            className="si-loading-bar__circle-active"
-            cx={c}
-            cy={c}
-            r={r}
-            strokeWidth={stroke}
-            strokeLinecap={share < 1 ? 'round' : 'butt'}
-            strokeDasharray={`${circumference * share} ${circumference}`}
-            transform={`rotate(-90 ${c} ${c})`}
-          />
-        )}
+        <circle
+          className={progress >= 1 ? 'si-loading-bar__circle-active' : 'si-loading-bar__circle-track'}
+          cx={c}
+          cy={c}
+          r={r}
+          strokeWidth={stroke}
+        />
       </svg>
     );
   }
@@ -81,6 +70,15 @@ const CircularIndicator = ({ thickness, progress, indeterminate }) => {
   const activeSweep = Math.max(0.0001, progressAngle - 2 * capAngle);
   const trackStart = top + progressAngle + drawGap + capAngle;
   const trackSweep = full - progressAngle - 2 * drawGap - 2 * capAngle;
+
+  // the gaps have closed: full indicator ring
+  if (drawGap <= 0) {
+    return (
+      <svg {...svgProps}>
+        <circle className="si-loading-bar__circle-active" cx={c} cy={c} r={r} strokeWidth={stroke} />
+      </svg>
+    );
+  }
 
   return (
     <svg {...svgProps}>
@@ -105,7 +103,55 @@ const CircularIndicator = ({ thickness, progress, indeterminate }) => {
 CircularIndicator.propTypes = {
   thickness: PropTypes.oneOf(['thin', 'thick']),
   progress: PropTypes.number.isRequired,
-  indeterminate: PropTypes.bool,
+};
+
+// Curves.easeInOut = Cubic(0.42, 0, 0.58, 1)
+const easeInOut = (x) => {
+  let lo = 0;
+  let hi = 1;
+  for (let i = 0; i < 24; i += 1) {
+    const t = (lo + hi) / 2;
+    const bx = 3 * 0.42 * t * (1 - t) ** 2 + 3 * 0.58 * t ** 2 * (1 - t) + t ** 3;
+    if (bx < x) lo = t;
+    else hi = t;
+  }
+  const t = (lo + hi) / 2;
+  return 3 * t ** 2 * (1 - t) + t ** 3;
+};
+
+// TokenLoadingBarV2.animationDuration * 2 and loopCompleteHold
+const LOOP_MS = 1600;
+const LOOP_HOLD_MS = 350;
+
+/**
+ * value == null in SILoadingBar ("Animacija" in the catalog): the same determinate indicator
+ * fills 0 -> 1 (easeInOut, 1600 ms), holds 350 ms on the full indicator and restarts from 0.
+ * There is no separate sliding / spinning shape.
+ */
+const useLoopProgress = (active) => {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    if (!active) return undefined;
+    let raf = 0;
+    let timer = 0;
+    const loop = () => {
+      const start = performance.now();
+      const step = (now) => {
+        const t = Math.min(1, (now - start) / LOOP_MS);
+        setProgress(easeInOut(t));
+        if (t < 1) raf = requestAnimationFrame(step);
+        else timer = setTimeout(loop, LOOP_HOLD_MS);
+      };
+      raf = requestAnimationFrame(step);
+    };
+    setProgress(0);
+    loop();
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(timer);
+    };
+  }, [active]);
+  return progress;
 };
 
 export const LoadingBar = ({
@@ -115,7 +161,9 @@ export const LoadingBar = ({
   value = 0.5,
   className = '',
 }) => {
-  const progress = Math.min(1, Math.max(0, Number(value) || 0));
+  // The catalog keys the widget by its value, so a changed value shows at once (no tween).
+  const loop = useLoopProgress(indeterminate);
+  const progress = indeterminate ? loop : Math.min(1, Math.max(0, Number(value) || 0));
   const pct = Math.round(progress * 100);
   const classes = [
     'si-loading-bar',
@@ -137,35 +185,22 @@ export const LoadingBar = ({
   if (variant === 'circular') {
     return (
       <div className={classes} {...ariaProps}>
-        <CircularIndicator
-          thickness={thickness}
-          progress={progress}
-          indeterminate={indeterminate}
-        />
+        <CircularIndicator thickness={thickness} progress={progress} />
       </div>
     );
   }
 
-  if (indeterminate) {
-    return (
-      <div className={classes} {...ariaProps}>
-        <div className="si-loading-bar__track">
-          <div className="si-loading-bar__fill" />
-        </div>
-      </div>
-    );
-  }
-
-  // Determinate: active fill, then a 4px gap (linearActiveTrackGap), then the remaining track.
+  // _LinearLoadingPainter: 0 = whole track, 1 = whole bar in the indicator colour, otherwise
+  // the active fill, a 4px gap (linearActiveTrackGap) and the remaining track.
   return (
     <div className={classes} {...ariaProps}>
-      {pct > 0 && (
+      {progress > 0 && (
         <div
           className="si-loading-bar__fill"
           style={{ flexBasis: `${progress * 100}%` }}
         />
       )}
-      {pct < 100 && <div className="si-loading-bar__track" />}
+      {progress < 1 && <div className="si-loading-bar__track" />}
     </div>
   );
 };

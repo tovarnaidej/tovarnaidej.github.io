@@ -21,7 +21,7 @@
 
 .si-loading-bar__fill {
   flex: 0 0 auto;
-  min-width: 4px;
+  min-width: 0;
   height: 4px;
   border-radius: 2px;
   background: #3c7b94;
@@ -38,16 +38,6 @@
 /* TokenLoadingBarV2.linearActiveTrackGap = 4 (Figma spec sheet says 6; SOT wins) */
 .si-loading-bar__fill + .si-loading-bar__track {
   margin-left: 4px;
-}
-
-/* indeterminate: the active bar slides through the clipped track */
-.si-loading-bar--linear.si-loading-bar--indeterminate .si-loading-bar__track {
-  overflow: hidden;
-}
-
-.si-loading-bar--linear.si-loading-bar--indeterminate .si-loading-bar__fill {
-  width: 40%;
-  animation: si-loading-slide 1.4s ease-in-out infinite;
 }
 
 /* ---------- circular ---------- */
@@ -77,30 +67,4 @@
 
 .si-loading-bar__circle-active {
   stroke: #3c7b94;
-}
-
-.si-loading-bar--circular.si-loading-bar--indeterminate .si-loading-bar__svg {
-  animation: si-loading-spin 1s linear infinite;
-}
-
-@keyframes si-loading-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes si-loading-slide {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(250%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .si-loading-bar--linear.si-loading-bar--indeterminate .si-loading-bar__fill,
-  .si-loading-bar--circular.si-loading-bar--indeterminate .si-loading-bar__svg {
-    animation-duration: 4s;
-  }
 }
