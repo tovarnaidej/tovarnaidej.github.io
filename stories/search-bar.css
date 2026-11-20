@@ -83,6 +83,8 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: flex-end;
+  /* Row(spacing: 4): also between the search icon's box and the avatar's */
+  gap: 4px;
 }
 
 .si-search-bar__search-icon {
