@@ -5,7 +5,8 @@
  * Header: height 74 iOS / 70 Android (+3.33 bottom inset), padding 0 16,
  *   avatar 40, gap 16, title 17/25 bold, subtitle 15/21; more 48 box, 24 #49454F.
  * Actions: SIButton small (h40, 8/16, 15/21 bold), padding 12 16, bottom 24 iOS / 19.33 Android.
- * Compact: height 80 iOS / 82 Android, media 80.
+ * Compact: height 80 iOS / 82 Android, media 80 - centred, so on Android the card's own
+ *   colour shows 1px above and below the media (hidden by the stroke only when outlined).
  */
 .si-card {
   box-sizing: border-box;
@@ -87,10 +88,15 @@
   padding: 12px 16px;
 }
 
-/* Compact: the row sits inside the 1px stroke, so the content starts 17 from the
-   outer edge (measured on the Flutter render, both platforms). */
-.si-card--compact .si-card__compact-body {
+/* Compact keeps the stroke in the decoration (_getCardDecoration), so in the outlined card
+   the row sits inside the 1px stroke: content starts 17 from the outer edge and the media ends
+   1 before it. Filled / elevated have no stroke: 16 and flush. */
+.si-card--compact.si-card--outlined .si-card__compact-body {
   padding-left: 17px;
+}
+
+.si-card--compact.si-card--outlined .si-card__media--compact {
+  margin-right: 1px;
 }
 
 .si-card__avatar {
