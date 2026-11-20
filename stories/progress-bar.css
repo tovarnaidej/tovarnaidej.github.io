@@ -147,14 +147,17 @@
   height: 28px;
 }
 
+/* stepConnectorStroke 1.8: Chromium snaps a box 1.8 high to 1 pixel, Flutter anti-aliases it
+   (two full rows and two at 40%). A 2px box scaled to 0.9 is rasterised the same way. */
 .si-progress__connector {
   flex: 1 1 0;
-  height: 1.8px;
+  height: 2px;
   background: var(--si-progress-active);
+  transform: scaleY(0.9);
 }
 
 .si-progress__stepped--crowded .si-progress__connector {
-  height: 2px;
+  transform: none;
 }
 
 .si-progress__connector--upcoming {
