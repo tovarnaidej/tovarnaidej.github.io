@@ -64,6 +64,7 @@ export default {
     showResultAvatars: true,
     showClearButton: true,
     placeholder: 'Input search text',
+    supportingText: 'Supporting line text lorem ipsum dolor sit amet, consectetur',
   },
   argTypes: {
     platform: {
@@ -100,6 +101,8 @@ export default {
     showResultAvatars: { name: 'Avatarji rezultatov', control: { type: 'boolean' } },
     showClearButton: { name: 'Zapri', control: { type: 'boolean' } },
     placeholder: { name: 'Nadomestno besedilo' },
+    // the iOS catalog has it (Flutter / Android fix the text); only the shown results use it
+    supportingText: { name: 'Besedilo', if: { arg: 'resultsMode', eq: 'shown' } },
     query: { table: { disable: true } },
     className: { table: { disable: true } },
   },

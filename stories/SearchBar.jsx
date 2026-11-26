@@ -7,18 +7,17 @@ import closeIcon from './assets/mobile/search/close.svg';
 import './mobile-tokens.css';
 import './search-bar.css';
 
+const SUPPORTING = 'Supporting line text lorem ipsum dolor sit amet, consectetur';
+
 const RESULTS = [
   {
     title: 'List Item One',
-    supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur',
   },
   {
     title: 'List Item Two',
-    supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur',
   },
   {
     title: 'List Item Three',
-    supporting: 'Supporting line text lorem ipsum dolor sit amet, consectetur',
   },
 ];
 
@@ -29,6 +28,7 @@ export const SearchBar = ({
   showResultAvatars = true,
   showClearButton = true,
   placeholder = 'Input search text',
+  supportingText = SUPPORTING,
   query,
   platform = 'android',
   className = '',
@@ -129,7 +129,7 @@ export const SearchBar = ({
                       {item.title}
                     </span>
                     <span className="si-search-bar__result-support">
-                      {item.supporting}
+                      {supportingText}
                     </span>
                   </div>
                 </div>
@@ -170,6 +170,8 @@ SearchBar.propTypes = {
   /** "Zapri": the clear (x) button of the open field, and the catalog's demo text with it. */
   showClearButton: PropTypes.bool,
   placeholder: PropTypes.string,
+  /** Supporting line of every result (iOS catalog "Besedilo"). */
+  supportingText: PropTypes.string,
   /** Text the field starts with (default: "Input text" while results show and Zapri is on). */
   query: PropTypes.string,
   platform: PropTypes.oneOf(['ios', 'android']),
