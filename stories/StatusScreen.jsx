@@ -8,7 +8,7 @@ import closeIcon from './assets/mobile/status-screen/status-close.svg';
 import './mobile-tokens.css';
 import './status-screen.css';
 
-const SCENARIOS = {
+export const STATUS_SCENARIOS = {
   update: {
     tone: 'primary',
     icon: updateIcon,
@@ -55,16 +55,20 @@ export const StatusScreen = ({
   secondaryLabel,
   showClose = true,
   fullScreenTopInset = 40,
+  onPrimary,
+  onSecondary,
+  onClose,
   className = '',
 }) => {
-  const preset = SCENARIOS[scenario] || SCENARIOS.update;
+  const preset = STATUS_SCENARIOS[scenario] || STATUS_SCENARIOS.update;
+  // Texts as given (the catalog's fields start at the scenario copy); left out, the scenario's.
+  // A blank Meta or Sekundarni gumb is no line / no button (the catalog trims them to null).
   const resolved = {
-    title: title || preset.title,
-    description: description || preset.description,
-    // Empty Storybook args must fall back to scenario presets (Figma copy).
-    meta: meta || preset.meta,
-    primary: primaryLabel || preset.primary,
-    secondary: secondaryLabel || preset.secondary,
+    title: title ?? preset.title,
+    description: description ?? preset.description,
+    meta: (meta ?? preset.meta ?? '').trim(),
+    primary: primaryLabel ?? preset.primary,
+    secondary: (secondaryLabel ?? preset.secondary ?? '').trim(),
     tone: preset.tone,
     icon: preset.icon,
   };
@@ -105,11 +109,11 @@ export const StatusScreen = ({
         .filter(Boolean)
         .join(' ')}
     >
-      <button type="button" className="si-status__primary">
+      <button type="button" className="si-status__primary" onClick={onPrimary}>
         <span className="si-status__btn-label">{resolved.primary}</span>
       </button>
       {resolved.secondary ? (
-        <button type="button" className="si-status__secondary">
+        <button type="button" className="si-status__secondary" onClick={onSecondary}>
           <span className="si-status__btn-label">{resolved.secondary}</span>
         </button>
       ) : null}
@@ -138,7 +142,7 @@ export const StatusScreen = ({
         >
           <div className="si-status__popup-stack">
             {showClose ? (
-              <button type="button" className="si-status__close" aria-label="Zapri">
+              <button type="button" className="si-status__close" aria-label="Zapri" onClick={onClose}>
                 <span
                   className="si-status__close-icon"
                   style={{ '--si-icon': `url(${JSON.stringify(closeIcon)})` }}
@@ -187,5 +191,9 @@ StatusScreen.propTypes = {
   showClose: PropTypes.bool,
   /** Fullscreen top inset (library default 40; the catalog passes 0 under its app bar). */
   fullScreenTopInset: PropTypes.number,
+  onPrimary: PropTypes.func,
+  onSecondary: PropTypes.func,
+  /** Popup close button (the catalog's dialog closes on it and on both buttons). */
+  onClose: PropTypes.func,
   className: PropTypes.string,
 };

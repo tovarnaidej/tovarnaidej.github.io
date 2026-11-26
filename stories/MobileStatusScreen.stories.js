@@ -1,6 +1,8 @@
 import React from 'react';
+import { useArgs, useEffect, useRef } from 'storybook/preview-api';
 
-import { StatusScreen } from './StatusScreen';
+import { StatusScreen, STATUS_SCENARIOS } from './StatusScreen';
+import { Button } from './Button';
 import {
   MobileShowcase,
   ShowcasePanel,
@@ -99,6 +101,43 @@ const renderVariants = () =>
     ),
   );
 
+// status_screen_configurator.dart _applyScenarioDefaults: the five texts of a scenario.
+function scenarioTexts(scenario) {
+  const c = STATUS_SCENARIOS[scenario];
+  return {
+    title: c.title,
+    description: c.description,
+    meta: c.meta || '',
+    primaryLabel: c.primary,
+    secondaryLabel: c.secondary || '',
+  };
+}
+
+/* The catalog's popup preview: an "Odpri pojavno okno" button on its #F5F5F5 pane; the dialog
+   (barrier #000000CC, 16 / 24 from the screen edges) closes on the close button, both buttons
+   and a tap on the barrier. */
+const PopupPreview = ({ args }) => {
+  const [open, setOpen] = React.useState(false);
+  const close = () => setOpen(false);
+  return React.createElement(
+    'div',
+    { className: 'catalog-status-pane' },
+    React.createElement(Button, {
+      variant: 'outline',
+      label: 'Odpri pojavno okno',
+      className: 'catalog-status-open',
+      onClick: () => setOpen(true),
+    }),
+    open
+      ? React.createElement(
+          'div',
+          { className: 'catalog-dialog', onClick: (e) => { if (e.target === e.currentTarget) close(); } },
+          React.createElement(StatusScreen, { ...args, onPrimary: close, onSecondary: close, onClose: close }),
+        )
+      : null,
+  );
+};
+
 export default {
   title: 'Gradniki - mobile/Gradnik za prisilno posodobitev aplikacije',
   component: StatusScreen,
@@ -108,14 +147,11 @@ export default {
     platformCode: { component: 'status-screen' },
   },
   tags: ['autodocs'],
+  // The catalog's fields start at the scenario's copy (and Scenarij puts them back).
   args: {
     presentation: 'fullScreen',
     scenario: 'update',
-    title: '',
-    description: '',
-    meta: '',
-    primaryLabel: '',
-    secondaryLabel: '',
+    ...scenarioTexts('update'),
     showClose: true,
     // Catalog: the app bar replaces the Figma top inset.
     fullScreenTopInset: 0,
@@ -151,6 +187,9 @@ export default {
     primaryLabel: { name: 'Primarni gumb' },
     secondaryLabel: { name: 'Sekundarni gumb' },
     showClose: { table: { disable: true } },
+    onPrimary: { table: { disable: true } },
+    onSecondary: { table: { disable: true } },
+    onClose: { table: { disable: true } },
     className: { table: { disable: true } },
   },
 };
@@ -161,4 +200,20 @@ export const Variants = {
   parameters: { controls: { disable: true }, layout: 'fullscreen' },
 };
 
-export const Default = { name: 'Privzeto' };
+export const Default = {
+  name: 'Privzeto',
+  render: (args) => {
+    const [, updateArgs] = useArgs();
+    // Scenarij puts the five texts back to that scenario's copy (catalog onChanged).
+    const previous = useRef(args.scenario);
+    useEffect(() => {
+      if (previous.current !== args.scenario) {
+        previous.current = args.scenario;
+        updateArgs(scenarioTexts(args.scenario));
+      }
+    }, [args.scenario]);
+    return args.presentation === 'popup'
+      ? React.createElement(PopupPreview, { args })
+      : React.createElement(StatusScreen, args);
+  },
+};

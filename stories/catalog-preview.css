@@ -25,3 +25,32 @@
   font-size: 13px;
   line-height: 19px;
 }
+
+/* Gradnik za prisilno posodobitev, Pojavno okno: the catalog's pane (#F5F5F5) with the opener
+   centred, and the Material dialog over the whole screen (barrier 0xCC000000, insetPadding
+   16 / 24, faded in over 150 ms as showDialog does). */
+.catalog-status-pane {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+}
+
+.catalog-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: rgba(0, 0, 0, 0.8);
+  animation: catalog-dialog-in 150ms ease-out;
+}
+
+@keyframes catalog-dialog-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
