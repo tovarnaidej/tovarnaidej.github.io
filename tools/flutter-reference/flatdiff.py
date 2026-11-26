@@ -13,6 +13,8 @@ if not os.path.exists(d + n + '.full.png') or not os.path.exists(d + n + '.twin.
     print(n, 'FLAT no images'); sys.exit(0)
 a = Image.open(d + n + '.full.png').convert('RGB').crop((int((j['x'] - p) * 2), int((j['y'] - p) * 2), int((j['x'] + j['w'] + p) * 2), int((j['y'] + j['h'] + p) * 2)))
 b = Image.open(d + n + '.twin.png').convert('RGB')
+from carets import blank_carets
+blank_carets(j, a, b)  # focused fields: the caret is left out
 # only the widget itself: what surrounds it in the catalog is not part of the twin
 box = (p * 2, p * 2, min(a.width, b.width) - p * 2, min(a.height, b.height) - p * 2)
 a, b = a.crop(box), b.crop(box)

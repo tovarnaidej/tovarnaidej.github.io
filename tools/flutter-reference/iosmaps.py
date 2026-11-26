@@ -6,21 +6,21 @@ starts with the label above the field, so the default and the per-control cases 
 `test/ios_input_floating_test.dart` (run it after `input_test.dart`)."""
 import json, os
 at = json.load(open('argtypes.json', encoding='utf8'))
-for m in ['map.txt', 'manmap.txt', 'inputmap.txt', 'varmap.txt']:
+for m in ['map.txt', 'manmap.txt', 'inputmap.txt', 'varmap.txt', 'interactmap.txt']:
     if not os.path.exists(m):
         print('skipped', m); continue
     out = []
     for line in open(m, encoding='utf8').read().split('\n'):
         if not line.strip(): continue
-        name, story, selector, args = (line.split('|') + ['', ''])[:4]
+        name, story, selector, args, steps = (line.split('|') + ['', '', ''])[:5]
         if 'platform:android' in args:
             args = args.replace('platform:android', 'platform:ios')
         elif 'platform' in (at.get(story, {}).get('argTypes') or {}):
             args = ';'.join(x for x in ['platform:ios', args] if x)
-        if name == 'input' or (name.startswith('input__') and m == 'varmap.txt'):
+        if name == 'input' or (name.startswith('input__') and m in ('varmap.txt', 'interactmap.txt')):
             args = args.replace('labelPosition:floating', 'labelPosition:above')
         if selector == '.si-calendar':
             selector = '.si-cal-ios'  # SIDatePickerIOS is a separate twin (CalendarIOS.jsx)
-        out.append('|'.join([name, story, selector, args]))
+        out.append('|'.join([name, story, selector, args] + ([steps] if steps else [])))
     open('ios/' + m, 'w', encoding='utf8', newline='\n').write('\n'.join(out) + '\n')
     print('ios/' + m, len(out))

@@ -16,6 +16,8 @@ full = Image.open(d + n + '.full.png').convert('RGB')
 x0, y0 = int((j['x'] - p) * 2), int((j['y'] - p) * 2)
 a = full.crop((x0, y0, int((j['x'] + j['w'] + p) * 2), int((j['y'] + j['h'] + p) * 2)))
 b = Image.open(d + n + '.twin.png').convert('RGB')
+from carets import blank_carets
+blank_carets(j, a, b)  # focused fields: the caret is left out
 # the widget only (what surrounds it in the catalog is not in the twin), and only what is on screen
 W = int(min(a.width, b.width, full.width - x0)) - 4 * p; H = int(min(a.height, b.height, full.height - y0)) - 4 * p
 if W < 4 or H < 4:

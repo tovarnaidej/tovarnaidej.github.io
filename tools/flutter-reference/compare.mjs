@@ -9,9 +9,40 @@ const HERE = (process.env.FLUTTER_REF_WORK || 'D:/projekti_tovarna/mslovenija_we
 const [name, id, rootSel, args = '', click = ''] = process.argv.slice(2);
 const OUT = fs.existsSync(`${HERE}/cat/test/out/${name}.json`) ? `${HERE}/cat/test/out` : `${HERE}/sot_render/test/out`;
 const ref = JSON.parse(fs.readFileSync(`${OUT}/${name}.json`, 'utf8'));
-const b = await chromium.launch({ channel: 'msedge' });
+// Grayscale text anti-aliasing, as a phone draws it (Windows' LCD AA tints glyph edges and cores).
+const b = await chromium.launch({ channel: 'msedge', args: ['--disable-lcd-text'] });
 const p = await b.newPage({ viewport: { width: 1400, height: 1200 }, deviceScaleFactor: 2 });
-await p.goto(`http://localhost:6006/iframe.html?id=${id}&viewMode=story${args ? `&args=${args}` : ''}`, { waitUntil: 'networkidle' });
+// AFTER_MOUNT=1: load the story with its default args and set the case's args afterwards, the way
+// the Controls panel does (a twin that only seeds its state from a prop fails here, not on load).
+const afterMount = process.env.AFTER_MOUNT === '1' && args;
+await p.goto(`http://localhost:6006/iframe.html?id=${id}&viewMode=story${args && !afterMount ? `&args=${args}` : ''}`, { waitUntil: 'networkidle' });
+// Set args on the mounted story, typed by its argTypes (what a Controls panel change does).
+async function setArgs(argStr) {
+  await p.evaluate(async ([id, args]) => {
+    const pv = window.__STORYBOOK_PREVIEW__;
+    const story = await (pv.storyStoreValue || pv.storyStore).loadStory({ storyId: id });
+    const updatedArgs = {};
+    for (const pair of args.split(';').filter(Boolean)) {
+      const i = pair.indexOf(':');
+      const k = pair.slice(0, i), raw = decodeURIComponent(pair.slice(i + 1));
+      const t = story.argTypes[k] || {};
+      const ctl = typeof t.control === 'object' ? t.control?.type : t.control;
+      let v = raw;
+      if (raw === '!true' || raw === '!false') v = raw === '!true';
+      else if (raw === '!null') v = null;
+      else if (raw === '!undefined') v = undefined;
+      else if (t.type?.name === 'number' || ctl === 'number' || ctl === 'range' || (t.options && t.options.includes(Number(raw)) && !t.options.includes(raw))) v = Number(raw);
+      updatedArgs[k] = v;
+    }
+    await pv.onUpdateArgs({ storyId: id, updatedArgs });
+  }, [id, argStr]);
+  await p.waitForTimeout(500);
+}
+if (afterMount) {
+  await p.evaluate(() => document.fonts.ready);
+  await p.waitForTimeout(300);
+  await setArgs(args);
+}
 let bg = '#ffffff';
 try {
   const { PNG } = require('pngjs');
@@ -21,10 +52,47 @@ try {
   const i = (png.width * Math.min(py, png.height - 1) + Math.min(px, png.width - 1)) << 2;
   bg = `rgb(${png.data[i]},${png.data[i + 1]},${png.data[i + 2]})`;
 } catch (e) { console.log('bg sample failed', e.message); }
-await p.addStyleTag({ content: `#storybook-root{margin:48px !important} html,body{background:${bg} !important}` });
+// the caret is left out of the checks (blinking; 2px in Flutter, 1px here): carets.py
+await p.addStyleTag({ content: `#storybook-root{margin:48px !important} html,body{background:${bg} !important} input,textarea{caret-color:transparent !important}` });
 await p.evaluate(() => document.fonts.ready);
 await p.waitForTimeout(300);
-if (click) { await p.click(click); await p.waitForTimeout(400); }
+// click: a selector (one click), or steps separated by ' ;; ' that mirror a man_test.dart case:
+//   click:<sel>[@fx,fy]   press:<sel>[@fx,fy] (button held down while measuring)
+//   type:<sel>=<text> (key by key)   key:<Key>   drag:<sel>@fx,fy>fx2,fy2   wait:<ms>
+//   scroll:<sel> (into view, as tester.ensureVisible)   args:<k:v;k2:v2> (a control changed)
+//   keys:<text> (typed into the focused field, key by key)
+// (fx, fy: fraction of the element's box; the middle when left out)
+async function runSteps(steps) {
+  const at = async (spec) => {
+    const [sel, frac] = spec.split('@');
+    const el = await p.waitForSelector(sel, { timeout: 10000 });
+    const r = await el.boundingBox();
+    const [fx, fy] = frac ? frac.split(',').map(Number) : [0.5, 0.5];
+    return { x: r.x + r.width * fx, y: r.y + r.height * fy, r };
+  };
+  for (const step of (/^(click|press|type|keys|key|drag|wait|scroll|args):/.test(steps) ? steps.split(' ;; ') : [`click:${steps}`])) {
+    const i = step.indexOf(':');
+    const kind = step.slice(0, i), rest = step.slice(i + 1);
+    if (kind === 'click') { const q = await at(rest); await p.mouse.click(q.x, q.y); }
+    else if (kind === 'press') { const q = await at(rest); await p.mouse.move(q.x, q.y); await p.mouse.down(); }
+    else if (kind === 'type') { const [sel, ...t] = rest.split('='); await p.click(sel); await p.locator(sel).pressSequentially(t.join('='), { delay: 20 }); }
+    else if (kind === 'key') await p.keyboard.press(rest);
+    else if (kind === 'keys') await p.keyboard.type(rest, { delay: 20 }); // into the focused field
+    else if (kind === 'drag') {
+      const [sel, frac] = rest.split('@');
+      const [a, z] = frac.split('>');
+      const q = await at(`${sel}@${a}`);
+      const [fx2, fy2] = z.split(',').map(Number);
+      await p.mouse.move(q.x, q.y); await p.mouse.down();
+      await p.mouse.move(q.r.x + q.r.width * fx2, q.r.y + q.r.height * fy2, { steps: 12 });
+      await p.mouse.up();
+    } else if (kind === 'wait') await p.waitForTimeout(Number(rest));
+    else if (kind === 'scroll') await p.$eval(rest, (e) => e.scrollIntoView({ block: 'nearest', inline: 'start' }));
+    else if (kind === 'args') await setArgs(rest);
+    await p.waitForTimeout(kind === 'wait' ? 0 : 400);
+  }
+}
+if (click) await runSteps(click);
 const el = await p.$(rootSel);
 if (!el) { console.log('ROOT NOT FOUND', rootSel); await b.close(); process.exit(1); }
 // Put the twin on the same pixel fraction as the Flutter widget (a centred story lands on
@@ -32,10 +100,16 @@ if (!el) { console.log('ROOT NOT FOUND', rootSel); await b.close(); process.exit
 await el.evaluate((root, [rx, ry]) => {
   const r = root.getBoundingClientRect();
   const frac = (v) => v - Math.floor(v);
-  document.getElementById('storybook-root').style.translate = `${frac(rx) - frac(r.x)}px ${frac(ry) - frac(r.y)}px`;
+  const shift = `${frac(rx) - frac(r.x)}px ${frac(ry) - frac(r.y)}px`;
+  // A widget in a fixed layer (a dialog) moves itself: a transform on #storybook-root would make
+  // the root the containing block of the fixed layer and move the dialog with it.
+  let fixed = false;
+  for (let a = root; a; a = a.parentElement) if (getComputedStyle(a).position === 'fixed') fixed = true;
+  (fixed ? root : document.getElementById('storybook-root')).style.translate = shift;
 }, [ref.x ?? 0, ref.y ?? 0]);
 const twin = await el.evaluate((root) => {
   const ASC = { 400: 0.916016, 500: 0.75, 700: 1.108887 };
+  const ROBOTO = 0.927734; // the catalog's own texts (hhea 1900 / 2048)
   const rr = root.getBoundingClientRect();
   const out = [];
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
@@ -61,13 +135,13 @@ const twin = await el.evaluate((root) => {
     const left = Math.min(...rects.map((r) => r.left));
     const right = Math.max(...rects.map((r) => r.right));
     out.push({
-      text, x: left - rr.left, w: right - left, baseline: top + Math.round(ASC[w] * size) - rr.top,
+      text, x: left - rr.left, w: right - left, baseline: top + Math.round((cs.fontFamily.includes('Roboto') ? ROBOTO : ASC[w]) * size) - rr.top,
       size, weight: w, lh: cs.lineHeight, ls: cs.letterSpacing, color: cs.color,
       // a fallback glyph (ellipsis) has its own rect top on the same line: lines are > 0.6em apart
       // shortened by CSS text-overflow: the range still spans the whole string
       clipped: cs.textOverflow === 'ellipsis' && e.scrollWidth > e.clientWidth + 1,
       cx: (left + right) / 2 - rr.left, cy: (top + Math.max(...rects.map((r) => r.bottom))) / 2 - rr.top,
-      lines: rects.map((r) => r.top).sort((a, b) => a - b).filter((t, i, a) => i === 0 || t - a[i - 1] > size * 0.6).length, si: cs.fontFamily.includes('SI Republika'),
+      lines: rects.map((r) => r.top).sort((a, b) => a - b).filter((t, i, a) => i === 0 || t - a[i - 1] > size * 0.6).length, si: cs.fontFamily.includes('SI Republika'), font: cs.fontFamily,
     });
   }
   return { w: rr.width, h: rr.height, texts: out };
@@ -102,7 +176,7 @@ for (const r of ref.texts) {
   used.add(best);
   const t = twin.texts[best];
   const dx = t.x - r.x, db = t.baseline - r.baseline, dw = t.w - r.w;
-  const styleDiff = [t.size !== r.size ? `size ${t.size}≠${r.size}` : '', r.weight && t.weight !== (r.weight >= 600 ? 700 : r.weight >= 500 ? 500 : 400) ? `weight ${t.weight}≠${r.weight}` : '', t.si ? '' : '!font', (r.lines ?? 1) !== t.lines ? `lines ${t.lines}≠${r.lines}` : ''].filter(Boolean).join(' ');
+  const styleDiff = [t.size !== r.size ? `size ${t.size}≠${r.size}` : '', r.weight && t.weight !== (r.weight >= 600 ? 700 : r.weight >= 500 ? 500 : 400) ? `weight ${t.weight}≠${r.weight}` : '', (r.family && !/Republika/.test(r.family) ? !/Roboto/.test(t.font || '') : !t.si) ? '!font' : '', (r.lines ?? 1) !== t.lines ? `lines ${t.lines}≠${r.lines}` : ''].filter(Boolean).join(' ');
   const flag = Math.abs(dx) > 0.6 || Math.abs(db) > 0.6 || (!t.clipped && Math.abs(dw) > 0.8) || styleDiff;
   if (flag) bad++;
   if (flag || process.env.ALL) console.log(`${flag ? '<<<' : '   '} dx ${f(dx)} dbl ${f(db)} dw ${f(dw)}  ${String(r.weight).padEnd(4)}${r.size}/${r.lh ? (r.lh * r.size).toFixed(0) : '-'} ls ${r.ls ?? '-'} | twin lh ${t.lh} ls ${t.ls}  "${rt.slice(0, 28)}" ${styleDiff}`);

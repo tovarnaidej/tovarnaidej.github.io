@@ -3,7 +3,10 @@ Rendered-pixel check of every text run of a reference (run after compare.mjs, wh
 <name>.twin.png): the ink bounding box of each run's colour inside the run's box, in the Flutter
 render and in the twin. compare.mjs checks layout numbers; this catches what layout does not
 show (Chromium snapping a line that starts on a fraction of a pixel, text-box-trim rounding).
-Images are 2x, so edges are quantised to 0.5px: a run is flagged from 1px."""
+Images are 2x, so edges are quantised to 0.5px: a run is flagged from 1px.
+Also the colour of each run's ink core (the pixels farthest from the background, i.e. fully
+covered): a wrong colour or a missing / extra opacity (iOS pressed 0.7, disabled 0.38) shows
+there and nowhere else - layout, ink box, flat fills and shapes all leave text colour alone."""
 import sys, os, json
 from collections import Counter
 from PIL import Image
@@ -18,6 +21,8 @@ full = Image.open(d + n + '.full.png').convert('RGB')
 VX = min((j['x'] + j['w'] + p) * 2, full.width) - int((j['x'] - p) * 2); VY = min((j['y'] + j['h'] + p) * 2, full.height) - int((j['y'] - p) * 2)
 a = full.crop((int((j['x'] - p) * 2), int((j['y'] - p) * 2), int((j['x'] + j['w'] + p) * 2), int((j['y'] + j['h'] + p) * 2)))
 b = Image.open(d + n + '.twin.png').convert('RGB')
+from carets import blank_carets
+blank_carets(j, a, b)  # focused fields: the caret is left out
 W, H = int(min(a.width, b.width, VX)), int(min(a.height, b.height, VY))
 
 def bbox(im, box, c, bg):
@@ -25,10 +30,11 @@ def bbox(im, box, c, bg):
     r = im.crop(box); px = r.load(); w, h = r.size
     ink = set((x, y) for y in range(h) for x in range(w)
               if max(abs(px[x, y][0] - c[0]), abs(px[x, y][1] - c[1]), abs(px[x, y][2] - c[2])) <= span * 0.45)
-    # What reaches the edge of the box is not the run: a white digit in a coloured badge on a white
-    # chip has its own colour all around the badge, and the box would count as ink from edge to edge.
+    # What reaches the edge of the box is not the run (the box has a 2px margin around the line): a
+    # white digit in a coloured badge on a white chip has its own colour all around the badge, and
+    # a teal number in a white circle on a teal calendar has it in the box corners.
     todo = [q for q in ink if q[0] in (0, w - 1) or q[1] in (0, h - 1)]
-    if len(todo) > (w + h) / 2:
+    if todo:
         ink.difference_update(todo)
         while todo:
             x, y = todo.pop()
@@ -45,6 +51,15 @@ def inkbox(im, box):
     if top < 40: return None
     xs = [i % r.width for i, v in enumerate(dist) if v > top * 0.55]; ys = [i // r.width for i, v in enumerate(dist) if v > top * 0.55]
     return (min(xs) / 2, (max(xs) + 1) / 2, min(ys) / 2, (max(ys) + 1) / 2)
+
+def core(im, box, bg):
+    """mean colour of the ink core: pixels at least 85% as far from the background as the farthest"""
+    data = list(im.crop(box).getdata())
+    dist = [max(abs(q[k] - bg[k]) for k in range(3)) for q in data]
+    top = max(dist) if dist else 0
+    if top < 40: return None
+    sel = [q for q, v in zip(data, dist) if v >= top * 0.85]
+    return tuple(sum(q[k] for q in sel) / len(sel) for k in range(3))
 
 bad = 0; checked = 0
 for t in j['texts']:
@@ -80,8 +95,16 @@ for t in j['texts']:
     if ra is None or rb is None:
         bad += 1; print('  INK <<< "%s" ink only in %s' % (text[:28], 'twin' if ra is None else 'ref')); continue
     dl = [rb[k] - ra[k] for k in range(4)]
+    # A run that reaches past the widget is cut by its clip: that edge is the clip's, and the
+    # half-covered glyph there anti-aliases differently in the two renderers (scrolled tabs).
+    if t['x'] + t['w'] > j['w'] + 0.5: dl[1] = 0
+    if t['x'] < -0.5: dl[0] = 0
     flag = max(abs(v) for v in dl) >= 1.0
-    if flag: bad += 1
+    ca, cb = core(a, box, bg), core(b, box, bg)
+    cflag = ca is not None and cb is not None and max(abs(ca[k] - cb[k]) for k in range(3)) > 48  # subpixel AA tints a black core up to ~#1f
+    if flag or cflag: bad += 1
     if flag or verbose:
         print('  INK %s "%s" left %+.1f right %+.1f top %+.1f bottom %+.1f' % ('<<<' if flag else '   ', text[:28], dl[0], dl[1], dl[2], dl[3]))
+    if cflag or (verbose and ca and cb):
+        print('  INK %s "%s" colour ref #%02x%02x%02x twin #%02x%02x%02x' % (('<<<' if cflag else '   ', text[:28]) + tuple(int(v) for v in ca) + tuple(int(v) for v in cb)))
 print(n, 'INK OK (%d runs)' % checked if not bad else 'INK DIFF %d of %d runs' % (bad, checked))

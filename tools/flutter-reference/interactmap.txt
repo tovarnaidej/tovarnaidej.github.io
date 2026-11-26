@@ -1,0 +1,44 @@
+checkbox__tap|gradniki-mobile-izbira-potrditveno-polje--default|.si-checkbox|platform:android|click:.si-checkbox
+checkbox__tap-twice|gradniki-mobile-izbira-potrditveno-polje--default|.si-checkbox|platform:android|click:.si-checkbox ;; click:.si-checkbox
+checkbox__press|gradniki-mobile-izbira-potrditveno-polje--default|.si-checkbox|platform:android|press:.si-checkbox
+switch__tap|gradniki-mobile-izbira-preklopnik--default|.si-switch|platform:android|click:.si-switch
+switch__press|gradniki-mobile-izbira-preklopnik--default|.si-switch|platform:android|press:.si-switch
+switch__disabled-tap|gradniki-mobile-izbira-preklopnik--default|.si-switch|platform:android;enabled:!false|click:.si-switch
+radio__tap-2|gradniki-mobile-izbira-izbirni-gumb--default|.si-radio-group|platform:android|click:.si-radio-group .si-radio:nth-child(2)
+radio__press-3|gradniki-mobile-izbira-izbirni-gumb--default|.si-radio-group|platform:android|press:.si-radio-group .si-radio:nth-child(3)
+range-bar__tap-25|gradniki-mobile-drsnik--default|.si-range-bar||click:.si-range-bar@0.29453,0.5
+range-bar__tap-snap|gradniki-mobile-drsnik--default|.si-range-bar||click:.si-range-bar@0.9,0.5
+range-bar__drag|gradniki-mobile-drsnik--default|.si-range-bar||drag:.si-range-bar@0.5,0.5>0.8,0.5
+range-bar__noticks-drag|gradniki-mobile-drsnik--default|.si-range-bar|showTicks:!false|drag:.si-range-bar@0.5,0.5>0.3,0.5
+tabs__preview|gradniki-mobile-zavihki--default|.catalog-preview||
+tabs__tap-2|gradniki-mobile-zavihki--default|.catalog-preview||click:.si-tabs__tab:nth-child(2)
+tabs__scrollable-tap-5|gradniki-mobile-zavihki--default|.catalog-preview|configuration:scrollable;tabCount:8|scroll:.si-tabs__tab:nth-child(5) ;; click:.si-tabs__tab:nth-child(5) ;; wait:300
+tabs__scrollable-tap-8|gradniki-mobile-zavihki--default|.catalog-preview|configuration:scrollable;tabCount:8|scroll:.si-tabs__tab:nth-child(8) ;; click:.si-tabs__tab:nth-child(8) ;; wait:300
+tabs__select-8-then-3|gradniki-mobile-zavihki--default|.catalog-preview|tabCount:8|click:.si-tabs__tab:nth-child(8) ;; args:tabCount:3
+tabs__select-8-3-8|gradniki-mobile-zavihki--default|.catalog-preview|tabCount:8|click:.si-tabs__tab:nth-child(8) ;; args:tabCount:3 ;; args:tabCount:8
+button__press-Zapolnjeno|gradniki-mobile-gumb--default|.storybook-button|platform:android|press:.storybook-button
+button__press-Obrobljeno|gradniki-mobile-gumb--default|.storybook-button|platform:android;variant:outline|press:.storybook-button
+button__press-Besedilo|gradniki-mobile-gumb--default|.storybook-button|platform:android;variant:text|press:.storybook-button
+button__press-S senco|gradniki-mobile-gumb--default|.storybook-button|platform:android;variant:elevated|press:.storybook-button
+button__icon-only|gradniki-mobile-gumb--default|.storybook-button|platform:android;leadingIcon:!true;label:|
+avatar__initials-abc|gradniki-mobile-avatar--default|.si-avatar||args:initials:abc
+action__message-lines|gradniki-mobile-obvestila--default|.si-action|maxLines:unlimited|args:message:Prva%20vrstica%0ADruga%20vrstica
+card__compact-noheader|gradniki-mobile-kartica--default|.si-card|platform:android;layout:compact;showHeader:!false|
+card__compact-noheader-nomedia|gradniki-mobile-kartica--default|.si-card|platform:android;layout:compact;showHeader:!false;showMedia:!false|
+accordion__open|gradniki-mobile-harmonika--default|.si-accordion||click:.si-accordion__header ;; wait:300
+accordion__open-close|gradniki-mobile-harmonika--default|.si-accordion||click:.si-accordion__header ;; wait:300 ;; click:.si-accordion__header ;; wait:300
+accordion__open-filled|gradniki-mobile-harmonika--default|.si-accordion|style:filled|click:.si-accordion__header ;; wait:300
+accordion__open-then-style|gradniki-mobile-harmonika--default|.si-accordion||click:.si-accordion__header ;; wait:300 ;; args:style:outlined
+input__focused|gradniki-mobile-vnosno-polje--default|.si-input|platform:android;labelPosition:floating|click:.si-input__editor
+input__typed|gradniki-mobile-vnosno-polje--default|.si-input|platform:android;labelPosition:floating|click:.si-input__editor ;; key:Control+A ;; key:Delete ;; keys:Novo besedilo
+input__typed-then-error|gradniki-mobile-vnosno-polje--default|.si-input|platform:android;labelPosition:floating|click:.si-input__editor ;; key:Control+A ;; key:Delete ;; keys:Novo besedilo ;; args:hasError:!true
+input__cleared-focused|gradniki-mobile-vnosno-polje--default|.si-input|platform:android;labelPosition:floating|click:.si-input__editor ;; key:Control+A ;; key:Delete
+progress__vertical-notext|gradniki-mobile-prikaz-korakov--default|.si-progress|variant:stepped;orientation:vertical;totalSteps:10;currentStep:6;showText:!false|
+progress__vertical-total-3|gradniki-mobile-prikaz-korakov--default|.si-progress|variant:stepped;orientation:vertical;totalSteps:10;currentStep:6|args:totalSteps:2
+filter__bar-tap-2|gradniki-mobile-filter--default|.si-filter-bar|previewAsBar:!true|click:.si-filter-bar .si-filter:nth-child(2)
+filter__bar-tap-1-2|gradniki-mobile-filter--default|.si-filter-bar|previewAsBar:!true|click:.si-filter-bar .si-filter:nth-child(2) ;; click:.si-filter-bar .si-filter:nth-child(1)
+filter__bar-kept|gradniki-mobile-filter--default|.si-filter-bar|previewAsBar:!true|click:.si-filter-bar .si-filter:nth-child(3) ;; args:previewAsBar:!false ;; args:previewAsBar:!true
+status__meta-empty|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status||args:meta:
+status__secondary-empty|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status||args:secondaryLabel:
+status__title-changed|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status||args:title:Nov%20naslov
+status__popup-closed|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.catalog-status-open|presentation:popup|click:.catalog-status-open ;; click:.si-status__primary

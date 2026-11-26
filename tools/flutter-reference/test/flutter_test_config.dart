@@ -21,7 +21,9 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   // inherit it with their package prefix) - and (b) for a font
   // family that does not resolve: TokenTabsV2.labelStrut ends up with a doubled package prefix.
   // Without this the test would use the 0.75/0.25 test font there.
-  for (final family in ['Roboto', 'packages/si_component_library/Roboto', 'packages/si_component_library/packages/si_component_library/Republika']) {
+  // The catalog's own texts use the theme font: Roboto on Android, the system font on iOS
+  // (CupertinoSystemText / Display in Typography). No SF Pro in a test: Roboto for both, as the twin.
+  for (final family in ['Roboto', 'packages/si_component_library/Roboto', 'packages/si_component_library/packages/si_component_library/Republika', 'CupertinoSystemText', 'CupertinoSystemDisplay']) {
     final roboto = FontLoader(family);
     for (final file in ['Roboto-Regular.ttf', 'Roboto-Medium.ttf', 'Roboto-Bold.ttf']) {
       roboto.addFont(Future.value(font(file)));

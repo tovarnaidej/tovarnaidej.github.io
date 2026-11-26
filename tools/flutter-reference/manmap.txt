@@ -19,9 +19,9 @@ status__offline|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--defa
 status__unsupported|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status|scenario:unsupported
 status__full|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status|
 alert__list-oneline|gradniki-mobile-opozorila--default|.si-list-item|mode:list;supportingLines:1
-status__popup|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status|presentation:popup
-status__popup-offline|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status|presentation:popup;scenario:offline
-status__popup-unsupported|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status|presentation:popup;scenario:unsupported
+status__popup|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status|presentation:popup|click:.catalog-status-open
+status__popup-offline|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status|presentation:popup;scenario:offline|click:.catalog-status-open
+status__popup-unsupported|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status|presentation:popup;scenario:unsupported|click:.catalog-status-open
 calendar|gradniki-mobile-koledar--default|.si-calendar|platform:android
 calendar__style-filled|gradniki-mobile-koledar--default|.si-calendar|platform:android;style:filled
 calendar__style-elevated|gradniki-mobile-koledar--default|.si-calendar|platform:android;style:elevated

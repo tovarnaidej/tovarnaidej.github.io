@@ -62,6 +62,9 @@ Future<void> screen(WidgetTester tester, String name, Widget screen, Finder Func
   final rect = tester.getRect(f.first);
   final origin = rect.topLeft;
   final texts = <Map<String, Object?>>[];
+  // Carets of focused fields: blinking, and 2px in Flutter vs 1px in a browser - the checks leave
+  // them out (compare.mjs hides the twin's caret).
+  final carets = <Map<String, double>>[];
   void visit(RenderObject o) {
     if (o is RenderAnimatedOpacity && o.opacity.value == 0) return;
     if (o is RenderOpacity && o.opacity == 0) return;
@@ -85,8 +88,12 @@ Future<void> screen(WidgetTester tester, String name, Widget screen, Finder Func
         'size': s?.fontSize, 'weight': s?.fontWeight?.value, 'lh': s?.height, 'ls': s?.letterSpacing,
         'color': s?.color?.toARGB32().toRadixString(16),
         'strut': o.strutStyle == null ? null : '${o.strutStyle!.fontFamily} w${o.strutStyle!.fontWeight?.value} force=${o.strutStyle!.forceStrutHeight}',
-        'dist': s?.leadingDistribution?.name, 'fallback': s?.fontFamilyFallback,
+        'dist': s?.leadingDistribution?.name, 'fallback': s?.fontFamilyFallback, 'family': s?.fontFamily,
       });
+    }
+    if (o is RenderEditable && o.hasSize && o.hasFocus && o.selection != null && o.selection!.isCollapsed) {
+      final c = o.getLocalRectForCaret(o.selection!.extent).shift(o.localToGlobal(Offset.zero) - origin);
+      carets.add({'x': c.left - 1, 'y': c.top, 'w': c.width + 4, 'h': c.height});
     }
     if (o is RenderEditable && o.hasSize) {
       final p = o.localToGlobal(Offset.zero) - origin;
@@ -108,11 +115,14 @@ Future<void> screen(WidgetTester tester, String name, Widget screen, Finder Func
     final box = e.renderObject;
     if (a.type == SIAvatarType.photo || (a.initials ?? '').isEmpty || box is! RenderBox) continue;
     final p = box.localToGlobal(Offset.zero) - origin;
-    texts.add({'text': a.initials, 'x': p.dx, 'y': p.dy, 'w': box.size.width, 'h': box.size.height, 'painted': true});
+    // what SIAvatar draws: at most 2 letters (1 at 30 and below), upper case
+    final max = box.size.width <= 30 ? 1 : 2;
+    final shown = a.initials!.substring(0, a.initials!.length < max ? a.initials!.length : max).toUpperCase();
+    texts.add({'text': shown, 'x': p.dx, 'y': p.dy, 'w': box.size.width, 'h': box.size.height, 'painted': true});
   }
   Directory('test/out').createSync(recursive: true);
   File('test/out/$name.json').writeAsStringSync(const JsonEncoder.withIndent(' ').convert({
-    'w': rect.width, 'h': rect.height, 'pad': kPad, 'x': rect.left, 'y': rect.top, 'texts': texts,
+    'w': rect.width, 'h': rect.height, 'pad': kPad, 'x': rect.left, 'y': rect.top, 'texts': texts, 'carets': carets,
   }));
   final boundary = tester.renderObject<RenderRepaintBoundary>(find.byKey(key));
   await tester.runAsync(() async {
