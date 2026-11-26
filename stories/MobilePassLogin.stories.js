@@ -27,7 +27,12 @@ export default {
     platformCode: { component: 'pass-login' },
   },
   tags: ['autodocs'],
+  // The catalog has no controls for SI-PASS (a fixed card): no controls here either.
   argTypes: {
+    title: { table: { disable: true } },
+    description: { table: { disable: true } },
+    loginLabel: { table: { disable: true } },
+    readMoreLabel: { table: { disable: true } },
     className: { table: { disable: true } },
   },
 };
@@ -40,4 +45,13 @@ export const Variants = {
 
 export const Default = {
   name: 'Privzeto',
+  parameters: {
+    // the catalog's text in place of controls (pass_login_preview.dart)
+    docs: {
+      description: {
+        story:
+          'Fiksna kartica Prijava SI-PASS — brez dodatnih kontrol. “Preberite več” še nima definirane destinacije.',
+      },
+    },
+  },
 };
