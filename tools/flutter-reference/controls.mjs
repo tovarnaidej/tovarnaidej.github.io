@@ -26,8 +26,7 @@ story.calendar = { id: 'gradniki-mobile-koledar--default', sel: '.si-calendar, .
 // Storybook has these, the catalog does not (the device decides there).
 const OWN = new Set(['Platforma']);
 // Fields of the iOS catalog app that the Flutter (and Android) catalog fixes: Storybook has the
-// fields of all three apps. Shown only where they change something (Besedilo napake while Napaka
-// is on, the results' Besedilo while results are shown).
+// fields of all three apps, shown as in the app that has them (iOS: always).
 const IOS_FIELDS = {
   input: ['Besedilo', 'Besedilo napake'],
   'phone-input': ['Besedilo napake'],

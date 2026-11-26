@@ -51,6 +51,10 @@ const BY_DESIGN = [
   ['gradniki-mobile-iskalno-polje', 'Avatarji rezultatov', null, 'kot v katalogih: vpliva, ko so rezultati prikazani'],
   ['gradniki-mobile-iskalno-polje', 'Zapri', null, 'kot v katalogih: gumb x in vzorčno besedilo, ko so rezultati prikazani'],
   ['gradniki-mobile-obvestila', 'Največje št. vrstic', null, 'privzeto sporočilo je v eni vrstici'],
+  // the iOS catalog's fields, always shown as there
+  ['gradniki-mobile-vnosno-polje--', 'Besedilo napake', null, 'kot v iOS appu: besedilo se pokaže ob vklopljeni Napaki'],
+  ['gradniki-mobile-vnosno-polje-za-telefonsko', 'Besedilo napake', null, 'kot v iOS appu: besedilo se pokaže ob vklopljeni Napaki'],
+  ['gradniki-mobile-iskalno-polje', 'Besedilo', null, 'kot v iOS appu: podvrstica rezultatov, ko so prikazani'],
 ];
 // Changes after which the preview moves on its own: two renders are two moments, not comparable.
 const MOVING = [['gradniki-mobile-kazalnik-napredka', 'Animacija']];
