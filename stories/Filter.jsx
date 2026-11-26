@@ -7,6 +7,7 @@ import filterIcon from './assets/mobile/filter/filter.svg';
 import sortIcon from './assets/mobile/filter/sort.svg';
 import './mobile-tokens.css';
 import './filter.css';
+import { useControlled } from './use-controlled';
 
 // Catalog labels (filter_configurator.dart)
 const DEFAULT_LABELS = {
@@ -17,6 +18,7 @@ const DEFAULT_LABELS = {
 };
 
 const BAR_CHIP_COUNT = 9;
+const FIRST_CHIP = [0];
 
 const joinClasses = (...names) => names.filter(Boolean).join(' ');
 
@@ -43,6 +45,7 @@ const Chip = ({
   showDismiss = false,
   enabled = true,
   inBar = false,
+  onPress,
 }) => {
   const classes = joinClasses(
     'si-filter',
@@ -53,7 +56,7 @@ const Chip = ({
   );
 
   return (
-    <button type="button" className={classes} disabled={!enabled}>
+    <button type="button" className={classes} disabled={!enabled} onClick={onPress}>
       {type === 'category' && leadingIcon && <Icon src={filterDiamond} />}
       {type === 'filters' && (
         <span className="si-filter__group">
@@ -89,6 +92,7 @@ Chip.propTypes = {
   showDismiss: PropTypes.bool,
   enabled: PropTypes.bool,
   inBar: PropTypes.bool,
+  onPress: PropTypes.func,
 };
 
 export const Filter = ({
@@ -101,9 +105,20 @@ export const Filter = ({
   leadingIcon = false,
   showBadge = false,
   showDismiss = false,
+  barSelected = FIRST_CHIP,
+  onBarChange,
   className = '',
 }) => {
+  // The bar's selection outlives a switch to a single chip and back (catalog _selectedIndices).
+  const [selected, setSelected] = useControlled(barSelected, onBarChange);
   if (previewAsBar) {
+    // Catalog: chips "Oznaka", the first one selected; a tap toggles a chip (several can be on).
+    const on = new Set(selected);
+    const toggle = (index) => {
+      const next = new Set(on);
+      if (next.has(index)) next.delete(index); else next.add(index);
+      setSelected([...next].sort((a, b) => a - b));
+    };
     return (
       <div
         className={joinClasses(
@@ -116,10 +131,10 @@ export const Filter = ({
           <Chip
             key={index}
             type="category"
-            // Catalog: first chip selected (filled), labels "Oznaka".
-            style={index === 0 ? 'filled' : 'outlined'}
+            style={on.has(index) ? 'filled' : 'outlined'}
             label="Oznaka"
             inBar
+            onPress={() => toggle(index)}
           />
         ))}
       </div>
@@ -159,5 +174,9 @@ Filter.propTypes = {
   leadingIcon: PropTypes.bool,
   showBadge: PropTypes.bool,
   showDismiss: PropTypes.bool,
+  /** Selected bar chips (indices). */
+  barSelected: PropTypes.arrayOf(PropTypes.number),
+  /** A bar chip was tapped: the new selection. */
+  onBarChange: PropTypes.func,
   className: PropTypes.string,
 };

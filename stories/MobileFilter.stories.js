@@ -1,4 +1,5 @@
 import React from 'react';
+import { useArgs, useEffect } from 'storybook/preview-api';
 
 import { Filter } from './Filter';
 import {
@@ -130,6 +131,9 @@ export default {
     },
   },
   tags: ['autodocs'],
+  // Visibility as in the catalog: Predogled kot vrstica only for Kategorija; in bar mode only
+  // Postavitev; otherwise Vrsta, Stanje (Kategorija) or Slog, and the chip's own switch. Privzeto
+  // keeps `chip` (bar or the type) and `styleShown`, since an `if` takes one condition.
   args: {
     previewAsBar: false,
     layout: 'singleRowScrollable',
@@ -140,11 +144,15 @@ export default {
     leadingIcon: false,
     showBadge: false,
     showDismiss: false,
+    barSelected: [0],
+    chip: 'category',
+    styleShown: false,
   },
   argTypes: {
     previewAsBar: {
       name: 'Predogled kot vrstica',
       control: { type: 'boolean' },
+      if: { arg: 'type', eq: 'category' },
     },
     layout: {
       name: 'Postavitev',
@@ -183,7 +191,7 @@ export default {
         },
       },
       options: categoryStates,
-      if: { arg: 'type', eq: 'category' },
+      if: { arg: 'chip', eq: 'category' },
     },
     style: {
       name: 'Slog',
@@ -195,27 +203,29 @@ export default {
         },
       },
       options: styles,
-      if: { arg: 'type', neq: 'category' },
+      if: { arg: 'styleShown' },
     },
-    label: {
-      name: 'Oznaka',
-      if: { arg: 'previewAsBar', eq: false },
-    },
+    // the catalog's chip label is fixed per type
+    label: { table: { disable: true } },
     leadingIcon: {
       name: 'Vodilna ikona',
       control: { type: 'boolean' },
-      if: { arg: 'type', eq: 'category' },
+      if: { arg: 'chip', eq: 'category' },
     },
     showBadge: {
       name: 'Značka',
       control: { type: 'boolean' },
-      if: { arg: 'type', eq: 'filters' },
+      if: { arg: 'chip', eq: 'filters' },
     },
     showDismiss: {
       name: 'Zapri',
       control: { type: 'boolean' },
-      if: { arg: 'type', eq: 'applied' },
+      if: { arg: 'chip', eq: 'applied' },
     },
+    barSelected: { table: { disable: true } },
+    onBarChange: { table: { disable: true } },
+    chip: { type: { name: 'string' }, table: { disable: true } },
+    styleShown: { type: { name: 'boolean' }, table: { disable: true } },
     className: { table: { disable: true } },
   },
 };
@@ -228,4 +238,13 @@ export const Variants = {
 
 export const Default = {
   name: 'Privzeto',
+  render: (args) => {
+    const [, updateArgs] = useArgs();
+    const chip = args.previewAsBar ? 'bar' : args.type;
+    const styleShown = !args.previewAsBar && args.type !== 'category';
+    useEffect(() => {
+      if (args.chip !== chip || args.styleShown !== styleShown) updateArgs({ chip, styleShown });
+    }, [chip, styleShown]);
+    return React.createElement(Filter, { ...args, onBarChange: (barSelected) => updateArgs({ barSelected }) });
+  },
 };

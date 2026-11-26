@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
+// Same value: arrays (Filter's selected bar chips) compare by content, so a new array with the
+// same items is not a change (Storybook hands args over as new objects).
+const same = (a, b) =>
+  Object.is(a, b) ||
+  (Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((v, i) => Object.is(v, b[i])));
+
 /**
  * State that a widget and a control share, as in the catalog (one `_checked` drives both the
  * preview and the "Označeno" switch):
@@ -17,17 +23,17 @@ export function useControlled(value, onChange) {
   const [state, setState] = useState(value);
   const [seen, setSeen] = useState(value);
   const sent = useRef([]);
-  const echo = sent.current.some((v) => Object.is(v, value));
-  if (!Object.is(seen, value)) {
+  const echo = sent.current.some((v) => same(v, value));
+  if (!same(seen, value)) {
     // React's "adjust state when a prop changes": during render, no frame with the old value.
     setSeen(value);
     if (!echo) setState(value);
   }
   useEffect(() => {
-    const i = sent.current.findIndex((v) => Object.is(v, value));
+    const i = sent.current.findIndex((v) => same(v, value));
     sent.current = i >= 0 ? sent.current.slice(i + 1) : [];
   }, [value]);
-  const current = Object.is(seen, value) || echo ? state : value;
+  const current = same(seen, value) || echo ? state : value;
   const set = (next) => {
     const v = typeof next === 'function' ? next(current) : next;
     setState(v);
