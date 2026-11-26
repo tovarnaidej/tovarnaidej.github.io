@@ -210,10 +210,12 @@ export default {
     actionLabel: {
       name: 'Besedilo akcije',
       description: 'Besedilo neobvezne akcije.',
+      if: { arg: 'showAction' },
     },
     actionHref: {
       name: 'Povezava akcije',
-      description: 'Če je podana, se akcija upodobi kot povezava.',
+      description: 'Če je podana, se akcija upodobi kot povezava (cilj povezave, videz ostane enak).',
+      if: { arg: 'showAction' },
     },
     dismissible: {
       name: 'Zapiranje',

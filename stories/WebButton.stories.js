@@ -272,9 +272,13 @@ export default {
   },
 };
 
+// The showcases below draw a fixed set of buttons: controls there would do nothing.
 export const Variants = {
   name: 'Vse različice',
   render: renderVariants,
+  parameters: {
+    controls: { disable: true },
+  },
 };
 
 export const Primary = {
@@ -298,15 +302,20 @@ export const Text = {
 
 export const Sizes = {
   name: 'Velikosti',
-  render: () => React.createElement(
+  // all three sizes side by side; the other controls apply to each of them
+  render: (args) => React.createElement(
     'div',
     { className: 'web-button-showcase' },
     ...sizes.map((size) => React.createElement(WebButton, {
+      ...args,
       key: size,
       size,
       style: { marginRight: 20 },
     })),
   ),
+  argTypes: {
+    size: { table: { disable: true } },
+  },
 };
 
 export const Disabled = {
@@ -318,6 +327,7 @@ export const LinkActionCategory = {
   name: 'Povezava - akcija',
   render: renderLinkVariants,
   parameters: {
+    controls: { disable: true },
     design: {
       type: 'figma',
       url: 'https://www.figma.com/design/Ph5kySZOVPpzP6565W17LV/mSlovenija---Design-System--UI-kit-?node-id=3598-5861',
@@ -329,6 +339,7 @@ export const DownloadCategory = {
   name: 'Prenos',
   render: renderDownloadVariants,
   parameters: {
+    controls: { disable: true },
     design: {
       type: 'figma',
       url: 'https://www.figma.com/design/Ph5kySZOVPpzP6565W17LV/mSlovenija---Design-System--UI-kit-?node-id=3598-5935',

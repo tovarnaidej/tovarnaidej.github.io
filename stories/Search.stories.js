@@ -281,7 +281,7 @@ const CompleteCss = () => {
   );
 };
 
-export default {
+const meta = {
   title: 'Gradniki/Search - Iskalnik',
   component: Search,
   parameters: {
@@ -321,7 +321,9 @@ export default {
     label: 'Iskanje',
     defaultValue: '',
     showSuggestions: false,
+    activeSuggestion: 0,
     resultsState: 'none',
+    resultCount: 12,
     onSubmit: fn(),
     onChange: fn(),
     onSuggestionSelect: fn(),
@@ -360,19 +362,52 @@ export default {
         type: 'select',
         labels: stateNames,
       },
-      options: [...states, 'results'],
+      options: states,
     },
     placeholder: {
       name: 'Nadomestno besedilo',
       description: 'Besedilo, prikazano ko je polje prazno.',
+      // a field with a value does not show it
+      if: { arg: 'defaultValue', truthy: false },
     },
     defaultValue: {
       name: 'Vrednost',
       description: 'Začetna vrednost iskalnega polja.',
     },
+    value: {
+      name: 'Nadzorovana vrednost',
+      description: 'Vrednost, ki jo upravlja aplikacija (skupaj z onChange). V Storybooku uporabite Vrednost.',
+      control: false,
+    },
     actionLabel: {
       name: 'Besedilo akcije',
-      description: 'Oznaka gumba za iskanje.',
+      description: 'Oznaka gumba za iskanje. Pri Compact in Embedded kompaktni je gumb ikona in besedilo njeno dostopno ime (ni vidno).',
+    },
+    suggestions: {
+      name: 'Seznam predlogov',
+      description: 'Predlogi v spustnem seznamu.',
+      if: { arg: 'showSuggestions' },
+    },
+    activeSuggestion: {
+      name: 'Aktivni predlog',
+      description: 'Označeni predlog v spustnem seznamu.',
+      control: {
+        type: 'select',
+        labels: { 0: '1. Digitalno potrdilo', 1: '2. Digitalna identiteta', 2: '3. Pridobitev potrdila SIGEN-CA' },
+      },
+      options: [0, 1, 2],
+      if: { arg: 'showSuggestions' },
+    },
+    results: {
+      name: 'Seznam rezultatov',
+      description: 'Zadetki v panelu rezultatov.',
+      if: { arg: 'resultsState', eq: 'results' },
+    },
+    resultCount: {
+      name: 'Število zadetkov',
+      description: 'Število zadetkov nad seznamom rezultatov.',
+      control: { type: 'number', min: 0 },
+      if: { arg: 'resultsState', eq: 'results' },
     },
     label: {
       name: 'Oznaka',
@@ -414,6 +449,8 @@ export default {
   },
 };
 
+export default meta;
+
 export const DocsOverview = {
   name: 'Dokumentacija - pregled',
   render: () => React.createElement(Documentation),
@@ -433,10 +470,12 @@ export const Variants = {
 };
 
 export const Universal = {
-  name:'Universal',
-  args:{
-    variant:'universal',
-    state:"filled"
+  name: 'Universal',
+  // filled with a real value (the same look as the forced "Izpolnjeno" state), so Vrednost and
+  // Nadomestno besedilo mean what they say
+  args: {
+    variant: 'universal',
+    defaultValue: filledValue,
   },
 };
 
@@ -447,12 +486,17 @@ export const Compact = {
   },
 };
 
+// Figma has no "Results" state for Embedded action (a story's own argType takes its name from the
+// arg key unless it repeats the whole definition)
+const embeddedStates = { state: { ...meta.argTypes.state, options: statesForVariant('embedded') } };
+
 export const EmbeddedLarge = {
   name: 'Embedded - velik',
   args: {
     variant: 'embedded',
     size: 'large',
   },
+  argTypes: embeddedStates,
 };
 
 export const EmbeddedCompact = {
@@ -461,6 +505,7 @@ export const EmbeddedCompact = {
     variant: 'embedded',
     size: 'compact',
   },
+  argTypes: embeddedStates,
 };
 
 export const Suggestions = {
