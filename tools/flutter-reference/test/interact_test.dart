@@ -13,6 +13,7 @@ import 'package:catalog_app/screens/card_configurator.dart';
 import 'package:catalog_app/screens/checkbox_configurator.dart';
 import 'package:catalog_app/screens/filter_configurator.dart';
 import 'package:catalog_app/screens/input_configurator.dart';
+import 'package:catalog_app/screens/phone_input_configurator.dart';
 import 'package:catalog_app/screens/progress_bar_configurator.dart';
 import 'package:catalog_app/screens/radio_configurator.dart';
 import 'package:catalog_app/screens/range_bar_configurator.dart';
@@ -158,4 +159,13 @@ void main() {
   testWidgets('search-bar__back', (t) async { T = t; await screen(t, 'search-bar__back', const SearchBarConfigurator(), preview, act: () async { await enumTap('Rezultati', 'Prikazano'); await tapHere(iconButtons().first); }); });
   testWidgets('search-bar__back-then-avatar', (t) async { T = t; await screen(t, 'search-bar__back-then-avatar', const SearchBarConfigurator(), preview, act: () async { await enumTap('Rezultati', 'Prikazano'); await tapHere(iconButtons().first); await T.pumpAndSettle(); await boolTap('Avatar'); }); });
   testWidgets('search-bar__shown-noclear', (t) async { T = t; await screen(t, 'search-bar__shown-noclear', const SearchBarConfigurator(), preview, act: () async { await enumTap('Rezultati', 'Prikazano'); await boolTap('Zapri'); }); });
+  // Vnosno polje za telefonsko številko: picker search, a picked country, the typed number
+  Future<void> openPicker() async { final r = T.getRect(inPreview(find.byType(SIPhoneInput))); await T.tapAt(r.topLeft + const Offset(40, 28)); await T.pumpAndSettle(); }
+  Finder search() => find.descendant(of: find.byWidgetPredicate((w) => w is SIPrefixSearchPanel), matching: find.byType(EditableText));
+  Finder number() => find.descendant(of: find.byType(SIPhoneAmountValueField), matching: find.byType(EditableText));
+  testWidgets('phone__search-hr', (t) async { T = t; await screen(t, 'phone__search-hr', const PhoneInputConfigurator(), ty(SIPhoneInput), act: () async { await openPicker(); await click(search()); await T.enterText(search(), 'hr'); await T.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 600))); await T.pump(); await T.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 600))); await T.pump(); }); });
+  testWidgets('phone__search-none', (t) async { T = t; await screen(t, 'phone__search-none', const PhoneInputConfigurator(), ty(SIPhoneInput), act: () async { await openPicker(); await click(search()); await T.enterText(search(), 'xyz'); }); });
+  testWidgets('phone__picked-al', (t) async { T = t; await screen(t, 'phone__picked-al', const PhoneInputConfigurator(), ty(SIPhoneInput), act: () async { await openPicker(); await T.tap(find.text('Albanija (+355)')); }); });
+  testWidgets('phone__typed', (t) async { T = t; await screen(t, 'phone__typed', const PhoneInputConfigurator(), ty(SIPhoneInput), act: () async { await click(number()); await T.enterText(number(), '41321654'); }); });
+  testWidgets('phone__typed-then-error', (t) async { T = t; await screen(t, 'phone__typed-then-error', const PhoneInputConfigurator(), ty(SIPhoneInput), act: () async { await click(number()); await T.enterText(number(), '41321654'); FocusManager.instance.primaryFocus?.unfocus(); await T.pumpAndSettle(); await boolTap('Napaka'); }); });
 }

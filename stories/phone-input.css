@@ -82,7 +82,8 @@
 .si-phone-input__value-row {
   display: flex;
   align-items: center;
-  gap: 15.69px;
+  /* phonePrefixValueGap (the phone field; 15.69 is the amount field's prefixValueGap) */
+  gap: 18.36px;
   margin-top: 3px;
   min-height: 25px;
 }
@@ -150,9 +151,12 @@
   display: block;
   width: 24px;
   height: 24px;
-  /* 24 icon centred in the 48 host (pickerSearchIconBox) */
+  /* 24 icon centred in the 48 host (pickerSearchIconBox), in pickerBorder (primary) */
   margin: 12px;
   flex-shrink: 0;
+  background: #3c7b94;
+  -webkit-mask: var(--si-icon) center / 24px 24px no-repeat;
+  mask: var(--si-icon) center / 24px 24px no-repeat;
 }
 
 .si-phone-input__search-placeholder {
@@ -206,16 +210,76 @@
   width: calc(100% + 76px);
 }
 
+/* 24 x 24 host; SIFlag pickerListFlagWidth 23.52 (24 x 0.98) x pickerListFlagHeight 15.81
+   (24 x (1 - 0.1707 - 0.1706)), BoxFit.fitWidth, centred */
 .si-phone-input__list-flag {
-  display: block;
-  width: 24px;
-  height: 16px;
-  object-fit: cover;
+  display: flex;
+  align-items: center;
+  width: 23.52px;
+  height: 15.81px;
+  margin: 4.095px 0.24px;
+  overflow: hidden;
   flex-shrink: 0;
   border-radius: 2px;
+}
+
+.si-phone-input__list-flag img {
+  display: block;
+  width: 100%;
+  height: auto;
+  flex: none;
 }
 
 /* Privzeto: fills the catalog preview width (withMobileWidth). */
 .mobile-showcase__width > .si-phone-input {
   width: 100%;
+}
+
+/* Typed texts (number, search): the face span draws the glyphs at the Flutter position, a
+   transparent input over it takes the typing, the caret (cursorColor primary) and the focus. */
+.si-phone-input__number-host,
+.si-phone-input__search-host {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  align-self: stretch;
+  min-width: 0;
+  cursor: text;
+}
+
+.si-phone-input__typed {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: transparent;
+  caret-color: #3c7b94;
+  font: 400 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
+}
+
+.si-phone-input__search-host .si-phone-input__typed {
+  font: 400 16px/24px 'SI Republika', 'Republika', Arial, sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.si-phone-input__number {
+  white-space: pre;
+}
+
+/* _buildList without matches: Center(Text(prefixSearch.noResults)) in the theme's bodyMedium */
+.si-phone-input__no-results {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  font: 400 14px/20px 'Catalog Roboto', Roboto, Arial, sans-serif;
+  letter-spacing: 0.25px;
+  color: #171c1f;
 }

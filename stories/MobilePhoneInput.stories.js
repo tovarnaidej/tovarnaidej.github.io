@@ -1,4 +1,5 @@
 import React from 'react';
+import { useArgs } from 'storybook/preview-api';
 
 import { PhoneInput } from './PhoneInput';
 import {
@@ -51,7 +52,7 @@ export default {
   args: {
     enabled: true,
     hasError: false,
-    countryCode: 'si',
+    countryCode: 'SI',
     value: '',
     open: false,
   },
@@ -63,6 +64,7 @@ export default {
     value: { table: { disable: true } },
     open: { table: { disable: true } },
     countryCode: { table: { disable: true } },
+    onCountryChange: { table: { disable: true } },
     className: { table: { disable: true } },
   },
 };
@@ -74,4 +76,17 @@ export const Variants = {
 };
 
 /* Catalog preview fills the pane (393 wide phone). */
-export const Default = { name: 'Privzeto', parameters: { mobileWidth: 361 } };
+export const Default = {
+  name: 'Privzeto',
+  parameters: { mobileWidth: 361 },
+  // The catalog keeps the picked country and keys the field by Omogočeno, Napaka and the
+  // country: a change builds a new field (picker closed, typed number gone).
+  render: (args) => {
+    const [, updateArgs] = useArgs();
+    return React.createElement(PhoneInput, {
+      ...args,
+      key: `${args.enabled}${args.hasError}${args.countryCode}`,
+      onCountryChange: (countryCode) => updateArgs({ countryCode }),
+    });
+  },
+};

@@ -47,3 +47,8 @@ search-bar__cleared|gradniki-mobile-iskalno-polje--default|.si-search-bar|platfo
 search-bar__back|gradniki-mobile-iskalno-polje--default|.si-search-bar|platform:android;resultsMode:shown|click:.si-search-bar__icon-btn[aria-label=Nazaj]
 search-bar__back-then-avatar|gradniki-mobile-iskalno-polje--default|.si-search-bar|platform:android;resultsMode:shown|click:.si-search-bar__icon-btn[aria-label=Nazaj] ;; args:showAvatar:!true
 search-bar__shown-noclear|gradniki-mobile-iskalno-polje--default|.si-search-bar|platform:android;resultsMode:shown;showClearButton:!false|
+phone__search-hr|gradniki-mobile-vnosno-polje-za-telefonsko-številko--default|.si-phone-input||click:.si-phone-input__selector ;; click:.si-phone-input__search-host .si-phone-input__typed ;; keys:hr
+phone__search-none|gradniki-mobile-vnosno-polje-za-telefonsko-številko--default|.si-phone-input||click:.si-phone-input__selector ;; click:.si-phone-input__search-host .si-phone-input__typed ;; keys:xyz
+phone__picked-al|gradniki-mobile-vnosno-polje-za-telefonsko-številko--default|.si-phone-input||click:.si-phone-input__selector ;; click:.si-phone-input__list-item:has-text("Albanija")
+phone__typed|gradniki-mobile-vnosno-polje-za-telefonsko-številko--default|.si-phone-input||click:.si-phone-input__number-host .si-phone-input__typed ;; keys:41321654
+phone__typed-then-error|gradniki-mobile-vnosno-polje-za-telefonsko-številko--default|.si-phone-input||click:.si-phone-input__number-host .si-phone-input__typed ;; keys:41321654 ;; args:hasError:!true

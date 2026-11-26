@@ -9,6 +9,8 @@ def blank_carets(j, *images, pad=None):
         d = ImageDraw.Draw(im)
         for c in j.get('carets', []):
             box = (int((c['x'] + p) * 2) - 2, int((c['y'] + p) * 2) - 2, int((c['x'] + c['w'] + p) * 2) + 2, int((c['y'] + c['h'] + p) * 2) + 2)
-            # fill with the colour just left of the caret (the field background)
-            x = max(0, box[0] - 3); y = min(im.height - 1, max(0, (box[1] + box[3]) // 2))
+            # fill with the field background: right of the caret (the text ends at the caret, so the
+            # left side is the last glyph), the left side only at the image edge
+            y = min(im.height - 1, max(0, (box[1] + box[3]) // 2))
+            x = box[2] + 3 if box[2] + 3 < im.width else max(0, box[0] - 3)
             d.rectangle(box, fill=im.getpixel((x, y)))
