@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import chevronDown from './assets/mobile/accordion/chevron-down.svg';
@@ -15,6 +15,27 @@ export const Accordion = ({
   className = '',
 }) => {
   const [expanded, setExpanded] = useState(initiallyExpanded);
+  // AnimatedCrossFade(200 ms): height with Curves.easeInOut, the items fade linearly; the body
+  // stays until the collapse has finished.
+  const [bodyShown, setBodyShown] = useState(initiallyExpanded);
+  const body = useRef(null);
+  const first = useRef(true);
+  useLayoutEffect(() => {
+    if (first.current) { first.current = false; return undefined; }
+    if (expanded) setBodyShown(true);
+    return undefined;
+  }, [expanded]);
+  useLayoutEffect(() => {
+    const el = body.current;
+    if (!el || !el.animate) return undefined;
+    if (!expanded && !bodyShown) return undefined;
+    const full = el.scrollHeight;
+    const [h0, h1, o0, o1] = expanded ? [0, full, 0, 1] : [full, 0, 1, 0];
+    const size = el.animate([{ height: `${h0}px` }, { height: `${h1}px` }], { duration: 200, easing: 'cubic-bezier(0.42, 0, 0.58, 1)' });
+    const fade = el.animate([{ opacity: o0 }, { opacity: o1 }], { duration: 200, easing: 'linear' });
+    if (!expanded) size.onfinish = () => setBodyShown(false);
+    return () => { size.cancel(); fade.cancel(); };
+  }, [expanded, bodyShown]);
   const isFilled = style === 'filled';
   const classes = [
     'si-accordion',
@@ -46,8 +67,8 @@ export const Accordion = ({
           <div className="si-accordion__divider" aria-hidden="true" />
         ) : null}
       </div>
-      {expanded ? (
-        <ul className="si-accordion__body">
+      {expanded || bodyShown ? (
+        <ul className="si-accordion__body" ref={body}>
           {ITEMS.map((item, idx) => (
             <li key={`${item}-${idx}`} className="si-accordion__item">
               {item}

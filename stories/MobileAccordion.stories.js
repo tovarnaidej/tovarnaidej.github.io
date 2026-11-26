@@ -86,4 +86,13 @@ export const Variants = {
 
 export const Default = {
   name: 'Privzeto',
+  // The catalog pins the preview to the top of its pane (padding 24 / 16), so opening grows
+  // downward, and keys it by Slog: another style is a new, closed accordion.
+  parameters: { layout: 'fullscreen' },
+  render: (args) =>
+    React.createElement(
+      'div',
+      { style: { display: 'flex', justifyContent: 'center', padding: '24px 16px' } },
+      React.createElement(Accordion, { ...args, key: args.style }),
+    ),
 };

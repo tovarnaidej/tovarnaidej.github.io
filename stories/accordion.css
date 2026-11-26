@@ -110,7 +110,8 @@
   background-color: currentColor;
   -webkit-mask: var(--si-icon) center / contain no-repeat;
   mask: var(--si-icon) center / contain no-repeat;
-  transition: transform 200ms ease;
+  /* RotationTransition: 0 -> 0.5 turns, 200 ms Curves.easeInOut */
+  transition: transform 200ms cubic-bezier(0.42, 0, 0.58, 1);
 }
 
 /* RotationTransition 0 → 0.5 turns when expanded */
@@ -131,6 +132,7 @@
 }
 
 .si-accordion__body {
+  overflow: hidden; /* AnimatedCrossFade clips while the size changes */
   display: flex;
   flex-direction: column;
   margin: 0;
