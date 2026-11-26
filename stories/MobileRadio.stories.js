@@ -58,26 +58,33 @@ export default {
     platformCode: { component: 'radio' },
   },
   tags: ['autodocs'],
+  // Catalog order: Debelina, Omogočeno, Napaka, Prikaži oznake.
   args: {
+    thickness: 'thick',
     enabled: true,
     hasError: false,
     showLabels: true,
     label1: 'Option 1',
     label2: 'Option 2',
     label3: 'Option 3',
-    thickness: 'thick',
+    platform: 'android',
   },
   argTypes: {
+    thickness: {
+      name: 'Debelina',
+      control: { type: 'inline-radio', labels: { thin: 'Tanka', thick: 'Debela' } },
+      options: ['thin', 'thick'],
+    },
     enabled: { name: 'Omogočeno', control: { type: 'boolean' } },
     hasError: { name: 'Napaka', control: { type: 'boolean' } },
     showLabels: { name: 'Prikaži oznake', control: { type: 'boolean' } },
     label1: { table: { disable: true } },
     label2: { table: { disable: true } },
     label3: { table: { disable: true } },
-    thickness: {
-      name: 'Debelina',
-      control: { type: 'inline-radio', labels: { thin: 'Tanka', thick: 'Debela' } },
-      options: ['thin', 'thick'],
+    platform: {
+      name: 'Platforma',
+      control: { type: 'select', labels: { ios: 'iOS', android: 'Android' } },
+      options: ['ios', 'android'],
     },
     className: { table: { disable: true } },
   },

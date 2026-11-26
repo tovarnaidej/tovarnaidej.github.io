@@ -18,6 +18,13 @@
   color: #000000;
   font: 400 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
   letter-spacing: 0.1px;
+  /* AnimatedOpacity 100 ms (iOS pressed 0.7) */
+  transition: opacity 100ms linear;
+}
+
+/* SIRadioButton: onTapDown .. onTapUp dims the row on iOS only (_isApplePlatform) */
+.si-radio--ios:active {
+  opacity: 0.7;
 }
 
 .si-radio input {
@@ -35,6 +42,22 @@
   background: transparent;
   position: relative;
   flex-shrink: 0;
+  /* AnimatedContainer(150 ms): ring colour */
+  transition: border-color 150ms linear;
+}
+
+/* The dot: AnimatedContainer(150 ms) from 0 to innerDotSize 12, centred */
+.si-radio__control::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: transparent;
+  transition: width 150ms linear, height 150ms linear, background-color 150ms linear;
 }
 
 .si-radio--thin .si-radio__control {
@@ -47,15 +70,9 @@
 
 .si-radio input:checked + .si-radio__control::after,
 .si-radio--selected .si-radio__control::after {
-  content: '';
-  position: absolute;
   /* TokenRadioButtonV2.innerDotSize 12, centred regardless of ring width */
-  top: 50%;
-  left: 50%;
   width: 12px;
   height: 12px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
   background: #3c7b94;
 }
 
@@ -84,4 +101,8 @@
 .si-radio-group--disabled {
   opacity: 0.38;
   pointer-events: none;
+}
+
+.si-radio-group {
+  transition: opacity 100ms linear; /* AnimatedOpacity 100 ms */
 }

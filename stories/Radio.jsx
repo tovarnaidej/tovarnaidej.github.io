@@ -11,6 +11,7 @@ export const RadioItem = ({
   label = 'Option 1',
   showLabel = true,
   thickness = 'thick',
+  platform = 'android',
   name = 'si-radio-item',
   onSelect,
   className = '',
@@ -19,6 +20,7 @@ export const RadioItem = ({
     className={[
       'si-radio',
       `si-radio--${thickness}`,
+      `si-radio--${platform}`,
       selected ? 'si-radio--selected' : '',
       hasError ? 'si-radio--error' : '',
       !enabled ? 'si-radio--disabled' : '',
@@ -46,19 +48,22 @@ RadioItem.propTypes = {
   label: PropTypes.string,
   showLabel: PropTypes.bool,
   thickness: PropTypes.oneOf(['thin', 'thick']),
+  /** iOS dims the row to 0.7 while pressed (SIRadioButton _isApplePlatform). */
+  platform: PropTypes.oneOf(['ios', 'android']),
   name: PropTypes.string,
   onSelect: PropTypes.func,
   className: PropTypes.string,
 };
 
 export const Radio = ({
+  thickness = 'thick',
   enabled = true,
   hasError = false,
   showLabels = true,
   label1 = 'Option 1',
   label2 = 'Option 2',
   label3 = 'Option 3',
-  thickness = 'thick',
+  platform = 'android',
   className = '',
 }) => {
   const [selected, setSelected] = useState(0);
@@ -89,6 +94,7 @@ export const Radio = ({
           label={opt.label}
           showLabel={showLabels}
           thickness={thickness}
+          platform={platform}
           name="si-radio"
           onSelect={() => setSelected(opt.value)}
         />
@@ -97,13 +103,16 @@ export const Radio = ({
   );
 };
 
+// Order = the catalog's controls (Storybook lists the controls in this order).
 Radio.propTypes = {
+  thickness: PropTypes.oneOf(['thin', 'thick']),
   enabled: PropTypes.bool,
   hasError: PropTypes.bool,
   showLabels: PropTypes.bool,
   label1: PropTypes.string,
   label2: PropTypes.string,
   label3: PropTypes.string,
-  thickness: PropTypes.oneOf(['thin', 'thick']),
+  /** iOS dims a row to 0.7 while pressed; nothing else differs. */
+  platform: PropTypes.oneOf(['ios', 'android']),
   className: PropTypes.string,
 };
