@@ -23,6 +23,13 @@ a = full.crop((int((j['x'] - p) * 2), int((j['y'] - p) * 2), int((j['x'] + j['w'
 b = Image.open(d + n + '.twin.png').convert('RGB')
 from carets import blank_carets
 blank_carets(j, a, b)  # focused fields: the caret is left out
+# The crop reaches past the screen's left / top edge when the widget touches it (Razdelilnik): that
+# strip is black in the Flutter render. Give both images the twin's pixels there.
+offx, offy = max(0, int(round((p - j['x']) * 2))), max(0, int(round((p - j['y']) * 2)))
+if offx:
+    a.paste(b.crop((0, 0, offx, b.height)), (0, 0))
+if offy:
+    a.paste(b.crop((0, 0, b.width, offy)), (0, 0))
 W, H = int(min(a.width, b.width, VX)), int(min(a.height, b.height, VY))
 
 def bbox(im, box, c, bg):

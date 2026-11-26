@@ -6,7 +6,8 @@ import fs from 'fs';
 const require = createRequire('D:/projekti_tovarna/mslovenija_web/package.json');
 const { chromium } = require('playwright');
 const HERE = (process.env.FLUTTER_REF_WORK || 'D:/projekti_tovarna/mslovenija_web/.flutter-ref').replace(/\\/g, '/');
-const [name, id, rootSel, args = '', click = ''] = process.argv.slice(2);
+// (a map written with CRLF leaves a CR on the last field: trim every argument)
+const [name, id, rootSel, args = '', click = ''] = process.argv.slice(2).map((a) => a.trim());
 const OUT = fs.existsSync(`${HERE}/cat/test/out/${name}.json`) ? `${HERE}/cat/test/out` : `${HERE}/sot_render/test/out`;
 const ref = JSON.parse(fs.readFileSync(`${OUT}/${name}.json`, 'utf8'));
 // Grayscale text anti-aliasing, as a phone draws it (Windows' LCD AA tints glyph edges and cores).
