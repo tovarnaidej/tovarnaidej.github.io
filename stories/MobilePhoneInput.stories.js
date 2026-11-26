@@ -52,6 +52,7 @@ export default {
   args: {
     enabled: true,
     hasError: false,
+    errorText: 'Prišlo je do napake...',
     countryCode: 'SI',
     value: '',
     open: false,
@@ -60,7 +61,8 @@ export default {
     enabled: { name: 'Omogočeno', control: { type: 'boolean' } },
     hasError: { name: 'Napaka', control: { type: 'boolean' } },
     label: { table: { disable: true } },
-    errorText: { table: { disable: true } },
+    // the iOS catalog has it (Flutter / Android fix the text)
+    errorText: { name: 'Besedilo napake', if: { arg: 'hasError' } },
     value: { table: { disable: true } },
     open: { table: { disable: true } },
     countryCode: { table: { disable: true } },

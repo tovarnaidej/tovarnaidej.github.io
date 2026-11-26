@@ -8,7 +8,7 @@ import {
 const enabled = (args) => args?.enabled !== false;
 const countryCode = (args) => args?.countryCode || '+386';
 const errorText = (args) =>
-  args?.hasError ? 'Prišlo je do napake.' : null;
+  args?.hasError ? args?.errorText || 'Prišlo je do napake...' : null;
 
 export function buildFlutterSnippet(args = {}) {
   const err = errorText(args);
@@ -42,7 +42,8 @@ export function buildIosSnippet(args = {}) {
     `    countryCode: "${escapeDoubleQuoted(countryCode(args))}"`,
   ];
   if (args?.enabled === false) params.push('    enabled: false');
-  if (args?.hasError) params.push('    errorText: "Prišlo je do napake..."');
+  const err = errorText(args);
+  if (err != null) params.push(`    errorText: "${escapeDoubleQuoted(err)}"`);
   return [
     `@State private var phone = "${escapeDoubleQuoted(args?.value || '')}"`,
     '',
