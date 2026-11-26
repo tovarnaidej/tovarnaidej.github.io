@@ -121,10 +121,11 @@ export default {
     focused: { table: { disable: true } },
     showIcon: { name: 'Ikona', control: { type: 'boolean' } },
     obscure: { name: 'Skrij', control: { type: 'boolean' } },
-    // Besedilo and Besedilo napake: the iOS catalog has them (Flutter / Android fix both texts)
+    // Besedilo and Besedilo napake: the iOS catalog has them (Flutter / Android fix both texts),
+    // always shown as there (the error text appears under the field while Napaka is on)
     value: { name: 'Besedilo' },
     label: { name: 'Oznaka' },
-    errorText: { name: 'Besedilo napake', if: { arg: 'hasError' } },
+    errorText: { name: 'Besedilo napake' },
     placeholder: { table: { disable: true } },
     className: { table: { disable: true } },
     onChange: { table: { disable: true } },
