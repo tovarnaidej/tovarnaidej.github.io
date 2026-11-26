@@ -37,6 +37,11 @@ const resultStateNames = {
 
 const filledValue = 'Digitalno potrdilo';
 
+// "Vrednost" is the field's initial value (defaultValue, read once by the component): a new value
+// from the Controls panel re-creates the field, otherwise the change showed only after a reload.
+const renderSearch = (args) =>
+  React.createElement(Search, { key: args.defaultValue, ...args });
+
 const valueForState = (state) =>
   state === 'filled' ? filledValue : '';
 
@@ -306,6 +311,7 @@ export default {
       ),
   ],
   tags: ['autodocs'],
+  render: renderSearch,
   args: {
     variant: 'universal',
     size: 'large',
@@ -480,7 +486,7 @@ export const Results = {
     },
   },
   render: (args) =>
-    React.createElement(Search, {
+    renderSearch({
       ...args,
       actionLabel:
         args.resultsState === 'empty' || args.resultsState === 'error'
