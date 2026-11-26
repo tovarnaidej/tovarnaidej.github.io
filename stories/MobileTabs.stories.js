@@ -61,12 +61,34 @@ export default {
         updateArgs({ tabCount: 8 });
       }
     }, [args.configuration]);
-    return React.createElement(Tabs, args);
+    // Catalog: a smaller count moves the selection to the last tab (and it stays there).
+    useEffect(() => {
+      const count = Number(args.tabCount);
+      if (Number(args.selectedIndex) >= count) updateArgs({ selectedIndex: count - 1 });
+    }, [args.tabCount]);
+    const count = Number(args.tabCount);
+    const selected = Math.min(Number(args.selectedIndex) || 0, count - 1);
+    // The catalog's preview: the tabs, 24 below them "Izbrano: <tab>" (bodyMedium), and for
+    // Pomakljivo a hint 8 below that (13px, #5E6366), texts inset 16.
+    return React.createElement(
+      'div',
+      { className: 'catalog-preview' },
+      React.createElement(Tabs, { ...args, onTap: (i) => updateArgs({ selectedIndex: i }) }),
+      React.createElement('p', { className: 'catalog-text', style: { margin: '24px 16px 0' } }, `Izbrano: Zavihek ${selected + 1}`),
+      args.configuration === 'scrollable'
+        ? React.createElement(
+            'p',
+            { className: 'catalog-text catalog-text--13', style: { margin: '8px 16px 0', color: '#5e6366' } },
+            'Za zavihke zunaj zaslona podrsajte vodoravno.',
+          )
+        : null,
+    );
   },
   args: {
     style: 'underline',
     configuration: 'fixed',
     tabCount: 3,
+    selectedIndex: 0,
   },
   argTypes: {
     style: {
@@ -93,6 +115,8 @@ export default {
       },
       options: [3, 4, 5, 8],
     },
+    selectedIndex: { table: { disable: true } },
+    onTap: { table: { disable: true } },
     className: { table: { disable: true } },
   },
 };

@@ -55,3 +55,17 @@
   descent-override: 25%;
   line-gap-override: 0%;
 }
+
+/* The catalog's own texts around a preview (Zavihki "Izbrano: …", hints, results) use the
+   Material theme font, Roboto on Android (Apache License 2.0, from the Flutter SDK's material
+   fonts). Metrics pinned to hhea (1900 / -500 on 2048) as on a device. */
+@font-face {
+  font-family: 'Catalog Roboto';
+  src: url('/fonts/si/catalog-roboto-regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  ascent-override: 92.7734%;
+  descent-override: 24.4141%;
+  line-gap-override: 0%;
+}

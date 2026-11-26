@@ -61,6 +61,8 @@
 .si-tabs--scrollable .si-tabs__tab {
   flex: 0 0 auto;
   min-width: 90px;
+  /* sub-pixel rest of the scroll offset (Tabs.jsx) */
+  translate: calc(-1px * var(--si-tabs-frac, 0)) 0;
 }
 
 /* Fixed: side padding clamp((tab - 24) / 2, 4, 16) via container units */
@@ -175,7 +177,9 @@
   translate: 0 0.46px;
 }
 
-/* Privzeto: fills the catalog preview width (withMobileWidth). */
+/* Privzeto: fills the catalog preview width (withMobileWidth), also inside the catalog's
+   preview column (Column(crossAxisAlignment: stretch)). */
+.catalog-preview > .si-tabs,
 .mobile-showcase__width > .si-tabs {
   width: 100%;
 }

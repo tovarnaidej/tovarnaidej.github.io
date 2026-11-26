@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import './mobile-tokens.css';
 import './mobile-showcase.css';
+import './catalog-preview.css';
 
 export const FIGMA_MOBILE_FILE =
   'https://www.figma.com/design/Ph5kySZOVPpzP6565W17LV/mSlovenija---Design-System--UI-kit-';

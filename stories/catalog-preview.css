@@ -1,0 +1,27 @@
+/*
+ * Texts and layout of the catalog's preview pane around a widget (catalog_app screens), for the
+ * Privzeto stories: not part of a widget. Theme: ThemeData(useMaterial3, seed #3C7B94), Roboto.
+ */
+.catalog-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.catalog-text {
+  margin: 0;
+  font-family: 'Catalog Roboto', Roboto, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.25px;
+  /* Material 3 bodyMedium 14 with height 1.43 (a Text inherits it from DefaultTextStyle).
+     Flutter rounds the line to whole pixels: 14 x 1.43 = 20.02 -> 20, 13 x 1.43 = 18.59 -> 19. */
+  font-size: 14px;
+  line-height: 20px;
+  color: #171c1f; /* colorScheme.onSurface */
+}
+
+/* A Text with only fontSize 13 and a colour: still bodyMedium's height and letter spacing */
+.catalog-text--13 {
+  font-size: 13px;
+  line-height: 19px;
+}
