@@ -104,18 +104,19 @@ const renderVariants = () =>
     ),
   );
 
+// progress_bar_configurator.dart: _label, _supportingText, stepLabels and the value.
 const withCatalogTexts = (args) => {
-  if (!args.showText || args.variant === 'segmented') {
-    return { ...args, label: '', supportingText: '', stepLabels: undefined };
-  }
   const vertical = args.variant === 'stepped' && args.orientation === 'vertical';
-  const total = args.totalSteps;
-  const current = args.currentStep;
+  const total = Number(args.totalSteps);
+  const current = Number(args.currentStep);
+  const text = Boolean(args.showText) && args.variant !== 'segmented';
+  const linearUsesSteps = args.variant === 'linear' && Boolean(args.showText);
   return {
     ...args,
-    value: args.variant === 'linear' ? current / total : args.value,
-    label: vertical ? stepsHeading(total) : `Korak ${current} od ${total}`,
-    supportingText: args.variant === 'linear' ? linearSupporting(current, total) : '',
+    value: linearUsesSteps ? current / total : args.value,
+    label: !text ? '' : vertical ? stepsHeading(total) : `Korak ${current} od ${total}`,
+    supportingText: linearUsesSteps ? linearSupporting(current, total) : '',
+    // the vertical step labels do not depend on Besedilo
     stepLabels: vertical ? verticalLabels(total, current) : undefined,
   };
 };
@@ -151,6 +152,16 @@ export default {
         );
       }
     }, [args.variant, args.orientation]);
+    // Skupaj korakov clamps the current step (the catalog's slider handler).
+    // (also when Trenutni korak itself goes past it: its Storybook range ends at 10)
+    useEffect(() => {
+      if (Number(args.currentStep) > Number(args.totalSteps)) updateArgs({ currentStep: Number(args.totalSteps) });
+    }, [args.totalSteps, args.currentStep]);
+    // The plain linear bar (Besedilo off) is set by Vrednost, every other one by the steps.
+    const byValue = args.variant === 'linear' && !args.showText;
+    useEffect(() => {
+      if (args.byValue !== byValue) updateArgs({ byValue });
+    }, [byValue]);
     return React.createElement(ProgressBar, withCatalogTexts(args));
   },
   args: {
@@ -160,6 +171,7 @@ export default {
     value: 0.5,
     currentStep: 1,
     totalSteps: 6,
+    byValue: false,
   },
   argTypes: {
     variant: {
@@ -181,13 +193,24 @@ export default {
       control: { type: 'boolean' },
       if: { arg: 'variant', neq: 'segmented' },
     },
+    // Catalog sliders. The catalog's "Trenutni korak" slider ends at Skupaj korakov; a Storybook
+    // control has a fixed range, so it ends at 10 and the story clamps to Skupaj korakov.
     value: {
       name: 'Vrednost',
-      control: { type: 'range', min: 0, max: 1, step: 0.05 },
-      if: { arg: 'variant', eq: 'linear' },
+      control: { type: 'range', min: 0, max: 1, step: 0.01 },
+      if: { arg: 'byValue' },
     },
-    currentStep: { name: 'Trenutni korak', control: { type: 'number', min: 1, max: 10 } },
-    totalSteps: { name: 'Skupaj korakov', control: { type: 'number', min: 2, max: 10 } },
+    currentStep: {
+      name: 'Trenutni korak',
+      control: { type: 'range', min: 1, max: 10, step: 1 },
+      if: { arg: 'byValue', truthy: false },
+    },
+    totalSteps: {
+      name: 'Skupaj korakov',
+      control: { type: 'range', min: 2, max: 10, step: 1 },
+      if: { arg: 'byValue', truthy: false },
+    },
+    byValue: { type: { name: 'boolean' }, table: { disable: true } },
     label: { table: { disable: true } },
     supportingText: { table: { disable: true } },
     stepLabels: { table: { disable: true } },

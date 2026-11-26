@@ -49,6 +49,7 @@ StepCircle.propTypes = {
 export const ProgressBar = ({
   variant = 'segmented',
   orientation = 'horizontal',
+  showText = true,
   value = 0.4,
   currentStep = 1,
   totalSteps,
@@ -60,6 +61,11 @@ export const ProgressBar = ({
   const steps = Math.min(Math.max(Number(totalSteps) || DEFAULT_STEPS[variant] || 1, 1), 100);
   const step = Math.min(Math.max(Number(currentStep) || 0, 0), steps);
   const isVertical = variant === 'stepped' && orientation === 'vertical';
+  // "Besedilo" off: no heading / supporting text; the vertical step labels stay (catalog).
+  if (!showText) {
+    label = '';
+    supportingText = '';
+  }
   const labeled = Boolean(label || supportingText);
   const range = Array.from({ length: steps }, (_, i) => i + 1);
 
@@ -149,9 +155,12 @@ export const ProgressBar = ({
   );
 };
 
+// Order = the catalog's controls (Različica, Usmerjenost, Besedilo, then the sliders).
 ProgressBar.propTypes = {
   variant: PropTypes.oneOf(['segmented', 'linear', 'stepped']),
   orientation: PropTypes.oneOf(['horizontal', 'vertical']),
+  /** Heading and supporting text (the vertical step labels stay without it). */
+  showText: PropTypes.bool,
   value: PropTypes.number,
   currentStep: PropTypes.number,
   totalSteps: PropTypes.number,
