@@ -23,6 +23,15 @@ description: Uporaba obstoječe knjižnice gradnikov in Storybooka
 
 ## Spremembe gradnikov
 - Pri spremembi dopolni Storybook primere.
+- Vsaka kontrola v panelu Controls mora spremeniti predogled, tudi po izrisu:
+  - zgodba-pregled (fiksen nabor primerkov, ne bere argumentov) ima `controls: { disable: true }`;
+  - kontrolo, ki v zgodbi nima učinka (druga postavitev, zaprt meni, polje z vrednostjo), skrij z
+    `if` ali `control: false`; pri `argTypes` zgodbe ponovi celotno definicijo iz meta (sicer dobi
+    ime ključa namesto slovenske oznake);
+  - vrednost, ki jo komponenta prebere le ob izrisu (`defaultValue`), poveži s `key`;
+  - ID-ji in povezave so izbira med veljavnimi vrednostmi, ne prosto besedilo (`#` ne gre v URL:
+    `mapping`).
+  - Preverjanje: `node tools/flutter-reference/webcontrols.mjs` (STALE + NO EFFECT).
 - Preveri vse prizadete variante in interaktivna stanja.
 - CSS predstavitvenih tabel/dokumentacije ne prenašaj v produkcijo.
 - Po vključitvi preveri gradnik tudi na dejanski strani.

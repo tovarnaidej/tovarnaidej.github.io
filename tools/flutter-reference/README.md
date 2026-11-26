@@ -114,11 +114,18 @@ The Flutter side clicks text fields with a mouse (a finger also gets selection h
 bar chips without `ensureVisible` (it scrolls a horizontal bar).
 
 The stories outside Gradniki - mobile have no catalog to compare with: `node webcontrols.mjs
-[id-part ...]` sets every control of every story to each of its other values in the panel and
-requires the preview to equal a fresh load with the same args (STALE otherwise). Each story gets a
-new browser context: the manager keeps UI state in localStorage, and a state left by one story made
-every click of the next one time out. Run it in a few batches (`gradniki-header`, `gradniki-search`,
-...) in parallel; one change takes about 5 s.
+[id-part ...]` sets every control of every story to each of its other values in the panel (also
+the args without a value: "Nastavi logično vrednost / besedilo / število" first) and requires
+- STALE: the preview equals a fresh load with the same args (the control works after mount), and
+- NO EFFECT: the preview differs from the one before the change. The first check alone passed a
+  showcase story that ignores its args (a fresh load ignores them too) while every control in its
+  panel did nothing. A change that shows nothing by design (an accessible name, a CSS class, a link
+  target, a Figma state that looks like the current one) is listed in `BY_DESIGN` with its reason.
+
+It compares the whole visible preview (a dropdown overflows `#storybook-root`) and waits until the
+URL shows the change. Each story gets a new browser context: the manager keeps UI state in
+localStorage, and a state left by one story made every click of the next one time out. Run it in a
+few batches (`gradniki-header`, `gradniki-search`, ...) in parallel; one change takes about 5 s.
 
 ## Review by eye
 

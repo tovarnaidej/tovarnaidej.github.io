@@ -155,6 +155,7 @@ vrstni red in vidnost, predogled brez vnosa (Iskalno polje, Telefon, Datum).
   (`variants.mjs` + `variants.py`: vseh 25 parov naenkrat; PNG je Figma — besedila in namenska odstopanja
   knjižnice niso napaka, manjkajoča varianta ali drug slog je).
 - Pregled na oko: `report.py` (galerija `.flutter-ref/report/index.html`: Flutter | dvojček | razlika za vsak
-  primer obeh platform). Kontrole spletnih storyjev: `webcontrols.mjs` (vsaka kontrola po izrisu = svež izris).
+  primer obeh platform). Kontrole spletnih storyjev: `webcontrols.mjs` (vsaka kontrola po izrisu = svež izris in
+  spremeni predogled; glej `component-library.md`).
 - Commit na gradnik: `Align Gradniki - mobile/<Ime> with components SOT` (ali `Add …` za nov gradnik).
 - Ne commitaj `node_modules/`, `debug-storybook.log`, `.sb-cache/`, `storybook-static/`, `.flutter-ref/`.
