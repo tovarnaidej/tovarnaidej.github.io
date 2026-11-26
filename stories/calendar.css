@@ -212,7 +212,8 @@
   position: relative;
 }
 
-.si-calendar__day--today {
+/* outlinedDayTodayTextColor / filledDayTodayTextColor (as specific as the cell colour above) */
+.si-calendar .si-calendar__day--today {
   color: var(--si-calendar-accent);
 }
 

@@ -188,13 +188,15 @@
   top: calc(var(--si-lead-bold) + 0.64px);
 }
 
+/* iosDayTodayBorderWidth 1.2: Chromium floors a border width to whole pixels (1.2 -> 1), an
+   inset shadow keeps it; the ring is symmetric, so the centred number does not move. */
 .si-cal-ios__day--today {
-  border: 1.2px solid var(--si-primary);
+  box-shadow: inset 0 0 0 1.2px var(--si-primary);
   color: var(--si-primary);
 }
 
 .si-cal-ios--filled .si-cal-ios__day--today {
-  border-color: transparent;
+  box-shadow: none;
   color: var(--si-on-primary);
 }
 
