@@ -121,4 +121,13 @@ export const Variants = {
 
 export const Default = {
   name: 'Privzeto',
+  // The catalog keys the preview by every value it shows ('lin…' / 'cir…' + thickness,
+  // animation and value): a change builds a new indicator, so Animacija starts again from 0.
+  render: (args) =>
+    React.createElement(LoadingBar, {
+      ...args,
+      key: args.variant === 'circular'
+        ? `cir-${args.thickness}-${args.indeterminate}-${args.value}`
+        : `lin-${args.indeterminate}-${args.value}`,
+    }),
 };
