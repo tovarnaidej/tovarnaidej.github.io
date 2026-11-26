@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import chevron from './assets/mobile/calendar/chevron.svg';
 import './mobile-tokens.css';
 import './calendar-ios.css';
+import { Pager } from './calendar-pager';
 
 const cx = (...names) => names.filter(Boolean).join(' ');
 const WEEKDAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
@@ -58,20 +59,15 @@ export const CalendarIOS = ({
   const todayDate = toDate(todayProp);
   const year = displayed.getFullYear();
   const month = displayed.getMonth();
-  const inMonth = (d) => d.getFullYear() === year && d.getMonth() === month;
-  const day = inMonth(selectedDate) ? selectedDate.getDate() : null;
-  const today = inMonth(todayDate) ? todayDate.getDate() : null;
-  const setDay = (d) => {
-    const date = new Date(year, month, d);
-    setSelectedDate(date);
-    onDateSelected?.(date);
-  };
-  /* _startYearForPage: the first page starts with the displayed year. */
-  const startYear = year + yearPage * YEARS_PER_PAGE;
+  const startYear = year + yearPage * YEARS_PER_PAGE; // label of the years view
+  // The arrows page the PageView of the open view (300 ms, easeInOut); a drag pages it too.
+  const daysPager = useRef(null);
+  const yearsPager = useRef(null);
   const step = (delta) => {
-    if (view === 'days') setDisplayed(new Date(year, month + delta, 1));
-    else if (view === 'years') setYearPage((p) => p + delta);
+    if (view === 'days') daysPager.current?.go(delta);
+    else if (view === 'years') yearsPager.current?.go(delta);
   };
+  const [paging, setPaging] = useState(0);
   const pickerCell = (key, label, selected, onClick) => (
     <span key={key} className="si-cal-ios__picker-slot">
       <button
@@ -83,11 +79,80 @@ export const CalendarIOS = ({
       </button>
     </span>
   );
-  const first = new Date(year, month, 1).getDay();
-  const days = new Date(year, month + 1, 0).getDate();
-  const cells = [...Array(first).fill(null), ...Array.from({ length: days }, (_, i) => i + 1)];
-  while (cells.length % 7) cells.push(null);
-  const weeks = Array.from({ length: cells.length / 7 }, (_, w) => cells.slice(w * 7, w * 7 + 7));
+  const monthIndex = year * 12 + month;
+  const monthOf = (k) => [Math.floor(k / 12), ((k % 12) + 12) % 12];
+  const weeksOf = (k) => {
+    const [y, m] = monthOf(k);
+    const first = new Date(y, m, 1).getDay();
+    const days = new Date(y, m + 1, 0).getDate();
+    const cells = [...Array(first).fill(null), ...Array.from({ length: days }, (_, i) => i + 1)];
+    while (cells.length % 7) cells.push(null);
+    return Array.from({ length: cells.length / 7 }, (_, w) => cells.slice(w * 7, w * 7 + 7));
+  };
+  // gridHeightForMonth: rows of 40 with 8 between; while a page moves, the taller of the two
+  const gridHeight = (k) => {
+    const rows = weeksOf(k).length;
+    return rows * 40 + (rows - 1) * 8;
+  };
+  const daysHeight = 17 + 30 + Math.max(gridHeight(monthIndex), paging ? gridHeight(monthIndex + paging) : 0);
+  const contentHeight = { days: daysHeight, years: 4 * 53 + 15, months: 288 }[view];
+
+  const monthGrid = (k) => {
+    const [y, m] = monthOf(k);
+    const sel = selectedDate.getFullYear() === y && selectedDate.getMonth() === m ? selectedDate.getDate() : null;
+    const tod = todayDate.getFullYear() === y && todayDate.getMonth() === m ? todayDate.getDate() : null;
+    return (
+      <div className="si-cal-ios__grid">
+        {weeksOf(k).map((week, wi) => (
+          <div key={wi} className="si-cal-ios__row">
+            {week.map((d, di) =>
+              d == null ? (
+                <span key={di} className="si-cal-ios__cell" />
+              ) : (
+                <button
+                  key={di}
+                  type="button"
+                  className={cx(
+                    'si-cal-ios__cell',
+                    'si-cal-ios__day',
+                    d === sel ? 'si-cal-ios__day--selected' : '',
+                    d !== sel && d === tod ? 'si-cal-ios__day--today' : '',
+                  )}
+                  onClick={() => {
+                    const date = new Date(y, m, d);
+                    setSelectedDate(date);
+                    onDateSelected?.(date);
+                  }}
+                >
+                  <span className="si-cal-ios__day-number">{d}</span>
+                </button>
+              ),
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  /* _startYearForPage: the first page starts with the displayed year. */
+  const yearGrid = (pg) => {
+    const firstYear = year + pg * YEARS_PER_PAGE;
+    return (
+      <div className="si-cal-ios__years">
+        {Array.from({ length: 4 }, (_, row) => (
+          <div key={row} className="si-cal-ios__picker-row">
+            {Array.from({ length: 3 }, (_, col) => {
+              const y = firstYear + row * 3 + col;
+              return pickerCell(y, y, y === year, () => {
+                setDisplayed(new Date(y, month, 1));
+                setView('months');
+              });
+            })}
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div className={cx('si-cal-ios', `si-cal-ios--${style}`, `si-cal-ios--view-${view}`, className)}>
@@ -121,72 +186,50 @@ export const CalendarIOS = ({
           </span>
         )}
       </div>
-      {view === 'years' && (
-        <div className="si-cal-ios__years">
-          {Array.from({ length: 4 }, (_, row) => (
-            <div key={row} className="si-cal-ios__picker-row">
-              {Array.from({ length: 3 }, (_, col) => {
-                const y = startYear + row * 3 + col;
-                return pickerCell(y, y, y === year, () => {
-                  setDisplayed(new Date(y, month, 1));
-                  setView('months');
-                });
-              })}
-            </div>
-          ))}
+      {/* AnimatedSwitcher + AnimatedSize: the views cross-fade and the height follows them
+          (250 ms, easeInOut); the day grid's height follows the month while paging */}
+      <div className="si-cal-ios__content" style={{ height: contentHeight }}>
+        <div className={cx('si-cal-ios__layer', view === 'years' && 'si-cal-ios__layer--on')}>
+          <Pager ref={yearsPager} page={yearPage} onPage={setYearPage} renderPage={yearGrid} />
         </div>
-      )}
-      {view === 'months' && (
-        <div className="si-cal-ios__months">
-          {Array.from({ length: 4 }, (_, row) => (
-            <div key={row} className="si-cal-ios__picker-row">
-              {Array.from({ length: 3 }, (_, col) => {
-                const m = row * 3 + col;
-                return pickerCell(m, MONTHS_SHORT[m], m === month, () => {
-                  setDisplayed(new Date(year, m, 1));
-                  setView('days');
-                });
-              })}
-            </div>
-          ))}
+        <div className={cx('si-cal-ios__layer', view === 'months' && 'si-cal-ios__layer--on')}>
+          <div className="si-cal-ios__months">
+            {Array.from({ length: 4 }, (_, row) => (
+              <div key={row} className="si-cal-ios__picker-row">
+                {Array.from({ length: 3 }, (_, col) => {
+                  const m = row * 3 + col;
+                  return pickerCell(m, MONTHS_SHORT[m], m === month, () => {
+                    setDisplayed(new Date(year, m, 1));
+                    setView('days');
+                  });
+                })}
+              </div>
+            ))}
+          </div>
         </div>
-      )}
-      {view === 'days' && (
-      <div className="si-cal-ios__body">
-        <div className="si-cal-ios__row si-cal-ios__weekdays">
-          {WEEKDAYS.map((w) => (
-            <span key={w} className="si-cal-ios__cell si-cal-ios__weekday">
-              {w}
-            </span>
-          ))}
-        </div>
-        <div className="si-cal-ios__grid">
-          {weeks.map((week, wi) => (
-            <div key={wi} className="si-cal-ios__row">
-              {week.map((d, di) =>
-                d == null ? (
-                  <span key={di} className="si-cal-ios__cell" />
-                ) : (
-                  <button
-                    key={di}
-                    type="button"
-                    className={cx(
-                      'si-cal-ios__cell',
-                      'si-cal-ios__day',
-                      d === day ? 'si-cal-ios__day--selected' : '',
-                      d !== day && d === today ? 'si-cal-ios__day--today' : '',
-                    )}
-                    onClick={() => setDay(d)}
-                  >
-                    <span className="si-cal-ios__day-number">{d}</span>
-                  </button>
-                ),
-              )}
+        <div className={cx('si-cal-ios__layer', view === 'days' && 'si-cal-ios__layer--on')}>
+          <div className="si-cal-ios__body">
+            <div className="si-cal-ios__row si-cal-ios__weekdays">
+              {WEEKDAYS.map((w) => (
+                <span key={w} className="si-cal-ios__cell si-cal-ios__weekday">
+                  {w}
+                </span>
+              ))}
             </div>
-          ))}
+            <Pager
+              ref={daysPager}
+              className="si-cal-ios__pager"
+              page={monthIndex}
+              onPage={(k) => {
+                const [y, m] = monthOf(k);
+                setDisplayed(new Date(y, m, 1));
+              }}
+              onMove={(f) => setPaging(f < 0 ? 1 : f > 0 ? -1 : 0)}
+              renderPage={monthGrid}
+            />
+          </div>
         </div>
       </div>
-      )}
     </div>
   );
 };

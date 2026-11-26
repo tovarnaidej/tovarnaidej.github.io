@@ -9,6 +9,7 @@ import 'package:catalog_app/screens/accordion_configurator.dart';
 import 'package:catalog_app/screens/action_configurator.dart';
 import 'package:catalog_app/screens/avatar_configurator.dart';
 import 'package:catalog_app/screens/button_configurator.dart';
+import 'package:catalog_app/screens/calendar_configurator.dart';
 import 'package:catalog_app/screens/calendar_input_configurator.dart';
 import 'package:catalog_app/screens/card_configurator.dart';
 import 'package:catalog_app/screens/checkbox_configurator.dart';
@@ -183,4 +184,27 @@ void main() {
   Finder picker() => find.byWidgetPredicate((w) => w is SIDatePicker || w is SIDatePickerIOS);
   testWidgets('calendar-input__picker', (t) async { T = t; await screen(t, 'calendar-input__picker', const CalendarInputConfigurator(), picker, act: () async { await tapHere(inPreview(find.byType(IconButton))); await T.pumpAndSettle(); }); });
   testWidgets('calendar-input__picked-10', (t) async { T = t; await screen(t, 'calendar-input__picked-10', const CalendarInputConfigurator(), ty(SICalendarInput), act: () async { await tapHere(inPreview(find.byType(IconButton))); await T.pumpAndSettle(); await T.tap(find.descendant(of: picker(), matching: find.text('10')).first); await T.pumpAndSettle(); if (find.descendant(of: picker(), matching: find.text('V redu')).evaluate().isNotEmpty) { await T.tap(find.descendant(of: picker(), matching: find.text('V redu')).first); await T.pumpAndSettle(); } }); });
+  // Koledar: the arrows page months and year pages, a drag pages months; on Android the year
+  // page stays when the years view is left and opened again (positions measured on the twin)
+  Offset at(String what) {
+    final r = T.getRect(picker());
+    final isIos = find.byType(SIDatePickerIOS).evaluate().isNotEmpty;
+    final p = isIos
+        ? {'next': const Offset(329.5, 37.5), 'prev': const Offset(300.5, 37.5), 'label': const Offset(95.6, 37.5), 'grid': const Offset(180.5, 243)}[what]!
+        : {'next': const Offset(292, 145), 'prev': const Offset(244, 145), 'label': const Offset(118, 145), 'grid': const Offset(164, 337)}[what]!;
+    return r.topLeft + p;
+  }
+  Future<void> tapAt(String what) async { await T.tapAt(at(what)); await T.pumpAndSettle(); }
+  Future<void> swipe(double dx) async {
+    final g = await T.startGesture(at('grid'));
+    for (var i = 1; i <= 20; i++) { await g.moveBy(Offset(dx / 20, 0)); await T.pump(const Duration(milliseconds: 16)); }
+    await T.pump(const Duration(milliseconds: 200));
+    await g.up();
+    await T.pumpAndSettle();
+  }
+  testWidgets('calendar__next', (t) async { T = t; await screen(t, 'calendar__next', const CalendarConfigurator(), picker, act: () => tapAt('next')); });
+  testWidgets('calendar__prev-prev', (t) async { T = t; await screen(t, 'calendar__prev-prev', const CalendarConfigurator(), picker, act: () async { await tapAt('prev'); await tapAt('prev'); }); });
+  testWidgets('calendar__swipe-next', (t) async { T = t; await screen(t, 'calendar__swipe-next', const CalendarConfigurator(), picker, act: () => swipe(-200)); });
+  testWidgets('calendar__years-next', (t) async { T = t; await screen(t, 'calendar__years-next', const CalendarConfigurator(), picker, act: () async { await tapAt('label'); await tapAt('next'); }); });
+  testWidgets('calendar__years-next-reopen', (t) async { T = t; await screen(t, 'calendar__years-next-reopen', const CalendarConfigurator(), picker, act: () async { await tapAt('label'); await tapAt('next'); await tapAt('label'); await tapAt('label'); }); });
 }

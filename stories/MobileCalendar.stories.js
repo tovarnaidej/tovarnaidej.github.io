@@ -106,6 +106,8 @@ export default {
     },
     initialDate: { control: 'text', type: { name: 'string' }, table: { disable: true } },
     today: { control: 'text', type: { name: 'string' }, table: { disable: true } },
+    onDateSelected: { table: { disable: true } },
+    onCancelled: { table: { disable: true } },
     initialView: { control: 'text', type: { name: 'string' }, table: { disable: true } },
     className: { table: { disable: true } },
   },

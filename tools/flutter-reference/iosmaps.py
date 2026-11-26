@@ -21,6 +21,7 @@ for m in ['map.txt', 'manmap.txt', 'inputmap.txt', 'varmap.txt', 'interactmap.tx
             args = args.replace('labelPosition:floating', 'labelPosition:above')
         if selector == '.si-calendar':
             selector = '.si-cal-ios'  # SIDatePickerIOS is a separate twin (CalendarIOS.jsx)
+            steps = steps.replace('.si-calendar__pager', '.si-cal-ios__pager')
         out.append('|'.join([name, story, selector, args] + ([steps] if steps else [])))
     open('ios/' + m, 'w', encoding='utf8', newline='\n').write('\n'.join(out) + '\n')
     print('ios/' + m, len(out))

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import pencilIcon from './assets/mobile/calendar/pencil.svg';
@@ -6,6 +6,7 @@ import navLeft from './assets/mobile/calendar/date-picker-left.svg';
 import navRight from './assets/mobile/calendar/date-picker-right.svg';
 import './mobile-tokens.css';
 import './calendar.css';
+import { Pager } from './calendar-pager';
 
 /* SIDateFormat.localeName = 'en_US' — dates are not localised in the library. */
 const WEEKDAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -57,21 +58,91 @@ export const Calendar = ({
 
   const year = displayed.getFullYear();
   const month = displayed.getMonth();
-  const startYear = Math.floor(year / YEARS_PER_PAGE) * YEARS_PER_PAGE + yearPage * YEARS_PER_PAGE;
+  const startYear = Math.floor(year / YEARS_PER_PAGE) * YEARS_PER_PAGE + yearPage * YEARS_PER_PAGE; // label
 
   const label =
     view === 'years'
       ? `${startYear} – ${startYear + YEARS_PER_PAGE - 1}`
       : `${MONTHS[month]} ${year}`;
 
+  // The arrows page the PageView of the open view (300 ms, easeInOut); a drag pages it too.
+  const daysPager = useRef(null);
+  const yearsPager = useRef(null);
   const step = (delta) => {
-    if (view === 'days') setDisplayed(new Date(year, month + delta, 1));
-    else if (view === 'years') setYearPage((p) => p + delta);
+    if (view === 'days') daysPager.current?.go(delta);
+    else if (view === 'years') yearsPager.current?.go(delta);
+  };
+  const monthIndex = year * 12 + month;
+
+  const monthGrid = (k) => {
+    const y = Math.floor(k / 12);
+    const m = ((k % 12) + 12) % 12;
+    const offset = new Date(y, m, 1).getDay();
+    const daysInMonth = new Date(y, m + 1, 0).getDate();
+    const rowCount = Math.floor((offset + daysInMonth + 6) / 7);
+    return (
+      <div className="si-calendar__month-page">
+        {Array.from({ length: rowCount }, (_, row) => (
+          <div key={row} className="si-calendar__week">
+            {Array.from({ length: 7 }, (_, col) => {
+              const day = row * 7 + col - offset + 1;
+              if (day < 1 || day > daysInMonth) {
+                return <span key={col} className="si-calendar__cell" />;
+              }
+              const date = new Date(y, m, day);
+              const isSelected = sameDay(date, selected);
+              const isToday = sameDay(date, todayDate);
+              return (
+                <button
+                  key={col}
+                  type="button"
+                  className={joinClasses(
+                    'si-calendar__cell',
+                    'si-calendar__day',
+                    isSelected && 'si-calendar__day--selected',
+                    isToday && !isSelected && 'si-calendar__day--today',
+                  )}
+                  aria-pressed={isSelected}
+                  onClick={() => setSelected(date)}
+                >
+                  <span className="si-calendar__day-number">{day}</span>
+                </button>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    );
   };
 
-  const offset = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const rowCount = Math.floor((offset + daysInMonth + 6) / 7);
+  const baseYear = Math.floor(year / YEARS_PER_PAGE) * YEARS_PER_PAGE;
+  const yearGrid = (pg) => {
+    const first = baseYear + pg * YEARS_PER_PAGE;
+    return (
+      <div className="si-calendar__year-page">
+        {Array.from({ length: 5 }, (_, row) => (
+          <div key={row} className="si-calendar__picker-row">
+            {Array.from({ length: 3 }, (_, col) => {
+              const y = first + row * 3 + col;
+              return (
+                <button
+                  key={y}
+                  type="button"
+                  className={joinClasses('si-calendar__picker-cell', y === year && 'si-calendar__picker-cell--selected')}
+                  onClick={() => {
+                    setDisplayed(new Date(y, month, 1));
+                    setView('months');
+                  }}
+                >
+                  <span className="si-calendar__picker-pill">{y}</span>
+                </button>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   const headerDate = `${WEEKDAYS_SHORT[selected.getDay()]}, ${MONTHS_SHORT[selected.getMonth()]} ${selected.getDate()}`;
 
@@ -92,10 +163,9 @@ export const Calendar = ({
           type="button"
           className="si-calendar__month-btn"
           aria-label="Izberi mesec in leto"
-          onClick={() => {
-            setYearPage(0);
-            setView(view === 'days' ? 'years' : 'days');
-          }}
+          // _onLabelTap: days <-> years (from months back to days); the year page stays where it
+          // was (all three views stay built, cross-faded)
+          onClick={() => setView(view === 'days' ? 'years' : 'days')}
         >
           <span className="si-calendar__month-label">{label}</span>
           <svg
@@ -134,75 +204,29 @@ export const Calendar = ({
         )}
       </div>
 
+      {/* The three views are stacked and cross-faded (AnimatedOpacity 200 ms) */}
       <div className="si-calendar__content">
-        {view === 'days' && (
-          <>
-            <div className="si-calendar__week">
-              {WEEKDAYS.map((d, i) => (
-                <span key={`${d}-${i}`} className="si-calendar__cell si-calendar__weekday">
-                  {d}
-                </span>
-              ))}
-            </div>
-            {Array.from({ length: rowCount }, (_, row) => (
-              <div key={row} className="si-calendar__week">
-                {Array.from({ length: 7 }, (_, col) => {
-                  const day = row * 7 + col - offset + 1;
-                  if (day < 1 || day > daysInMonth) {
-                    return <span key={col} className="si-calendar__cell" />;
-                  }
-                  const date = new Date(year, month, day);
-                  const isSelected = sameDay(date, selected);
-                  const isToday = sameDay(date, todayDate);
-                  return (
-                    <button
-                      key={col}
-                      type="button"
-                      className={joinClasses(
-                        'si-calendar__cell',
-                        'si-calendar__day',
-                        isSelected && 'si-calendar__day--selected',
-                        isToday && !isSelected && 'si-calendar__day--today',
-                      )}
-                      aria-pressed={isSelected}
-                      onClick={() => setSelected(date)}
-                    >
-                      <span className="si-calendar__day-number">{day}</span>
-                    </button>
-                  );
-                })}
-              </div>
+        <div className={joinClasses('si-calendar__layer', view === 'days' && 'si-calendar__layer--on')}>
+          <div className="si-calendar__week">
+            {WEEKDAYS.map((d, i) => (
+              <span key={`${d}-${i}`} className="si-calendar__cell si-calendar__weekday">
+                {d}
+              </span>
             ))}
-          </>
-        )}
-
-        {view === 'years' &&
-          Array.from({ length: 5 }, (_, row) => (
-            <div key={row} className="si-calendar__picker-row">
-              {Array.from({ length: 3 }, (_, col) => {
-                const y = startYear + row * 3 + col;
-                return (
-                  <button
-                    key={y}
-                    type="button"
-                    className={joinClasses(
-                      'si-calendar__picker-cell',
-                      y === year && 'si-calendar__picker-cell--selected',
-                    )}
-                    onClick={() => {
-                      setDisplayed(new Date(y, month, 1));
-                      setView('months');
-                    }}
-                  >
-                    <span className="si-calendar__picker-pill">{y}</span>
-                  </button>
-                );
-              })}
-            </div>
-          ))}
-
-        {view === 'months' &&
-          Array.from({ length: 4 }, (_, row) => (
+          </div>
+          <Pager
+            ref={daysPager}
+            className="si-calendar__pager"
+            page={monthIndex}
+            onPage={(k) => setDisplayed(new Date(Math.floor(k / 12), ((k % 12) + 12) % 12, 1))}
+            renderPage={monthGrid}
+          />
+        </div>
+        <div className={joinClasses('si-calendar__layer', view === 'years' && 'si-calendar__layer--on')}>
+          <Pager ref={yearsPager} className="si-calendar__pager--years" page={yearPage} onPage={setYearPage} renderPage={yearGrid} />
+        </div>
+        <div className={joinClasses('si-calendar__layer', view === 'months' && 'si-calendar__layer--on')}>
+          {Array.from({ length: 4 }, (_, row) => (
             <div key={row} className="si-calendar__picker-row">
               {Array.from({ length: 3 }, (_, col) => {
                 const m = row * 3 + col;
@@ -225,6 +249,7 @@ export const Calendar = ({
               })}
             </div>
           ))}
+        </div>
       </div>
 
       <div className="si-calendar__actions">
