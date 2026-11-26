@@ -28,6 +28,22 @@ def verdict(lines):
     return ('ok' if not bad else 'diff'), bad
 
 
+# differences that are not the twin's: (platform or None for both, case name prefix) -> reason
+KNOWN = [
+    (None, 'filter__bar-multirow', 'SIFilterBar (Wrap) je širok kot najdaljša vrstica, dvojček 360; na tem okvirju ni nič narisano, čipi se ujemajo'),
+    ('Android', 'status__popup', 'v katalogu je pojavno okno nad zatemnjenim katalogom, dvojček nad svojo podlago; okno samo se ujema'),
+    (None, 'loading-bar__indeterminate-true', 'neskončna animacija: izrisa sta dva različna trenutka'),
+    ('Android', 'phone__search-hr', 'Flutter test pri tem koraku ne zamenja zastavice'),
+    ('iOS', 'filter__filters-badge', 'knjižnica na iOS dvigne števko za 1,5 pt (badgeDigitOffsetYIOS), da izravna CoreText na napravi; '
+     'v testu CoreText ni, zato je števka v Flutter izrisu višje, kot je na iPhonu - dvojček kaže izid na napravi (enako kot Android)'),
+    ('iOS', 'calendar__swipe-next', 'Flutter test vlečenja ne izvede (koledar ostane na istem mesecu)'),
+]
+
+
+def known(plat, name):
+    return next((r for p, prefix, r in KNOWN if (p is None or p == plat) and name.startswith(prefix)), None)
+
+
 def image(work, name, dest):
     d = os.path.join(work, 'cat/test/out/')
     jf, tf = d + name + '.json', d + name + '.twin.png'
@@ -62,46 +78,55 @@ def image(work, name, dest):
 groups = {}
 totals = {}
 for plat, path, work in runs:
-    ok = diff = 0
+    ok = exc = diff = 0
     for name, lines in parse(path).items():
         v, bad = verdict(lines)
+        if v != 'ok' and known(plat, name):
+            v = 'known'
         rel = f'img/{plat.lower()}/{name}.jpg'
         has = image(work, name, os.path.join(out_dir, rel))
         widget = re.split(r'__', name)[0]
         groups.setdefault(widget, []).append((plat, name, v, bad, rel if has else None))
-        ok += v == 'ok'; diff += v != 'ok'
-    totals[plat] = (ok, diff)
+        ok += v == 'ok'; exc += v == 'known'; diff += v == 'diff'
+    totals[plat] = (ok, exc, diff)
 
 parts = ["""<!doctype html><html lang="sl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Flutter proti Storybooku</title>
 <style>
-:root{--bg:#f6f7f8;--fg:#1b1d1f;--muted:#5e6366;--ok:#1d7a3e;--bad:#b3261e;--card:#fff;--line:#d9dcde}
+:root{--bg:#f6f7f8;--fg:#1b1d1f;--muted:#5e6366;--ok:#1d7a3e;--bad:#b3261e;--warn:#8a5300;--card:#fff;--line:#d9dcde}
 body{margin:0;padding:16px;background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,sans-serif}
 h1{font-size:20px;margin:0 0 4px}h2{font-size:16px;margin:28px 0 8px}
 .sum{color:var(--muted);margin-bottom:12px}
 nav{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}nav a{padding:2px 8px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--fg);background:var(--card)}
 nav a.bad{border-color:var(--bad);color:var(--bad)}
 .case{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px;margin:8px 0}
-.case h3{font-size:13px;margin:0 0 6px;font-weight:600}.ok{color:var(--ok)}.diff{color:var(--bad)}
+.case h3{font-size:13px;margin:0 0 6px;font-weight:600}.ok{color:var(--ok)}.diff{color:var(--bad)}.known{color:var(--warn)}
+.case figure{display:inline-block;max-width:100%;margin:0}
+.cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;font-size:12px;color:var(--muted);margin-bottom:2px}
 .case img{max-width:100%;height:auto;display:block;border:1px solid var(--line)}
+.why{font-size:12px;color:var(--warn);margin:6px 0 0}
 pre{white-space:pre-wrap;font-size:12px;color:var(--bad);margin:6px 0 0}
 label{display:inline-flex;gap:6px;align-items:center;margin-left:12px}
 body.only-diff .case.ok-case{display:none}
 .legend{font-size:12px;color:var(--muted)}
 </style></head><body>
 <h1>Gradniki - mobile: Flutter katalog proti Storybooku</h1>"""]
-summ = ' · '.join(f'{p}: {o} primerov ujemanje, {d} z razliko' for p, (o, d) in totals.items())
+summ = ' · '.join(f'{p}: {o} ujemanje, {k} znane izjeme, {d} drugih razlik' for p, (o, k, d) in totals.items())
 parts.append(f'<div class="sum">{html.escape(summ)} <label><input type="checkbox" onchange="document.body.classList.toggle(\'only-diff\', this.checked)"> samo razlike</label></div>')
-parts.append('<div class="legend">Vsaka slika: Flutter izris | Storybook dvojček | razlika (ojačana 6×; rdeča = razlika). Preverjanja: postavitev, črnilo in barva besedila, ploskve, ikone in oblike. Obrisi črk v razliki so različno mehčanje robov (dva izrisovalnika), ne premik; podlaga okrog gradnika je podlaga primerjave, ne del gradnika. Znane izjeme: filter__bar-multirow (nevidna širina vrstice), status__popup* (katalog za zatemnitvijo), loading-bar__indeterminate-true (animacija), phone__search-hr na Androidu (Flutter test ne zamenja zastavice), filter__filters-badge na iOS (namenski zamik knjižnice), calendar__swipe-next na iOS (Flutter test vlečenja ne izvede).</div>')
+parts.append('<div class="legend">Vsaka slika ima tri stolpce: <b>levo Flutter izris</b> (mobilna knjižnica: katalog, izrisan v Flutter testu) | <b>sredina Storybook dvojček</b> | <b>desno razlika</b> (ojačana 6×; rdeča = razlika). Preverjanja: postavitev, črnilo in barva besedila, ploskve, ikone in oblike. Obrisi črk v razliki so različno mehčanje robov (dva izrisovalnika), ne premik; podlaga okrog gradnika je podlaga primerjave, ne del gradnika. <b>Znana izjema</b> je razlika, ki ni napaka dvojčka - razlog je zapisan pri primeru.</div>')
 parts.append('<nav>' + ''.join(
-    f'<a href="#{w}" class="{"bad" if any(c[2] != "ok" for c in cs) else ""}">{html.escape(w)}</a>' for w, cs in sorted(groups.items())) + '</nav>')
+    f'<a href="#{w}" class="{"bad" if any(c[2] == "diff" for c in cs) else ""}">{html.escape(w)}</a>' for w, cs in sorted(groups.items())) + '</nav>')
 for w, cs in sorted(groups.items()):
     parts.append(f'<h2 id="{w}">{html.escape(w)}</h2>')
     for plat, name, v, bad, rel in sorted(cs, key=lambda c: (c[1], c[0])):
         cls = 'ok-case' if v == 'ok' else 'diff-case'
-        parts.append(f'<div class="case {cls}"><h3>{html.escape(name)} · {plat} · <span class="{v}">{"ujemanje" if v == "ok" else "razlika"}</span></h3>')
+        label = {'ok': 'ujemanje', 'known': 'znana izjema', 'diff': 'razlika'}[v]
+        parts.append(f'<div class="case {cls}"><h3>{html.escape(name)} · {plat} · <span class="{v}">{label}</span></h3>')
         if rel:
-            parts.append(f'<img loading="lazy" src="{rel}" alt="{html.escape(name)} {plat}">')
+            parts.append('<figure><div class="cols"><span>Flutter (mobilna knjižnica)</span><span>Storybook (dvojček)</span>'
+                         f'<span>razlika ×6</span></div><img loading="lazy" src="{rel}" alt="{html.escape(name)} {plat}"></figure>')
+        if v == 'known':
+            parts.append(f'<div class="why">Znana izjema: {html.escape(known(plat, name))}</div>')
         if bad:
             parts.append('<pre>' + html.escape('\n'.join(bad[:12])) + '</pre>')
         parts.append('</div>')
