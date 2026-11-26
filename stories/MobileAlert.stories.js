@@ -1,4 +1,5 @@
 import React from 'react';
+import { useArgs, useEffect } from 'storybook/preview-api';
 
 import { Alert } from './Alert';
 import {
@@ -61,8 +62,8 @@ const renderList = (platform, listStyle) => {
         mode: 'list',
         listStyle,
         platform,
-        listTitle: 'Title',
-        supportingText: supportingSample,
+        title: 'Title',
+        message: supportingSample,
         ...config,
       }),
     ),
@@ -109,21 +110,24 @@ export default {
   },
   tags: ['autodocs'],
   decorators: [withMobileWidth],
+  // One Naslov and one Besedilo for both kinds, as the catalog. textShown / linesShown are
+  // kept by Privzeto: an `if` takes one condition, while the catalog shows the text for
+  // Opozorilo or with Besedilo on, and the lines only for Pojasnilo with Besedilo on.
   args: {
     mode: 'alert',
     style: 'filled',
+    listStyle: 'basic',
     platform: 'android',
     showIcon: true,
     showDismiss: true,
-    title: 'Title',
-    message: 'Message',
-    listStyle: 'basic',
     showSupporting: true,
     showAvatar: false,
     showChevron: true,
-    listTitle: 'Title',
+    title: 'Title',
     supportingLines: 2,
-    supportingText: 'Message',
+    message: 'Message',
+    textShown: true,
+    linesShown: false,
   },
   argTypes: {
     mode: {
@@ -143,6 +147,19 @@ export default {
       options: ['filled', 'stroke'],
       if: { arg: 'mode', eq: 'alert' },
     },
+    listStyle: {
+      name: 'Slog',
+      control: {
+        type: 'select',
+        labels: {
+          basic: 'Privzeto',
+          filled: 'Zapolnjeno',
+          outlined: 'Obrobljeno',
+        },
+      },
+      options: ['basic', 'filled', 'outlined'],
+      if: { arg: 'mode', eq: 'list' },
+    },
     platform: {
       name: 'Platforma',
       control: { type: 'inline-radio', labels: { ios: 'iOS', android: 'Android' } },
@@ -158,35 +175,9 @@ export default {
       control: { type: 'boolean' },
       if: { arg: 'mode', eq: 'alert' },
     },
-    title: { name: 'Naslov', if: { arg: 'mode', eq: 'alert' } },
-    message: { name: 'Besedilo', if: { arg: 'mode', eq: 'alert' } },
-    listStyle: {
-      name: 'Slog',
-      control: {
-        type: 'select',
-        labels: {
-          basic: 'Privzeto',
-          filled: 'Zapolnjeno',
-          outlined: 'Obrobljeno',
-        },
-      },
-      options: ['basic', 'filled', 'outlined'],
-      if: { arg: 'mode', eq: 'list' },
-    },
-    listTitle: { name: 'Naslov', if: { arg: 'mode', eq: 'list' } },
     showSupporting: {
       name: 'Besedilo',
       control: { type: 'boolean' },
-      if: { arg: 'mode', eq: 'list' },
-    },
-    supportingText: {
-      name: 'Besedilo',
-      if: { arg: 'mode', eq: 'list' },
-    },
-    supportingLines: {
-      name: 'Besedilo',
-      control: { type: 'select', labels: { 1: 'Ena', 2: 'Dve' } },
-      options: [1, 2],
       if: { arg: 'mode', eq: 'list' },
     },
     showAvatar: {
@@ -199,6 +190,16 @@ export default {
       control: { type: 'boolean' },
       if: { arg: 'mode', eq: 'list' },
     },
+    title: { name: 'Naslov', control: { type: 'text' } },
+    supportingLines: {
+      name: 'Besedilo',
+      control: { type: 'select', labels: { 1: 'Ena', 2: 'Dve' } },
+      options: [1, 2],
+      if: { arg: 'linesShown' },
+    },
+    message: { name: 'Besedilo', control: { type: 'text' }, if: { arg: 'textShown' } },
+    textShown: { type: { name: 'boolean' }, table: { disable: true } },
+    linesShown: { type: { name: 'boolean' }, table: { disable: true } },
     className: { table: { disable: true } },
   },
 };
@@ -209,4 +210,15 @@ export const Variants = {
   parameters: { controls: { disable: true }, layout: 'fullscreen', mobileWidth: 0 },
 };
 
-export const Default = { name: 'Privzeto' };
+export const Default = {
+  name: 'Privzeto',
+  render: (args) => {
+    const [, updateArgs] = useArgs();
+    const textShown = args.mode === 'alert' || Boolean(args.showSupporting);
+    const linesShown = args.mode === 'list' && Boolean(args.showSupporting);
+    useEffect(() => {
+      if (args.textShown !== textShown || args.linesShown !== linesShown) updateArgs({ textShown, linesShown });
+    }, [textShown, linesShown]);
+    return React.createElement(Alert, args);
+  },
+};

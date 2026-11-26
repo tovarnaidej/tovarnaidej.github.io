@@ -16,8 +16,8 @@ import {
  */
 const listArgs = (args = {}) => ({
   style: args.listStyle,
-  title: args.listTitle,
-  supportingText: args.showSupporting === false ? '' : args.supportingText,
+  title: args.title,
+  supportingText: args.showSupporting === false ? '' : args.message,
   supportingLineLimit: args.supportingLines,
   showAvatar: args.showAvatar,
   avatarInitials: 'A',

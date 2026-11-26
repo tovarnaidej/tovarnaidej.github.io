@@ -17,27 +17,26 @@ const joinClasses = (...names) => names.filter(Boolean).join(' ');
 export const Alert = ({
   mode = 'alert',
   style = 'filled',
+  listStyle = 'basic',
   platform = 'android',
   showIcon = true,
   showDismiss = true,
-  title = 'Title',
-  message = 'Message',
-  listStyle = 'basic',
   showSupporting = true,
   showAvatar = false,
   showChevron = true,
-  listTitle = 'Title',
+  title = 'Title',
   supportingLines = 2,
-  supportingText = 'Supporting line text lorem ipsum dolor sit amet, consectetur',
+  message = 'Message',
   className = '',
 }) => {
+  // The catalog keeps one Naslov and one Besedilo for both kinds (_title, _text).
   if (mode === 'list') {
     return (
       <ListItem
         style={listStyle}
         platform={platform}
-        title={listTitle}
-        supportingText={showSupporting ? supportingText : ''}
+        title={title}
+        supportingText={showSupporting ? message : ''}
         supportingLineLimit={supportingLines}
         showAvatar={showAvatar}
         // Catalog: the chevron slot is always reserved; "Puščica" only hides the glyph.
@@ -78,20 +77,22 @@ export const Alert = ({
   );
 };
 
+// Order = the catalog's controls in both kinds (Storybook lists the controls in this order):
+// Opozorilo: Vrsta, Slog, Ikona, Zapri, Naslov, Besedilo;
+// Pojasnilo: Vrsta, Slog, Besedilo, Avatar, Puščica, Naslov, Besedilo (lines), Besedilo (text).
 Alert.propTypes = {
   mode: PropTypes.oneOf(['alert', 'list']),
   style: PropTypes.oneOf(['filled', 'stroke']),
+  listStyle: PropTypes.oneOf(['basic', 'filled', 'outlined']),
   platform: PropTypes.oneOf(['ios', 'android']),
   showIcon: PropTypes.bool,
   showDismiss: PropTypes.bool,
-  title: PropTypes.string,
-  message: PropTypes.string,
-  listStyle: PropTypes.oneOf(['basic', 'filled', 'outlined']),
   showSupporting: PropTypes.bool,
   showAvatar: PropTypes.bool,
   showChevron: PropTypes.bool,
-  listTitle: PropTypes.string,
+  title: PropTypes.string,
   supportingLines: PropTypes.oneOf([1, 2]),
-  supportingText: PropTypes.string,
+  /** Opozorilo: the message; Pojasnilo: the supporting text. */
+  message: PropTypes.string,
   className: PropTypes.string,
 };
