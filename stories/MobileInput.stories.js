@@ -1,5 +1,5 @@
 import React from 'react';
-import { useArgs, useEffect, useRef } from 'storybook/preview-api';
+import { useArgs } from 'storybook/preview-api';
 
 import { Input } from './Input';
 import {
@@ -139,17 +139,6 @@ export const Default = {
   name: 'Privzeto',
   render: (args) => {
     const [, updateArgs] = useArgs();
-    // Platforma stands for the device the catalog runs on: its label position starts at
-    // that device's default (iOS Nad poljem, Android V polju).
-    // (only when Platforma alone changed: a label position set together with it stays)
-    const previous = useRef({ platform: args.platform, labelPosition: args.labelPosition });
-    useEffect(() => {
-      const before = previous.current;
-      previous.current = { platform: args.platform, labelPosition: args.labelPosition };
-      if (before.platform !== args.platform && before.labelPosition === args.labelPosition) {
-        updateArgs({ labelPosition: args.platform === 'ios' ? 'above' : 'floating' });
-      }
-    }, [args.platform, args.labelPosition]);
     // The catalog keys the field by Slog, Omogočeno, Napaka, Ikona and Oznaka (a rebuilt field
     // loses focus); the typed text stays (its controller), here in the hidden value arg.
     return React.createElement(Input, {
