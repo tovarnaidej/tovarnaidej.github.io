@@ -52,3 +52,11 @@ phone__search-none|gradniki-mobile-vnosno-polje-za-telefonsko-številko--default
 phone__picked-al|gradniki-mobile-vnosno-polje-za-telefonsko-številko--default|.si-phone-input||click:.si-phone-input__selector ;; click:.si-phone-input__list-item:has-text("Albanija")
 phone__typed|gradniki-mobile-vnosno-polje-za-telefonsko-številko--default|.si-phone-input||click:.si-phone-input__number-host .si-phone-input__typed ;; keys:41321654
 phone__typed-then-error|gradniki-mobile-vnosno-polje-za-telefonsko-številko--default|.si-phone-input||click:.si-phone-input__number-host .si-phone-input__typed ;; keys:41321654 ;; args:hasError:!true
+calendar-input__preview|gradniki-mobile-vnosno-polje-za-datum--default|.catalog-preview||
+calendar-input__typed|gradniki-mobile-vnosno-polje-za-datum--default|.si-calendar-input||click:.si-calendar-input__field-input ;; keys:12052026
+calendar-input__invalid|gradniki-mobile-vnosno-polje-za-datum--default|.si-calendar-input||click:.si-calendar-input__field-input ;; keys:99 ;; click:.si-calendar-input__action:nth-child(2)
+calendar-input__ok|gradniki-mobile-vnosno-polje-za-datum--default|.catalog-preview||click:.si-calendar-input__field-input ;; keys:12052026 ;; click:.si-calendar-input__action:nth-child(2)
+calendar-input__cancel|gradniki-mobile-vnosno-polje-za-datum--default|.catalog-preview||click:.si-calendar-input__action:nth-child(1)
+calendar-input__range-endbefore|gradniki-mobile-vnosno-polje-za-datum--default|.si-calendar-input|mode:range|click:.si-calendar-input__field:nth-child(1) .si-calendar-input__field-input ;; keys:12052026 ;; click:.si-calendar-input__field:nth-child(2) .si-calendar-input__field-input ;; keys:01012026 ;; click:.si-calendar-input__action:nth-child(2)
+calendar-input__picker|gradniki-mobile-vnosno-polje-za-datum--default|.catalog-dialog .si-calendar, .catalog-dialog .si-cal-ios|platform:android|click:.si-calendar-input__icon-btn
+calendar-input__picked-10|gradniki-mobile-vnosno-polje-za-datum--default|.si-calendar-input|platform:android|click:.si-calendar-input__icon-btn ;; click:.catalog-dialog .si-calendar__day:has-text("10"), .catalog-dialog .si-cal-ios__day:has-text("10") ;; click?:.catalog-dialog .si-calendar__action:has-text("V redu")

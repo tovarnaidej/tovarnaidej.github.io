@@ -35,6 +35,7 @@ export default {
   tags: ['autodocs'],
   args: {
     mode: 'single',
+    platform: 'android',
   },
   argTypes: {
     mode: {
@@ -45,7 +46,14 @@ export default {
       },
       options: ['single', 'range'],
     },
+    platform: {
+      name: 'Platforma',
+      control: { type: 'select', labels: { ios: 'iOS', android: 'Android' } },
+      options: ['ios', 'android'],
+    },
     focused: { table: { disable: true } },
+    onConfirmed: { table: { disable: true } },
+    onCancelled: { table: { disable: true } },
     className: { table: { disable: true } },
   },
 };
@@ -56,4 +64,43 @@ export const Variants = {
   parameters: { controls: { disable: true }, layout: 'fullscreen' },
 };
 
-export const Default = { name: 'Privzeto' };
+/* The catalog's preview: the input (keyed by Način: a new, empty one), 16 below it
+   "Zadnji rezultat: …" (bodyMedium), 8 below that the TextButton "Odpri kot pogovorno okno"
+   opening the same input as a dialog (SICalendarInput.show: barrier 32 %, insets 24). */
+const CalendarInputPreview = ({ args }) => {
+  const [last, setLast] = React.useState('—');
+  const [dialog, setDialog] = React.useState(false);
+  return React.createElement(
+    'div',
+    { className: 'catalog-preview catalog-preview--centred' },
+    React.createElement(CalendarInput, {
+      ...args,
+      key: args.mode,
+      onConfirmed: setLast,
+      onCancelled: () => setLast('Preklicano'),
+    }),
+    React.createElement('p', { className: 'catalog-text', style: { marginTop: 16 } }, `Zadnji rezultat: ${last}`),
+    React.createElement(
+      'button',
+      { type: 'button', className: 'catalog-text-button', style: { marginTop: 12 }, onClick: () => setDialog(true) },
+      'Odpri kot pogovorno okno',
+    ),
+    dialog
+      ? React.createElement(
+          'div',
+          { className: 'catalog-dialog catalog-dialog--light', onClick: (e) => { if (e.target === e.currentTarget) { setDialog(false); setLast('Preklicano'); } } },
+          React.createElement(CalendarInput, {
+            mode: args.mode,
+            platform: args.platform,
+            onConfirmed: (r) => { setDialog(false); setLast(r); },
+            onCancelled: () => { setDialog(false); setLast('Preklicano'); },
+          }),
+        )
+      : null,
+  );
+};
+
+export const Default = {
+  name: 'Privzeto',
+  render: (args) => React.createElement(CalendarInputPreview, { args }),
+};

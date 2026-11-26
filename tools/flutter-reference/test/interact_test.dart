@@ -9,6 +9,7 @@ import 'package:catalog_app/screens/accordion_configurator.dart';
 import 'package:catalog_app/screens/action_configurator.dart';
 import 'package:catalog_app/screens/avatar_configurator.dart';
 import 'package:catalog_app/screens/button_configurator.dart';
+import 'package:catalog_app/screens/calendar_input_configurator.dart';
 import 'package:catalog_app/screens/card_configurator.dart';
 import 'package:catalog_app/screens/checkbox_configurator.dart';
 import 'package:catalog_app/screens/filter_configurator.dart';
@@ -168,4 +169,18 @@ void main() {
   testWidgets('phone__picked-al', (t) async { T = t; await screen(t, 'phone__picked-al', const PhoneInputConfigurator(), ty(SIPhoneInput), act: () async { await openPicker(); await T.tap(find.text('Albanija (+355)')); }); });
   testWidgets('phone__typed', (t) async { T = t; await screen(t, 'phone__typed', const PhoneInputConfigurator(), ty(SIPhoneInput), act: () async { await click(number()); await T.enterText(number(), '41321654'); }); });
   testWidgets('phone__typed-then-error', (t) async { T = t; await screen(t, 'phone__typed-then-error', const PhoneInputConfigurator(), ty(SIPhoneInput), act: () async { await click(number()); await T.enterText(number(), '41321654'); FocusManager.instance.primaryFocus?.unfocus(); await T.pumpAndSettle(); await boolTap('Napaka'); }); });
+  // Vnosno polje za datum: mask, error, V redu / Prekliči (Zadnji rezultat), the date picker
+  Finder dateField([int i = 0]) => inPreview(find.byType(EditableText)).at(i);
+  Future<void> typeDate(String digits, [int i = 0]) async { await click(dateField(i)); await T.enterText(dateField(i), digits); await T.pumpAndSettle(); }
+  Future<void> pressText(String label) async { await tapHere(inPreview(find.text(label)).first); await T.pumpAndSettle(); }
+  testWidgets('calendar-input__preview', (t) async { T = t; await screen(t, 'calendar-input__preview', const CalendarInputConfigurator(), preview); });
+  testWidgets('calendar-input__typed', (t) async { T = t; await screen(t, 'calendar-input__typed', const CalendarInputConfigurator(), ty(SICalendarInput), act: () => typeDate('12052026')); });
+  testWidgets('calendar-input__invalid', (t) async { T = t; await screen(t, 'calendar-input__invalid', const CalendarInputConfigurator(), ty(SICalendarInput), act: () async { await typeDate('99'); FocusManager.instance.primaryFocus?.unfocus(); await pressText('V redu'); }); });
+  testWidgets('calendar-input__ok', (t) async { T = t; await screen(t, 'calendar-input__ok', const CalendarInputConfigurator(), preview, act: () async { await typeDate('12052026'); FocusManager.instance.primaryFocus?.unfocus(); await pressText('V redu'); }); });
+  testWidgets('calendar-input__cancel', (t) async { T = t; await screen(t, 'calendar-input__cancel', const CalendarInputConfigurator(), preview, act: () => pressText('Prekliči')); });
+  testWidgets('calendar-input__range-endbefore', (t) async { T = t; await screen(t, 'calendar-input__range-endbefore', const CalendarInputConfigurator(), ty(SICalendarInput), act: () async { await enumTap('Način', 'Datumsko obdobje'); await typeDate('12052026', 0); await typeDate('01012026', 1); FocusManager.instance.primaryFocus?.unfocus(); await pressText('V redu'); }); });
+  // the icon opens the date picker (today's month); a picked day fills the field
+  Finder picker() => find.byWidgetPredicate((w) => w is SIDatePicker || w is SIDatePickerIOS);
+  testWidgets('calendar-input__picker', (t) async { T = t; await screen(t, 'calendar-input__picker', const CalendarInputConfigurator(), picker, act: () async { await tapHere(inPreview(find.byType(IconButton))); await T.pumpAndSettle(); }); });
+  testWidgets('calendar-input__picked-10', (t) async { T = t; await screen(t, 'calendar-input__picked-10', const CalendarInputConfigurator(), ty(SICalendarInput), act: () async { await tapHere(inPreview(find.byType(IconButton))); await T.pumpAndSettle(); await T.tap(find.descendant(of: picker(), matching: find.text('10')).first); await T.pumpAndSettle(); if (find.descendant(of: picker(), matching: find.text('V redu')).evaluate().isNotEmpty) { await T.tap(find.descendant(of: picker(), matching: find.text('V redu')).first); await T.pumpAndSettle(); } }); });
 }

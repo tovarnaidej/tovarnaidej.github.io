@@ -176,3 +176,16 @@
   color: #3c7b94;
   cursor: pointer;
 }
+
+/* _errorText: under the fields, 24 from the sides and 8 above the actions, fieldLabelStyle in
+   Regular (13/17 +0.1), error colour */
+.si-calendar-input__error {
+  margin: 0;
+  padding: 0 24px 8px;
+  font: 400 13px/17px 'SI Republika', 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
+  color: #d32f2f;
+  text-align: left;
+  /* Align(centerLeft) across the full width (the column centres its children) */
+  align-self: stretch;
+}

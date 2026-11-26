@@ -69,3 +69,14 @@
   descent-override: 24.4141%;
   line-gap-override: 0%;
 }
+
+@font-face {
+  font-family: 'Catalog Roboto';
+  src: url('/fonts/si/catalog-roboto-medium.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  ascent-override: 92.7734%;
+  descent-override: 24.4141%;
+  line-gap-override: 0%;
+}

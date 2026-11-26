@@ -60,7 +60,7 @@ await p.waitForTimeout(300);
 //   click:<sel>[@fx,fy]   press:<sel>[@fx,fy] (button held down while measuring)
 //   type:<sel>=<text> (key by key)   key:<Key>   drag:<sel>@fx,fy>fx2,fy2   wait:<ms>
 //   scroll:<sel> (into view, as tester.ensureVisible)   args:<k:v;k2:v2> (a control changed)
-//   keys:<text> (typed into the focused field, key by key)
+//   keys:<text> (typed into the focused field, key by key)   click?:<sel> (only if it is there)
 // (fx, fy: fraction of the element's box; the middle when left out)
 async function runSteps(steps) {
   const at = async (spec) => {
@@ -70,10 +70,11 @@ async function runSteps(steps) {
     const [fx, fy] = frac ? frac.split(',').map(Number) : [0.5, 0.5];
     return { x: r.x + r.width * fx, y: r.y + r.height * fy, r };
   };
-  for (const step of (/^(click|press|type|keys|key|drag|wait|scroll|args):/.test(steps) ? steps.split(' ;; ') : [`click:${steps}`])) {
+  for (const step of (/^(click\??|press|type|keys|key|drag|wait|scroll|args):/.test(steps) ? steps.split(' ;; ') : [`click:${steps}`])) {
     const i = step.indexOf(':');
     const kind = step.slice(0, i), rest = step.slice(i + 1);
     if (kind === 'click') { const q = await at(rest); await p.mouse.click(q.x, q.y); }
+    else if (kind === 'click?') { if (await p.$(rest.split('@')[0])) { const q = await at(rest); await p.mouse.click(q.x, q.y); } } // only if there
     else if (kind === 'press') { const q = await at(rest); await p.mouse.move(q.x, q.y); await p.mouse.down(); }
     else if (kind === 'type') { const [sel, ...t] = rest.split('='); await p.click(sel); await p.locator(sel).pressSequentially(t.join('='), { delay: 20 }); }
     else if (kind === 'key') await p.keyboard.press(rest);

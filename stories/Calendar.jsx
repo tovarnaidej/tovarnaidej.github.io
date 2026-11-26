@@ -42,6 +42,8 @@ export const Calendar = ({
   initialDate,
   today,
   initialView = 'days',
+  onDateSelected,
+  onCancelled,
   className = '',
 }) => {
   const [selected, setSelected] = useState(() => toDate(initialDate));
@@ -226,10 +228,10 @@ export const Calendar = ({
       </div>
 
       <div className="si-calendar__actions">
-        <button type="button" className="si-calendar__action">
+        <button type="button" className="si-calendar__action" onClick={() => onCancelled?.()}>
           Prekliči
         </button>
-        <button type="button" className="si-calendar__action">
+        <button type="button" className="si-calendar__action" onClick={() => onDateSelected?.(selected)}>
           V redu
         </button>
       </div>
@@ -238,6 +240,10 @@ export const Calendar = ({
 };
 
 Calendar.propTypes = {
+  /** V redu: the selected date (SIDatePicker.show returns it). */
+  onDateSelected: PropTypes.func,
+  /** Prekliči. */
+  onCancelled: PropTypes.func,
   style: PropTypes.oneOf(['outlined', 'filled', 'elevated']),
   /** `YYYY-MM-DD` or Date; defaults to today (catalog: `DateTime.now()`). */
   initialDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),

@@ -45,6 +45,7 @@ export const CalendarIOS = ({
   initialDate,
   today: todayProp,
   initialView = 'days',
+  onDateSelected,
   className = '',
 }) => {
   const [view, setView] = useState(initialView);
@@ -60,7 +61,11 @@ export const CalendarIOS = ({
   const inMonth = (d) => d.getFullYear() === year && d.getMonth() === month;
   const day = inMonth(selectedDate) ? selectedDate.getDate() : null;
   const today = inMonth(todayDate) ? todayDate.getDate() : null;
-  const setDay = (d) => setSelectedDate(new Date(year, month, d));
+  const setDay = (d) => {
+    const date = new Date(year, month, d);
+    setSelectedDate(date);
+    onDateSelected?.(date);
+  };
   /* _startYearForPage: the first page starts with the displayed year. */
   const startYear = year + yearPage * YEARS_PER_PAGE;
   const step = (delta) => {
@@ -187,6 +192,8 @@ export const CalendarIOS = ({
 };
 
 CalendarIOS.propTypes = {
+  /** A tapped day (SIDatePickerIOS onDateSelected: the dialog closes with it). */
+  onDateSelected: PropTypes.func,
   style: PropTypes.oneOf(['outlined', 'filled', 'elevated']),
   /** `YYYY-MM-DD` or Date; defaults to today (catalog: `DateTime.now()`). */
   initialDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),

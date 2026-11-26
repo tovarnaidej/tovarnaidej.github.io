@@ -8,6 +8,11 @@
   align-items: stretch;
 }
 
+/* Column(mainAxisSize: min) with the default centre alignment */
+.catalog-preview--centred {
+  align-items: center;
+}
+
 .catalog-text {
   margin: 0;
   font-family: 'Catalog Roboto', Roboto, Arial, sans-serif;
@@ -53,4 +58,32 @@
 @keyframes catalog-dialog-in {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* SIDatePicker.show / SICalendarInput.show: barrier black 32 %, insetPadding 24 */
+.catalog-dialog--light {
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.32);
+}
+
+/* Material TextButton in the catalog preview (labelLarge 14 / 20 Medium, +0.1, primary): 40 high,
+   with 4 above and below for the 48 tap target (MaterialTapTargetSize.padded) */
+.catalog-text-button {
+  margin: 4px 0;
+  min-width: 64px;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 20px;
+  background: transparent;
+  font: 500 14px/20px 'Catalog Roboto', Roboto, Arial, sans-serif;
+  letter-spacing: 0.1px;
+  color: #106681; /* colorScheme.primary of the seed #3C7B94 (measured in the render) */
+  cursor: pointer;
+}
+
+/* The catalog runs on a 393 wide phone: a Dialog with insetPadding 24 gives its child at most
+   345 (the iOS date picker fills that; the Android one and the date input are narrower). */
+.catalog-dialog--light .si-cal-ios {
+  width: 345px;
 }
