@@ -80,6 +80,8 @@
   font: var(--si-body-medium);
   letter-spacing: var(--si-ls-plus01);
   overflow-wrap: anywhere;
+  /* Flutter Text keeps new lines (the catalog's Sporočilo is multiline) and spaces */
+  white-space: pre-wrap;
   -webkit-box-orient: vertical;
 }
 
