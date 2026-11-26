@@ -194,11 +194,32 @@
   top: var(--si-lead-regular);
 }
 
-.si-search-bar__caret {
-  display: block;
-  width: 1px;
-  height: 16px;
-  background: #3c7b94;
+/* The field: the text is drawn by the face span (exact Flutter position); a transparent input
+   over it takes the typing, the caret (cursorColor = the text colour) and the focus. */
+.si-search-bar__text {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  align-self: stretch;
+  min-width: 0;
+  cursor: text;
+}
+
+.si-search-bar__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: transparent;
+  caret-color: #000000;
+  font: 400 17px/25px 'SI Republika', 'Republika', Arial, sans-serif;
+  letter-spacing: 0.1px;
 }
 
 .si-search-bar__divider {

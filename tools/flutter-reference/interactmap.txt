@@ -42,3 +42,8 @@ status__meta-empty|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--d
 status__secondary-empty|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status||args:secondaryLabel:
 status__title-changed|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.si-status||args:title:Nov%20naslov
 status__popup-closed|gradniki-mobile-gradnik-za-prisilno-posodobitev-aplikacije--default|.catalog-status-open|presentation:popup|click:.catalog-status-open ;; click:.si-status__primary
+search-bar__typed|gradniki-mobile-iskalno-polje--default|.si-search-bar|platform:android|click:.si-search-bar__input ;; keys:Abc
+search-bar__cleared|gradniki-mobile-iskalno-polje--default|.si-search-bar|platform:android;resultsMode:shown|click:.si-search-bar__icon-btn[aria-label=Počisti]
+search-bar__back|gradniki-mobile-iskalno-polje--default|.si-search-bar|platform:android;resultsMode:shown|click:.si-search-bar__icon-btn[aria-label=Nazaj]
+search-bar__back-then-avatar|gradniki-mobile-iskalno-polje--default|.si-search-bar|platform:android;resultsMode:shown|click:.si-search-bar__icon-btn[aria-label=Nazaj] ;; args:showAvatar:!true
+search-bar__shown-noclear|gradniki-mobile-iskalno-polje--default|.si-search-bar|platform:android;resultsMode:shown;showClearButton:!false|

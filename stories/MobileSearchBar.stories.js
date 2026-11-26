@@ -62,6 +62,7 @@ export default {
     resultsMode: 'hide',
     showAvatar: false,
     showResultAvatars: true,
+    showClearButton: true,
     placeholder: 'Input search text',
   },
   argTypes: {
@@ -80,7 +81,8 @@ export default {
           outlined: 'Obrobljeno',
         },
       },
-      options: styles,
+      // catalog order (SISearchBarStyle.values)
+      options: ['defaultStyle', 'filled', 'outlined'],
     },
     resultsMode: {
       name: 'Rezultati',
@@ -95,11 +97,8 @@ export default {
       options: resultsModes,
     },
     showAvatar: { name: 'Avatar', control: { type: 'boolean' } },
-    showResultAvatars: {
-      name: 'Avatarji rezultatov',
-      control: { type: 'boolean' },
-      if: { arg: 'resultsMode', eq: 'shown' },
-    },
+    showResultAvatars: { name: 'Avatarji rezultatov', control: { type: 'boolean' } },
+    showClearButton: { name: 'Zapri', control: { type: 'boolean' } },
     placeholder: { name: 'Nadomestno besedilo' },
     query: { table: { disable: true } },
     className: { table: { disable: true } },
@@ -113,4 +112,10 @@ export const Variants = {
 };
 
 /* Catalog preview fills the pane (393 wide phone). */
-export const Default = { name: 'Privzeto', parameters: { mobileWidth: 361 } };
+export const Default = {
+  name: 'Privzeto',
+  parameters: { mobileWidth: 361 },
+  // The catalog keys the bar by Slog, Rezultati and Zapri: a new bar with its starting text.
+  render: (args) =>
+    React.createElement(SearchBar, { ...args, key: `${args.style}${args.resultsMode}${args.showClearButton}` }),
+};

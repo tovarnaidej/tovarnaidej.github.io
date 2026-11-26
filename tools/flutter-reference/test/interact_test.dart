@@ -16,6 +16,7 @@ import 'package:catalog_app/screens/input_configurator.dart';
 import 'package:catalog_app/screens/progress_bar_configurator.dart';
 import 'package:catalog_app/screens/radio_configurator.dart';
 import 'package:catalog_app/screens/range_bar_configurator.dart';
+import 'package:catalog_app/screens/search_bar_configurator.dart';
 import 'package:catalog_app/screens/status_screen_configurator.dart';
 import 'package:catalog_app/screens/switch_configurator.dart';
 import 'package:catalog_app/screens/tabs_configurator.dart';
@@ -150,4 +151,11 @@ void main() {
   testWidgets('status__secondary-empty', (t) async { T = t; await screen(t, 'status__secondary-empty', const StatusScreenConfigurator(), ty(SIStatusScreen), act: () => textSet('Sekundarni gumb', ''), size: const Size(393, 908)); });
   testWidgets('status__title-changed', (t) async { T = t; await screen(t, 'status__title-changed', const StatusScreenConfigurator(), ty(SIStatusScreen), act: () => textSet('Naslov', 'Nov naslov'), size: const Size(393, 908)); });
   testWidgets('status__popup-closed', (t) async { T = t; await screen(t, 'status__popup-closed', const StatusScreenConfigurator(), ty(SIButton), act: () async { await enumTap('Prikaz', 'Pojavno okno'); await tap(inPreview(find.text('Odpri pojavno okno'))); await T.pumpAndSettle(); await T.tap(find.text('Posodobi aplikacijo').last); }); });
+  // Iskalno polje: typing, the clear (x), the back arrow, and a control change re-opening it
+  Finder iconButtons() => inPreview(find.byType(SIIconButton));
+  testWidgets('search-bar__typed', (t) async { T = t; await screen(t, 'search-bar__typed', const SearchBarConfigurator(), preview, act: () async { await click(inPreview(find.byType(EditableText))); await T.enterText(inPreview(find.byType(EditableText)), 'Abc'); }); });
+  testWidgets('search-bar__cleared', (t) async { T = t; await screen(t, 'search-bar__cleared', const SearchBarConfigurator(), preview, act: () async { await enumTap('Rezultati', 'Prikazano'); await tapHere(iconButtons().last); }); });
+  testWidgets('search-bar__back', (t) async { T = t; await screen(t, 'search-bar__back', const SearchBarConfigurator(), preview, act: () async { await enumTap('Rezultati', 'Prikazano'); await tapHere(iconButtons().first); }); });
+  testWidgets('search-bar__back-then-avatar', (t) async { T = t; await screen(t, 'search-bar__back-then-avatar', const SearchBarConfigurator(), preview, act: () async { await enumTap('Rezultati', 'Prikazano'); await tapHere(iconButtons().first); await T.pumpAndSettle(); await boolTap('Avatar'); }); });
+  testWidgets('search-bar__shown-noclear', (t) async { T = t; await screen(t, 'search-bar__shown-noclear', const SearchBarConfigurator(), preview, act: () async { await enumTap('Rezultati', 'Prikazano'); await boolTap('Zapri'); }); });
 }
