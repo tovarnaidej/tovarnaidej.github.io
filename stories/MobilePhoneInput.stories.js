@@ -61,8 +61,9 @@ export default {
     enabled: { name: 'Omogočeno', control: { type: 'boolean' } },
     hasError: { name: 'Napaka', control: { type: 'boolean' } },
     label: { table: { disable: true } },
-    // the iOS catalog has it (Flutter / Android fix the text)
-    errorText: { name: 'Besedilo napake', if: { arg: 'hasError' } },
+    // the iOS catalog has it (Flutter / Android fix the text), always shown as there (the text
+    // appears under the field while Napaka is on)
+    errorText: { name: 'Besedilo napake' },
     value: { table: { disable: true } },
     open: { table: { disable: true } },
     countryCode: { table: { disable: true } },
