@@ -25,6 +25,14 @@ story.calendar = { id: 'gradniki-mobile-koledar--default', sel: '.si-calendar, .
 
 // Storybook has these, the catalog does not (the device decides there).
 const OWN = new Set(['Platforma']);
+// Fields of the iOS catalog app that the Flutter (and Android) catalog fixes: Storybook has the
+// fields of all three apps. Shown only where they change something (Besedilo napake while Napaka
+// is on, the results' Besedilo while results are shown).
+const IOS_FIELDS = {
+  input: ['Besedilo', 'Besedilo napake'],
+  'phone-input': ['Besedilo napake'],
+  'search-bar': ['Besedilo'],
+};
 // Catalog controls a Storybook panel cannot show; what the twin has instead.
 // Differences a Storybook control cannot avoid (reported as notes): a control's range is fixed,
 // the catalog's "Trenutni korak" slider ends at Skupaj korakov (the story clamps the value).
@@ -96,10 +104,10 @@ function keyed(list) {
   });
 }
 
-function comparePanel(catIn, sbIn) {
+function comparePanel(catIn, sbIn, w) {
   const diffs = [];
   const cat = keyed(catIn);
-  const sbOwn = keyed(sbIn.filter((r) => !OWN.has(r.name)));
+  const sbOwn = keyed(sbIn.filter((r) => !OWN.has(r.name) && !(IOS_FIELDS[w] || []).includes(r.name)));
   const cn = cat.map((c) => c.name), sn = sbOwn.map((r) => r.name);
   for (const n of cn) if (!sn.includes(n)) diffs.push(`missing "${n}"`);
   for (const n of sn) if (!cn.includes(n)) diffs.push(`extra "${n}"`);
@@ -247,7 +255,7 @@ for (const w of names) {
         await act(p, frame, w, s.path[k], prev);
         prev = dump.states.find((x) => x.path.join('>') === s.path.slice(0, k + 1).join('>'))?.controls ?? prev;
       }
-      const diffs = comparePanel(catalogControls(s.controls), await readPanel(p));
+      const diffs = comparePanel(catalogControls(s.controls), await readPanel(p), w);
       // STALE: the preview now vs a fresh load with the same args. The manager writes the args
       // into its URL up to a second after a change: wait until every changed arg is there.
       const iframe = await p.$('#storybook-preview-iframe');

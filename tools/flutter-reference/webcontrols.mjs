@@ -17,8 +17,12 @@ const { chromium } = require('playwright');
 const { PNG } = require('pngjs');
 
 const want = process.argv.slice(2);
+// MOBILE=1: the Gradniki - mobile stories instead (their panel is also checked against the
+// Flutter catalog by controls.mjs; this adds NO EFFECT and the controls the catalog does not have)
+const mobile = process.env.MOBILE === '1';
 const index = await (await fetch('http://localhost:6006/index.json')).json();
-const stories = Object.values(index.entries).filter((e) => e.type === 'story' && !e.title.startsWith('Gradniki - mobile/')
+const stories = Object.values(index.entries).filter((e) => e.type === 'story'
+  && e.title.startsWith('Gradniki - mobile/') === mobile
   && (!want.length || want.some((w) => e.id.includes(w))));
 
 // [story id part ('' = any), control name, value (null = any), why nothing shows]
@@ -35,7 +39,22 @@ const BY_DESIGN = [
   ['gumb-spletna-različica--text', 'Stanje', 'Pritisnjen', 'Figma: besedilni gumb ob pritisku nima drugega videza'],
   ['obvestilo', 'Povezava akcije', null, 'cilj povezave, videz ostane enak'],
   ['obvestilo', 'Pogled', 'Samodejno', 'sledi širini okna, ki je tu namizna'],
+  // Gradniki - mobile (MOBILE=1): Platforma is Storybook's own; it changes what the device changes
+  ['gradniki-mobile-gumb', 'Platforma', 'iOS', 'spremeni odziv ob pritisku (iOS prosojnost, Android poudarek)'],
+  ['gradniki-mobile-izbira-izbirni-gumb', 'Platforma', 'iOS', 'spremeni odziv ob pritisku (iOS prosojnost 0,7)'],
+  ['gradniki-mobile-izbira-potrditveno-polje', 'Platforma', 'iOS', 'spremeni odziv ob pritisku (iOS prosojnost 0,7)'],
+  ['gradniki-mobile-navigacija-zgornji-meni', 'Platforma', 'iOS', 'spremeni gumbe zgornje vrstice dvovrstične glave (Srednja, Široka)'],
+  ['gradniki-mobile-iskalno-polje', 'Platforma', 'iOS', 'spremeni dotično območje ikon (40 pt), ikona ostane na mestu'],
+  ['gradniki-mobile-vnosno-polje--', 'Platforma', 'iOS', 'spremeni debelino obrobe v fokusu in pri napaki'],
+  ['gradniki-mobile-vnosno-polje-za-datum', 'Platforma', 'iOS', 'izbere izbirnik datuma, ki se odpre ob ikoni'],
+  // as in all three catalog apps
+  ['gradniki-mobile-iskalno-polje', 'Avatarji rezultatov', null, 'kot v katalogih: vpliva, ko so rezultati prikazani'],
+  ['gradniki-mobile-iskalno-polje', 'Zapri', null, 'kot v katalogih: gumb x in vzorčno besedilo, ko so rezultati prikazani'],
+  ['gradniki-mobile-obvestila', 'Največje št. vrstic', null, 'privzeto sporočilo je v eni vrstici'],
 ];
+// Changes after which the preview moves on its own: two renders are two moments, not comparable.
+const MOVING = [['gradniki-mobile-kazalnik-napredka', 'Animacija']];
+const moving = (id, name) => MOVING.some(([part, n]) => n === name && id.includes(part));
 const byDesign = (id, name, v) => BY_DESIGN.find(([part, n, value]) => n === name && id.includes(part) && (value === null || value === v))?.[3];
 
 function diffPixels(a, b, threshold) {
@@ -57,7 +76,9 @@ const rowOf = (name) => [...document.querySelectorAll('#storybook-panel-root tab
   .find((tr) => tr.querySelector('td')?.innerText.split('\n')[0].trim() === name);
 
 const b = await chromium.launch({ channel: 'msedge', args: ['--disable-lcd-text'] });
-const fresh = await b.newPage({ viewport: { width: 1400, height: 1100 } });
+// The fresh load is the same manager page with the args in its URL: an iframe and a top-level
+// page draw some things differently (the rounded inset outline of Harmonika differs at the corners).
+const fresh = await (await b.newContext({ viewport: { width: 1400, height: 2400 } })).newPage();
 let checked = 0, bad = 0, dead = 0;
 let p = null;
 for (const s of stories) {
@@ -144,7 +165,6 @@ for (const s of stories) {
         if (expected ? a.split(';').includes(expected) && t - changedAt >= 300 : a !== a0 && t - changedAt >= 600) break;
       }
       const iframe = await p.$('#storybook-preview-iframe');
-      const vp = await iframe.evaluate((f) => ({ width: f.clientWidth, height: f.clientHeight }));
       await p.waitForTimeout(400);
       const now = await preview();
       const none = unchanged(before, now);
@@ -155,11 +175,21 @@ for (const s of stories) {
         else { dead++; report.push(`  NO EFFECT "${c.name}" → ${shown}`); }
       }
       if (!args) { report.push(`  "${c.name}" → ${shown}: not in the URL (cannot compare)`); continue; }
-      await fresh.setViewportSize(vp);
-      await fresh.goto(`http://localhost:6006/iframe.html?id=${s.id}&viewMode=story&args=${args}`, { waitUntil: 'networkidle' });
-      await fresh.evaluate(() => document.fonts.ready);
-      await fresh.waitForTimeout(700);
-      const then = await fresh.screenshot();
+      if (moving(s.id, c.name)) { report.push(`  by design: "${c.name}" → ${shown} (animacija: izrisa sta dva trenutka)`); continue; }
+      // Storybook leaves values with unsafe characters (a comma, č) out of the URL: a fresh load
+      // would get the story's own value for them, so it cannot be compared
+      const missing = await (await iframe.contentFrame()).evaluate((id) => {
+        const store = window.__STORYBOOK_PREVIEW__?.storyStoreValue?.args;
+        const now = store?.argsByStoryId?.[id] || {}, init = store?.initialArgsByStoryId?.[id] || {};
+        return Object.keys(now).filter((k) => typeof now[k] !== 'function' && JSON.stringify(now[k]) !== JSON.stringify(init[k]));
+      }, s.id).then((changed) => changed.filter((k) => !args.split(';').some((kv) => kv.split(':')[0] === k)));
+      if (missing.length) { report.push(`  "${c.name}" → ${shown}: the URL leaves out ${missing.join(', ')} (unsafe characters), not compared with a fresh load`); continue; }
+      await fresh.goto(`http://localhost:6006/?path=/story/${s.id}&args=${args}`, { waitUntil: 'networkidle' });
+      await fresh.waitForSelector('#storybook-panel-root table tbody tr', { timeout: 10000 }).catch(() => {});
+      const freshFrame = await fresh.$('#storybook-preview-iframe');
+      await (await freshFrame.contentFrame()).evaluate(() => document.fonts.ready);
+      await fresh.waitForTimeout(900);
+      const then = await freshFrame.screenshot();
       const d = samePng(now, then);
       if (d) { bad++; report.push(`  STALE "${c.name}" → ${shown}: ${d} (args=${args})`); }
     } catch (e) {
