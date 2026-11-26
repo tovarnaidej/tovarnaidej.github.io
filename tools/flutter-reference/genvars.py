@@ -75,6 +75,6 @@ for name, key, act in tests:
     tgt = 'preview' if c[1] == 'preview' else c[1]
     dart.append(f"  testWidgets('{name}', (t) async {{ T = t; await screen(t, '{esc(name)}', const {c[0]}(), {tgt}, act: {act}, size: const Size({c[2]}, 852)); }});")
 dart.append('}')
-open('cat/test/var_test.dart', 'w', encoding='utf8').write('\n'.join(dart))
-open('varmap.txt', 'w', encoding='utf8').write('\n'.join('|'.join(r) for r in rows) + '\n')
+open('cat/test/var_test.dart', 'w', encoding='utf8', newline='\n').write('\n'.join(dart))
+open('varmap.txt', 'w', encoding='utf8', newline='\n').write('\n'.join('|'.join(r) for r in rows) + '\n')
 print(len(tests), 'variants')
