@@ -92,6 +92,7 @@ export default {
     obscure: false,
     label: 'Oznaka',
     value: 'Besedilo',
+    errorText: 'Besedilo napake',
   },
   argTypes: {
     style: {
@@ -120,9 +121,10 @@ export default {
     focused: { table: { disable: true } },
     showIcon: { name: 'Ikona', control: { type: 'boolean' } },
     obscure: { name: 'Skrij', control: { type: 'boolean' } },
+    // Besedilo and Besedilo napake: the iOS catalog has them (Flutter / Android fix both texts)
+    value: { name: 'Besedilo' },
     label: { name: 'Oznaka' },
-    value: { table: { disable: true } },
-    errorText: { table: { disable: true } },
+    errorText: { name: 'Besedilo napake', if: { arg: 'hasError' } },
     placeholder: { table: { disable: true } },
     className: { table: { disable: true } },
     onChange: { table: { disable: true } },

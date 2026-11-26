@@ -119,12 +119,14 @@ Input.propTypes = {
   labelPosition: PropTypes.oneOf(['above', 'floating', 'hidden']),
   enabled: PropTypes.bool,
   hasError: PropTypes.bool,
-  errorText: PropTypes.string,
   focused: PropTypes.bool,
   showIcon: PropTypes.bool,
   obscure: PropTypes.bool,
-  label: PropTypes.string,
+  /** The field's text (iOS catalog "Besedilo"; typing writes it back). */
   value: PropTypes.string,
+  label: PropTypes.string,
+  /** Shown under the field while `hasError` (iOS catalog "Besedilo napake"). */
+  errorText: PropTypes.string,
   placeholder: PropTypes.string,
   className: PropTypes.string,
   /** Typed text (the story keeps it across the catalog's key-driven rebuilds). */
