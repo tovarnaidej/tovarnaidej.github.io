@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import chevronDown from './assets/mobile/input/chevron-down.svg';
 import './mobile-tokens.css';
 import './input.css';
+import { useControlled } from './use-controlled';
 
 const cx = (...names) => names.filter(Boolean).join(' ');
 
@@ -15,7 +16,7 @@ const cx = (...names) => names.filter(Boolean).join(' ');
  */
 export const Input = ({
   style = 'outline',
-  platform = 'ios',
+  platform = 'android',
   labelPosition,
   enabled = true,
   hasError = false,
@@ -27,14 +28,15 @@ export const Input = ({
   value = 'Besedilo',
   placeholder = '',
   className = '',
+  onChange,
 }) => {
   const position = labelPosition || (platform === 'ios' ? 'above' : 'floating');
-  const [text, setText] = useState(value);
+  // The typed text: the story keeps it (the catalog's controller survives a rebuild).
+  const [text, setText] = useControlled(value, onChange);
   const [hasFocus, setHasFocus] = useState(false);
   const labelRef = useRef(null);
   const [labelWidth, setLabelWidth] = useState(0);
 
-  useLayoutEffect(() => setText(value), [value]);
   useLayoutEffect(() => {
     const measure = () => setLabelWidth(labelRef.current?.getBoundingClientRect().width || 0);
     measure();
@@ -55,6 +57,11 @@ export const Input = ({
       disabled={!enabled}
       aria-label={label}
       aria-invalid={hasError || undefined}
+      // a TextField has no spell check, suggestions or auto-capitals
+      spellCheck={false}
+      autoComplete="off"
+      autoCorrect="off"
+      autoCapitalize="off"
       onChange={(e) => setText(e.target.value)}
       onFocus={() => setHasFocus(true)}
       onBlur={() => setHasFocus(false)}
@@ -120,4 +127,6 @@ Input.propTypes = {
   value: PropTypes.string,
   placeholder: PropTypes.string,
   className: PropTypes.string,
+  /** Typed text (the story keeps it across the catalog's key-driven rebuilds). */
+  onChange: PropTypes.func,
 };

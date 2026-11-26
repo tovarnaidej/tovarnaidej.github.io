@@ -63,18 +63,22 @@
 .si-input__decoration {
   position: absolute;
   inset: 0;
-  border: var(--si-input-w) solid var(--si-input-line);
+  /* Flutter paints the border at its real width (1.5 when focused). Chromium floors a border
+     width to whole pixels (1.5 -> 1, drawn half a pixel off): an inset shadow keeps the fraction. */
+  border: 0;
+  box-shadow: inset 0 0 0 var(--si-input-w) var(--si-input-line);
   border-radius: inherit;
   pointer-events: none;
 }
 
-/* underline: bottom side only */
+/* underline: bottom side only, 0.5 (focused 1.5) */
 .si-input--underline .si-input__decoration {
-  border-width: 0 0 0.5px;
+  --si-input-w: 0.5px;
+  box-shadow: inset 0 calc(-1 * var(--si-input-w)) 0 0 var(--si-input-line);
 }
 
 .si-input--underline.si-input--focused .si-input__decoration {
-  border-bottom-width: 1.5px;
+  --si-input-w: 1.5px;
 }
 
 /* outline widths */
@@ -96,12 +100,12 @@
 
 /* filled: no border unless error */
 .si-input--filled .si-input__decoration {
-  border-color: transparent;
+  --si-input-line: transparent;
 }
 
 .si-input--filled.si-input--error .si-input__decoration {
   --si-input-w: 0.5px;
-  border-color: var(--si-error);
+  --si-input-line: var(--si-error);
 }
 
 .si-input--filled.si-input--android.si-input--error .si-input__decoration {
@@ -201,7 +205,7 @@
 }
 
 .si-input--label-floating.si-input--filled.si-input--disabled:not(.si-input--error) .si-input__decoration {
-  border-color: var(--si-outline);
+  --si-input-line: var(--si-outline);
 }
 
 .si-input__floating-label {
