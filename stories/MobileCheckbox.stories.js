@@ -1,4 +1,5 @@
 import React from 'react';
+import { useArgs } from 'storybook/preview-api';
 
 import { Checkbox } from './Checkbox';
 import {
@@ -57,32 +58,34 @@ export default {
     platformCode: { component: 'checkbox' },
   },
   tags: ['autodocs'],
+  // Catalog order: Debelina, Označeno, Omogočeno, Napaka, Prikaži oznako, Oznaka (always shown).
   args: {
+    thickness: 'thick',
     checked: false,
     enabled: true,
     hasError: false,
     showLabel: true,
     label: 'Checkbox label',
-    thickness: 'thick',
     platform: 'android',
   },
   argTypes: {
-    platform: {
-      name: 'Platforma',
-      control: { type: 'select', labels: { ios: 'iOS', android: 'Android' } },
-      options: ['ios', 'android'],
-    },
-    checked: { name: 'Označeno', control: { type: 'boolean' } },
-    enabled: { name: 'Omogočeno', control: { type: 'boolean' } },
-    hasError: { name: 'Napaka', control: { type: 'boolean' } },
-    showLabel: { name: 'Prikaži oznako', control: { type: 'boolean' } },
-    label: { name: 'Oznaka', if: { arg: 'showLabel', eq: true } },
     thickness: {
       name: 'Debelina',
       control: { type: 'inline-radio', labels: { thin: 'Tanka', thick: 'Debela' } },
       options: ['thin', 'thick'],
     },
+    checked: { name: 'Označeno', control: { type: 'boolean' } },
+    enabled: { name: 'Omogočeno', control: { type: 'boolean' } },
+    hasError: { name: 'Napaka', control: { type: 'boolean' } },
+    showLabel: { name: 'Prikaži oznako', control: { type: 'boolean' } },
+    label: { name: 'Oznaka', control: { type: 'text' } },
+    platform: {
+      name: 'Platforma',
+      control: { type: 'select', labels: { ios: 'iOS', android: 'Android' } },
+      options: ['ios', 'android'],
+    },
     className: { table: { disable: true } },
+    onChange: { table: { disable: true } },
   },
 };
 
@@ -92,4 +95,11 @@ export const Variants = {
   parameters: { controls: { disable: true }, layout: 'fullscreen' },
 };
 
-export const Default = { name: 'Privzeto' };
+export const Default = {
+  name: 'Privzeto',
+  // Tapping the box changes "Označeno" too (the catalog shares one value).
+  render: (args) => {
+    const [, updateArgs] = useArgs();
+    return React.createElement(Checkbox, { ...args, onChange: (checked) => updateArgs({ checked }) });
+  },
+};

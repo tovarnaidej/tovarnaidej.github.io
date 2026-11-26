@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import './mobile-tokens.css';
 import './checkbox.css';
+import { useControlled } from './use-controlled';
 
 export const Checkbox = ({
+  thickness = 'thick',
   checked: checkedProp = false,
   enabled = true,
   hasError = false,
   showLabel = true,
   label = 'Checkbox label',
-  thickness = 'thick',
   platform = 'android',
   className = '',
+  onChange,
 }) => {
-  const [checked, setChecked] = useState(checkedProp);
+  // One state for the box and the "Označeno" control, as in the catalog.
+  const [checked, setChecked] = useControlled(checkedProp, onChange);
 
   return (
     <label
@@ -49,14 +52,17 @@ export const Checkbox = ({
   );
 };
 
+// Order = the catalog's controls (Storybook lists the controls in this order).
 Checkbox.propTypes = {
+  thickness: PropTypes.oneOf(['thin', 'thick']),
   checked: PropTypes.bool,
   enabled: PropTypes.bool,
   hasError: PropTypes.bool,
   showLabel: PropTypes.bool,
   label: PropTypes.string,
-  thickness: PropTypes.oneOf(['thin', 'thick']),
-  /** Tap target: iOS 44, Android 48 (visible without a label). */
+  /** Tap target: iOS 44, Android 48 (visible without a label); iOS dims the row while pressed. */
   platform: PropTypes.oneOf(['ios', 'android']),
   className: PropTypes.string,
+  /** The box was tapped: the new value (the story writes it back to "Označeno"). */
+  onChange: PropTypes.func,
 };
