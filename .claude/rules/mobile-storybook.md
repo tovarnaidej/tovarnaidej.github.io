@@ -98,6 +98,38 @@ paths:
   (easeInOut, 1600 ms), počaka 350 ms in začne znova - ne vrtenje ali drseča črta.
 - Kartica, kompaktna na Androidu (82): medij 80 je centriran, zato se nad in pod njim vidi 1 px
   barve kartice (pri obrobljeni ga prekrije obroba). To je lastnost knjižnice, ne napaka dvojčka.
+- Lokalizacija (vnos v `main.dart`) namenoma ni v Storybooku: ni gradnik (odločitev uporabnika).
+
+## Konfigurator = Controls (obvezno, vsaka kontrola in vsaka interakcija)
+Storybook kontrole so katalogov konfigurator. Dosedanje napake: kontrola po izrisu ni naredila nič
+(`useState(prop)`), klik v predogledu ni posodobil kontrole, manjkajoče/odvečne kontrole, napačen
+vrstni red in vidnost, predogled brez vnosa (Iskalno polje, Telefon, Datum).
+- Stanje, ki ga deli kontrola: `useControlled(value, onChange)` (`stories/use-controlled.js`) - sledi
+  propu, interakcijo javi; story z `useArgs` zapiše nazaj (Označeno, Vklopljeno, Vrednost drsnika).
+  Nikoli `useState(prop)` brez sinhronizacije.
+- Katalogov `ValueKey(...)` → `key` v renderju Privzeto (nov gradnik, stanje ponastavljeno).
+- Stranski učinki kataloga (`setState` spremeni še druge vrednosti) → `useArgs` + `useEffect` na
+  prejšnjo vrednost. Sestavljena vidnost (`if` sprejme en pogoj) → skrit izpeljan arg s `type`.
+- Vrstni red kontrol = vrstni red `propTypes` dvojčka (docgen); arg, ki ga docgen ne pozna, dobi
+  `type` (brez njega ga Storybook postavi na vrh).
+- Besedila in elementi kataloga okrog gradnika (»Izbrano: …«, »Zadnji rezultat: …«, »Odpri pojavno
+  okno«) so del Privzeto: `stories/catalog-preview.css`, pisava 'Catalog Roboto' (Roboto iz Flutter
+  SDK), bodyMedium 14/20 #171C1F, TextButton #106681; Flutter višino vrstice zaokroži na celo piko.
+- Tipkano besedilo: vidni glifi v `span`, prozoren `<input>` čez (kazalec, vnos), `spellCheck={false}`
+  (Chromium sicer podčrta), maske in preverjanja iz knjižnice (npr. `_DateInputFormatter`).
+- Preverjanje (`tools/flutter-reference`, README): `flutter test test/controls_test.dart` +
+  `node controls.mjs` (plošča = katalog, po vsakem koraku predogled = sveže nalaganje),
+  `AFTER_MOUNT=1 bash fullpass.sh` (args po izrisu), `interact_test.dart` + `interactmap.txt` (klik,
+  držanje pritiska, tipkanje, vlečenje, odpiranje/zapiranje, kontrola po interakciji).
+- Chromium (naučeno): širino obrobe zaokroži navzdol (1,5 → 1, 1,2 → 1) - uporabi `box-shadow: inset`;
+  `scrollLeft` je cela pika - ostanek kot `translate`; ploskev pisave za »…« (unicode-range) se naloži
+  šele ob prvi rabi - pred merjenjem `document.fonts.load`; `overflow: hidden` ob kratki vrstici
+  odreže spodnje zanke - za »…« `overflow-x: clip`; `position: fixed` v transformiranem predniku ni
+  več fiksen.
+- Znane omejitve: Storybook kontrola ima stalen razpon (Trenutni korak do 10, story omeji); kazalec
+  je 1 px (Flutter 2 px, preverjanja ga izpustijo); Android animacije »ripple« (InkSparkle) dvojček ne
+  ponavlja (le highlight); vlečenje v Flutter iOS testu Koledarja strani ne zamenja; Android test po
+  filtriranju držav pokaže staro zastavico (asinhrono SVG nalaganje) - iOS referenca je pravilna.
 
 ## Struktura gradnika
 - `stories/MobileX.stories.js` — naslov `Gradniki - mobile/<Ime>`, `Variants` ("Vse različice",

@@ -92,6 +92,33 @@ What the harness and compare do so that the two renders are comparable:
 - `genvars.py`: `SKIP` (controls that exist only in another mode - covered by `manmap.txt`),
   `LINKED` (values the catalog changes together with a control), `SELECTOR`.
 
+## Controls and interactions (what a user does, not what a URL sets)
+
+The checks above load every case with its args in the URL, before the story mounts. A twin
+that only seeded its state from a prop looked right there and did nothing when the control
+was changed in the panel. Run these too:
+
+    flutter test test/controls_test.dart        # the catalog's controls panel: by default, one and
+                                                # two steps from it, after a tap on the preview
+    node controls.mjs [widget ...]              # the same steps in Storybook's Controls panel:
+                                                # PANEL (labels, order, options, values, visibility)
+                                                # and STALE (preview after the steps = fresh load)
+    AFTER_MOUNT=1 bash fullpass.sh <map> <out>  # every case with its args set after mount
+    flutter test test/interact_test.dart        # states reached by using the preview
+    bash fullpass.sh interactmap.txt <out>      # the same steps on the twin
+
+`interactmap.txt` lines carry the twin's steps in the 5th field (`compare.mjs`): `click:`,
+`click?:` (only if there), `press:` (held while measuring), `keys:` (typed into the focused
+field), `type:`, `drag:<sel>@fx,fy>fx2,fy2`, `scroll:`, `args:` (a control changed), `wait:`.
+The Flutter side clicks text fields with a mouse (a finger also gets selection handles) and taps
+bar chips without `ensureVisible` (it scrolls a horizontal bar).
+
+Also in every pass: `inkruns.py` compares the colour of each run's ink core (opacity, wrong
+colour); the browser runs with `--disable-lcd-text` (grayscale text, as a phone - Windows' LCD
+anti-aliasing tints cores up to #1f); `carets.py` leaves the caret of a focused field out (the
+harness records it; compare.mjs hides the twin's). `fullpass.sh` reports a case without a
+reference or a failed compare instead of passing it.
+
 ## iOS branches
 
 `Platform.isIOS` is false under `flutter test`. `IOS=1 bash tools/flutter-reference/setup.sh`

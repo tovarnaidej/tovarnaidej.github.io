@@ -23,6 +23,8 @@ SKIP = {
  'button': {'leadingIcon'}, 'calendar-input': {'focused'},
  'filter': {'previewAsBar', 'layout', 'style', 'showBadge', 'showDismiss'},
  'loading-bar': {'thickness'}, 'progress-bar': {'showText', 'orientation'},
+ # the catalog's 0 / 25 / 50 / 75 / 100 are buttons, not chips (controls.mjs + interactmap.txt)
+ 'range-bar': {'valueStop'},
 }
 # The catalog changes other values together with a control; a story URL sets only one arg.
 LINKED = {
