@@ -110,6 +110,8 @@ vrstni red in vidnost, predogled brez vnosa (Iskalno polje, Telefon, Datum).
   Besedilo napake, Telefon Besedilo napake, Iskalno polje Besedilo rezultatov), je v Storybooku z
   Flutterjevim privzetim besedilom in vidno tako kot v tistem appu (iOS: vedno, tudi ko še ne
   spremeni ničesar). Ob spremembi katalogov primerjaj vse tri (`controls.mjs` `IOS_FIELDS`).
+  Kjer se appi razlikujejo v vidnosti, velja iOS (odločitev uporabnika): Potrditveno polje Oznaka le ob
+  Prikaži oznako (Flutter in Android vedno).
 - Stanje, ki ga deli kontrola: `useControlled(value, onChange)` (`stories/use-controlled.js`) - sledi
   propu, interakcijo javi; story z `useArgs` zapiše nazaj (Označeno, Vklopljeno, Vrednost drsnika).
   Nikoli `useState(prop)` brez sinhronizacije.

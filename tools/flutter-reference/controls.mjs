@@ -35,7 +35,11 @@ const IOS_FIELDS = {
 // Catalog controls a Storybook panel cannot show; what the twin has instead.
 // Differences a Storybook control cannot avoid (reported as notes): a control's range is fixed,
 // the catalog's "Trenutni korak" slider ends at Skupaj korakov (the story clamps the value).
-const KNOWN = { 'progress-bar': [/^"Trenutni korak" range 1\.\.\d+ vs 1\.\.10$/] };
+const KNOWN = {
+  'progress-bar': [/^"Trenutni korak" range 1\.\.\d+ vs 1\.\.10$/],
+  // Oznaka shows only with Prikaži oznako, as in the iOS catalog (the Flutter one always shows it)
+  checkbox: [/^missing "Oznaka"$/],
+};
 const NOT_IN_PANEL = {
   'progress-bar': { presets: 'the 0 / 25 / 50 / 100 buttons are shortcuts for the Vrednost slider' },
 };

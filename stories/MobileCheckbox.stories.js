@@ -78,7 +78,8 @@ export default {
     enabled: { name: 'Omogočeno', control: { type: 'boolean' } },
     hasError: { name: 'Napaka', control: { type: 'boolean' } },
     showLabel: { name: 'Prikaži oznako', control: { type: 'boolean' } },
-    label: { name: 'Oznaka', control: { type: 'text' } },
+    // shown while Prikaži oznako is on, as in the iOS catalog (Flutter / Android show it always)
+    label: { name: 'Oznaka', control: { type: 'text' }, if: { arg: 'showLabel', eq: true } },
     platform: {
       name: 'Platforma',
       control: { type: 'select', labels: { ios: 'iOS', android: 'Android' } },
