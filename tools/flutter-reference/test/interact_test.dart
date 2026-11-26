@@ -110,6 +110,10 @@ void main() {
   // Drsnik
   testWidgets('range-bar__tap-25', (t) async { T = t; await screen(t, 'range-bar__tap-25', const RangeBarConfigurator(), ty(SIRangeBar), act: () => barTap(0.29453)); });
   testWidgets('range-bar__tap-snap', (t) async { T = t; await screen(t, 'range-bar__tap-snap', const RangeBarConfigurator(), ty(SIRangeBar), act: () => barTap(0.9)); });
+  // Vrednost from the catalog's 0 / 25 / 50 / 75 / 100 buttons (the twin's panel control: the bar used
+  // to ignore it with Oznake on - Storybook leaves the hidden slider arg out)
+  testWidgets('range-bar__stop-25', (t) async { T = t; await screen(t, 'range-bar__stop-25', const RangeBarConfigurator(), ty(SIRangeBar), act: () => tap(find.widgetWithText(TextButton, '25'))); });
+  testWidgets('range-bar__stop-100', (t) async { T = t; await screen(t, 'range-bar__stop-100', const RangeBarConfigurator(), ty(SIRangeBar), act: () => tap(find.widgetWithText(TextButton, '100'))); });
   testWidgets('range-bar__drag', (t) async { T = t; await screen(t, 'range-bar__drag', const RangeBarConfigurator(), ty(SIRangeBar), act: () => barDrag(0.5, 0.8)); });
   testWidgets('range-bar__noticks-drag', (t) async { T = t; await screen(t, 'range-bar__noticks-drag', const RangeBarConfigurator(), ty(SIRangeBar), act: () async { await boolTap('Oznake'); await barDrag(0.5, 0.3); }); });
   // Zavihki: the whole preview (tabs, "Izbrano: …", the hint for Pomakljivo)

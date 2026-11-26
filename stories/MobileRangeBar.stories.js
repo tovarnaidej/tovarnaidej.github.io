@@ -92,24 +92,26 @@ export const Default = {
   render: (args) => {
     const [, updateArgs] = useArgs();
     const previous = useRef(args);
+    // Storybook leaves an arg whose control is hidden by `if` out of args: with Oznake the bar
+    // shows valueStop (the 0 / 25 / 50 / 75 / 100 buttons), without them value (the slider).
+    // Before, the bar read value also with Oznake on and always drew the default 0.5.
+    // The hidden one is kept in step (valueStop = the stop nearest to value), so turning Oznake on
+    // shows the snapped value at once (_setShowTicks) and Koda (value) follows the buttons.
     useEffect(() => {
       const before = previous.current;
+      const mount = before === args;
       previous.current = args;
-      const value = Number(args.value);
-      if (args.showTicks && !before.showTicks) {
-        // _setShowTicks: turning the ticks on snaps the value to the nearest stop
-        const v = nearestStop(value);
-        if (v !== value || v !== args.valueStop) updateArgs({ value: v, valueStop: v });
-      } else if (args.showTicks && args.valueStop !== before.valueStop && args.valueStop !== value) {
-        updateArgs({ value: args.valueStop }); // one of the 0 / 25 / 50 / 75 / 100 buttons
-      } else if (value !== Number(before.value) && STOPS.includes(value) && args.valueStop !== value) {
-        updateArgs({ valueStop: value });
+      if (args.showTicks) {
+        if (mount || !before.showTicks || args.valueStop !== before.valueStop) updateArgs({ value: Number(args.valueStop) });
+      } else if (mount || before.showTicks || args.value !== before.value) {
+        updateArgs({ valueStop: nearestStop(Number(args.value)) });
       }
     }, [args.showTicks, args.value, args.valueStop]);
     // Dragging or tapping the bar changes "Vrednost" too (the catalog shares one value).
     return React.createElement(RangeBar, {
       ...args,
-      onChange: (value) => updateArgs(STOPS.includes(value) ? { value, valueStop: value } : { value }),
+      value: Number(args.showTicks ? args.valueStop : args.value),
+      onChange: (value) => updateArgs({ value, valueStop: nearestStop(value) }),
     });
   },
 };

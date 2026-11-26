@@ -8,6 +8,8 @@ radio__tap-2|gradniki-mobile-izbira-izbirni-gumb--default|.si-radio-group|platfo
 radio__press-3|gradniki-mobile-izbira-izbirni-gumb--default|.si-radio-group|platform:android|press:.si-radio-group .si-radio:nth-child(3)
 range-bar__tap-25|gradniki-mobile-drsnik--default|.si-range-bar||click:.si-range-bar@0.29453,0.5
 range-bar__tap-snap|gradniki-mobile-drsnik--default|.si-range-bar||click:.si-range-bar@0.9,0.5
+range-bar__stop-25|gradniki-mobile-drsnik--default|.si-range-bar||args:valueStop:0.25
+range-bar__stop-100|gradniki-mobile-drsnik--default|.si-range-bar||args:valueStop:1
 range-bar__drag|gradniki-mobile-drsnik--default|.si-range-bar||drag:.si-range-bar@0.5,0.5>0.8,0.5
 range-bar__noticks-drag|gradniki-mobile-drsnik--default|.si-range-bar|showTicks:!false|drag:.si-range-bar@0.5,0.5>0.3,0.5
 tabs__preview|gradniki-mobile-zavihki--default|.catalog-preview||
