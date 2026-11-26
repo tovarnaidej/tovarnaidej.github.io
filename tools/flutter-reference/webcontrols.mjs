@@ -24,13 +24,20 @@ function samePng(a, b) {
 }
 
 const b = await chromium.launch({ channel: 'msedge', args: ['--disable-lcd-text'] });
-const p = await b.newPage({ viewport: { width: 1400, height: 2400 } });
 const fresh = await b.newPage({ viewport: { width: 1400, height: 1100 } });
 let checked = 0, bad = 0;
+let p = null;
 for (const s of stories) {
+  // a new context per story: the manager keeps its UI state in localStorage, and a state left by
+  // one story's steps (a moved panel, a shortcut) made every click of the next one time out
+  if (p) await p.context().close();
+  p = await (await b.newContext({ viewport: { width: 1400, height: 2400 } })).newPage();
   const open = async () => {
     await p.goto(`http://localhost:6006/?path=/story/${s.id}`, { waitUntil: 'networkidle' });
     await p.waitForSelector('#storybook-panel-root', { timeout: 20000 });
+    // the first load in a new context is slow: wait for the rows instead of a fixed time (a story
+    // whose panel was not filled yet used to be skipped as one without controls)
+    await p.waitForSelector('#storybook-panel-root table tbody tr', { timeout: 10000 }).catch(() => {});
     await p.waitForTimeout(900);
   };
   await open();
@@ -47,7 +54,7 @@ for (const s of stories) {
     if (ta) return { name, kind: 'text', id: ta.id };
     return null;
   }).filter(Boolean));
-  if (!controls.length) continue;
+  if (!controls.length) { console.log(`${s.id}: no controls`); continue; }
   const steps = [];
   for (const c of controls) {
     if (c.kind === 'bool') steps.push({ c, v: 'toggle' });
@@ -85,7 +92,7 @@ for (const s of stories) {
       const d = samePng(now, then);
       if (d) { bad++; report.push(`  STALE "${c.name}" → ${v}: ${d} (args=${args})`); }
     } catch (e) {
-      bad++; report.push(`  ERROR "${c.name}" → ${v}: ${String(e.message || e).split('\n')[0]}`);
+      bad++; report.push(`  ERROR "${c.name}" → ${v}: ${String(e.message || e).split('\n').filter((l) => l.trim()).slice(0, 6).join(' | ')}`);
     }
   }
   console.log(`${s.id}: ${report.some((r) => /STALE|ERROR/.test(r)) ? 'FAIL' : 'OK'} (${steps.length} changes)`);

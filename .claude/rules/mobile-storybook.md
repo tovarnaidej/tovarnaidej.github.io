@@ -151,6 +151,10 @@ vrstni red in vidnost, predogled brez vnosa (Iskalno polje, Telefon, Datum).
 
 ## Preverjanje
 - `npm run storybook` (6006); `Privzeto` + kontrole primerjaj s Flutter izrisom (`tools/flutter-reference`),
-  `iframe.html?id=gradniki-mobile-<x>--variants` s PNG v `design_data` pri enaki širini; počakaj na pisave.
+  `iframe.html?id=gradniki-mobile-<x>--variants` s PNG v `design_data` pri enaki širini; počakaj na pisave
+  (`variants.mjs` + `variants.py`: vseh 25 parov naenkrat; PNG je Figma — besedila in namenska odstopanja
+  knjižnice niso napaka, manjkajoča varianta ali drug slog je).
+- Pregled na oko: `report.py` (galerija `.flutter-ref/report/index.html`: Flutter | dvojček | razlika za vsak
+  primer obeh platform). Kontrole spletnih storyjev: `webcontrols.mjs` (vsaka kontrola po izrisu = svež izris).
 - Commit na gradnik: `Align Gradniki - mobile/<Ime> with components SOT` (ali `Add …` za nov gradnik).
 - Ne commitaj `node_modules/`, `debug-storybook.log`, `.sb-cache/`, `storybook-static/`, `.flutter-ref/`.

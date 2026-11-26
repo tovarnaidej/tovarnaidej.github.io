@@ -37,6 +37,14 @@ def image(work, name, dest):
     a = Image.open(d + name + '.full.png').convert('RGB').crop(
         (int((j['x'] - p) * 2), int((j['y'] - p) * 2), int((j['x'] + j['w'] + p) * 2), int((j['y'] + j['h'] + p) * 2)))
     b = Image.open(tf).convert('RGB')
+    # the Flutter crop past the screen edge is black (a full-width widget): show the twin's pixels there
+    full_w, full_h = Image.open(d + name + '.full.png').size
+    offl = max(0, int(round((p - j['x']) * 2))); offt = max(0, int(round((p - j['y']) * 2)))
+    offr = max(0, int(round((j['x'] + j['w'] + p) * 2 - full_w))); offb = max(0, int(round((j['y'] + j['h'] + p) * 2 - full_h)))
+    if offl: a.paste(b.crop((0, 0, offl, b.height)), (0, 0))
+    if offt: a.paste(b.crop((0, 0, b.width, offt)), (0, 0))
+    if offr: a.paste(b.crop((a.width - offr, 0, a.width, b.height)), (a.width - offr, 0))
+    if offb: a.paste(b.crop((0, a.height - offb, b.width, a.height)), (0, a.height - offb))
     w, h = max(a.width, b.width), max(a.height, b.height)
     A = Image.new('RGB', (w, h), 'white'); A.paste(a, (0, 0))
     B = Image.new('RGB', (w, h), 'white'); B.paste(b, (0, 0))
@@ -84,7 +92,7 @@ body.only-diff .case.ok-case{display:none}
 <h1>Gradniki - mobile: Flutter katalog proti Storybooku</h1>"""]
 summ = ' · '.join(f'{p}: {o} primerov ujemanje, {d} z razliko' for p, (o, d) in totals.items())
 parts.append(f'<div class="sum">{html.escape(summ)} <label><input type="checkbox" onchange="document.body.classList.toggle(\'only-diff\', this.checked)"> samo razlike</label></div>')
-parts.append('<div class="legend">Vsaka slika: Flutter izris | Storybook dvojček | razlika (ojačana 6×; rdeča = razlika). Preverjanja: postavitev, črnilo in barva besedila, ploskve, ikone in oblike.</div>')
+parts.append('<div class="legend">Vsaka slika: Flutter izris | Storybook dvojček | razlika (ojačana 6×; rdeča = razlika). Preverjanja: postavitev, črnilo in barva besedila, ploskve, ikone in oblike. Obrisi črk v razliki so različno mehčanje robov (dva izrisovalnika), ne premik; podlaga okrog gradnika je podlaga primerjave, ne del gradnika. Znane izjeme: filter__bar-multirow (nevidna širina vrstice), status__popup* (katalog za zatemnitvijo), loading-bar__indeterminate-true (animacija), phone__search-hr na Androidu (Flutter test ne zamenja zastavice), filter__filters-badge na iOS (namenski zamik knjižnice), calendar__swipe-next na iOS (Flutter test vlečenja ne izvede).</div>')
 parts.append('<nav>' + ''.join(
     f'<a href="#{w}" class="{"bad" if any(c[2] != "ok" for c in cs) else ""}">{html.escape(w)}</a>' for w, cs in sorted(groups.items())) + '</nav>')
 for w, cs in sorted(groups.items()):

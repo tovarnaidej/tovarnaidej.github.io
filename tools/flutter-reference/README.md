@@ -113,6 +113,27 @@ field), `type:`, `drag:<sel>@fx,fy>fx2,fy2`, `scroll:`, `args:` (a control chang
 The Flutter side clicks text fields with a mouse (a finger also gets selection handles) and taps
 bar chips without `ensureVisible` (it scrolls a horizontal bar).
 
+The stories outside Gradniki - mobile have no catalog to compare with: `node webcontrols.mjs
+[id-part ...]` sets every control of every story to each of its other values in the panel and
+requires the preview to equal a fresh load with the same args (STALE otherwise). Each story gets a
+new browser context: the manager keeps UI state in localStorage, and a state left by one story made
+every click of the next one time out. Run it in a few batches (`gradniki-header`, `gradniki-search`,
+...) in parallel; one change takes about 5 s.
+
+## Review by eye
+
+    python report.py <out_dir> <android pass.out> [<ios pass.out> <ios work dir>]
+                                                # local gallery: Flutter | twin | difference (x6) for
+                                                # every case, with the four checks, Android and iOS
+    node variants.mjs <shots_dir>               # a shot of every Gradniki - mobile "Vse različice"
+    python variants.py <shots_dir> <out_dir>    # ... next to its design_data PNG (Figma, 3x -> 1x)
+
+`report.py` runs in the work dir after `fullpass.sh`; where the Flutter crop reaches past the
+screen edge (a full-width widget at x = 0) it shows the twin's pixels instead of black. The design
+data PNGs are Figma exports: texts, the iOS home indicator, the divider above Drsnik and similar
+differ from the library on purpose - the Flutter render is the reference, the PNG only shows that
+no variant is missing or drawn in a different style.
+
 Also in every pass: `inkruns.py` compares the colour of each run's ink core (opacity, wrong
 colour); the browser runs with `--disable-lcd-text` (grayscale text, as a phone - Windows' LCD
 anti-aliasing tints cores up to #1f); `carets.py` leaves the caret of a focused field out (the
