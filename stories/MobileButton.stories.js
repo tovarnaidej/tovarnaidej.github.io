@@ -58,19 +58,26 @@ export default {
     },
   },
   tags: ['autodocs'],
+  // Catalog order: Slog, Omogočeno, Ikona, Oznaka.
   args: {
-    enabled: true,
-    label: 'Example Button',
     variant: 'filled',
+    enabled: true,
+    leadingIcon: false,
+    label: 'Example Button',
+    platform: 'android',
     size: 'regular',
     state: 'enabled',
-    leadingIcon: false,
     onClick: fn(),
   },
   argTypes: {
     label: {
       name: 'Oznaka',
-      description: 'Besedilo, prikazano na gumbu.',
+      description: 'Besedilo, prikazano na gumbu (prazno: samo ikona).',
+    },
+    platform: {
+      name: 'Platforma',
+      control: { type: 'select', labels: { ios: 'iOS', android: 'Android' } },
+      options: ['ios', 'android'],
     },
     variant: {
       name: 'Slog',
@@ -118,4 +125,5 @@ export const Variants = {
   },
 };
 
-export const Default = { name: 'Privzeto' };
+// The catalog centres the button in its preview pane.
+export const Default = { name: 'Privzeto', parameters: { layout: 'centered' } };

@@ -69,9 +69,41 @@
   background: transparent;
 }
 
+.storybook-button {
+  position: relative;
+  /* ConstrainedBox(minWidth: tap target): an icon-only button is 48 wide on Android */
+  min-width: 48px;
+}
+
+.storybook-button--ios {
+  min-width: 44px;
+  /* _buildIOSButton: AnimatedOpacity(100 ms) to pressedOpacity */
+  transition: opacity 100ms linear;
+}
+
 .storybook-button--pressed,
 .storybook-button:active:not(:disabled) {
   opacity: var(--button-opacity-pressed);
+}
+
+/* Android: InkWell highlight in rippleColor (foreground white, alpha 0.2) on Zapolnjeno and
+   S senco, faded in over 200 ms (Obrobljeno / Besedilo: transparent). A device also draws the
+   Material splash, which is an animation the twin does not repeat. */
+.storybook-button--android.storybook-button--filled::after,
+.storybook-button--android.storybook-button--elevated::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  transition: opacity 200ms linear;
+  pointer-events: none;
+}
+
+.storybook-button--android.storybook-button--filled:active:not(:disabled)::after,
+.storybook-button--android.storybook-button--elevated:active:not(:disabled)::after {
+  opacity: 1;
 }
 
 .storybook-button--disabled {
