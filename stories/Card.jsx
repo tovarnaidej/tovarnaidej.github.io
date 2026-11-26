@@ -32,14 +32,19 @@ export const Card = ({
   if (isCompact) {
     return (
       <article className={classes}>
+        {/* _buildCompactLayout: without a header the left part stays empty (media keeps its place) */}
         <div className="si-card__compact-body">
-          <span className="si-card__avatar" aria-hidden="true">
-            <span className="si-cap-centred si-cap-centred--bold">A</span>
-          </span>
-          <div className="si-card__text">
-            <div className="si-card__title">Header</div>
-            <div className="si-card__subtitle">Subhead</div>
-          </div>
+          {showHeader && (
+            <>
+              <span className="si-card__avatar" aria-hidden="true">
+                <span className="si-cap-centred si-cap-centred--bold">A</span>
+              </span>
+              <div className="si-card__text">
+                <div className="si-card__title">Header</div>
+                <div className="si-card__subtitle">Subhead</div>
+              </div>
+            </>
+          )}
         </div>
         {showMedia && !sampleMedia && (
           <div className="si-card__media si-card__media--compact" />
