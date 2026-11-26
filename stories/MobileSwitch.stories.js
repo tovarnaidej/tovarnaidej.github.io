@@ -1,4 +1,5 @@
 import React from 'react';
+import { useArgs } from 'storybook/preview-api';
 
 import { Switch } from './Switch';
 import {
@@ -65,7 +66,7 @@ export default {
     enabled: true,
     showLabel: true,
     label: 'Switch label',
-    platform: 'ios',
+    platform: 'android',
   },
   argTypes: {
     value: { name: 'Vklopljeno', control: { type: 'boolean' } },
@@ -78,6 +79,7 @@ export default {
       options: ['ios', 'android'],
     },
     className: { table: { disable: true } },
+    onChange: { table: { disable: true } },
   },
 };
 
@@ -87,4 +89,11 @@ export const Variants = {
   parameters: { controls: { disable: true }, layout: 'fullscreen' },
 };
 
-export const Default = { name: 'Privzeto' };
+export const Default = {
+  name: 'Privzeto',
+  // Tapping the switch changes "Vklopljeno" too (the catalog shares one value).
+  render: (args) => {
+    const [, updateArgs] = useArgs();
+    return React.createElement(Switch, { ...args, onChange: (value) => updateArgs({ value }) });
+  },
+};

@@ -5,6 +5,13 @@
   gap: 8px;
   font-family: 'SI Republika', 'Republika', Arial, sans-serif;
   color: #000000;
+  /* AnimatedOpacity 100 ms: disabled 0.38, and on iOS 0.7 while pressed */
+  transition: opacity 100ms linear;
+}
+
+/* SISwitch: onTapDown .. onTapUp dims the whole row on iOS only (_isApplePlatform) */
+.si-switch--ios:not(.si-switch--disabled):active {
+  opacity: 0.7;
 }
 
 /* SISwitch: ConstrainedBox(minHeight: tap target) — iOS 44, Android 48. */
@@ -29,6 +36,8 @@
   flex-shrink: 0;
   /* TokenSwitchV2.offColor = gray200 */
   background: #d1d2d4;
+  /* AnimatedContainer(TokenSwitchV2.animationDuration 250 ms, Curves.easeInOut) */
+  transition: background-color 250ms cubic-bezier(0.42, 0, 0.58, 1);
 }
 
 .si-switch--ios.si-switch--on .si-switch__track {
@@ -43,13 +52,14 @@
   position: absolute;
   border-radius: 50%;
   background: #ffffff;
-  /* Flutter blurRadius 3 → CSS 4.46 */
-  box-shadow: 0 2px 4.46px rgba(0, 0, 0, 0.15);
-  transition: left 0.2s ease;
+  /* AnimatedPositioned(250 ms, Curves.easeInOut) */
+  transition: left 250ms cubic-bezier(0.42, 0, 0.58, 1);
 }
 
-/* iOS: 27px thumb, 2px inset */
+/* iOS: 27px thumb, 2px inset; shadow on iOS only (si_switch.dart: if (Platform.isIOS)),
+   Flutter blurRadius 3 → CSS 4.46 */
 .si-switch--ios .si-switch__thumb {
+  box-shadow: 0 2px 4.46px rgba(0, 0, 0, 0.15);
   top: 2px;
   left: 2px;
   width: 27px;

@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import './switch.css';
+import { useControlled } from './use-controlled';
 
 export const Switch = ({
   value: valueProp = false,
   enabled = true,
   showLabel = false,
   label = 'Switch label',
-  platform = 'ios',
+  platform = 'android',
   className = '',
+  onChange,
 }) => {
-  const [on, setOn] = useState(valueProp);
+  // One state for the switch and the "Vklopljeno" control, as in the catalog.
+  const [on, setOn] = useControlled(valueProp, onChange);
 
   return (
     <label
@@ -31,7 +34,7 @@ export const Switch = ({
         role="switch"
         aria-checked={on}
         disabled={!enabled}
-        onClick={() => setOn((v) => !v)}
+        onClick={() => setOn(!on)}
       >
         <span className="si-switch__thumb" />
       </button>
@@ -40,11 +43,16 @@ export const Switch = ({
   );
 };
 
+// Order = the catalog's controls (Storybook lists the controls in this order).
 Switch.propTypes = {
   value: PropTypes.bool,
   enabled: PropTypes.bool,
   showLabel: PropTypes.bool,
   label: PropTypes.string,
+  /** iOS: green, 27 thumb with a shadow, 44 tap target, dims to 0.7 while pressed;
+   * Android: primary, 23 thumb without a shadow, 48 tap target. */
   platform: PropTypes.oneOf(['ios', 'android']),
   className: PropTypes.string,
+  /** The switch was tapped: the new value (the story writes it back to "Vklopljeno"). */
+  onChange: PropTypes.func,
 };
