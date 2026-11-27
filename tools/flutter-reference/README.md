@@ -114,8 +114,9 @@ The Flutter side clicks text fields with a mouse (a finger also gets selection h
 bar chips without `ensureVisible` (it scrolls a horizontal bar).
 
 The stories outside Gradniki - mobile have no catalog to compare with: `node webcontrols.mjs
-[id-part ...]` sets every control of every story to each of its other values in the panel (also
-the args without a value: "Nastavi logično vrednost / besedilo / število" first) and requires
+[id-part ...]` sets every control of every story to each of its other values in the panel
+(sliders to both ends; also the args without a value: "Nastavi logično vrednost / besedilo /
+število" first) and requires
 - STALE: the preview equals a fresh load with the same args (the control works after mount), and
 - NO EFFECT: the preview differs from the one before the change. The first check alone passed a
   showcase story that ignores its args (a fresh load ignores them too) while every control in its
@@ -126,6 +127,31 @@ It compares the whole visible preview (a dropdown overflows `#storybook-root`) a
 URL shows the change. Each story gets a new browser context: the manager keeps UI state in
 localStorage, and a state left by one story made every click of the next one time out. Run it in a
 few batches (`gradniki-header`, `gradniki-search`, ...) in parallel; one change takes about 5 s.
+`MOBILE=1` runs it on the Gradniki - mobile stories instead.
+
+`DOCS=1` checks the docs pages (Dokumentacija) instead: a click on a widget in the sidebar lands
+there, and Storybook's own page bound its Controls table to the file's first story, an overview
+that ignores its args, so every control there did nothing (the story checks above never looked).
+The page is now `DocsPage` in `.storybook/preview.jsx`. Per page:
+- LAYOUT:
+  - one story on top, the first with controls;
+  - the table right below it, bound to it (control ids `control-…-<storyId>-<arg>`), with the
+    rows of that story's Controls panel;
+  - the other stories below the table, none twice.
+- Per change in the table (the same steps as above):
+  - NO EFFECT on the block on top;
+  - STALE: the story's DOM equals the same story in the canvas, mounted with the same args (the
+    args are set through the channel, then the manager's URL is loaded again). It is compared as
+    state, not markup: tags, sorted attributes, checked / value as properties, text, React ids
+    normalized. An updated tree and a freshly mounted one differ in attribute order and in the
+    checked attribute; the docs page also leaves an empty `style=""`.
+- The control ids in the docs table carry a react-aria id that is new on every load, so each step
+  finds its control again by name.
+- TAP: tapping the widget on top writes back to its control (`TAPS`: Drsnik, Potrditveno polje,
+  Preklopnik).
+
+A page that fails LAYOUT gets one probe: the first control is changed, and the report says
+whether the args of the story it drives changed and whether any story on the page shows it.
 
 ## Review by eye
 

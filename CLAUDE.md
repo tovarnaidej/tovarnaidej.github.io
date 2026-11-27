@@ -9,7 +9,10 @@ objavljen na https://tovarnaidej.github.io/.
 
 ## Ukazi
 - `npm run storybook` — lokalni Storybook na :6006
-- `npm run build-storybook` — statični build v `storybook-static/`
+- `npm run build-storybook` — statični build v `storybook-static/`. Lokalno ga zaženi iz mape z veliko
+  črko pogona: `cmd /c "cd /d D:\projekti_tovarna\mslovenija_web && npm run build-storybook"`. Pri
+  `d:\` `builder-vite` (pathe) zapiše absolutne poti zgodb in nobena zgodba se ne naloži
+  (`importFn`: "… is not a function"). Objava (GitHub Actions, Linux) tega ne pozna.
 
 ## Pravila
 Pravila so v `.claude/rules/` (prej `.cursor/rules/`):
