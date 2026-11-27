@@ -32,6 +32,23 @@ description: Uporaba obstoječe knjižnice gradnikov in Storybooka
   - ID-ji in povezave so izbira med veljavnimi vrednostmi, ne prosto besedilo (`#` ne gre v URL:
     `mapping`).
   - Preverjanje: `node tools/flutter-reference/webcontrols.mjs` (STALE + NO EFFECT).
+- Enako velja za tabelo kontrol na strani **Dokumentacija** (sem pripelje klik na gradnik v stranski
+  vrstici). Storybookova privzeta stran tabelo veže na prvo zgodbo datoteke; to je pregled, ki
+  argumentov ne bere, zato je bila tabela mrtva na vseh straneh. Lastna stran (`DocsPage` v
+  `.storybook/preview.jsx`) postavi:
+  - zgoraj prvo zgodbo s kontrolami (en gradnik: Privzeto, Primarni …);
+  - takoj pod njo tabelo, vezano nanjo;
+  - pod tabelo ostale zgodbe (Vse različice, Pregled …), vsako enkrat.
+
+  Nova zgodba-pregled je lahko prva v datoteki, če ima `controls: { disable: true }`.
+  Zgodba, ki v pogledu zgodbe zapolni okno, ima razred `story-fill`, ne `min-height: 100vh`, sicer
+  je tabela na strani Dokumentacija cel zaslon pod gradnikom. Gradnik, širši od stolpca (1000 px),
+  dobi pravilo v `.storybook/docs-page.css`: Header je narisan v 1440 px in pomanjšan na stolpec.
+  Pravila CSS so samo za Storybook (`.sb-story`), oznake zgodbe pa ostanejo enake kot v pogledu
+  zgodbe.
+  Preverjanje: `DOCS=1 node tools/flutter-reference/webcontrols.mjs` (`MOBILE=1` za mobilne).
+  Po spremembi `.storybook/preview.*` znova zaženi `npm run storybook`: dev strežnik ob tej spremembi
+  zgodbe ponovno indeksira in jih lahko razčleni kot MDX ("Could not parse expression with acorn").
 - Preveri vse prizadete variante in interaktivna stanja.
 - CSS predstavitvenih tabel/dokumentacije ne prenašaj v produkcijo.
 - Po vključitvi preveri gradnik tudi na dejanski strani.

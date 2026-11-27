@@ -1,0 +1,34 @@
+/*
+ * Docs pages only (DocsPage in preview.jsx). A story there sits in .sb-story, in the canvas in
+ * #storybook-root: the same markup, laid out differently only here. The story on top is driven by
+ * the Controls table right below it, so the whole widget must show, close to the table.
+ */
+
+/* A story that fills the window in the canvas (a background behind the widget) is as tall as its
+   content here; with min-height: 100vh the table sat a whole screen below the widget. */
+.story-fill {
+  min-height: 100vh;
+}
+
+.sb-story .story-fill {
+  min-height: 0;
+}
+
+/* Header (a story that is just the header, not "Pregled stanj"): drawn at its design width (1440,
+   as in Figma and "Pregled stanj"; the mobile layout at 375) and scaled to the 1000 px docs column
+   (1000 / 1440 ≈ 0.69). In the narrower column the desktop layout ran over its own logo, and a
+   change of the language or SI-PASS was out of sight. An open dropdown hangs 259 px below the
+   header (position: absolute): room for it. */
+.sb-story > [id$='-inner'] > .web-header {
+  width: 1440px;
+  zoom: 0.69;
+}
+
+.sb-story > [id$='-inner'] > .web-header--layout-mobile {
+  width: 375px;
+  zoom: 1;
+}
+
+.sb-story > [id$='-inner'] > .web-header:has(.web-header__dropdown) {
+  margin-bottom: 283px;
+}

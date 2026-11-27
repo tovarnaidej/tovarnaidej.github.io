@@ -76,7 +76,9 @@ paths:
   `MaskFilter.blur(sigma)` → CSS blur = 2·sigma.
 - Storyji: na gradnik samo **Vse različice** (vse variante iz design_data) in **Privzeto** (kontrole kot katalog,
   imena kontrol dobesedno; notranje props skrij). Privzeto ima širino predogleda kataloga
-  (`mobileWidth` 361, polna širina 393 za Razdelilnik / Drsnik).
+  (`mobileWidth` 361, polna širina 393 za Razdelilnik / Drsnik). V stranski vrstici je Vse različice
+  prva. Na strani Dokumentacija je zgoraj Privzeto s tabelo kontrol, ki ga krmili, pod njo Vse
+  različice (`DocsPage` v `.storybook/preview.jsx`; glej `component-library.md`).
 - iOS veje (`Platform.isIOS`): `IOS=1 bash tools/flutter-reference/setup.sh` naredi kopijo knjižnice in
   kataloga z vklopljenimi iOS vejami (`.flutter-ref/ios`); dvojček primerjaj s `platform:ios`.
 - Kar izris pokaže, koda pa ne (vse je v dvojčkih, ne odstranjuj):
@@ -164,6 +166,6 @@ vrstni red in vidnost, predogled brez vnosa (Iskalno polje, Telefon, Datum).
   knjižnice niso napaka, manjkajoča varianta ali drug slog je).
 - Pregled na oko: `report.py` (galerija `.flutter-ref/report/index.html`: Flutter | dvojček | razlika za vsak
   primer obeh platform). Kontrole spletnih storyjev: `webcontrols.mjs` (vsaka kontrola po izrisu = svež izris in
-  spremeni predogled; glej `component-library.md`).
+  spremeni predogled; glej `component-library.md`), mobilnih `MOBILE=1`, strani Dokumentacija `DOCS=1`.
 - Commit na gradnik: `Align Gradniki - mobile/<Ime> with components SOT` (ali `Add …` za nov gradnik).
 - Ne commitaj `node_modules/`, `debug-storybook.log`, `.sb-cache/`, `storybook-static/`, `.flutter-ref/`.

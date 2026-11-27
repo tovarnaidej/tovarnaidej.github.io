@@ -300,9 +300,11 @@ const meta = {
       React.createElement(
         'div',
         {
+          // fills the window in the canvas, as tall as its content in the docs page
+          // (.storybook/docs-page.css), so the Controls table stays right below the field
+          className: 'story-fill',
           style: {
             boxSizing: 'border-box',
-            minHeight: '100vh',
             padding: '32px',
             background: '#f4f5f7',
           },
